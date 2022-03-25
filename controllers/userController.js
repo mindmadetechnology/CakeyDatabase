@@ -28,6 +28,12 @@ const setUsers = (req,res) => {
 //Update user's details
 const putUsers = (req,res) => {
 
+    // var img = fs.readFileSync(req.file.path);
+    // var encode_img = img.toString('base64');
+    // var final_img = {
+    //     contentType:req.file.mimetype,
+    //     image:new Buffer(encode_img,'base64')
+    // };
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
@@ -42,7 +48,7 @@ const putUsers = (req,res) => {
                 }else{
                     if(UserName !== "" && Address !== ""){
                         userModel.findOneAndUpdate({ _id : userId  }, 
-                            { $set: { UserName : UserName, Address:Address } }, function (err, result) {
+                            { $set: {ProfileImg:"https://cakey-database.vercel.app/uploads/"+req.file.path+".jpg", UserName : UserName, Address:Address } }, function (err, result) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
                                 }else {
@@ -56,7 +62,7 @@ const putUsers = (req,res) => {
             }else{
                 if(UserName !== "" && Address !== ""){
                     userModel.findOneAndUpdate({ _id : userId  }, 
-                        { $set: { UserName : UserName, Address:Address } }, function (err, result) {
+                        { $set: {ProfileImg:"https://cakey-database.vercel.app/uploads/"+req.file.path+".jpg", UserName : UserName, Address:Address } }, function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             }else {
@@ -100,7 +106,14 @@ const validateUsers = (req,res) => {
     })
 };
 
+const getimg=(req, res) => {
+    var file = req.params.file;
+    var fileLocation = path.join('uploads',file);
+    console.log(fileLocation);
+    res.send(fileLocation, file);
+}
 module.exports = {
+    getimg,
     getUsers,
     setUsers,
     putUsers,
