@@ -110,7 +110,7 @@ const getimg=(req, res) => {
     var file = req.params.file;
     var fileLocation = path.join('uploads',file);
     console.log(fileLocation);
-    res.send(fileLocation, file);
+    res.send(file);
 }
 module.exports = {
     getimg,
