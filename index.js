@@ -6,7 +6,7 @@ app.use(express.json());
 
 const authRoute = require("./routes/auth");
 
-app.use('/api/users',authRoute);
+app.use('/api',authRoute);
 
 
 app.listen(3000, () => {

@@ -8,14 +8,14 @@ app.use(router);
 router.use(express.json());
 
 //Get all users
-router.get("/list", getUsers);
+router.get("/users/list", getUsers);
 
-router.post("/addUser", setUsers);
+router.post("/users/addUser", setUsers);
 
 //Update user's details
-router.put("/update/:userId", putUsers);
+router.put("/users/update/:userId", putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
-router.post("/validate", validateUsers);
+router.post("/users/validate", validateUsers);
 
 module.exports = router;
