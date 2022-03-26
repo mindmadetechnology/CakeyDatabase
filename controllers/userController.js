@@ -1,5 +1,5 @@
 const userModel = require("../models/addUserModels");
-
+const path = require("path");
 //Get all users
 const getUsers = (req,res) => {
 
@@ -56,7 +56,7 @@ const putUsers = (req,res) => {
             }else{
                 if(UserName !== "" && Address !== ""){
                     userModel.findOneAndUpdate({ _id : userId  }, 
-                        { $set: {file:`https://cakey-database.vercel.app/public/images/${req.file.filename}`, UserName : UserName, Address:Address } }, function (err, result) {
+                        { $set: {file:`https://cakey-database.vercel.app/api/public/images/${req.file.filename}`, UserName : UserName, Address:Address } }, function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             }else {
@@ -99,8 +99,21 @@ const validateUsers = (req,res) => {
         }
     })
 };
+var fs = require('fs');
+
+const viewImg=function(req,res){
+    var file = req.params.file;
+    var fileLocation = path.join('public/images/',file);
+  fs.readFile(fileLocation, function(err, data) {
+    if (err) throw err; // Fail if the file can't be read.
+      res.writeHead(200, {'Content-Type': 'image/jpeg'});
+      res.end(data); // Send the file data to the browser.
+  });
+}
+
 
 module.exports = {
+    viewImg,
     getUsers,
     setUsers,
     putUsers,
