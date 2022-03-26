@@ -16,7 +16,7 @@ const getVendors = (req,res) => {
 };
 
 //login for admin and vendors
-const loginValidate = (req,res) => {
+const loginValidate = (req,res) => { 
 
     const Email = req.body.Email;
     const Password = req.body.Password;
