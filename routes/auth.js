@@ -7,12 +7,7 @@ const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/user
 const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 app.use(router);
 router.use(express.json());
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
 
-// Set EJS as templating engine 
-app.set("view engine", "ejs");
 //Get all users
 router.get("/users/list", getUsers);
 
