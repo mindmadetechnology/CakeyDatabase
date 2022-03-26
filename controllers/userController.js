@@ -42,7 +42,7 @@ const putUsers = (req,res) => {
                 }else{
                     if(UserName !== "" && Address !== ""){
                         userModel.findOneAndUpdate({ _id : userId  }, 
-                            { $set: { UserName : UserName, Address:Address } }, function (err, result) {
+                            { $set: {file:'https://cakey-database.vercel.app/public/images/'+req.file.filename, UserName : UserName, Address:Address } }, function (err, result) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
                                 }else {
@@ -56,7 +56,7 @@ const putUsers = (req,res) => {
             }else{
                 if(UserName !== "" && Address !== ""){
                     userModel.findOneAndUpdate({ _id : userId  }, 
-                        { $set: { UserName : UserName, Address:Address } }, function (err, result) {
+                        { $set: {file:`https://cakey-database.vercel.app/public/images/${req.file.filename}`, UserName : UserName, Address:Address } }, function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             }else {
