@@ -20,7 +20,6 @@ const getUsers = (req, res) => {
 
 //Update user's details
 const putUsers = (req, res) => {
-
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
