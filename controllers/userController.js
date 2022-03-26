@@ -1,121 +1,117 @@
-const userModel = require("../models/addUserModels");
+const userModel = require("../models/userModels");
 const path = require("path");
+const moment = require("moment");
+const JWT = require('jsonwebtoken');
 //Get all users
-const getUsers = (req,res) => {
+const getUsers = (req, res) => {
 
     userModel.find({}, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
-        }else {
+        } else {
             res.send(result);
         }
     })
 };
 
-const setUsers = (req,res) => {
-    res.send("Set User")
-    // const user = new userModel(request.body);
-    // user.save(function (err, result) {
-    //     if (err) {
-    //         response.send({ statusCode: 400, message: "Failed" });
-    //     }
-    //     else {
-    //         response.send(result);
-    //     }
-    // });
-}
+
+
+
 
 //Update user's details
-const putUsers = (req,res) => {
+const putUsers = (req, res) => {
 
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
-
-    userModel.findById({_id : userId}, function(err,result){
-        if(err){
+    const Modified_On = moment().format("DD-MM-YYYY, h:mm a")
+    const Created_On = moment().format("DD-MM-YYYY, h:mm a")
+    userModel.findById({ _id: userId }, function (err, result) {
+        if (err) {
             res.send(err);
-        }else{
-            if(result.Address === undefined || result.Address === null || result.Address === ""){
-                if(UserName === undefined || Address === undefined){
-                    res.send({statusCode: 400, message: "*required"})
-                }else{
-                    if(UserName !== "" && Address !== ""){
-                        userModel.findOneAndUpdate({ _id : userId  }, 
-                            { $set: {file:'https://cakey-database.vercel.app/public/images/'+req.file.filename, UserName : UserName, Address:Address } }, function (err, result) {
+        } else {
+            if (result.Address === undefined || result.Address === null || result.Address === "") {
+                if (UserName === undefined || Address === undefined) {
+                    res.send({ statusCode: 400, message: "*required" })
+                } else {
+                    if (UserName !== "" && Address !== "") {
+                        userModel.findOneAndUpdate({ _id: userId },
+                            { $set: { file: 'https://cakey-database.vercel.app/public/images/' + req.file.filename, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
-                                }else {
+                                } else {
                                     res.send({ statusCode: 200, message: "Updated Successfully" });
                                 }
-                        });
-                    }else{
-                        res.send({ statusCode: 400, message: "*required" }); 
-                    }  
+                            });
+                    } else {
+                        res.send({ statusCode: 400, message: "*required" });
+                    }
                 }
-            }else{
-                if(UserName !== "" && Address !== ""){
-                    userModel.findOneAndUpdate({ _id : userId  }, 
-                        { $set: {file:`https://cakey-database.vercel.app/api/public/images/${req.file.filename}`, UserName : UserName, Address:Address } }, function (err, result) {
+            } else {
+                if (UserName !== "" && Address !== "") {
+                    userModel.findOneAndUpdate({ _id: userId },
+                        { $set: { file: `https://cakey-database.vercel.app/api/public/images/${req.file.filename}`, UserName: UserName, Address: Address,Modified_On: Modified_On } }, function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
-                            }else {
+                            } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
-                    });
-                }else{
-                    res.send({ statusCode: 400, message: "*required" }); 
-                }  
+                        });
+                } else {
+                    res.send({ statusCode: 400, message: "*required" });
+                }
             }
         }
-    }) 
+    })
 }
 
 //Validate the user -> If phonenumber is exists login else register
-const validateUsers = (req,res) => {
+const validateUsers = (req, res) => {
 
     const PhoneNumber = req.body.PhoneNumber;
 
     userModel.findOne({ PhoneNumber: PhoneNumber }, function (err, result) {
         if (result === null) {
-            if(PhoneNumber === "" || PhoneNumber === null || PhoneNumber === undefined){
+            if (PhoneNumber === "" || PhoneNumber === null || PhoneNumber === undefined) {
                 res.send({ statusCode: 400, message: "Invalid Mobile Number" });
-            }else{
+            } else {
                 const uservalidate = new userModel({
-                    PhoneNumber : PhoneNumber
+                    PhoneNumber: PhoneNumber
                 });
                 uservalidate.save(function (err, result) {
-                  if (err) {
-                     res.send({ statusCode: 400, message: "Failed" });
-                  }else {
-                     res.send({ statusCode: 200, message: "registered Successfully" })
-                  }
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: "registered Successfully" })
+                    }
                 });
-            }     
-        }else if (err) {
+            }
+        } else if (err) {
             res.send({ statusCode: 400, message: "error" });
-        }else {
-            res.send({ statusCode: 200, message: "Login Succeed" });
+        } else {
+            const token = JWT.sign({
+                id : result._id
+            },'secret123',{expiresIn : '7d'})
+            res.send({ statusCode: 200, message: "Login Succeed",token : token });
         }
     })
 };
 var fs = require('fs');
 
-const viewImg=function(req,res){
+const viewImg = function (req, res) {
     var file = req.params.file;
-    var fileLocation = path.join('public/images/',file);
-  fs.readFile(fileLocation, function(err, data) {
-    if (err) throw err; // Fail if the file can't be read.
-      res.writeHead(200, {'Content-Type': 'image/jpeg'});
-      res.end(data); // Send the file data to the browser.
-  });
+    var fileLocation = path.join('public/images/', file);
+    fs.readFile(fileLocation, function (err, data) {
+        if (err) throw err; // Fail if the file can't be read.
+        res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+        res.end(data); // Send the file data to the browser.
+    });
 }
 
 
 module.exports = {
     viewImg,
     getUsers,
-    setUsers,
     putUsers,
     validateUsers
 }

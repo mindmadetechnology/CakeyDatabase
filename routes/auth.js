@@ -3,23 +3,39 @@ const app = express();
 const router = express.Router();
 app.use(express.static('public/images'));
 const upload=require("./../middleware/upload")
-const { getUsers,setUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
-
+const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
+const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 app.use(router);
 router.use(express.json());
 
 //Get all users
 router.get("/users/list", getUsers);
 
-router.post("/users/addUser", setUsers);
-
 //Update user's details
 router.put("/users/update/:userId",upload.single("file"),putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
-router.post("/users/validate", validateUsers);
+router.post("/userslogin/validate", validateUsers);
 //route to download a file
 router.get('/public/images/:file(*)',viewImg);
 
+
+// /login for admin and vendors
+router.post("/login/validate", loginValidate);
+
+//forgot password
+router.put("/forgotpassword/:id", forgotPassword);
+
+//Get all vendors
+router.get("/vendors/list", getVendors);
+
+//Create new vendor
+router.post("/vendors/new", addVendors);
+
+//Update vendor's details
+router.put("/vendors/update/:id", putVendors);
+
+//Delete vendor
+router.put("/vendors/delete/:id", deleteVendors);
 
 module.exports = router;

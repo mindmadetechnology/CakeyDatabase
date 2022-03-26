@@ -13,6 +13,12 @@ const UserSchema = new mongoose.Schema({
     },
     Address: {
         type: String,
+    },
+    Created_On : {
+        type : String,
+    },
+    Modified_On : {
+        type : String,
     }
 });
 
