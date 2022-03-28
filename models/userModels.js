@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
     file: {
         data: Buffer,
-    
         contentType: String
     },
     PhoneNumber: {
@@ -13,7 +12,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
     },
     Address: {
-        type: String,
+        no: {
+            type: String
+        },
+        area: {
+            type: String
+        },
+        district: {
+            type: String
+        }
     }
 });
 
