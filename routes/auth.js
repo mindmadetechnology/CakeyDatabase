@@ -9,15 +9,15 @@ app.use(cors());
 const multer = require("multer");
 const path = require("path");
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
- res.setHeader ('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
- next ();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader(
+//     'Access-Control-Allow-Headers',
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//   );
+//  res.setHeader ('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+//  next ();
+// });
 
 const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
 const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
