@@ -6,7 +6,7 @@ const JWT = require('jsonwebtoken');
 const getUsers = (req, res) => {
 
     userModel.find({}, function (err, result) {
-        res.json({user: 'CORS enabled'})
+        
         if (err) {
             res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
         } else {
