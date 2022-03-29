@@ -46,6 +46,7 @@ const loginValidate = (req,res) => {
     })
 };
 
+//Add new vendors
 const addVendors = (req,res) => {
 
     const Email = req.body.Email;
@@ -143,6 +144,7 @@ const putVendors = (req,res) => {
     })
 };
 
+//delete vendors
 const deleteVendors = (req, res) => {
     const id = req.params.id;
     const IsDeleted = 'y';

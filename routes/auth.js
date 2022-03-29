@@ -1,16 +1,12 @@
 const express = require("express");
+const cors = require('cors');
 const app = express();
 const router = express.Router();
 app.use(express.static('public/images'));
 
-const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
-const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
-app.use(router);
-router.use(express.json());
-
-
 const multer = require("multer");
 const path = require("path");
+
 var storage = multer.diskStorage({
     destination: (req, file, callBack) => {
         callBack(null, 'public/images');
@@ -45,6 +41,11 @@ var upload = multer({
     }
 });
 
+const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
+const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
+
+app.use(router);
+router.use(express.json());
 
 //Get all users
 router.get("/users/list", getUsers);
@@ -54,11 +55,11 @@ router.put("/users/update/:userId",upload.single("file"),putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
+
 //route to download a file
 router.get('/public/images/:file(*)',viewImg);
 
-
-// /login for admin and vendors
+//login for admin and vendors
 router.post("/login/validate", loginValidate);
 
 //forgot password

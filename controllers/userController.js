@@ -14,60 +14,57 @@ const getUsers = (req, res) => {
     })
 };
 
-
-
-
-
 //Update user's details
 const putUsers = (req, res) => {
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
     const Modified_On = moment().format("DD-MM-YYYY, h:mm a")
-    const Created_On = moment().format("DD-MM-YYYY, h:mm a")
-    userModel.findById({ _id: userId }, function (err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            if (result.Address === undefined || result.Address === null || result.Address === "") {
-                if (UserName === undefined || Address === undefined) {
-                    res.send({ statusCode: 400, message: "*required" })
-                } else {
-                    if (UserName !== "" && Address !== "") {
-                        userModel.findOneAndUpdate({ _id: userId },
-                            { $set: {  file: 'https://cakey-database.vercel.app/public/images/' + req.file.filename, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else {
-                                    res.send({ statusCode: 200, message: "Updated Successfully" });
-                                }
-                            });
-                    } else {
-                        res.send({ statusCode: 400, message: "*required" });
-                    }
-                }
-            } else {
-                if (UserName !== "" && Address !== "") {
-                    userModel.findOneAndUpdate({ _id: userId },
-                        { $set: {  file: 'https://cakey-database.vercel.app/public/images/' + req.file.filename, UserName: UserName, Address: Address,Modified_On: Modified_On } }, function (err, result) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
-                            } else {
-                                res.send({ statusCode: 200, message: "Updated Successfully" });
-                            }
-                        });
-                } else {
-                    res.send({ statusCode: 400, message: "*required" });
-                }
-            }
-        }
-    })
+   console.log(req.file.filename)
+    // userModel.findById({ _id: userId }, function (err, result) {
+    //     if (err) {
+    //         res.send(err);
+    //     } else {
+    //         if (result.Address === undefined || result.Address === null || result.Address === "") {
+    //             if (UserName === undefined || Address === undefined) {
+    //                 res.send({ statusCode: 400, message: "*required" })
+    //             } else {
+    //                 if (UserName !== "" && Address !== "") {
+    //                     userModel.findOneAndUpdate({ _id: userId },
+    //                         { $set: {  file : req.file.filename, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+    //                             if (err) {
+    //                                 res.send({ statusCode: 400, message: "Failed" });
+    //                             } else {
+    //                                 res.send({ statusCode: 200, message: "Updated Successfully" });
+    //                             }
+    //                         });
+    //                 } else {
+    //                     res.send({ statusCode: 400, message: "*required" });
+    //                 }
+    //             }
+    //         } else {
+    //             if (UserName !== "" && Address !== "") {
+    //                 userModel.findOneAndUpdate({ _id: userId },
+    //                     { $set: {  file: req.file.filename, UserName: UserName, Address: Address,Modified_On: Modified_On } }, function (err, result) {
+    //                         if (err) {
+    //                             res.send({ statusCode: 400, message: "Failed" });
+    //                         } else {
+    //                             res.send({ statusCode: 200, message: "Updated Successfully" });
+    //                         }
+    //                     });
+    //             } else {
+    //                 res.send({ statusCode: 400, message: "*required" });
+    //             }
+    //         }
+    //     }
+    // })
 }
 
 //Validate the user -> If phonenumber is exists login else register
 const validateUsers = (req, res) => {
 
     const PhoneNumber = req.body.PhoneNumber;
+    const Created_On = moment().format("DD-MM-YYYY, h:mm a")
 
     userModel.findOne({ PhoneNumber: PhoneNumber }, function (err, result) {
         if (result === null) {
@@ -75,7 +72,8 @@ const validateUsers = (req, res) => {
                 res.send({ statusCode: 400, message: "Invalid Mobile Number" });
             } else {
                 const uservalidate = new userModel({
-                    PhoneNumber: PhoneNumber
+                    PhoneNumber: PhoneNumber,
+                    Created_On
                 });
                 uservalidate.save(function (err, result) {
                     if (err) {
