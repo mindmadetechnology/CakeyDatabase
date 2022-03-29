@@ -24,7 +24,7 @@ const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,delete
 
 var storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-        callBack(null, 'public/images');
+        callBack(null, 'https://cakey-database.vercel.app/public/images');
     },
     filename: (req, file, callBack) => {
         const mimeExtension = {

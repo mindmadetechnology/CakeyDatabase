@@ -32,7 +32,7 @@ const putUsers = (req, res) => {
                 } else {
                     if (UserName !== "" && Address !== "") {
                         userModel.findOneAndUpdate({ _id: userId },
-                            { $set: {  file : 'public/images/'+file , UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                            { $set: {  file : file , UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
                                 } else {
@@ -46,7 +46,7 @@ const putUsers = (req, res) => {
             } else {
                 if (UserName !== "" && Address !== "") {
                     userModel.findOneAndUpdate({ _id: userId },
-                        { $set: {  file: 'public/images/'+file, UserName: UserName, Address: Address,Modified_On: Modified_On } }, function (err, result) {
+                        { $set: {  file: file, UserName: UserName, Address: Address,Modified_On: Modified_On } }, function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
