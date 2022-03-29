@@ -16,48 +16,49 @@ const getUsers = (req, res) => {
 
 //Update user's details
 const putUsers = (req, res) => {
+    const file = req.file.filename
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
     const Modified_On = moment().format("DD-MM-YYYY, h:mm a")
-   console.log(req.file.filename)
-    // userModel.findById({ _id: userId }, function (err, result) {
-    //     if (err) {
-    //         res.send(err);
-    //     } else {
-    //         if (result.Address === undefined || result.Address === null || result.Address === "") {
-    //             if (UserName === undefined || Address === undefined) {
-    //                 res.send({ statusCode: 400, message: "*required" })
-    //             } else {
-    //                 if (UserName !== "" && Address !== "") {
-    //                     userModel.findOneAndUpdate({ _id: userId },
-    //                         { $set: {  file : req.file.filename, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
-    //                             if (err) {
-    //                                 res.send({ statusCode: 400, message: "Failed" });
-    //                             } else {
-    //                                 res.send({ statusCode: 200, message: "Updated Successfully" });
-    //                             }
-    //                         });
-    //                 } else {
-    //                     res.send({ statusCode: 400, message: "*required" });
-    //                 }
-    //             }
-    //         } else {
-    //             if (UserName !== "" && Address !== "") {
-    //                 userModel.findOneAndUpdate({ _id: userId },
-    //                     { $set: {  file: req.file.filename, UserName: UserName, Address: Address,Modified_On: Modified_On } }, function (err, result) {
-    //                         if (err) {
-    //                             res.send({ statusCode: 400, message: "Failed" });
-    //                         } else {
-    //                             res.send({ statusCode: 200, message: "Updated Successfully" });
-    //                         }
-    //                     });
-    //             } else {
-    //                 res.send({ statusCode: 400, message: "*required" });
-    //             }
-    //         }
-    //     }
-    // })
+
+    userModel.findById({ _id: userId }, function (err, result) {
+        if (err) {
+            res.send(err);
+        } else {
+            if (result.Address === undefined || result.Address === null || result.Address === "") {
+                if (UserName === undefined || Address === undefined) {
+                    res.send({ statusCode: 400, message: "*required" })
+                } else {
+                    if (UserName !== "" && Address !== "") {
+                        userModel.findOneAndUpdate({ _id: userId },
+                            { $set: {  file : 'public/images/'+file , UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    res.send({ statusCode: 200, message: "Updated Successfully" });
+                                }
+                            });
+                    } else {
+                        res.send({ statusCode: 400, message: "*required" });
+                    }
+                }
+            } else {
+                if (UserName !== "" && Address !== "") {
+                    userModel.findOneAndUpdate({ _id: userId },
+                        { $set: {  file: 'public/images/'+file, UserName: UserName, Address: Address,Modified_On: Modified_On } }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+                } else {
+                    res.send({ statusCode: 400, message: "*required" });
+                }
+            }
+        }
+    })
 }
 
 //Validate the user -> If phonenumber is exists login else register

@@ -2,10 +2,25 @@ const express = require("express");
 const cors = require('cors');
 const app = express();
 const router = express.Router();
-app.use(express.static('public/images'));
+app.use(router);
+router.use(express.json());
+app.use(cors());
 
 const multer = require("multer");
 const path = require("path");
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+ res.setHeader ('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+ next ();
+});
+
+const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
+const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 
 var storage = multer.diskStorage({
     destination: (req, file, callBack) => {
@@ -41,17 +56,11 @@ var upload = multer({
     }
 });
 
-const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
-const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
-
-app.use(router);
-router.use(express.json());
-
 //Get all users
 router.get("/users/list", getUsers);
 
 //Update user's details
-router.put("/users/update/:userId",upload.single("file"),putUsers);
+router.put("/users/update/:userId",upload.single('file'),putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
