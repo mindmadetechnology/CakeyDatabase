@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
     file: {
-        type : String,
-        // data: Buffer,
-        // contentType: String
+       
+        data: Buffer,
+        contentType: String
     },
     PhoneNumber: {
         type: Number,
