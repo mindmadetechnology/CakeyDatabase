@@ -17,9 +17,6 @@
           },
           "dest": "index.js",
           "continue": true
-        },
-        {
-          "src": "/user/login", "methods": ["POST"], "dest": "index.js"
         }
       ]
 }
