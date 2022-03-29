@@ -19,6 +19,12 @@ const path = require("path");
 //  next ();
 // });
 
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
 const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 
