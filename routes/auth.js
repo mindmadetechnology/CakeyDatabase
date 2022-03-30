@@ -32,7 +32,7 @@ const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,delete
 
 var storage = multer.diskStorage({
     destination:(req,file,callBack)=>{
-        callBack(null,'./public/images');
+        callBack(null,'https://github.com/mindmadetechnology/CakeyDatabase/tree/master/public/images');
     },
     filename :(req,file,callBack)=>{
         const mimeExtension = {
