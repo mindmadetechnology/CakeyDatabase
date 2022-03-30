@@ -5,7 +5,7 @@ const router = express.Router();
 app.use(router);
 router.use(express.json());
 app.use(cors());
-
+const upload=require("../middleware/multer")
 const multer = require("multer");
 const path = require("path");
 
@@ -30,45 +30,45 @@ app.use(cors(corsOptions));
 const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
 const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 
-var storage = multer.diskStorage({
-    destination:(req,file,callBack)=>{
-        callBack(null,'public/images');
-    },
-    filename :(req,file,callBack)=>{
-        const mimeExtension = {
-            'image/jpeg' : '.jpeg',
-            'image/jpg' : '.jpg',
-            'image/png' : '.png',
-            'application/pdf' : '.pdf',
-            'application/zip': '.zip',
-            'application/msword' : '.doc',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx'
-        };
-        callBack(null, file.fieldname + '-'  + Date.now() + path.extname(file.originalname));
-        // callBack(null,file.fieldname + '-'  + Date.now() + mimeExtension[file.mimetype] )
-    }
-});
-var upload = multer({
-    storage :storage,
-    // limits:{fileSize : 1024 *1024},
-    fileFilter:(req,file,callBack)=>{
-        if(file.mimetype ==='image/jpeg' || file.mimetype === 'image/jpg' ||  file.mimetype === 'image/png' ||
-            file.mimetype === 'application/pdf' ||
-            file.mimetype === 'application/zip' ||
-            file.mimetype === 'application/msword' ||
-            file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
-            callBack(null,true);
-        }else{
-            callBack(null,false);
-        }
-    }
-});
+// var storage = multer.diskStorage({
+//     destination:(req,file,callBack)=>{
+//         callBack(null,'public/images');
+//     },
+//     filename :(req,file,callBack)=>{
+//         const mimeExtension = {
+//             'image/jpeg' : '.jpeg',
+//             'image/jpg' : '.jpg',
+//             'image/png' : '.png',
+//             'application/pdf' : '.pdf',
+//             'application/zip': '.zip',
+//             'application/msword' : '.doc',
+//             'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx'
+//         };
+//         callBack(null, file.fieldname + '-'  + Date.now() + path.extname(file.originalname));
+//         // callBack(null,file.fieldname + '-'  + Date.now() + mimeExtension[file.mimetype] )
+//     }
+// });
+// var upload = multer({
+//     storage :storage,
+//     // limits:{fileSize : 1024 *1024},
+//     fileFilter:(req,file,callBack)=>{
+//         if(file.mimetype ==='image/jpeg' || file.mimetype === 'image/jpg' ||  file.mimetype === 'image/png' ||
+//             file.mimetype === 'application/pdf' ||
+//             file.mimetype === 'application/zip' ||
+//             file.mimetype === 'application/msword' ||
+//             file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
+//             callBack(null,true);
+//         }else{
+//             callBack(null,false);
+//         }
+//     }
+// });
 
 //Get all users
 router.get("/users/list", getUsers);
 
 //Update user's details
-router.put("/users/update",putUsers);
+router.put("/users/update/:userId",upload.single("file"),putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
