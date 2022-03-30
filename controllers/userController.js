@@ -27,16 +27,18 @@ const putUsers = (req, res) => {
     const Address = req.body.Address;
     const userId = req.params.userId;
     const Modified_On = moment().format("DD-MM-YYYY, h:mm a")
-    const form = formidable({ multiples: true });
-    form.parse(req, (err, fields, files) => {
-        if (err) {
-          res.writeHead(err.httpCode || 400, { 'Content-Type': 'text/plain' });
-          res.end(String(err));
-          return;
-        }
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ fields, files }, null, 2));
-      });
+   
+    var form = new formidable.IncomingForm();
+
+    form.uploadDir = __dirname +'/images';
+   
+    form.on('file', function(name, file) {
+        file.path = form.uploadDir + "/" + name;
+        console.log(name)
+    })
+    
+    form.parse(req);
+  
     // res.send({ statusCode: 200 ,message: `${UserName} and ${Address}`  })
     // userModel.findById({ _id: userId }, function (err, result) {
     //     if (err) {
