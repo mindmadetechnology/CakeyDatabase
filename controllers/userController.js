@@ -2,6 +2,7 @@ const userModel = require("../models/userModels");
 const path = require("path");
 const moment = require("moment");
 const JWT = require('jsonwebtoken');
+const formidable = require('formidable');
 //Get all users
 const getUsers = (req, res) => {
 
@@ -26,8 +27,17 @@ const putUsers = (req, res) => {
     const Address = req.body.Address;
     const userId = req.params.userId;
     const Modified_On = moment().format("DD-MM-YYYY, h:mm a")
-
-    res.send({ statusCode: 200 ,message: `${UserName} and ${Address}`  })
+    const form = formidable({ multiples: true });
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+          res.writeHead(err.httpCode || 400, { 'Content-Type': 'text/plain' });
+          res.end(String(err));
+          return;
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ fields, files }, null, 2));
+      });
+    // res.send({ statusCode: 200 ,message: `${UserName} and ${Address}`  })
     // userModel.findById({ _id: userId }, function (err, result) {
     //     if (err) {
     //         res.send(err);
