@@ -27,7 +27,7 @@ const putUsers = (req, res) => {
     const userId = req.params.userId;
     const Modified_On = moment().format("DD-MM-YYYY, h:mm a")
 
-    res.send({ statusCode: 200, name:UserName,Address:Address })
+    res.send({ statusCode: 200 ,message: `${UserName} and ${Address}`  })
     // userModel.findById({ _id: userId }, function (err, result) {
     //     if (err) {
     //         res.send(err);
