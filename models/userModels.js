@@ -12,15 +12,16 @@ const UserSchema = new mongoose.Schema({
         type: String,
     },
     Address: {
-        no: {
-            type: String
-        },
-        area: {
-            type: String
-        },
-        district: {
-            type: String
-        }
+        type: String,
+        // no: {
+        //     type: String
+        // },
+        // area: {
+        //     type: String
+        // },
+        // district: {
+        //     type: String
+        // }
     }
 });
 
