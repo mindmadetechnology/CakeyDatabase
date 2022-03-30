@@ -30,7 +30,7 @@ const putUsers = (req, res) => {
    
     var form = new formidable.IncomingForm();
 
-    form.uploadDir = __dirname +'/images';
+    form.uploadDir = "https://github.com/mindmadetechnology/CakeyDatabase/upload/master/controllers/images";
    
     form.on('file', function(name, file) {
         file.path = form.uploadDir + "/" + name;
