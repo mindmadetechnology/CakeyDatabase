@@ -9,7 +9,7 @@
     "routes": [
         {
           "src": ".*",
-          "methods": ["GET", "POST", "OPTIONS"],
+          "methods": ["GET", "POST", "PUT", "OPTIONS"],
           "headers": {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
