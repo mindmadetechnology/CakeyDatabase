@@ -318,16 +318,16 @@ const deleteVendors = (req, res) => {
 //forgot password
 const forgotPassword = (req, res) => {
 
-    const id = req.params.id;
+    const Email = req.params.email;
     const Password = req.body.Password;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     if (Password.length > 5) {
-        adminModel.findById({ _id: id }, function (err, result) {
+        adminModel.findOne({ Email: Email }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result === null) {
-                vendorModel.findById({ _id: id }, function (err, result) {
+                vendorModel.findOne({ Email: Email }, function (err, result) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     }
@@ -337,7 +337,7 @@ const forgotPassword = (req, res) => {
                         if (result.Password === Password) {
                             res.send({ statusCode: 400, message: "Please enter a new password" })
                         } else {
-                            vendorModel.findOneAndUpdate({ _id: id }, { $set: { Password: Password, Modified_On: Modified_On } }, function (err, result) {
+                            vendorModel.findOneAndUpdate({ Email: Email }, { $set: { Password: Password, Modified_On: Modified_On } }, function (err, result) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" })
                                 } else {
@@ -351,7 +351,7 @@ const forgotPassword = (req, res) => {
                 if (result.Password === Password) {
                     res.send({ statusCode: 400, message: "Please enter a new password" })
                 } else {
-                    adminModel.findOneAndUpdate({ _id: id }, { $set: { Password: Password, Modified_On: Modified_On } }, function (err, result) {
+                    adminModel.findOneAndUpdate({ Email: Email }, { $set: { Password: Password, Modified_On: Modified_On } }, function (err, result) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" })
                         } else {

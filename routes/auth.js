@@ -43,7 +43,7 @@ router.post("/userslogin/validate", validateUsers);
 router.post("/login/validate", loginValidate);
 
 //forgot password
-router.put("/forgotpassword/:id", forgotPassword);
+router.put("/forgotpassword/:email", forgotPassword);
 
 //Get all vendors
 router.get("/vendors/list", getVendors);
