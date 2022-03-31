@@ -21,102 +21,106 @@ const putUsers = async(req, res) => {
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
-    const Modified_On = moment().format("DD-MM-YYYY, hh:mm a");
+    const Modified_On = moment().format("DD-MM-YYYY hh:mm a");
 
-    try {
-        if (req.file === undefined) {
-            userModel.findById({ _id: userId }, function (err, result) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    if (result.Address === undefined || result.Address === null || result.Address === "") {
-                        if (UserName === undefined || Address === undefined) {
-                            res.send({ statusCode: 400, message: "*required" })
-                        } else {
-                            if (UserName !== "" && Address !== "") {
+    let d = new Date()
+    let ank = d.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    res.send("your time zone " + ank)
 
-                                userModel.findOneAndUpdate({ _id: userId },
-                                    { $set: { UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
-                                        } else {
-                                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                                        }
-                                    });
-                            } else {
-                                res.send({ statusCode: 400, message: "*required" });
-                            }
-                        }
-                    } else {
-                        if (UserName !== "" && Address !== "") {
+    // try {
+    //     if (req.file === undefined) {
+    //         userModel.findById({ _id: userId }, function (err, result) {
+    //             if (err) {
+    //                 res.send(err);
+    //             } else {
+    //                 if (result.Address === undefined || result.Address === null || result.Address === "") {
+    //                     if (UserName === undefined || Address === undefined) {
+    //                         res.send({ statusCode: 400, message: "*required" })
+    //                     } else {
+    //                         if (UserName !== "" && Address !== "") {
 
-                            userModel.findOneAndUpdate({ _id: userId },
-                                { $set: { UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
-                                    if (err) {
-                                        res.send({ statusCode: 400, message: "Failed" });
-                                    } else {
-                                        res.send({ statusCode: 200, message: "Updated Successfully" });
-                                    }
-                                });
-                        } else {
-                            res.send({ statusCode: 400, message: "*required" });
-                        }
-                    }
-                }
-            })
-        } else {
-            const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+    //                             userModel.findOneAndUpdate({ _id: userId },
+    //                                 { $set: { UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+    //                                     if (err) {
+    //                                         res.send({ statusCode: 400, message: "Failed" });
+    //                                     } else {
+    //                                         res.send({ statusCode: 200, message: "Updated Successfully" });
+    //                                     }
+    //                                 });
+    //                         } else {
+    //                             res.send({ statusCode: 400, message: "*required" });
+    //                         }
+    //                     }
+    //                 } else {
+    //                     if (UserName !== "" && Address !== "") {
 
-            userModel.findById({ _id: userId }, function (err, result) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    if (result.Address === undefined || result.Address === null || result.Address === "") {
-                        if (UserName === undefined || Address === undefined) {
-                            res.send({ statusCode: 400, message: "*required" })
-                        } else {
-                            if (UserName !== "" && Address !== "") {
+    //                         userModel.findOneAndUpdate({ _id: userId },
+    //                             { $set: { UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+    //                                 if (err) {
+    //                                     res.send({ statusCode: 400, message: "Failed" });
+    //                                 } else {
+    //                                     res.send({ statusCode: 200, message: "Updated Successfully" });
+    //                                 }
+    //                             });
+    //                     } else {
+    //                         res.send({ statusCode: 400, message: "*required" });
+    //                     }
+    //                 }
+    //             }
+    //         })
+    //     } else {
+    //         const imagesUrl = await cloudinary.uploader.upload(req.file.path);
 
-                                userModel.findOneAndUpdate({ _id: userId },
-                                    { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
-                                        } else {
-                                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                                        }
-                                    });
-                            } else {
-                                res.send({ statusCode: 400, message: "*required" });
-                            }
-                        }
-                    } else {
-                        if (UserName !== "" && Address !== "") {
+    //         userModel.findById({ _id: userId }, function (err, result) {
+    //             if (err) {
+    //                 res.send(err);
+    //             } else {
+    //                 if (result.Address === undefined || result.Address === null || result.Address === "") {
+    //                     if (UserName === undefined || Address === undefined) {
+    //                         res.send({ statusCode: 400, message: "*required" })
+    //                     } else {
+    //                         if (UserName !== "" && Address !== "") {
 
-                            userModel.findOneAndUpdate({ _id: userId },
-                                { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
-                                    if (err) {
-                                        res.send({ statusCode: 400, message: "Failed" });
-                                    } else {
-                                        res.send({ statusCode: 200, message: "Updated Successfully" });
-                                    }
-                                });
-                        } else {
-                            res.send({ statusCode: 400, message: "*required" });
-                        }
-                    }
-                }
-            })
-        }
-    } catch (err) {
-        console.log(err);
-    }
+    //                             userModel.findOneAndUpdate({ _id: userId },
+    //                                 { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+    //                                     if (err) {
+    //                                         res.send({ statusCode: 400, message: "Failed" });
+    //                                     } else {
+    //                                         res.send({ statusCode: 200, message: "Updated Successfully" });
+    //                                     }
+    //                                 });
+    //                         } else {
+    //                             res.send({ statusCode: 400, message: "*required" });
+    //                         }
+    //                     }
+    //                 } else {
+    //                     if (UserName !== "" && Address !== "") {
+
+    //                         userModel.findOneAndUpdate({ _id: userId },
+    //                             { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+    //                                 if (err) {
+    //                                     res.send({ statusCode: 400, message: "Failed" });
+    //                                 } else {
+    //                                     res.send({ statusCode: 200, message: "Updated Successfully" });
+    //                                 }
+    //                             });
+    //                     } else {
+    //                         res.send({ statusCode: 400, message: "*required" });
+    //                     }
+    //                 }
+    //             }
+    //         })
+    //     }
+    // } catch (err) {
+    //     console.log(err);
+    // }
 }
 
 //Validate the user -> If phonenumber is exists login else register
 const validateUsers = (req, res) => {
 
     const PhoneNumber = req.body.PhoneNumber;
-    const Created_On = moment().format("DD-MM-YYYY, hh:mm a")
+    const Created_On = moment().format("DD-MM-YYYY hh:mm a")
 
     userModel.findOne({ PhoneNumber: PhoneNumber }, function (err, result) {
         if (result === null) {
