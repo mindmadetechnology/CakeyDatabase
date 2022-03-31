@@ -78,7 +78,7 @@ const putUsers = async(req, res) => {
                             if (UserName !== "" && Address !== "") {
 
                                 userModel.findOneAndUpdate({ _id: userId },
-                                    { $set: { file: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                                    { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
                                         if (err) {
                                             res.send({ statusCode: 400, message: "Failed" });
                                         } else {
@@ -93,7 +93,7 @@ const putUsers = async(req, res) => {
                         if (UserName !== "" && Address !== "") {
 
                             userModel.findOneAndUpdate({ _id: userId },
-                                { $set: { file: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                                { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
