@@ -7,6 +7,10 @@ const AdminSchema = new mongoose.Schema({
     Password : {
         type : String,
     },
+    ProfileImage: {
+        data: Buffer,
+        contentType: String
+    },
     Modified_On : {
         type : String,
     }

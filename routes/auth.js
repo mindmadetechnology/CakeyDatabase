@@ -14,56 +14,20 @@ const corsOptions ={
 }
 app.use(cors(corsOptions));
 
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader(
-//     'Access-Control-Allow-Headers',
-//     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-//   );
-//  res.setHeader ('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
-//  next ();
-// });
+const { getUsers,putUsers,validateUsers,viewImg, getUsersbyPhoneNumber } = require('../controllers/userController');
+const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 
+//Get all vendors
+router.get("/admin/list/:email", getAdminbyEmail);
 
-const { getUsers,putUsers,validateUsers,viewImg } = require('../controllers/userController');
-const { loginValidate, forgotPassword, getVendors, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
-
-// var storage = multer.diskStorage({
-//     destination:(req,file,callBack)=>{
-//         callBack(null,'public/images');
-//     },
-//     filename :(req,file,callBack)=>{
-//         const mimeExtension = {
-//             'image/jpeg' : '.jpeg',
-//             'image/jpg' : '.jpg',
-//             'image/png' : '.png',
-//             'application/pdf' : '.pdf',
-//             'application/zip': '.zip',
-//             'application/msword' : '.doc',
-//             'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx'
-//         };
-//         callBack(null, file.fieldname + '-'  + Date.now() + path.extname(file.originalname));
-//         // callBack(null,file.fieldname + '-'  + Date.now() + mimeExtension[file.mimetype] )
-//     }
-// });
-// var upload = multer({
-//     storage :storage,
-//     // limits:{fileSize : 1024 *1024},
-//     fileFilter:(req,file,callBack)=>{
-//         if(file.mimetype ==='image/jpeg' || file.mimetype === 'image/jpg' ||  file.mimetype === 'image/png' ||
-//             file.mimetype === 'application/pdf' ||
-//             file.mimetype === 'application/zip' ||
-//             file.mimetype === 'application/msword' ||
-//             file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
-//             callBack(null,true);
-//         }else{
-//             callBack(null,false);
-//         }
-//     }
-// });
+//Update admin's details
+router.put("/admin/update/:id",upload.single("file"), putAdmin);
 
 //Get all users
 router.get("/users/list", getUsers);
+
+//Get user's details by phone number
+router.get("/users/list/:pn", getUsersbyPhoneNumber);
 
 //Update user's details
 router.put("/users/update/:userId",upload.single("file"),putUsers);
@@ -83,11 +47,14 @@ router.put("/forgotpassword/:id", forgotPassword);
 //Get all vendors
 router.get("/vendors/list", getVendors);
 
+//Get vendor's details based on email
+router.get("/vendors/list/:email", getVendorsbyEmail);
+
 //Create new vendor
 router.post("/vendors/new", addVendors);
 
 //Update vendor's details
-router.put("/vendors/update/:id", putVendors);
+router.put("/vendors/update/:id",upload.single("file"), putVendors);
 
 //Delete vendor
 router.put("/vendors/delete/:id", deleteVendors);

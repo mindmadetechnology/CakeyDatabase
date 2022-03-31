@@ -16,6 +16,19 @@ const getUsers = (req, res) => {
     })
 };
 
+//Get user details by id
+const getUsersbyPhoneNumber = (req, res) => {
+    const PhoneNumber = req.params.pn;
+    userModel.find({ PhoneNumber: PhoneNumber }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+            res.send(result);
+        }
+    })
+};
+
 //Update user's details
 const putUsers = async(req, res) => {
     const UserName = req.body.UserName;
@@ -162,5 +175,6 @@ module.exports = {
     viewImg,
     getUsers,
     putUsers,
-    validateUsers
+    validateUsers,
+    getUsersbyPhoneNumber
 }

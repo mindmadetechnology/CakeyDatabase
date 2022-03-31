@@ -7,6 +7,19 @@ const VendorSchema = new mongoose.Schema({
     Password : {
         type : String,
     },
+    VendorName : {
+        type : String,
+    },
+    Address : {
+        type : String,
+    },
+    PhoneNumber : {
+        type : String,
+    },
+    ProfileImage: {
+        data: Buffer,
+        contentType: String
+    },
     Created_On : {
         type : String,
     },

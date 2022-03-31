@@ -2,11 +2,57 @@ const adminModel = require("../models/adminModels");
 const vendorModel = require("../models/vendorModels");
 const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
+const cloudinary = require("../middleware/cloudnary");
+
+//Get Admin details by email
+const getAdminbyEmail = (req,res) => {
+    const Email = req.params.email;
+    adminModel.find({ Email : Email}, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
+        }else {
+            res.send(result);
+        }
+    })
+};
+
+//Update admin's details
+const putAdmin = async(req,res) => {
+
+    const id=req.params.id;
+    const Modified_On= moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    if(req.file === undefined){
+        res.send({ statusCode : 400, message : "Failed"})
+    }else{
+        const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+    
+        adminModel.findOneAndUpdate({ _id : id  }, 
+        { $set: { ProfileImage: imagesUrl.secure_url,Modified_On: Modified_On } }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            }else {
+                res.send({ statusCode: 200, message: "Updated Successfully" });
+            }
+        });
+    } 
+};
 
 //Get all Vendors
 const getVendors = (req,res) => {
-
     vendorModel.find({IsDeleted : 'n'}, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
+        }else {
+            res.send(result);
+        }
+    })
+};
+
+//Get Vendor details by email
+const getVendorsbyEmail = (req,res) => {
+    const Email = req.params.email;
+    vendorModel.find({IsDeleted : 'n' , Email : Email}, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
         }else {
@@ -51,6 +97,9 @@ const addVendors = (req,res) => {
 
     const Email = req.body.Email;
     const Password = req.body.Password;
+    const VendorName = req.body.VendorName;
+    const  Address= req.body.Address;
+    const  PhoneNumber= req.body.PhoneNumber;
     const Created_On=moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     adminModel.findOne({ Email: Email }, function (err, result) {
@@ -63,16 +112,17 @@ const addVendors = (req,res) => {
                 if(err){
                     res.send({ statusCode: 400, message: "Failed" });
         
-                }
-               else if (result === null) {
-                    if(Email === "" || Email === null || Email === undefined){
+                }else if (result === null) {
+                    if(Email===undefined || VendorName===undefined || Address===undefined || PhoneNumber===undefined || Password===undefined){
                         res.send({ statusCode: 400, message: "*required" });
                     }else{
                         const vendorValidate = new vendorModel({
                             Email : Email,
                             Password: Password,
+                            VendorName : VendorName,
+                            Address : Address,
+                            PhoneNumber : PhoneNumber,
                             Created_On:Created_On
-        
                         });
                         vendorValidate.save(function (err, result) {
                           if (err) {
@@ -86,62 +136,108 @@ const addVendors = (req,res) => {
                     res.send({ statusCode: 400, message: "Email already Exist" });
                 }
             })
-        }
-        else {
+        }else {
             res.send({ statusCode: 400, message: "Email already Exist" });
         }
-
-    })
-    
+    })  
 };
 
 //Update vendor's details
-const putVendors = (req,res) => {
+const putVendors = async(req,res) => {
     const id=req.params.id;
     const Email = req.body.Email;
     const Password = req.body.Password;
+    const VendorName = req.body.VendorName;
+    const  Address= req.body.Address;
+    const  PhoneNumber= req.body.PhoneNumber;
     const Modified_On= moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    
-    vendorModel.findById({_id:id},function(err,result){
-        if(err){
-            res.send({statusCode : 400,message :"Failed"})
-        }
-        else if(result.Email === Email){
-        
-                vendorModel.findOneAndUpdate({ _id : id  }, 
-                    { $set: { Email : Email, Password:Password, Modified_On: Modified_On } }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        }else {
-                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                        }
-                });
-           
-        }
-        else{
-            adminModel.findOne({Email : Email},function(err,result){
-                if(result === null){
-                    vendorModel.findOne({Email : Email},function(err,result){
-                        if(result === null){
-                            vendorModel.findOneAndUpdate({ _id : id  }, 
-                                { $set: { Email : Email, Password:Password, Modified_On : Modified_On } }, function (err, result) {
-                                    if (err) {
-                                        res.send({ statusCode: 400, message: "Failed" });
-                                    }else {
-                                        res.send({ statusCode: 200, message: "Updated Successfully" });
-                                    }
-                            });
-                        }else{
-                            res.send({statusCode : 400, message : "Email already Exist"})
-                        }
-                    })
-                }else{
-                    res.send({statusCode : 400, message : "Email already Exist"})
 
-                }
-            })
-        }
-    })
+    if(req.file === undefined){
+        vendorModel.findById({_id:id},function(err,result){
+            if(err){
+                res.send({statusCode : 400,message :"Failed"})
+            }
+            else if(result.Email === Email){
+            
+                    vendorModel.findOneAndUpdate({ _id : id  }, 
+                        { $set: { Email : Email, Password:Password,VendorName:VendorName,Address:Address,PhoneNumber:PhoneNumber, Modified_On: Modified_On } }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            }else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                    });
+               
+            }
+            else{
+                adminModel.findOne({Email : Email},function(err,result){
+                    if(result === null){
+                        vendorModel.findOne({Email : Email},function(err,result){
+                            if(result === null){
+                                vendorModel.findOneAndUpdate({ _id : id  }, 
+                                    { $set: { Email : Email, Password:Password,VendorName:VendorName,Address:Address,PhoneNumber:PhoneNumber, Modified_On: Modified_On } }, function (err, result) {
+                                        if (err) {
+                                            res.send({ statusCode: 400, message: "Failed" });
+                                        }else {
+                                            res.send({ statusCode: 200, message: "Updated Successfully" });
+                                        }
+                                });
+                            }else{
+                                res.send({statusCode : 400, message : "Email already Exist"})
+                            }
+                        })
+                    }else{
+                        res.send({statusCode : 400, message : "Email already Exist"})
+    
+                    }
+                })
+            }
+        })
+    }else{
+        const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+
+        vendorModel.findById({_id:id},function(err,result){
+            if(err){
+                res.send({statusCode : 400,message :"Failed"})
+            }
+            else if(result.Email === Email){
+            
+                    vendorModel.findOneAndUpdate({ _id : id  }, 
+                        { $set: { Email : Email, Password:Password,VendorName:VendorName,Address:Address,PhoneNumber:PhoneNumber,ProfileImage: imagesUrl.secure_url,Modified_On: Modified_On } }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            }else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                    });
+               
+            }
+            else{
+                adminModel.findOne({Email : Email},function(err,result){
+                    if(result === null){
+                        vendorModel.findOne({Email : Email},function(err,result){
+                            if(result === null){
+                                vendorModel.findOneAndUpdate({ _id : id  }, 
+                                    { $set: { Email : Email, Password:Password,VendorName:VendorName,Address:Address,PhoneNumber:PhoneNumber,ProfileImage: imagesUrl.secure_url,Modified_On: Modified_On } }, function (err, result) {
+                                        if (err) {
+                                            res.send({ statusCode: 400, message: "Failed" });
+                                        }else {
+                                            res.send({ statusCode: 200, message: "Updated Successfully" });
+                                        }
+                                });
+                            }else{
+                                res.send({statusCode : 400, message : "Email already Exist"})
+                            }
+                        })
+                    }else{
+                        res.send({statusCode : 400, message : "Email already Exist"})
+    
+                    }
+                })
+            }
+        })
+    }
+    
 };
 
 //delete vendors
@@ -210,9 +306,12 @@ const forgotPassword = (req,res) => {
 };
 
 module.exports = {
+    getAdminbyEmail,
+    putAdmin,
     loginValidate,
     forgotPassword,
     getVendors,
+    getVendorsbyEmail,
     addVendors,
     putVendors,
     deleteVendors
