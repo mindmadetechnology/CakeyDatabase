@@ -21,7 +21,7 @@ const putUsers = async(req, res) => {
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
-    const Modified_On = moment().format("DD-MM-YYYY, h:mm a");
+    const Modified_On = moment().format("DD-MM-YYYY, hh:mm a");
 
     try {
         if (req.file === undefined) {
@@ -116,7 +116,7 @@ const putUsers = async(req, res) => {
 const validateUsers = (req, res) => {
 
     const PhoneNumber = req.body.PhoneNumber;
-    const Created_On = moment().format("DD-MM-YYYY, h:mm a")
+    const Created_On = moment().format("DD-MM-YYYY, hh:mm a")
 
     userModel.findOne({ PhoneNumber: PhoneNumber }, function (err, result) {
         if (result === null) {

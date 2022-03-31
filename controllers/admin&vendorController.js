@@ -51,7 +51,7 @@ const addVendors = (req,res) => {
 
     const Email = req.body.Email;
     const Password = req.body.Password;
-    const Created_On= moment().format("DD-MM-YYYY, h:mm a");
+    const Created_On= moment().format("DD-MM-YYYY, hh:mm a");
 
     adminModel.findOne({ Email: Email }, function (err, result) {
         if(err){
@@ -100,7 +100,7 @@ const putVendors = (req,res) => {
     const id=req.params.id;
     const Email = req.body.Email;
     const Password = req.body.Password;
-    const Modified_On= moment().format("DD-MM-YYYY, h:mm a");
+    const Modified_On= moment().format("DD-MM-YYYY, hh:mm a");
     
     vendorModel.findById({_id:id},function(err,result){
         if(err){
@@ -148,7 +148,7 @@ const putVendors = (req,res) => {
 const deleteVendors = (req, res) => {
     const id = req.params.id;
     const IsDeleted = 'y';
-    const Modified_On = moment().format("DD-MM-YYYY, h:mm a");
+    const Modified_On = moment().format("DD-MM-YYYY, hh:mm a");
 
     vendorModel.findOneAndUpdate({ _id : id  }, { $set: { IsDeleted : IsDeleted, Modified_On : Modified_On } }, function(err,result){
         if(err){
@@ -163,7 +163,7 @@ const deleteVendors = (req, res) => {
 const forgotPassword = (req,res) => {
     const id = req.params.id;
     const Password = req.body.Password;
-    const Modified_On = moment().format("DD-MM-YYYY, h:mm a");
+    const Modified_On = moment().format("DD-MM-YYYY, hh:mm a");
 
     if(Password.length > 5){
         adminModel.findById({_id : id}, function(err,result){
