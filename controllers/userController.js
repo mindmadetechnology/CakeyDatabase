@@ -1,16 +1,15 @@
 const userModel = require("../models/userModels");
-const path = require("path");
 const moment = require('moment-timezone');
 const JWT = require('jsonwebtoken');
 const cloudinary = require("../middleware/cloudnary");
 
 //Get all users
 const getUsers = (req, res) => {
+
     userModel.find({}, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.send(result);
         }
     })
@@ -18,19 +17,21 @@ const getUsers = (req, res) => {
 
 //Get user details by id
 const getUsersbyPhoneNumber = (req, res) => {
+
     const PhoneNumber = req.params.pn;
+
     userModel.find({ PhoneNumber: PhoneNumber }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.send(result);
         }
     })
 };
 
 //Update user's details
-const putUsers = async(req, res) => {
+const putUsers = async (req, res) => {
+
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
@@ -44,7 +45,7 @@ const putUsers = async(req, res) => {
                 } else {
                     if (result.Address === undefined || result.Address === null || result.Address === "") {
                         if (UserName === undefined || Address === undefined) {
-                            res.send({ statusCode: 400, message: "*required" })
+                            res.send({ statusCode: 400, message: "*required" });
                         } else {
                             if (UserName !== "" && Address !== "") {
 
@@ -86,7 +87,7 @@ const putUsers = async(req, res) => {
                 } else {
                     if (result.Address === undefined || result.Address === null || result.Address === "") {
                         if (UserName === undefined || Address === undefined) {
-                            res.send({ statusCode: 400, message: "*required" })
+                            res.send({ statusCode: 400, message: "*required" });
                         } else {
                             if (UserName !== "" && Address !== "") {
 
@@ -123,7 +124,7 @@ const putUsers = async(req, res) => {
     } catch (err) {
         console.log(err);
     }
-}
+};
 
 //Validate the user -> If phonenumber is exists login else register
 const validateUsers = (req, res) => {
@@ -144,7 +145,7 @@ const validateUsers = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "registered Successfully" })
+                        res.send({ statusCode: 200, message: "registered Successfully" });
                     }
                 });
             }
@@ -152,29 +153,30 @@ const validateUsers = (req, res) => {
             res.send({ statusCode: 400, message: "error" });
         } else {
             const token = JWT.sign({
-                id : result._id
-            },'secret123',{expiresIn : '7d'})
-            res.send({ statusCode: 200, message: "Login Succeed",token : token });
+                id: result._id
+            }, 'secret123', { expiresIn: '7d' });
+            res.send({ statusCode: 200, message: "Login Succeed", token: token });
         }
-    })
-};
-var fs = require('fs');
-
-const viewImg = function (req, res) {
-    var file = req.params.file;
-    var fileLocation = path.join('public/images/', file);
-    fs.readFile(fileLocation, function (err, data) {
-        if (err) throw err; // Fail if the file can't be read.
-        res.writeHead(200, { 'Content-Type': 'image/jpeg' });
-        res.end(data); // Send the file data to the browser.
     });
-}
+};
 
+// var fs = require('fs');
+
+// const viewImg = function (req, res) {
+//     var file = req.params.file;
+//     var fileLocation = path.join('public/images/', file);
+//     fs.readFile(fileLocation, function (err, data) {
+//         if (err) throw err; // Fail if the file can't be read.
+//         res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+//         res.end(data); // Send the file data to the browser.
+//     });
+// }
 
 module.exports = {
-    viewImg,
+
     getUsers,
     putUsers,
     validateUsers,
     getUsersbyPhoneNumber
-}
+
+};

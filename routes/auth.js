@@ -1,20 +1,24 @@
 const express = require("express");
 const cors = require('cors');
+
 const app = express();
+
 const router = express.Router();
 app.use(router);
+
 router.use(express.json());
 app.use(cors());
-const upload=require("../middleware/multer")
+
+const upload=require("../middleware/multer");
 
 const corsOptions ={
     origin:'https://cakey-database.vercel.app', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
-}
+};
 app.use(cors(corsOptions));
 
-const { getUsers,putUsers,validateUsers,viewImg, getUsersbyPhoneNumber } = require('../controllers/userController');
+const { getUsers,putUsers,validateUsers, getUsersbyPhoneNumber } = require('../controllers/userController');
 const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 
 //Get all vendors
@@ -34,9 +38,6 @@ router.put("/users/update/:userId",upload.single("file"),putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
-
-//route to download a file
-router.get('/public/images/:file(*)',viewImg);
 
 //login for admin and vendors
 router.post("/login/validate", loginValidate);
