@@ -28,7 +28,7 @@ const putUsers = async(req, res) => {
     // let ank = d.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
     // res.send("your time zone " + ank)
 
-    console.log(Modified_On)
+    res.send(Modified_On)
 
     // try {
     //     if (req.file === undefined) {
