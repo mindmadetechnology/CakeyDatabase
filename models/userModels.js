@@ -22,6 +22,12 @@ const UserSchema = new mongoose.Schema({
         // district: {
         //     type: String
         // }
+    },
+    Created_On : {
+        type : String,
+    },
+    Modified_On : {
+        type : String,
     }
 });
 

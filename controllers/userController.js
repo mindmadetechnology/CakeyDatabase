@@ -4,19 +4,15 @@ const moment = require("moment");
 const JWT = require('jsonwebtoken');
 const formidable = require('formidable');
 const cloudinary = require("../middleware/cloudnary");
+
 //Get all users
 const getUsers = (req, res) => {
-
     userModel.find({}, function (err, result) {
-        
         if (err) {
-           
-  
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.send(result);
-           
         }
     })
 };
