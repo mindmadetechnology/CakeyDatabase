@@ -17,7 +17,7 @@ const getUsers = (req, res) => {
 };
 
 //Update user's details
-const putUsers = (req, res) => {
+const putUsers = async(req, res) => {
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
@@ -65,7 +65,7 @@ const putUsers = (req, res) => {
                 }
             })
         } else {
-            const imagesUrl = cloudinary.uploader.upload(req.file.path);
+            const imagesUrl = await cloudinary.uploader.upload(req.file.path);
 
             userModel.findById({ _id: userId }, function (err, result) {
                 if (err) {
