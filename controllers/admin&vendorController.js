@@ -17,25 +17,92 @@ const getAdminbyEmail = (req,res) => {
 };
 
 //Update admin's details
-const putAdmin = async(req,res) => {
+const putAdmin = async (req, res) => {
 
-    const id=req.params.id;
-    const Modified_On= moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
-    if(req.file === undefined){
-        res.send({ statusCode : 400, message : "Failed"})
-    }else{
-        const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+    const id = req.params.id;
+    const Email = req.body.Email;
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     
-        adminModel.findOneAndUpdate({ _id : id  }, 
-        { $set: { ProfileImage: imagesUrl.secure_url,Modified_On: Modified_On } }, function (err, result) {
-            if (err) {
-                res.send({ statusCode: 400, message: "Failed" });
-            }else {
-                res.send({ statusCode: 200, message: "Updated Successfully" });
-            }
-        });
-    } 
+    try {
+        if (req.file === undefined) {
+            adminModel.findById({ _id: id }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" })
+                } else if (result.Email === Email) {
+                    adminModel.findOneAndUpdate({ _id: id },
+                        { $set: { Email: Email, Modified_On: Modified_On } }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+                } else {
+                    adminModel.findOne({ Email: Email }, function (err, result) {
+                        if (result === null) {
+                            vendorModel.findOne({ Email: Email }, function (err, result) {
+                                if (result === null) {
+                                    adminModel.findOneAndUpdate({ _id: id },
+                                        { $set: { Email: Email, Modified_On: Modified_On } }, function (err, result) {
+                                            if (err) {
+                                                res.send({ statusCode: 400, message: "Failed" });
+                                            } else {
+                                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                                            }
+                                        });
+                                } else {
+                                    res.send({ statusCode: 400, message: "Email already Exist" });
+                                }
+                            })
+                        } else {
+                            res.send({ statusCode: 400, message: "Email already Exist" });
+                        }
+                    })
+                }
+            })
+        } else {
+            const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+
+            adminModel.findById({ _id: id }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" })
+                } else if (result.Email === Email) {
+                    adminModel.findOneAndUpdate({ _id: id },
+                        { $set: { ProfileImage: imagesUrl.secure_url, Modified_On: Modified_On } }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+                } else {
+                    adminModel.findOne({ Email: Email }, function (err, result) {
+                        if (result === null) {
+                            vendorModel.findOne({ Email: Email }, function (err, result) {
+                                if (result === null) {
+                                    adminModel.findOneAndUpdate({ _id: id },
+                                        { $set: { Email: Email, ProfileImage: imagesUrl.secure_url, Modified_On: Modified_On } }, function (err, result) {
+                                            if (err) {
+                                                res.send({ statusCode: 400, message: "Failed" });
+                                            } else {
+                                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                                            }
+                                        });
+                                } else {
+                                    res.send({ statusCode: 400, message: "Email already Exist" });
+                                }
+                            })
+                        } else {
+                            res.send({ statusCode: 400, message: "Email already Exist" });
+                        }
+                    })
+                }
+            })
+        }
+    }
+    catch (err) {
+        return err;
+    }
 };
 
 //Get all Vendors
@@ -156,8 +223,7 @@ const putVendors = async(req,res) => {
         vendorModel.findById({_id:id},function(err,result){
             if(err){
                 res.send({statusCode : 400,message :"Failed"})
-            }
-            else if(result.Email === Email){
+            }else if(result.Email === Email){
             
                     vendorModel.findOneAndUpdate({ _id : id  }, 
                         { $set: { Email : Email, Password:Password,VendorName:VendorName,Address:Address,PhoneNumber:PhoneNumber, Modified_On: Modified_On } }, function (err, result) {
@@ -166,10 +232,8 @@ const putVendors = async(req,res) => {
                             }else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
-                    });
-               
-            }
-            else{
+                    }); 
+            }else{
                 adminModel.findOne({Email : Email},function(err,result){
                     if(result === null){
                         vendorModel.findOne({Email : Email},function(err,result){
