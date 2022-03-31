@@ -1,6 +1,7 @@
 const userModel = require("../models/userModels");
 const path = require("path");
-const moment = require("moment");
+// const moment = require("moment");
+const moment = require('moment-timezone');
 const JWT = require('jsonwebtoken');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -21,11 +22,13 @@ const putUsers = async(req, res) => {
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
-    const Modified_On = moment().format("DD-MM-YYYY hh:mm a");
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    let d = new Date()
-    let ank = d.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
-    res.send("your time zone " + ank)
+    // let d = new Date()
+    // let ank = d.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+    // res.send("your time zone " + ank)
+
+    console.log(Modified_On)
 
     // try {
     //     if (req.file === undefined) {
