@@ -6,8 +6,6 @@ app.use(router);
 router.use(express.json());
 app.use(cors());
 const upload=require("../middleware/multer")
-const multer = require("multer");
-const path = require("path");
 
 const corsOptions ={
     origin:'https://cakey-database.vercel.app', 
