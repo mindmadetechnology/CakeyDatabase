@@ -37,12 +37,12 @@ const addCake = (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        if ( Title === undefined  || Description === undefined  || TypeOfCake === undefined  || eggOrEggless === undefined  || Price === undefined  || Ratings === undefined  || VendorID === undefined  || VendorName === undefined  || MobileNumberVendor === undefined  || FlavorList === undefined  || ShapesLists === undefined  || CakeToppings === undefined  || WeightList=== undefined) {
+        if (req.file === undefined || Title === undefined  || Description === undefined  || TypeOfCake === undefined  || eggOrEggless === undefined  || Price === undefined  || Ratings === undefined  || VendorID === undefined  || VendorName === undefined  || MobileNumberVendor === undefined  || FlavorList === undefined  || ShapesLists === undefined  || CakeToppings === undefined  || WeightList=== undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
             cloudinary.uploader.upload(req.file.path, function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "failed" })
+                    res.send(err);
                 } else {
                     // res.send({ statusCode: 400, message: result })
                     const vendorValidate = new cakeModel({
