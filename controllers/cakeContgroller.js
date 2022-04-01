@@ -38,7 +38,7 @@ const addCake = (req, res) => {
 
     try {
         if (req.file === undefined || Title === undefined  || Description === undefined  || TypeOfCake === undefined  || eggOrEggless === undefined  || Price === undefined  || Ratings === undefined  || VendorID === undefined  || VendorName === undefined  || MobileNumberVendor === undefined  || FlavorList === undefined  || ShapesLists === undefined  || CakeToppings === undefined  || WeightList=== undefined) {
-            res.send({ statusCode: 400, message: Title })
+            res.send({ statusCode: 400, message: "*required" })
         } else {
             cloudinary.uploader.upload(req.file.path, function (err, result) {
                 if (err) {
