@@ -34,6 +34,9 @@ const CakeSchema = new mongoose.Schema({
     CreatedOn:{
         type : String
     },
+    imageUrl:{
+        type : String
+    },
     FlavorList : {
         flavor1: {
             type: String

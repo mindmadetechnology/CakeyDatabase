@@ -90,40 +90,71 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" })
             }
             else {
-                cloudinary.uploader.upload(req.file.path, function (err, result) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        cakeModel.findOneAndUpdate({ _id: id },
-                            {
-                                $set: {
-                                    Title: Title,
-                                    Description: Description,
-                                    TypeOfCake: TypeOfCake,
-                                    Images: result.secure_url,
-                                    eggOrEggless: eggOrEggless,
-                                    Price: Price,
-                                    Ratings: Ratings,
-                                    VendorID: VendorID,
-                                    VendorName: VendorName,
-                                    MobileNumberVendor: MobileNumberVendor,
-                                    FlavorList: FlavorList,
-                                    ShapesLists: ShapesLists,
-                                    CakeToppings: CakeToppings,
-                                    WeightList: WeightList,
-                                    CreatedOn: CreatedOn,
+                if (req.file===undefined) {
+                    cakeModel.findOneAndUpdate({ _id: id },
+                        {
+                            $set: {
+                                Title: Title,
+                                Description: Description,
+                                TypeOfCake: TypeOfCake,
+                                Images: result.secure_url,
+                                eggOrEggless: eggOrEggless,
+                                Price: Price,
+                                Ratings: Ratings,
+                                VendorID: VendorID,
+                                VendorName: VendorName,
+                                MobileNumberVendor: MobileNumberVendor,
+                                FlavorList: FlavorList,
+                                ShapesLists: ShapesLists,
+                                CakeToppings: CakeToppings,
+                                WeightList: WeightList,
+                                CreatedOn: CreatedOn,
 
-                                }
-                            }, function (err, result) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else {
-                                    res.send({ statusCode: 200, message: "Updated Successfully" });
-                                }
-                            });
+                            }
+                        }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+                } else {
+                    cloudinary.uploader.upload(req.file.path, function (err, result) {
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            cakeModel.findOneAndUpdate({ _id: id },
+                                {
+                                    $set: {
+                                        Title: Title,
+                                        Description: Description,
+                                        TypeOfCake: TypeOfCake,
+                                        Images: result.secure_url,
+                                        eggOrEggless: eggOrEggless,
+                                        Price: Price,
+                                        Ratings: Ratings,
+                                        VendorID: VendorID,
+                                        VendorName: VendorName,
+                                        MobileNumberVendor: MobileNumberVendor,
+                                        FlavorList: FlavorList,
+                                        ShapesLists: ShapesLists,
+                                        CakeToppings: CakeToppings,
+                                        WeightList: WeightList,
+                                        CreatedOn: CreatedOn,
+
+                                    }
+                                }, function (err, result) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                                    }
+                                });
+                        }
                     }
+                    );
                 }
-                );
+
             }
         })
     } catch (err) {

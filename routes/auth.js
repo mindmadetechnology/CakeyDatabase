@@ -17,7 +17,7 @@ const corsOptions ={
     optionSuccessStatus:200
 };
 app.use(cors(corsOptions));
-
+app.options('*', cors())
 const { getUsers,putUsers,validateUsers, getUsersbyPhoneNumber } = require('../controllers/userController');
 const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
 const { addCake,updateCake,deleteCake}=require('../controllers/cakeContgroller')
