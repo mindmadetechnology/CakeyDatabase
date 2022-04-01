@@ -42,7 +42,7 @@ const addCake = (req, res) => {
         } else {
             cloudinary.uploader.upload(req.file.path, function (err, result) {
                 if (err) {
-                    res.send(err);
+                    res.send({ statusCode: 400, message: "failed" })
                 } else {
                     // res.send({ statusCode: 400, message: result })
                     const vendorValidate = new cakeModel({
