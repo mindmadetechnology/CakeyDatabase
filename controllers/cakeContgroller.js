@@ -5,8 +5,7 @@ const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
 //Add new vendors
-const addCake =  (req, res) => {
-
+const addCake = (req, res) => {
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
@@ -26,38 +25,39 @@ const addCake =  (req, res) => {
         if (Title === undefined && Description === undefined && TypeOfCake === undefined && Images === undefined && eggOrEggless === undefined && Price === undefined && Ratings === undefined && VendorID === undefined && VendorName === undefined && MobileNumberVendor === undefined && FlavorList === undefined && ShapesLists === undefined && CakeToppings === undefined && WeightList) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
-            cloudinary.uploader.upload(req.file.path,  function (err, result) {
+            cloudinary.uploader.upload(req.file.path, function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
-                    res.send({ statusCode: 400, message: result })
+                    // res.send({ statusCode: 400, message: result })
+                    const vendorValidate = new cakeModel({
+                        Title: Title,
+                        Description: Description,
+                        TypeOfCake: TypeOfCake,
+                        Images: result.secure_url,
+                        eggOrEggless: eggOrEggless,
+                        Price: Price,
+                        Ratings: Ratings,
+                        VendorID: VendorID,
+                        VendorName: VendorName,
+                        MobileNumberVendor: MobileNumberVendor,
+                        FlavorList: FlavorList,
+                        ShapesLists: ShapesLists,
+                        CakeToppings: CakeToppings,
+                        WeightList: WeightList,
+                        CreatedOn: CreatedOn,
+                        IsDeleted: "n"
+                    });
+                    vendorValidate.save(function (err, result) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            res.send({ statusCode: 200, message: "Registered Successfully" })
+                        }
+                    });
                 }
             });
-            // const vendorValidate = new cakeModel({
-            //     Title: Title,
-            //     Description: Description,
-            //     TypeOfCake: TypeOfCake,
-            //     Images: imagesUrl,
-            //     eggOrEggless: eggOrEggless,
-            //     Price: Price,
-            //     Ratings: Ratings,
-            //     VendorID: VendorID,
-            //     VendorName: VendorName,
-            //     MobileNumberVendor: MobileNumberVendor,
-            //     FlavorList: FlavorList,
-            //     ShapesLists: ShapesLists,
-            //     CakeToppings: CakeToppings,
-            //     WeightList: WeightList,
-            //     CreatedOn: CreatedOn,
-            //     IsDeleted: "n"
-            // });
-            // vendorValidate.save(function (err, result) {
-            //     if (err) {
-            //         res.send({ statusCode: 400, message: "Failed" });
-            //     } else {
-            //         res.send({ statusCode: 200, message: "Registered Successfully" })
-            //     }
-            // });
+
         }
     } catch (err) {
         console.log(err);
@@ -90,34 +90,40 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" })
             }
             else {
-                const imagesUrl =  cloudinary.uploader.upload(req.file.path,);
-                vendorModel.findOneAndUpdate({ _id: id },
-                    {
-                        $set: {
-                            Title: Title,
-                            Description: Description,
-                            TypeOfCake: TypeOfCake,
-                            Images: imagesUrl,
-                            eggOrEggless: eggOrEggless,
-                            Price: Price,
-                            Ratings: Ratings,
-                            VendorID: VendorID,
-                            VendorName: VendorName,
-                            MobileNumberVendor: MobileNumberVendor,
-                            FlavorList: FlavorList,
-                            ShapesLists: ShapesLists,
-                            CakeToppings: CakeToppings,
-                            WeightList: WeightList,
-                            CreatedOn: CreatedOn,
+                cloudinary.uploader.upload(req.file.path, function (err, result) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        cakeModel.findOneAndUpdate({ _id: id },
+                            {
+                                $set: {
+                                    Title: Title,
+                                    Description: Description,
+                                    TypeOfCake: TypeOfCake,
+                                    Images: result.secure_url,
+                                    eggOrEggless: eggOrEggless,
+                                    Price: Price,
+                                    Ratings: Ratings,
+                                    VendorID: VendorID,
+                                    VendorName: VendorName,
+                                    MobileNumberVendor: MobileNumberVendor,
+                                    FlavorList: FlavorList,
+                                    ShapesLists: ShapesLists,
+                                    CakeToppings: CakeToppings,
+                                    WeightList: WeightList,
+                                    CreatedOn: CreatedOn,
 
-                        }
-                    }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                        }
-                    });
+                                }
+                            }, function (err, result) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    res.send({ statusCode: 200, message: "Updated Successfully" });
+                                }
+                            });
+                    }
+                }
+                );
             }
         })
     } catch (err) {

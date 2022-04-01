@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const authRoute = require("./routes/auth");
 
 app.use('/api',authRoute);
-
+app.options('*', cors())
 
 app.listen(3000, () => {
   console.log("Server is running at port 3000");
