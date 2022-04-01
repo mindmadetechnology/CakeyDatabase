@@ -3,10 +3,10 @@ const vendorModel = require("../models/vendorModels");
 const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
-
+const { transporter } = require('../middleware/nodemailer');
 //Get Admin details by email
 const getAdminbyEmail = (req, res) => {
-    
+
     const Email = req.params.email;
     adminModel.find({ Email: Email }, function (err, result) {
         if (err) {
@@ -322,6 +322,20 @@ const forgotPassword = (req, res) => {
     const Password = req.body.Password;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
+    const mailBody = `
+    <h3>Dear Sir/Madam,</h3>
+      <br />
+    <p>
+      We have received a request to reset the password for your account.<br />
+
+      Your System generated Password:${Password} <br />
+
+      You can change your password once you logged in.
+      </p>
+      <br />
+      <h4>Best wishes,</h4>
+      <h5>MindMade Team</h5>
+    `
     if (Password.length > 5) {
         adminModel.findOne({ Email: Email }, function (err, result) {
             if (err) {
@@ -341,6 +355,19 @@ const forgotPassword = (req, res) => {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" })
                                 } else {
+                                    let mailOptions = {
+                                        from: 'support@mindmade.in',
+                                        to: Email,
+                                        subject: 'Reset Password - reg',
+                                        html: mailBody
+                                    };
+                                    transporter.sendMail(mailOptions, (err, info) => {
+                                        if (err) {
+                                            return err;
+                                        } else {
+                                            return info;
+                                        }
+                                    })
                                     res.send({ statusCode: 200, message: "Updated Successfully" })
                                 }
                             })
@@ -355,6 +382,19 @@ const forgotPassword = (req, res) => {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" })
                         } else {
+                            let mailOptions = {
+                                from: 'support@mindmade.in',
+                                to: Email,
+                                subject: 'Reset Password - reg',
+                                html: mailBody
+                            };
+                            transporter.sendMail(mailOptions, (err, info) => {
+                                if (err) {
+                                    return err;
+                                } else {
+                                    return info;
+                                }
+                            })
                             res.send({ statusCode: 200, message: "Updated Successfully" })
                         }
                     })
