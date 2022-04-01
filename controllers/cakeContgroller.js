@@ -37,7 +37,7 @@ const addCake = (req, res) => {
     const CreatedOn = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        if (Title === undefined && Description === undefined && TypeOfCake === undefined && Images === undefined && eggOrEggless === undefined && Price === undefined && Ratings === undefined && VendorID === undefined && VendorName === undefined && MobileNumberVendor === undefined && FlavorList === undefined && ShapesLists === undefined && CakeToppings === undefined && WeightList) {
+        if (req.file === undefined || Title === undefined && Description === undefined && TypeOfCake === undefined && Images === undefined && eggOrEggless === undefined && Price === undefined && Ratings === undefined && VendorID === undefined && VendorName === undefined && MobileNumberVendor === undefined && FlavorList === undefined && ShapesLists === undefined && CakeToppings === undefined && WeightList) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
             cloudinary.uploader.upload(req.file.path, function (err, result) {
@@ -61,7 +61,7 @@ const addCake = (req, res) => {
                         CakeToppings: CakeToppings,
                         WeightList: WeightList,
                         CreatedOn: CreatedOn,
-                        IsDeleted: "n"
+                       
                     });
                     vendorValidate.save(function (err, result) {
                         if (err) {
@@ -106,7 +106,7 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" })
             }
             else {
-                if (req.file===undefined||req.file===null) {
+                if (req.file === undefined || req.file === null) {
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
