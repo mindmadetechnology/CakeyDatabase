@@ -12,7 +12,7 @@ app.use(cors());
 const upload=require("../middleware/multer");
 
 const corsOptions ={
-    origin:'https://cakey-database.vercel.app', 
+    origin:'http://localhost:3000', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 };
