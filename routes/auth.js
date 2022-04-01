@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 app.options('*', cors())
 const { getUsers,putUsers,validateUsers, getUsersbyPhoneNumber } = require('../controllers/userController');
 const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
-const { addCake,updateCake,deleteCake}=require('../controllers/cakeContgroller')
+const { addCake,updateCake,deleteCake,getcakelist}=require('../controllers/cakeContgroller')
 //Get all vendors
 router.get("/admin/list/:email", getAdminbyEmail);
 
@@ -62,6 +62,11 @@ router.put("/vendors/delete/:id", deleteVendors);
 
 
 // Cake API
+
+
+
+//Get all cakes
+router.get("/cake/list", getcakelist);
 
 //Create new vendor
 router.post("/cake/new",upload.single("file"), addCake);

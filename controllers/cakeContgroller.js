@@ -4,6 +4,21 @@ const moment = require('moment-timezone');
 
 const cloudinary = require("../middleware/cloudnary");
 
+
+// get cake list
+
+const getcakelist = (req, res) => {
+
+    cakeModel.find({}, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            res.send(result);
+        }
+    })
+};
+
+
 //Add new vendors
 const addCake = (req, res) => {
     const Title = req.body.Title;
@@ -70,6 +85,7 @@ const updateCake = (req, res) => {
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
+    const imageUrl = req.body.imageUrl;
     const eggOrEggless = req.body.eggOrEggless;
     const Price = req.body.Price;
     const Ratings = req.body.Ratings;
@@ -90,14 +106,14 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" })
             }
             else {
-                if (req.file===undefined) {
+                if (req.file===undefined||req.file===null) {
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
                                 Description: Description,
                                 TypeOfCake: TypeOfCake,
-                                Images: result.secure_url,
+                                Images: imageUrl,
                                 eggOrEggless: eggOrEggless,
                                 Price: Price,
                                 Ratings: Ratings,
@@ -180,5 +196,6 @@ const deleteCake = (req, res) => {
 module.exports = {
     addCake,
     updateCake,
-    deleteCake
+    deleteCake,
+    getcakelist
 }
