@@ -34,10 +34,10 @@ const addCake = (req, res) => {
     const ShapesLists = req.body.ShapesLists;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
-    const CreatedOn = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        if (req.file === undefined || Title === undefined && Description === undefined && TypeOfCake === undefined && Images === undefined && eggOrEggless === undefined && Price === undefined && Ratings === undefined && VendorID === undefined && VendorName === undefined && MobileNumberVendor === undefined && FlavorList === undefined && ShapesLists === undefined && CakeToppings === undefined && WeightList) {
+        if (req.file === undefined || Title === undefined  || Description === undefined  || TypeOfCake === undefined  || Images === undefined  || eggOrEggless === undefined  || Price === undefined  || Ratings === undefined  || VendorID === undefined  || VendorName === undefined  || MobileNumberVendor === undefined  || FlavorList === undefined  || ShapesLists === undefined  || CakeToppings === undefined  || WeightList=== undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
             cloudinary.uploader.upload(req.file.path, function (err, result) {
@@ -60,7 +60,7 @@ const addCake = (req, res) => {
                         ShapesLists: ShapesLists,
                         CakeToppings: CakeToppings,
                         WeightList: WeightList,
-                        CreatedOn: CreatedOn,
+                        Created_On: Created_On,
                        
                     });
                     vendorValidate.save(function (err, result) {
@@ -96,7 +96,7 @@ const updateCake = (req, res) => {
     const ShapesLists = req.body.ShapesLists;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
-    const CreatedOn = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
         cakeModel.findById({ _id: id }, function (err, result) {
@@ -124,7 +124,7 @@ const updateCake = (req, res) => {
                                 ShapesLists: ShapesLists,
                                 CakeToppings: CakeToppings,
                                 WeightList: WeightList,
-                                CreatedOn: CreatedOn,
+                                Modified_On: Modified_On,
 
                             }
                         }, function (err, result) {
@@ -156,7 +156,7 @@ const updateCake = (req, res) => {
                                         ShapesLists: ShapesLists,
                                         CakeToppings: CakeToppings,
                                         WeightList: WeightList,
-                                        CreatedOn: CreatedOn,
+                                        Modified_On: Modified_On,
 
                                     }
                                 }, function (err, result) {

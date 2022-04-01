@@ -31,10 +31,10 @@ const CakeSchema = new mongoose.Schema({
     MobileNumberVendor: {
         type : String
     },
-    CreatedOn:{
+    Created_On:{
         type : String
     },
-    imageUrl:{
+    Modified_On:{
         type : String
     },
     FlavorList : {
