@@ -146,7 +146,7 @@ const loginValidate = (req, res) => {
                 } else {
                     const token = JWT.sign({
                         id: result._id
-                    }, 'secret123', { expiresIn: '7d' })
+                    }, 'secret123', { expiresIn: '10s' })
                     res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
                 }
             })
