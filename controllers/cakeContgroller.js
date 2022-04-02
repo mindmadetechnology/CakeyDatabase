@@ -38,9 +38,9 @@ const addCake = async (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         if (files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
-            res.send({ statusCode: 400, message: files })
+            res.send({ statusCode: 400, message: "*required" })
         } else {
-            // res.send({ statusCode: 400, message:  })
+            res.send({ statusCode: 400, message: files })
             var imageUrlList = [];
             // for (let i = 0; i < req.files.length; i++) {
             //     // Upload the local image to Cloudinary
