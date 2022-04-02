@@ -45,7 +45,7 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" })
         } else {
 
-            var imageUrlList = [];
+            var  imageUrlList =await [];
 
             for (var i = 0; i < req.files.length; i++) {
         
@@ -54,7 +54,7 @@ const addCake = async (req, res) => {
                 var result = await cloudinary.uploader.upload(req.files[i].path);
                  imageUrlList.push(result.url);
             }
-            res.send({ statusCode: 200, message: result.url })
+            res.send({ statusCode: 200, message: result })
             // var result=   cloudinary.uploader.upload(req.file.path);
             // const vendorValidate = new cakeModel({
             //     Title: Title,
