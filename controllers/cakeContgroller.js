@@ -42,10 +42,10 @@ const addCake = async (req, res) => {
         } else {
             // res.send({ statusCode: 400, message:  })
             var imageUrlList = [];
-            for (let i = 0; i < req.files.length; i++) {
+            for (let i = 0; i < files.length; i++) {
                 // Upload the local image to Cloudinary
                 // and get image url as response
-                var result = await cloudinary.uploader.upload(req.files[i].path);
+                var result = await cloudinary.uploader.upload(files[i].path);
                 imageUrlList.push(result.url);
             }
 
