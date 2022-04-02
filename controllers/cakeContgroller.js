@@ -20,7 +20,7 @@ const getcakelist = (req, res) => {
 
 
 //Add new vendors
-const addCake = async (req,files, res) => {
+const addCake = async (req, res) => {
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
@@ -39,7 +39,7 @@ const addCake = async (req,files, res) => {
         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
-            res.send({ statusCode: 400, message: files })
+            res.send({ statusCode: 400, message: req.files })
             var imageUrlList = [];
             // for (let i = 0; i < req.files.length; i++) {
             //     // Upload the local image to Cloudinary
