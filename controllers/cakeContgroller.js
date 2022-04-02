@@ -45,16 +45,16 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" })
         } else {
 
-            var  imageUrlList =await [];
+            var  imageUrlList = [];
 
-            for (var i = 0; i < req.files.length; i++) {
+            // for (var i = 0; i < req.files.length; i++) {
         
-                // Upload the local image to Cloudinary
-                // and get image url as response
-                var result = await cloudinary.uploader.upload(req.files[i].path);
-                 imageUrlList.push(result.url);
-            }
-            res.send({ statusCode: 200, message: result })
+            //     // Upload the local image to Cloudinary
+            //     // and get image url as response
+            //     var result = await cloudinary.uploader.upload(req.files[i].path);
+            //      imageUrlList.push(result.url);
+            // }
+            res.send({ statusCode: 200, message: req.files })
             // var result=   cloudinary.uploader.upload(req.file.path);
             // const vendorValidate = new cakeModel({
             //     Title: Title,
