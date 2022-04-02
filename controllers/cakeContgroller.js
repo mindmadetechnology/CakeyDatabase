@@ -20,7 +20,7 @@ const getcakelist = (req, res) => {
 
 
 //Add new vendors
-const addCake = (req, res) => {
+const addCake =async  (req, res) => {
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
@@ -36,43 +36,52 @@ const addCake = (req, res) => {
     const WeightList = req.body.WeightList;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
+
+   
+
+   
     try {
-        if (req.file === undefined || Title === undefined  || Description === undefined  || TypeOfCake === undefined  || eggOrEggless === undefined  || Price === undefined  || Ratings === undefined  || VendorID === undefined  || VendorName === undefined  || MobileNumberVendor === undefined  || FlavorList === undefined  || ShapesLists === undefined  || CakeToppings === undefined  || WeightList=== undefined) {
+        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
-            cloudinary.uploader.upload(req.file.path, function (err, result) {
+
+            var imageUrlList = [];
+
+            for (var i = 0; i < req.files.length; i++) {
+                var locaFilePath = req.files[i].path;
+        
+                // Upload the local image to Cloudinary
+                // and get image url as response
+                var result = await cloudinary.uploader.upload(locaFilePath);
+                imageUrlList.push(result.url);
+            }
+
+            // var result=   cloudinary.uploader.upload(req.file.path);
+            const vendorValidate = new cakeModel({
+                Title: Title,
+                Description: Description,
+                TypeOfCake: TypeOfCake,
+                Images: imageUrlList,
+                eggOrEggless: eggOrEggless,
+                Price: Price,
+                Ratings: Ratings,
+                VendorID: VendorID,
+                VendorName: VendorName,
+                MobileNumberVendor: MobileNumberVendor,
+                FlavorList: FlavorList,
+                ShapesLists: ShapesLists,
+                CakeToppings: CakeToppings,
+                WeightList: WeightList,
+                Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
+
+            });
+            vendorValidate.save(function (err, result) {
                 if (err) {
-                    res.send(err);
+                    res.send({ statusCode: 400, message: "Failed" });
                 } else {
-                    // res.send({ statusCode: 400, message: result })
-                    const vendorValidate = new cakeModel({
-                        Title: Title,
-                        Description: Description,
-                        TypeOfCake: TypeOfCake,
-                        Images: result.secure_url,
-                        eggOrEggless: eggOrEggless,
-                        Price: Price,
-                        Ratings: Ratings,
-                        VendorID: VendorID,
-                        VendorName: VendorName,
-                        MobileNumberVendor: MobileNumberVendor,
-                        FlavorList: FlavorList,
-                        ShapesLists: ShapesLists,
-                        CakeToppings: CakeToppings,
-                        WeightList: WeightList,
-                        Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
-                       
-                    });
-                    vendorValidate.save(function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Registered Successfully" })
-                        }
-                    });
+                    res.send({ statusCode: 200, message: imageUrlList })
                 }
             });
-
         }
     } catch (err) {
         console.log(err);
