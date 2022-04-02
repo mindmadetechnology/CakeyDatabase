@@ -55,33 +55,33 @@ const addCake =async  (req, res) => {
                 var result = await cloudinary.uploader.upload(locaFilePath);
                 imageUrlList.push(result.url);
             }
-
+            res.send({ statusCode: 200, message: locaFilePath })
             // var result=   cloudinary.uploader.upload(req.file.path);
-            const vendorValidate = new cakeModel({
-                Title: Title,
-                Description: Description,
-                TypeOfCake: TypeOfCake,
-                Images: imageUrlList,
-                eggOrEggless: eggOrEggless,
-                Price: Price,
-                Ratings: Ratings,
-                VendorID: VendorID,
-                VendorName: VendorName,
-                MobileNumberVendor: MobileNumberVendor,
-                FlavorList: FlavorList,
-                ShapesLists: ShapesLists,
-                CakeToppings: CakeToppings,
-                WeightList: WeightList,
-                Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
+            // const vendorValidate = new cakeModel({
+            //     Title: Title,
+            //     Description: Description,
+            //     TypeOfCake: TypeOfCake,
+            //     Images: imageUrlList,
+            //     eggOrEggless: eggOrEggless,
+            //     Price: Price,
+            //     Ratings: Ratings,
+            //     VendorID: VendorID,
+            //     VendorName: VendorName,
+            //     MobileNumberVendor: MobileNumberVendor,
+            //     FlavorList: FlavorList,
+            //     ShapesLists: ShapesLists,
+            //     CakeToppings: CakeToppings,
+            //     WeightList: WeightList,
+            //     Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
 
-            });
-            vendorValidate.save(function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else {
-                    res.send({ statusCode: 200, message: imageUrlList })
-                }
-            });
+            // });
+            // vendorValidate.save(function (err, result) {
+            //     if (err) {
+            //         res.send({ statusCode: 400, message: "Failed" });
+            //     } else {
+            //         res.send({ statusCode: 200, message: imageUrlList })
+            //     }
+            // });
         }
     } catch (err) {
         console.log(err);
