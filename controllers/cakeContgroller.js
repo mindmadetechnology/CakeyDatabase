@@ -34,7 +34,7 @@ const addCake = async (req, res) => {
     const ShapesLists = req.body.ShapesLists;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
-    const files=req.body.files
+    const files=req.files
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         if (files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
