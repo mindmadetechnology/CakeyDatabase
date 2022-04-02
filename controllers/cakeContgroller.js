@@ -41,10 +41,10 @@ const addCake = async (req, res) => {
 
 
     try {
-        if (req.file === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
+        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
-            res.send({ statusCode: 400, message: req.file })
+            res.send({ statusCode: 400, message: req.files })
             var imageUrlList = [];
 
             // for (let i = 0; i < req.files.length; i++) {
