@@ -20,7 +20,7 @@ const getcakelist = (req, res) => {
 
 
 //Add new vendors
-const addCake = async (req, res) => {
+const addCake = async (req,files, res) => {
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
@@ -35,20 +35,13 @@ const addCake = async (req, res) => {
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
-
-
-
-
     try {
         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
-            res.send({ statusCode: 400, message: req.files })
+            res.send({ statusCode: 400, message: files })
             var imageUrlList = [];
-
             // for (let i = 0; i < req.files.length; i++) {
-
             //     // Upload the local image to Cloudinary
             //     // and get image url as response
             //     var result = await cloudinary.uploader.upload(req.files[i].path);
@@ -143,7 +136,7 @@ const updateCake = (req, res) => {
                             }
                         });
                 } else {
-                    var imageUrlList=[];
+                    var imageUrlList = [];
 
                     for (let i = 0; i < req.files.length; i++) {
 
@@ -152,7 +145,7 @@ const updateCake = (req, res) => {
                         var result = cloudinary.uploader.upload(req.files[i].path);
                         imageUrlList.push(result.url);
                     }
-                    if(imageUrlList!==[]){
+                    if (imageUrlList !== []) {
                         cakeModel.findOneAndUpdate({ _id: id },
                             {
                                 $set: {
@@ -171,7 +164,7 @@ const updateCake = (req, res) => {
                                     CakeToppings: CakeToppings,
                                     WeightList: WeightList,
                                     Modified_On: Modified_On,
-    
+
                                 }
                             }, function (err, result) {
                                 if (err) {
@@ -181,19 +174,15 @@ const updateCake = (req, res) => {
                                 }
                             });
                     }
-                   
                 }
-
             }
         })
     } catch (err) {
         console.log(err);
     }
 }
-
 //delete vendors
 const deleteCake = (req, res) => {
-
     const id = req.params.id;
     const IsDeleted = 'y';
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
@@ -204,7 +193,6 @@ const deleteCake = (req, res) => {
             res.send({ statusCode: 200, message: "Deleted Successfully" })
         }
     })
-
 }
 module.exports = {
     addCake,
