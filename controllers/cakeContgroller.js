@@ -114,7 +114,7 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" })
             }
             else {
-                if (req.file === undefined || req.file === null) {
+                if (req.files === undefined || req.files === null) {
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
@@ -143,7 +143,7 @@ const updateCake = (req, res) => {
                             }
                         });
                 } else {
-                    var imageUrlList = [];
+                    var imageUrlList=[];
 
                     for (let i = 0; i < req.files.length; i++) {
 
