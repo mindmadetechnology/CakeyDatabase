@@ -20,7 +20,7 @@ const getcakelist = (req, res) => {
 
 
 //Add new vendors
-const addCake =async  (req, res) => {
+const addCake =  (req, res) => {
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
@@ -51,8 +51,8 @@ const addCake =async  (req, res) => {
         
                 // Upload the local image to Cloudinary
                 // and get image url as response
-                var result = await cloudinary.uploader.upload(req.files[i].path);
-                await imageUrlList.push(result.url);
+                var result =  cloudinary.uploader.upload(req.files[i].path);
+                 imageUrlList.push(result.url);
             }
             res.send({ statusCode: 200, message: imageUrlList })
             // var result=   cloudinary.uploader.upload(req.file.path);
