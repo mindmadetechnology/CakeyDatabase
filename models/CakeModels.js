@@ -4,51 +4,41 @@ const CakeSchema = new mongoose.Schema({
     Title: {
         type: String
     },
-    Description : {
-        type : String
+    Description: {
+        type: String
     },
-    TypeOfCake : {
-        type : String
+    TypeOfCake: {
+        type: String
     },
-    Images : {
-        Images1: {
-            type: String
-        },
-        Images2: {
-            type: String
-        },
-        Images3: {
-            type: String
-        },
-        Images4: {
-            type: String
-        }
-    },
-    eggOrEggless : {
-        type : String
+    Images: [{
+        type: String
+    }],
+
+    eggOrEggless: {
+        type: String
     },
     Price: {
-        type : String
+        type: String
     },
-    Ratings : {
-        type : String
+    Ratings: {
+        type: String
     },
-    VendorID  : {
-        type : String
+    VendorID: {
+        type: String
     },
     VendorName: {
-        type : String
+        type: String
     },
     MobileNumberVendor: {
-        type : String
+        type: String
     },
-    Created_On:{
-        type : String
+    Created_On: {
+        type: String
     },
-    Modified_On:{
-        type : String
+    Modified_On: {
+        type: String
     },
-    FlavorList : {
+    FlavorList: {
         flavor1: {
             type: String
         },
@@ -62,7 +52,7 @@ const CakeSchema = new mongoose.Schema({
             type: String
         }
     },
-    ShapesLists : {
+    ShapesLists: {
         Shape1: {
             type: String
         },
@@ -76,7 +66,7 @@ const CakeSchema = new mongoose.Schema({
             type: String
         }
     },
-    CakeToppings : {
+    CakeToppings: {
         Toppings1: {
             type: String
         },
@@ -90,7 +80,7 @@ const CakeSchema = new mongoose.Schema({
             type: String
         }
     },
-    WeightList : {
+    WeightList: {
         Weigth1: {
             type: String
         },
@@ -104,14 +94,14 @@ const CakeSchema = new mongoose.Schema({
             type: String
         }
     },
-    IsDeleted : {
-        type : String,
-        default : 'n'
+    IsDeleted: {
+        type: String,
+        default: 'n'
     },
-   
-   
+
+
 });
 
 const collectionName = 'CakeList';
 
-module.exports = mongoose.model('CakeList',CakeSchema,collectionName);
+module.exports = mongoose.model('CakeList', CakeSchema, collectionName);
