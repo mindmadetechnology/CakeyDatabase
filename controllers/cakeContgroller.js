@@ -37,24 +37,24 @@ const addCake = async (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
 
-   
 
-   
+
+
     try {
         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
 
-            var  imageUrlList = [];
+            var imageUrlList = [];
 
-            for(let i=0; i<req.files.length; i++){
-        
+            for (let i = 0; i < req.files.length; i++) {
+
                 // Upload the local image to Cloudinary
                 // and get image url as response
                 var result = await cloudinary.uploader.upload(req.files[i].path);
-                 imageUrlList.push(result.url);
+                imageUrlList.push(result.url);
             }
-          
+
             // var result=   cloudinary.uploader.upload(req.file.path);
             const vendorValidate = new cakeModel({
                 Title: Title,
@@ -88,7 +88,7 @@ const addCake = async (req, res) => {
 };
 
 //Update vendor's details
-const updateCake = (req, res) => {
+const updateCake =async (req, res) => {
     const id = req.params.id;
     const Title = req.body.Title;
     const Description = req.body.Description;
@@ -143,40 +143,45 @@ const updateCake = (req, res) => {
                             }
                         });
                 } else {
-                    cloudinary.uploader.upload(req.file.path, function (err, result) {
-                        if (err) {
-                            res.send(err);
-                        } else {
-                            cakeModel.findOneAndUpdate({ _id: id },
-                                {
-                                    $set: {
-                                        Title: Title,
-                                        Description: Description,
-                                        TypeOfCake: TypeOfCake,
-                                        Images: result.secure_url,
-                                        eggOrEggless: eggOrEggless,
-                                        Price: Price,
-                                        Ratings: Ratings,
-                                        VendorID: VendorID,
-                                        VendorName: VendorName,
-                                        MobileNumberVendor: MobileNumberVendor,
-                                        FlavorList: FlavorList,
-                                        ShapesLists: ShapesLists,
-                                        CakeToppings: CakeToppings,
-                                        WeightList: WeightList,
-                                        Modified_On: Modified_On,
+                    var imageUrlList = [];
 
-                                    }
-                                }, function (err, result) {
-                                    if (err) {
-                                        res.send({ statusCode: 400, message: "Failed" });
-                                    } else {
-                                        res.send({ statusCode: 200, message: "Updated Successfully" });
-                                    }
-                                });
-                        }
+                    for (let i = 0; i < req.files.length; i++) {
+
+                        // Upload the local image to Cloudinary
+                        // and get image url as response
+                        var result = await cloudinary.uploader.upload(req.files[i].path);
+                        imageUrlList.push(result.url);
                     }
-                    );
+                    cakeModel.findOneAndUpdate({ _id: id },
+                        {
+                            $set: {
+                                Title: Title,
+                                Description: Description,
+                                TypeOfCake: TypeOfCake,
+                                Images: imageUrlList,
+                                eggOrEggless: eggOrEggless,
+                                Price: Price,
+                                Ratings: Ratings,
+                                VendorID: VendorID,
+                                VendorName: VendorName,
+                                MobileNumberVendor: MobileNumberVendor,
+                                FlavorList: FlavorList,
+                                ShapesLists: ShapesLists,
+                                CakeToppings: CakeToppings,
+                                WeightList: WeightList,
+                                Modified_On: Modified_On,
+
+                            }
+                        }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+
+
+
                 }
 
             }
