@@ -10,9 +10,9 @@ const CakeSchema = new mongoose.Schema({
     TypeOfCake: {
         type: String
     },
-    Images: [
-
-    ],
+    Images: [{
+        type: String
+    }],
 
     eggOrEggless: {
         type: String
@@ -38,10 +38,18 @@ const CakeSchema = new mongoose.Schema({
     Modified_On: {
         type: String
     },
-    FlavorList: [],
-    ShapesLists: [],
-    CakeToppings: [],
-    WeightList: [],
+    FlavorList: [{
+        type: String
+    }],
+    ShapesLists: [{
+        type: String
+    }],
+    CakeToppings: [{
+        type: String
+    }],
+    WeightList: [{
+        type: String
+    }],
     IsDeleted: {
         type: String,
         default: 'n'
