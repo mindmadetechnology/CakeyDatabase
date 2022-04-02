@@ -47,40 +47,40 @@ const addCake = async (req, res) => {
 
             var  imageUrlList = [];
 
-            // for (var i = 0; i < req.files.length; i++) {
+            for(let i=0; i<req.files.length; i++){
         
-            //     // Upload the local image to Cloudinary
-            //     // and get image url as response
-            //     var result = await cloudinary.uploader.upload(req.files[i].path);
-            //      imageUrlList.push(result.url);
-            // }
-            res.send({ statusCode: 200, message: req.files })
+                // Upload the local image to Cloudinary
+                // and get image url as response
+                var result = await cloudinary.uploader.upload(req.files[i].path);
+                 imageUrlList.push(result.url);
+            }
+          
             // var result=   cloudinary.uploader.upload(req.file.path);
-            // const vendorValidate = new cakeModel({
-            //     Title: Title,
-            //     Description: Description,
-            //     TypeOfCake: TypeOfCake,
-            //     Images: imageUrlList,
-            //     eggOrEggless: eggOrEggless,
-            //     Price: Price,
-            //     Ratings: Ratings,
-            //     VendorID: VendorID,
-            //     VendorName: VendorName,
-            //     MobileNumberVendor: MobileNumberVendor,
-            //     FlavorList: FlavorList,
-            //     ShapesLists: ShapesLists,
-            //     CakeToppings: CakeToppings,
-            //     WeightList: WeightList,
-            //     Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
+            const vendorValidate = new cakeModel({
+                Title: Title,
+                Description: Description,
+                TypeOfCake: TypeOfCake,
+                Images: imageUrlList,
+                eggOrEggless: eggOrEggless,
+                Price: Price,
+                Ratings: Ratings,
+                VendorID: VendorID,
+                VendorName: VendorName,
+                MobileNumberVendor: MobileNumberVendor,
+                FlavorList: FlavorList,
+                ShapesLists: ShapesLists,
+                CakeToppings: CakeToppings,
+                WeightList: WeightList,
+                Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
 
-            // });
-            // vendorValidate.save(function (err, result) {
-            //     if (err) {
-            //         res.send({ statusCode: 400, message: "Failed" });
-            //     } else {
-            //         res.send({ statusCode: 200, message: imageUrlList })
-            //     }
-            // });
+            });
+            vendorValidate.save(function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    res.send({ statusCode: 200, message: imageUrlList })
+                }
+            });
         }
     } catch (err) {
         console.log(err);
