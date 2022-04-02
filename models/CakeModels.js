@@ -11,7 +11,18 @@ const CakeSchema = new mongoose.Schema({
         type : String
     },
     Images : {
-        type : String
+        Images1: {
+            type: String
+        },
+        Images2: {
+            type: String
+        },
+        Images3: {
+            type: String
+        },
+        Images4: {
+            type: String
+        }
     },
     eggOrEggless : {
         type : String
