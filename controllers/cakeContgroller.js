@@ -6,9 +6,7 @@ const cloudinary = require("../middleware/cloudnary");
 
 
 // get cake list
-
 const getcakelist = (req, res) => {
-
     cakeModel.find({}, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
@@ -18,7 +16,18 @@ const getcakelist = (req, res) => {
     })
 };
 
+// get single details using id
+const getCakeDetails = (req, res) => {
+    const id = req.params.id;
+    cakeModel.findById({ _id: id }, function (err, result) {
 
+        if (err) {
+            res.send({ statusCode: 400, message: "Failed" })
+        } else {
+            res.send(result)
+        }
+    })
+}
 //Add new vendors
 const addCake = async (req, res) => {
     const Title = req.body.Title;
@@ -198,5 +207,6 @@ module.exports = {
     addCake,
     updateCake,
     deleteCake,
-    getcakelist
+    getcakelist,
+    getCakeDetails
 }
