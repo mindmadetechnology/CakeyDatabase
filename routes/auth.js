@@ -68,7 +68,7 @@ router.put("/vendors/delete/:id", deleteVendors);
 //Get all cakes
 router.get("/cake/list", getcakelist);
 // get cake details
-router.get("/cake/details/:id",getCakeDetails)
+router.get("/cake/list/:id",getCakeDetails)
 //Create new vendor
 router.post("/cake/new",upload.array("files"), addCake);
 
