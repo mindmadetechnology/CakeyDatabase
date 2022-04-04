@@ -106,16 +106,15 @@ const updateCake = (req, res) => {
     const ShapesLists = req.body.ShapesLists;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
-    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");                 
 
     try {
-        cakeModel.findById({ _id: id }, function (err, result) {
+        cakeModel.findById({ _id: id },async function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" })
             } else if (result === null) {
                 res.send({ statusCode: 400, message: "Failed" })
-            }
-            else {
+            }else {
                 if (req.files === undefined || req.files === null) {
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
@@ -144,14 +143,53 @@ const updateCake = (req, res) => {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
                         });
-                } else {
+                } else if(req.files && imageUrl !== null){
+
+                    var imageUrlList = [...JSON.parse(imageUrl)];
+
+                    for (let i = 0; i < req.files.length; i++) {
+                      await cloudinary.uploader.upload(req.files[i].path,function(err,result){
+                            imageUrlList.push(result.url);
+                        })         
+                    }
+                    
+                    if (imageUrlList !== []) {
+                        cakeModel.findOneAndUpdate({ _id: id },
+                            {
+                                $set: {
+                                    Title: Title,
+                                    Description: Description,
+                                    TypeOfCake: TypeOfCake,
+                                    Images: imageUrlList,
+                                    eggOrEggless: eggOrEggless,
+                                    Price: Price,
+                                    Ratings: Ratings,
+                                    VendorID: VendorID,
+                                    VendorName: VendorName,
+                                    MobileNumberVendor: MobileNumberVendor,
+                                    FlavorList: FlavorList,
+                                    ShapesLists: ShapesLists,
+                                    CakeToppings: CakeToppings,
+                                    WeightList: WeightList,
+                                    Modified_On: Modified_On,
+
+                                }
+                            }, function (err, result) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    res.send({ statusCode: 200, message: "Updated Successfully" });
+                                }
+                            });
+                    }
+                }else {
                     var imageUrlList = [];
 
                     for (let i = 0; i < req.files.length; i++) {
 
                         // Upload the local image to Cloudinary
                         // and get image url as response
-                        var result = cloudinary.uploader.upload(req.files[i].path);
+                        var result = await cloudinary.uploader.upload(req.files[i].path);
                         imageUrlList.push(result.url);
                     }
                     if (imageUrlList !== []) {
