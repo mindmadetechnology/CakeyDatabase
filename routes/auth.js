@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 app.options('*', cors())
 const { getUsers,putUsers,validateUsers, getUsersbyPhoneNumber } = require('../controllers/userController');
 const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
-const { addCake,updateCake,deleteCake,getcakelist,getCakeDetails}=require('../controllers/cakeContgroller')
+const { addCake,updateCake,deleteCake,getcakelist,getCakeDetails}=require('../controllers/cakeController')
 //Get all vendors
 router.get("/admin/list/:email", getAdminbyEmail);
 

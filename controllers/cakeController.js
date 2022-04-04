@@ -38,7 +38,7 @@ const addCake = async (req, res) => {
     const Ratings = req.body.Ratings;
     const VendorID = req.body.VendorID;
     const VendorName = req.body.VendorName;
-    const VendorMobileNumber = req.body.VendorMobileNumber;
+    const VendorPhoneNumber = req.body.VendorPhoneNumber;
     const FlavourList = req.body.FlavourList;
     const ShapeList = req.body.ShapeList;
     const CakeToppings = req.body.CakeToppings;
@@ -46,7 +46,7 @@ const addCake = async (req, res) => {
     const Stock = req.body.Stock;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || VendorMobileNumber === undefined || FlavourList === undefined || ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined) {
+        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined || ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
             // res.send({ statusCode: 400, message: req.files })
@@ -69,7 +69,7 @@ const addCake = async (req, res) => {
                 Ratings: Ratings,
                 VendorID: VendorID,
                 VendorName: VendorName,
-                VendorMobileNumber: VendorMobileNumber,
+                VendorPhoneNumber: VendorPhoneNumber,
                 FlavourList: FlavourList,
                 ShapeList: ShapeList,
                 CakeToppings: CakeToppings,
@@ -103,7 +103,7 @@ const updateCake = (req, res) => {
     const Ratings = req.body.Ratings;
     const VendorID = req.body.VendorID;
     const VendorName = req.body.VendorName;
-    const VendorMobileNumber = req.body.VendorMobileNumber;
+    const VendorPhoneNumber = req.body.VendorPhoneNumber;
     const FlavourList = req.body.FlavourList;
     const ShapeList = req.body.ShapeList;
     const CakeToppings = req.body.CakeToppings;
@@ -131,7 +131,7 @@ const updateCake = (req, res) => {
                                 Ratings: Ratings,
                                 VendorID: VendorID,
                                 VendorName: VendorName,
-                                VendorMobileNumber: VendorMobileNumber,
+                                VendorPhoneNumber: VendorPhoneNumber,
                                 FlavourList: FlavourList,
                                 ShapeList: ShapeList,
                                 CakeToppings: CakeToppings,
@@ -170,7 +170,7 @@ const updateCake = (req, res) => {
                                     Ratings: Ratings,
                                     VendorID: VendorID,
                                     VendorName: VendorName,
-                                    VendorMobileNumber: VendorMobileNumber,
+                                    VendorPhoneNumber: VendorPhoneNumber,
                                     FlavourList: FlavourList,
                                     ShapeList: ShapeList,
                                     CakeToppings: CakeToppings,
@@ -210,7 +210,7 @@ const updateCake = (req, res) => {
                                     Ratings: Ratings,
                                     VendorID: VendorID,
                                     VendorName: VendorName,
-                                    VendorMobileNumber: VendorMobileNumber,
+                                    VendorPhoneNumber: VendorPhoneNumber,
                                     FlavourList: FlavourList,
                                     ShapeList: ShapeList,
                                     CakeToppings: CakeToppings,
