@@ -29,7 +29,7 @@ const CakeSchema = new mongoose.Schema({
     VendorName: {
         type: String
     },
-    MobileNumberVendor: {
+    VendorMobileNumber: {
         type: String
     },
     Created_On: {
@@ -41,7 +41,7 @@ const CakeSchema = new mongoose.Schema({
     FlavorList: [{
         type: String
     }],
-    ShapesLists: [{
+    ShapesList: [{
         type: String
     }],
     CakeToppings: [{

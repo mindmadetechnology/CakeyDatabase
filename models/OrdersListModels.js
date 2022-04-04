@@ -28,7 +28,7 @@ const OrderSchema = new mongoose.Schema({
     MobileNumberCustomer : {
         type : String,
     },
-    MobileNumberVendor : {
+    VendorMobileNumber : {
         type : String,
     },
     CustomerID : {
