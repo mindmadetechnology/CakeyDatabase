@@ -13,7 +13,7 @@ const OrderSchema = new mongoose.Schema({
     CakeImage : {
         type : String,
     },
-    eggOrEggless : {
+    EggOrEggless : {
         type : String,
     },
     Price: {

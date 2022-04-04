@@ -33,7 +33,7 @@ const addCake = async (req, res) => {
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
-    const eggOrEggless = req.body.eggOrEggless;
+    const EggOrEggless = req.body.EggOrEggless;
     const Price = req.body.Price;
     const Ratings = req.body.Ratings;
     const VendorID = req.body.VendorID;
@@ -45,7 +45,7 @@ const addCake = async (req, res) => {
     const WeightList = req.body.WeightList;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || eggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
+        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || MobileNumberVendor === undefined || FlavorList === undefined || ShapesLists === undefined || CakeToppings === undefined || WeightList === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
             // res.send({ statusCode: 400, message: req.files })
@@ -63,7 +63,7 @@ const addCake = async (req, res) => {
                 Description: Description,
                 TypeOfCake: TypeOfCake,
                 Images: imageUrlList,
-                eggOrEggless: eggOrEggless,
+                EggOrEggless: EggOrEggless,
                 Price: Price,
                 Ratings: Ratings,
                 VendorID: VendorID,
@@ -96,7 +96,7 @@ const updateCake = (req, res) => {
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
     const imageUrl = req.body.imageUrl;
-    const eggOrEggless = req.body.eggOrEggless;
+    const EggOrEggless = req.body.EggOrEggless;
     const Price = req.body.Price;
     const Ratings = req.body.Ratings;
     const VendorID = req.body.VendorID;
@@ -123,7 +123,7 @@ const updateCake = (req, res) => {
                                 Description: Description,
                                 TypeOfCake: TypeOfCake,
                                 Images: imageUrl,
-                                eggOrEggless: eggOrEggless,
+                                EggOrEggless: EggOrEggless,
                                 Price: Price,
                                 Ratings: Ratings,
                                 VendorID: VendorID,
@@ -161,7 +161,7 @@ const updateCake = (req, res) => {
                                     Description: Description,
                                     TypeOfCake: TypeOfCake,
                                     Images: imageUrlList,
-                                    eggOrEggless: eggOrEggless,
+                                    EggOrEggless: EggOrEggless,
                                     Price: Price,
                                     Ratings: Ratings,
                                     VendorID: VendorID,
@@ -200,7 +200,7 @@ const updateCake = (req, res) => {
                                     Description: Description,
                                     TypeOfCake: TypeOfCake,
                                     Images: imageUrlList,
-                                    eggOrEggless: eggOrEggless,
+                                    EggOrEggless: EggOrEggless,
                                     Price: Price,
                                     Ratings: Ratings,
                                     VendorID: VendorID,

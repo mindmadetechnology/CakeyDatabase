@@ -14,7 +14,7 @@ const CakeSchema = new mongoose.Schema({
         type: String
     }],
 
-    eggOrEggless: {
+    EggOrEggless: {
         type: String
     },
     Price: {
