@@ -38,7 +38,7 @@ const CakeSchema = new mongoose.Schema({
     Modified_On: {
         type: String
     },
-    FlavorList: [{
+    FlavourList: [{
         type: String
     }],
     ShapesList: [{

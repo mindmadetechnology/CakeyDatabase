@@ -39,13 +39,13 @@ const addCake = async (req, res) => {
     const VendorID = req.body.VendorID;
     const VendorName = req.body.VendorName;
     const VendorMobileNumber = req.body.VendorMobileNumber;
-    const FlavorList = req.body.FlavorList;
+    const FlavourList = req.body.FlavourList;
     const ShapesList = req.body.ShapesList;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || VendorMobileNumber === undefined || FlavorList === undefined || ShapesList === undefined || CakeToppings === undefined || WeightList === undefined) {
+        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || VendorMobileNumber === undefined || FlavourList === undefined || ShapesList === undefined || CakeToppings === undefined || WeightList === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
             // res.send({ statusCode: 400, message: req.files })
@@ -69,7 +69,7 @@ const addCake = async (req, res) => {
                 VendorID: VendorID,
                 VendorName: VendorName,
                 VendorMobileNumber: VendorMobileNumber,
-                FlavorList: FlavorList,
+                FlavourList: FlavourList,
                 ShapesList: ShapesList,
                 CakeToppings: CakeToppings,
                 WeightList: WeightList,
@@ -102,7 +102,7 @@ const updateCake = (req, res) => {
     const VendorID = req.body.VendorID;
     const VendorName = req.body.VendorName;
     const VendorMobileNumber = req.body.VendorMobileNumber;
-    const FlavorList = req.body.FlavorList;
+    const FlavourList = req.body.FlavourList;
     const ShapesList = req.body.ShapesList;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
@@ -129,7 +129,7 @@ const updateCake = (req, res) => {
                                 VendorID: VendorID,
                                 VendorName: VendorName,
                                 VendorMobileNumber: VendorMobileNumber,
-                                FlavorList: FlavorList,
+                                FlavourList: FlavourList,
                                 ShapesList: ShapesList,
                                 CakeToppings: CakeToppings,
                                 WeightList: WeightList,
@@ -167,7 +167,7 @@ const updateCake = (req, res) => {
                                     VendorID: VendorID,
                                     VendorName: VendorName,
                                     VendorMobileNumber: VendorMobileNumber,
-                                    FlavorList: FlavorList,
+                                    FlavourList: FlavourList,
                                     ShapesList: ShapesList,
                                     CakeToppings: CakeToppings,
                                     WeightList: WeightList,
@@ -206,7 +206,7 @@ const updateCake = (req, res) => {
                                     VendorID: VendorID,
                                     VendorName: VendorName,
                                     VendorMobileNumber: VendorMobileNumber,
-                                    FlavorList: FlavorList,
+                                    FlavourList: FlavourList,
                                     ShapesList: ShapesList,
                                     CakeToppings: CakeToppings,
                                     WeightList: WeightList,
