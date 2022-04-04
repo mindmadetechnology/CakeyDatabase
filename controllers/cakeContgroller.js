@@ -43,9 +43,10 @@ const addCake = async (req, res) => {
     const ShapeList = req.body.ShapeList;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
+    const Stock = req.body.Stock;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || VendorMobileNumber === undefined || FlavourList === undefined || ShapeList === undefined || CakeToppings === undefined || WeightList === undefined) {
+        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || VendorName === undefined || VendorMobileNumber === undefined || FlavourList === undefined || ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined) {
             res.send({ statusCode: 400, message: "*required" })
         } else {
             // res.send({ statusCode: 400, message: req.files })
@@ -73,6 +74,7 @@ const addCake = async (req, res) => {
                 ShapeList: ShapeList,
                 CakeToppings: CakeToppings,
                 WeightList: WeightList,
+                Stock : Stock,
                 Created_On: Created_On
 
             });
@@ -106,6 +108,7 @@ const updateCake = (req, res) => {
     const ShapeList = req.body.ShapeList;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
+    const Stock = req.body.Stock;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");                 
 
     try {
@@ -133,6 +136,7 @@ const updateCake = (req, res) => {
                                 ShapeList: ShapeList,
                                 CakeToppings: CakeToppings,
                                 WeightList: WeightList,
+                                Stock : Stock,
                                 Modified_On: Modified_On,
 
                             }
@@ -171,6 +175,7 @@ const updateCake = (req, res) => {
                                     ShapeList: ShapeList,
                                     CakeToppings: CakeToppings,
                                     WeightList: WeightList,
+                                    Stock : Stock,
                                     Modified_On: Modified_On,
 
                                 }
@@ -210,6 +215,7 @@ const updateCake = (req, res) => {
                                     ShapeList: ShapeList,
                                     CakeToppings: CakeToppings,
                                     WeightList: WeightList,
+                                    Stock : Stock,
                                     Modified_On: Modified_On,
 
                                 }

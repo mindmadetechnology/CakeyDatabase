@@ -50,6 +50,9 @@ const CakeSchema = new mongoose.Schema({
     WeightList: [{
         type: String
     }],
+    Stock : {
+        type : String
+    },
     IsDeleted: {
         type: String,
         default: 'n'
