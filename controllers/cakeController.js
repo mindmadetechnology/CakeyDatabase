@@ -7,7 +7,7 @@ const cloudinary = require("../middleware/cloudnary");
 
 // get cake list
 const getcakelist = (req, res) => {
-    cakeModel.find({}, function (err, result) {
+    cakeModel.find({ IsDeleted: 'n' }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
