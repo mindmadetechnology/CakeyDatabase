@@ -16,6 +16,18 @@ const getcakelist = (req, res) => {
     })
 };
 
+// get cake list
+const getcakelistByVendorName = (req, res) => {
+    const VendorName = req.params.VendorName;
+    cakeModel.find({ VendorName : VendorName , IsDeleted: 'n' }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            res.send(result);
+        }
+    })
+};
+
 // get single details using id
 const getCakeDetails = (req, res) => {
     const id = req.params.id;
@@ -252,5 +264,6 @@ module.exports = {
     updateCake,
     deleteCake,
     getcakelist,
-    getCakeDetails
+    getCakeDetails,
+    getcakelistByVendorName
 }

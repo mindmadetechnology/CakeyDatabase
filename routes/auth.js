@@ -20,12 +20,17 @@ app.use(cors(corsOptions));
 app.options('*', cors())
 const { getUsers,putUsers,validateUsers, getUsersbyPhoneNumber } = require('../controllers/userController');
 const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
-const { addCake,updateCake,deleteCake,getcakelist,getCakeDetails}=require('../controllers/cakeController')
+const { addCake,updateCake,deleteCake,getcakelist,getCakeDetails, getcakelistByVendorName } = require('../controllers/cakeController');
+
+//Admin API
+
 //Get all vendors
 router.get("/admin/list/:email", getAdminbyEmail);
 
 //Update admin's details
 router.put("/admin/update/:id",upload.single("file"), putAdmin);
+
+//Users API
 
 //Get all users
 router.get("/users/list", getUsers);
@@ -39,11 +44,15 @@ router.put("/users/update/:userId",upload.single("file"),putUsers);
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
 
+//Login & Forgot password API
+
 //login for admin and vendors
 router.post("/login/validate", loginValidate);
 
 //forgot password
 router.put("/forgotpassword/:email", forgotPassword);
+
+//Vendors API
 
 //Get all vendors
 router.get("/vendors/list", getVendors);
@@ -63,12 +72,15 @@ router.put("/vendors/delete/:id", deleteVendors);
 
 // Cake API
 
-
-
 //Get all cakes
 router.get("/cake/list", getcakelist);
+
 // get cake details
-router.get("/cake/list/:id",getCakeDetails)
+router.get("/cake/list/:id",getCakeDetails);
+
+// get cake details based on vendorname
+router.get("/cake/listbyName/:VendorName",getcakelistByVendorName);
+
 //Create new vendor
 router.post("/cake/new",upload.array("files"), addCake);
 
