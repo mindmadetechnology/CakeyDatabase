@@ -19,7 +19,7 @@ const corsOptions ={
 app.use(cors(corsOptions));
 app.options('*', cors())
 const { getUsers,putUsers,validateUsers, getUsersbyPhoneNumber } = require('../controllers/userController');
-const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors } = require('../controllers/admin&vendorController');
+const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors, verifyToken } = require('../controllers/admin&vendorController');
 const { addCake,updateCake,deleteCake,getcakelist,getCakeDetails, getcakelistByVendorName } = require('../controllers/cakeController');
 
 //Admin API
@@ -48,6 +48,9 @@ router.post("/userslogin/validate", validateUsers);
 
 //login for admin and vendors
 router.post("/login/validate", loginValidate);
+
+//verify token
+router.get("/verifytoken/:token", verifyToken);
 
 //forgot password
 router.put("/forgotpassword/:email", forgotPassword);

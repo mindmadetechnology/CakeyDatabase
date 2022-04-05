@@ -4,6 +4,7 @@ const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 const { transporter } = require('../middleware/nodemailer');
+
 //Get Admin details by email
 const getAdminbyEmail = (req, res) => {
 
@@ -155,8 +156,35 @@ const loginValidate = (req, res) => {
         } else {
             const token = JWT.sign({
                 id: result._id
-            }, 'secret123', { expiresIn: '7d' })
+            }, 'secret123', { expiresIn:  60 * 60 * 96})
             res.send({ statusCode: 200, message: "Login Succeed", type: 'admin', token: token });
+        }
+    })
+};
+
+//verify token
+const verifyToken = (req, res) => {
+
+    const token = req.params.token;
+    const decodeToken = JWT.decode(token);
+   
+    adminModel.findById({ _id: decodeToken.id }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
+        } 
+        if(result===null) {
+            vendorModel.findById({ _id: decodeToken.id }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
+                } 
+                if(result===null) {
+                    res.send({statusCode : 400,message : "Invalid token"});
+                }else{
+                    res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp})
+                }
+            })
+        }else{
+            res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp})
         }
     })
 };
@@ -411,6 +439,7 @@ module.exports = {
     getAdminbyEmail,
     putAdmin,
     loginValidate,
+    verifyToken,
     forgotPassword,
     getVendors,
     getVendorsbyEmail,
