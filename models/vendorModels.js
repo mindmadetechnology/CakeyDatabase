@@ -4,29 +4,36 @@ const VendorSchema = new mongoose.Schema({
     Email: {
         type: String,
     },
-    Password : {
+    Password: {
         type : String,
     },
-    VendorName : {
+    VendorName: {
         type : String,
     },
-    Address : {
+    Address: {
         type : String,
     },
-    PhoneNumber : {
+    PhoneNumber: {
+        type : String,
+    },
+    ProfileBanner: {
+        data: Buffer,
+        contentType: String
+    },
+    Description:{
         type : String,
     },
     ProfileImage: {
         data: Buffer,
         contentType: String
     },
-    Created_On : {
+    Created_On: {
         type : String,
     },
-    Modified_On : {
+    Modified_On: {
         type : String,
     },
-    IsDeleted : {
+    IsDeleted: {
         type : String,
         default : 'n'
     }

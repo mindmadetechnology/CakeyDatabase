@@ -7,7 +7,6 @@ const { transporter } = require('../middleware/nodemailer');
 
 //Get Admin details by email
 const getAdminbyEmail = (req, res) => {
-
     const Email = req.params.email;
     adminModel.find({ Email: Email }, function (err, result) {
         if (err) {
@@ -17,14 +16,11 @@ const getAdminbyEmail = (req, res) => {
         }
     })
 };
-
 //Update admin's details
 const putAdmin = async (req, res) => {
-
     const id = req.params.id;
     const Email = req.body.Email;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         if (req.file === undefined) {
             adminModel.findById({ _id: id }, function (err, result) {
@@ -64,7 +60,6 @@ const putAdmin = async (req, res) => {
             })
         } else {
             const imagesUrl = await cloudinary.uploader.upload(req.file.path);
-
             adminModel.findById({ _id: id }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" })
@@ -109,7 +104,6 @@ const putAdmin = async (req, res) => {
 
 //Get all Vendors
 const getVendors = (req, res) => {
-
     vendorModel.find({ IsDeleted: 'n' }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
@@ -118,7 +112,6 @@ const getVendors = (req, res) => {
         }
     })
 };
-
 //Get Vendor details by email
 const getVendorsbyEmail = (req, res) => {
     const Email = req.params.email;
@@ -130,10 +123,8 @@ const getVendorsbyEmail = (req, res) => {
         }
     })
 };
-
 //login for admin and vendors
 const loginValidate = (req, res) => {
-
     const Email = req.body.Email;
     const Password = req.body.Password;
 
