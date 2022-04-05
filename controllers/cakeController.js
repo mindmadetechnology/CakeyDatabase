@@ -161,7 +161,7 @@ const updateCake = (req, res) => {
                         });
                 } else if(req.files && imageUrl !== null){
 
-                    var imageUrlList = [...JSON.parse(imageUrl)];
+                    var imageUrlList = [imageUrl];
 
                     for (let i = 0; i < req.files.length; i++) {
                       await cloudinary.uploader.upload(req.files[i].path,function(err,result){
