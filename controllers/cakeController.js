@@ -160,8 +160,11 @@ const updateCake = (req, res) => {
                             }
                         });
                 } else {
-
-                    var imageUrlList = imageUrl;
+                    if (imageUrl === null || imageUrl === undefined || imageUrl === []) {
+                        var imageUrlList = [];
+                    } else {
+                        var imageUrlList = imageUrl
+                    }
 
                     for (let i = 0; i < req.files.length; i++) {
                         await cloudinary.uploader.upload(req.files[i].path, function (err, result) {
