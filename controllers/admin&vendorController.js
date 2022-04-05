@@ -170,12 +170,12 @@ const verifyToken = (req, res) => {
    
     adminModel.findById({ _id: decodeToken.id }, function (err, result) {
         if (err) {
-            res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
+            res.send({ statusCode: 400, message: "Failed" });
         } 
         if(result===null) {
             vendorModel.findById({ _id: decodeToken.id }, function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "There was a problem adding the information to the database." });
+                    res.send({ statusCode: 400, message: "Failed" });
                 } 
                 if(result===null) {
                     res.send({statusCode : 400,message : "Invalid token"});
