@@ -180,11 +180,11 @@ const verifyToken = (req, res) => {
                 if(result===null) {
                     res.send({statusCode : 400,message : "Invalid token"});
                 }else{
-                    res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp})
+                    res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp, type : 'vendor'})
                 }
             })
         }else{
-            res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp})
+            res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp, type : 'admin'})
         }
     })
 };
