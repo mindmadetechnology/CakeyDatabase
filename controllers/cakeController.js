@@ -181,40 +181,40 @@ const updateCake = (req, res) => {
                     } else {
                         var imageUrlList = Images;
                     }
-                    res.send({ statusCode: 400, message: req.files });
-                    // for (let i = 0; i < req.files.length; i++) {
-                    //     await cloudinary.uploader.upload(req.files[i].path, function (err, result) {
-                    //         imageUrlList.push(result.url);
-                    //     });
-                    // };
-                    // cakeModel.findOneAndUpdate({ _id: id },
-                    //     {
-                    //         $set: {
-                    //             Title: Title,
-                    //             Description: Description,
-                    //             TypeOfCake: TypeOfCake,
-                    //             Images: imageUrlList,
-                    //             EggOrEggless: EggOrEggless,
-                    //             Price: Price,
-                    //             Ratings: Ratings,
-                    //             VendorID: VendorID,
-                    //             VendorName: VendorName,
-                    //             VendorPhoneNumber: VendorPhoneNumber,
-                    //             FlavourList: FlavourList,
-                    //             ShapeList: ShapeList,
-                    //             CakeToppings: CakeToppings,
-                    //             WeightList: WeightList,
-                    //             Stock: Stock,
-                    //             Modified_On: Modified_On,
+                    // res.send({ statusCode: 400, message: req.files });
+                    for (let i = 0; i < req.files.length; i++) {
+                        await cloudinary.uploader.upload(req.files[i].path, function (err, result) {
+                            imageUrlList.push(result.url);
+                        });
+                    };
+                    cakeModel.findOneAndUpdate({ _id: id },
+                        {
+                            $set: {
+                                Title: Title,
+                                Description: Description,
+                                TypeOfCake: TypeOfCake,
+                                Images: imageUrlList,
+                                EggOrEggless: EggOrEggless,
+                                Price: Price,
+                                Ratings: Ratings,
+                                VendorID: VendorID,
+                                VendorName: VendorName,
+                                VendorPhoneNumber: VendorPhoneNumber,
+                                FlavourList: FlavourList,
+                                ShapeList: ShapeList,
+                                CakeToppings: CakeToppings,
+                                WeightList: WeightList,
+                                Stock: Stock,
+                                Modified_On: Modified_On,
 
-                    //         }
-                    //     }, function (err, result) {
-                    //         if (err) {
-                    //             res.send({ statusCode: 400, message: "Failed" });
-                    //         } else {
-                    //             res.send({ statusCode: 200, message: "Updated Successfully" });
-                    //         }
-                    //     });
+                            }
+                        }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
                 }
             }
         });
