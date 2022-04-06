@@ -20,9 +20,9 @@ const getcakelistByVendorName = (req, res) => {
 
     const VendorName = req.params.VendorName;
 
-    cakeModel.find({ 
-        VendorName: VendorName, 
-        IsDeleted: 'n' 
+    cakeModel.find({
+        VendorName: VendorName,
+        IsDeleted: 'n'
     }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
@@ -69,11 +69,11 @@ const addCake = async (req, res) => {
 
     try {
 
-        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined || 
-            EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined || 
-            VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined || 
+        if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
+            EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined ||
+            VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined ||
             ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined) {
-                res.send({ statusCode: 400, message: "*required" });
+            res.send({ statusCode: 400, message: "*required" });
         } else {
             var imageUrlList = [];
             for (let i = 0; i < req.files.length; i++) {
@@ -176,11 +176,12 @@ const updateCake = (req, res) => {
                 } else {
 
                     res.send({ statusCode: 200, message: "rgtrsyrts" });
-                    // if (Images === null || Images === undefined || Images === []) {
-                    //     var imageUrlList = [];
-                    // } else {
-                    //     var imageUrlList = Images;
-                    // }
+                    if (Images === null || Images === undefined || Images === []) {
+                        var imageUrlList = [];
+                    } else {
+                        var imageUrlList = Images;
+                    }
+                    res.send({ statusCode: 400, message: req.files });
                     // for (let i = 0; i < req.files.length; i++) {
                     //     await cloudinary.uploader.upload(req.files[i].path, function (err, result) {
                     //         imageUrlList.push(result.url);
@@ -231,17 +232,19 @@ const deleteCake = (req, res) => {
     const IsDeleted = 'y';
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    cakeModel.findOneAndUpdate({ _id: id }, 
-        { $set: { 
-            IsDeleted: IsDeleted, 
-            Modified_On: Modified_On 
-        } }, function (err, result) {
+    cakeModel.findOneAndUpdate({ _id: id },
+        {
+            $set: {
+                IsDeleted: IsDeleted,
+                Modified_On: Modified_On
+            }
+        }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
                 res.send({ statusCode: 200, message: "Deleted Successfully" });
             }
-    });
+        });
 
 };
 
