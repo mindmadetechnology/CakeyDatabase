@@ -170,7 +170,7 @@ const loginValidate = (req, res) => {
                 } else {
                     const token = JWT.sign({
                         id: result._id
-                    }, 'secret123', { expiresIn: 30 })
+                    }, 'secret123', { expiresIn: 60 * 60 * 96 })
                     res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
                 }
             });
@@ -179,7 +179,7 @@ const loginValidate = (req, res) => {
         } else {
             const token = JWT.sign({
                 id: result._id
-            }, 'secret123', { expiresIn:  30 })
+            }, 'secret123', { expiresIn:  60 * 60 * 96 })
             res.send({ statusCode: 200, message: "Login Succeed", type: 'admin', token: token });
         }
     });

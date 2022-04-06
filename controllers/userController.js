@@ -160,7 +160,7 @@ const validateUsers = (req, res) => {
             } else {
                 const uservalidate = new userModel({
                     PhoneNumber: PhoneNumber,
-                    Created_On
+                    Created_On :Created_On
                 });
 
                 uservalidate.save(function (err, result) {
@@ -176,7 +176,7 @@ const validateUsers = (req, res) => {
         } else {
             const token = JWT.sign({
                 id: result._id
-            }, 'secret123', { expiresIn: '7d' });
+            }, 'secret123', { expiresIn: 60 * 60 * 96 });
             res.send({ statusCode: 200, message: "Login Succeed", token: token });
         }
     });
