@@ -175,7 +175,7 @@ const updateCake = (req, res) => {
                         });
                 } else {
 
-                    res.send({ statusCode: 200, message: "rgtrsyrts" });
+                    // res.send({ statusCode: 200, message: "rgtrsyrts" });
                     if (Images === null || Images === undefined || Images === []) {
                         var imageUrlList = [];
                     } else {
