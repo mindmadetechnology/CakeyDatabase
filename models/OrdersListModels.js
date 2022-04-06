@@ -56,6 +56,12 @@ const OrderSchema = new mongoose.Schema({
     DeliveryAddress: {
         type : String,
     },
+    DeliveryDate : {
+        type : String,
+    },
+    DeliverySession : {
+        type : String,
+    },
     VendorAddress : {
         type : String,
     },
@@ -90,7 +96,7 @@ const OrderSchema = new mongoose.Schema({
     Status_Updated_On : {
         type : String,
     },
-    
+
 });
 
 const collectionName = 'OrdersList';

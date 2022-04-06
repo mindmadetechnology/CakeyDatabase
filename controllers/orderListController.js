@@ -80,6 +80,8 @@ const newOrder = (req, res) => {
     const UserName = req.body.UserName;
     const UserPhoneNumber = req.body.UserPhoneNumber;
     const DeliveryAddress = req.body.DeliveryAddress;
+    const DeliveryDate = req.body.DeliveryDate;
+    const DeliverySession = req.body.DeliverySession;
     const VendorAddress = req.body.VendorAddress;
     const ItemCount = req.body.ItemCount;
     const Total = req.body.Total;
@@ -117,6 +119,8 @@ const newOrder = (req, res) => {
                 UserName: UserName,
                 UserPhoneNumber: UserPhoneNumber,
                 DeliveryAddress: DeliveryAddress,
+                DeliveryDate : DeliveryDate,
+                DeliverySession : DeliverySession,
                 VendorAddress: VendorAddress,
                 ItemCount: ItemCount,
                 Total: Total,
@@ -226,5 +230,5 @@ module.exports = {
     newOrder,
     updateOrder,
     updateOrderStatus,
-    
+
 };
