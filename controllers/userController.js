@@ -38,6 +38,10 @@ const putUsers = async (req, res) => {
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
+        // for (let i = 0; i < req.files.length; i++) {
+        //     await cloudinary.uploader.upload(req.files[i].path, function (err, result) {
+        //         imageUrlList.push(result.url);
+        //     })
         if (req.file === undefined) {
             userModel.findById({ _id: userId }, function (err, result) {
                 if (err) {
@@ -50,7 +54,9 @@ const putUsers = async (req, res) => {
                             if (UserName !== "" && Address !== "") {
 
                                 userModel.findOneAndUpdate({ _id: userId },
-                                    { $set: { UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                                    { $set: { UserName: UserName, 
+                                              Address: Address, 
+                                              Modified_On: Modified_On } }, function (err, result) {
                                         if (err) {
                                             res.send({ statusCode: 400, message: "Failed" });
                                         } else {

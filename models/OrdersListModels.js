@@ -10,7 +10,7 @@ const OrderSchema = new mongoose.Schema({
     Description : {
         type : String,
     },
-    CakeImage : {
+    Images : {
         type : String,
     },
     EggOrEggless : {
@@ -25,22 +25,22 @@ const OrderSchema = new mongoose.Schema({
     VendorName : {
         type : String,
     },
-    MobileNumberCustomer : {
-        type : String,
-    },
     VendorPhoneNumber : {
         type : String,
-    },
-    CustomerID : {
+    }, 
+    UserID : {
         type : String,
     },
-    CustomerName : {
+    UserName : {
+        type : String,
+    },
+    UserPhoneNumber : {
         type : String,
     },
     DeliveryAddress: {
         type : String,
     },
-    VendorAddressDiscussing : {
+    VendorAddress : {
         type : String,
     },
     ItemCount : {
@@ -52,7 +52,7 @@ const OrderSchema = new mongoose.Schema({
     DeliveryCharge: {
         type : String,
     },
-    StatusPreparingDeliveredWithTimeCancelled : {
+    Status : {
         type : String,
     },
     PaymentType : {

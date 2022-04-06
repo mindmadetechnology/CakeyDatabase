@@ -11,7 +11,19 @@ const VendorSchema = new mongoose.Schema({
         type : String,
     },
     Address: {
-        type : String,
+        // type : String
+        Street: {
+            type: String
+        },
+        City: {
+            type: String
+        },
+        District: {
+            type: String
+        },
+        Pincode : {
+            type : Number
+        }
     },
     PhoneNumber: {
         type : String,
@@ -26,6 +38,9 @@ const VendorSchema = new mongoose.Schema({
     ProfileImage: {
         data: Buffer,
         contentType: String
+    },
+    DeliveryCharge : {
+        type : String
     },
     Created_On: {
         type : String,

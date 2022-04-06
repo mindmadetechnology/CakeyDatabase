@@ -194,34 +194,42 @@ const addVendors = (req, res) => {
     const Email = req.body.Email;
     const Password = req.body.Password;
     const VendorName = req.body.VendorName;
-    const Address = req.body.Address;
+    const Street = req.body.Street;
+    const City = req.body.City;
+    const District = req.body.District;
+    const Pincode = req.body.Pincode;
     const PhoneNumber = req.body.PhoneNumber;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     adminModel.findOne({ Email: Email }, function (err, result) {
         if (err) {
-            res.send({ statusCode: 400, message: "Failed" });
+            res.send({ statusCode: 400, message: "Failed1" });
 
         } else if (result === null) {
             vendorModel.findOne({ Email: Email }, function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
+                    res.send({ statusCode: 400, message: "Failed2" });
 
                 } else if (result === null) {
-                    if (Email === undefined || VendorName === undefined || Address === undefined || PhoneNumber === undefined || Password === undefined) {
+                    if (Email === undefined || VendorName === undefined || Street === undefined || City ===undefined || District === undefined || Pincode === undefined || PhoneNumber === undefined || Password === undefined) {
                         res.send({ statusCode: 400, message: "*required" });
                     } else {
                         const vendorValidate = new vendorModel({
                             Email: Email,
                             Password: Password,
                             VendorName: VendorName,
-                            Address: Address,
+                            Address: {
+                                Street : Street,
+                                City : City,
+                                District : District,
+                                Pincode : Pincode
+                            },
                             PhoneNumber: PhoneNumber,
                             Created_On: Created_On
                         });
                         vendorValidate.save(function (err, result) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
+                                res.send({ statusCode: 400, message: err });
                             } else {
                                 res.send({ statusCode: 200, message: "Registered Successfully" })
                             }
@@ -244,8 +252,13 @@ const putVendors = async (req, res) => {
     const Email = req.body.Email;
     const Password = req.body.Password;
     const VendorName = req.body.VendorName;
-    const Address = req.body.Address;
+    const Street = req.body.Street;
+    const City = req.body.City;
+    const District = req.body.District;
+    const Pincode = req.body.Pincode;
     const PhoneNumber = req.body.PhoneNumber;
+    const DeliveryCharge = req.body.DeliveryCharge;
+    const Description = req.body.Description;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     if (req.file === undefined) {
@@ -254,7 +267,19 @@ const putVendors = async (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" })
             } else if (result.Email === Email) {
                 vendorModel.findOneAndUpdate({ _id: id },
-                    { $set: { Email: Email, Password: Password, VendorName: VendorName, Address: Address, PhoneNumber: PhoneNumber, Modified_On: Modified_On } }, function (err, result) {
+                    { $set: { Email: Email, 
+                              Password: Password, 
+                              VendorName: VendorName, 
+                              Address: {
+                                Street : Street,
+                                City : City,
+                                District : District,
+                                Pincode : Pincode
+                            },
+                              PhoneNumber: PhoneNumber, 
+                              DeliveryCharge:DeliveryCharge,
+                              Description : Description, 
+                              Modified_On: Modified_On } }, function (err, result) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
@@ -267,7 +292,19 @@ const putVendors = async (req, res) => {
                         vendorModel.findOne({ Email: Email }, function (err, result) {
                             if (result === null) {
                                 vendorModel.findOneAndUpdate({ _id: id },
-                                    { $set: { Email: Email, Password: Password, VendorName: VendorName, Address: Address, PhoneNumber: PhoneNumber, Modified_On: Modified_On } }, function (err, result) {
+                                    { $set: { Email: Email, 
+                                              Password: Password, 
+                                              VendorName: VendorName, 
+                                              Address: {
+                                                Street : Street,
+                                                City : City,
+                                                District : District,
+                                                Pincode : Pincode
+                                            }, 
+                                              PhoneNumber: PhoneNumber,
+                                              DeliveryCharge:DeliveryCharge, 
+                                              Description : Description, 
+                                              Modified_On: Modified_On } }, function (err, result) {
                                         if (err) {
                                             res.send({ statusCode: 400, message: "Failed" });
                                         } else {
@@ -292,7 +329,19 @@ const putVendors = async (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" })
             } else if (result.Email === Email) {
                 vendorModel.findOneAndUpdate({ _id: id },
-                    { $set: { Email: Email, Password: Password, VendorName: VendorName, Address: Address, PhoneNumber: PhoneNumber, ProfileImage: imagesUrl.secure_url, Modified_On: Modified_On } }, function (err, result) {
+                    { $set: { Email: Email, 
+                              Password: Password, 
+                              VendorName: VendorName, 
+                              Address: {
+                                Street : Street,
+                                City : City,
+                                District : District,
+                                Pincode : Pincode
+                            },
+                              PhoneNumber: PhoneNumber,
+                              DeliveryCharge:DeliveryCharge, 
+                              ProfileImage: imagesUrl.secure_url, 
+                              Modified_On: Modified_On } }, function (err, result) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
@@ -306,7 +355,19 @@ const putVendors = async (req, res) => {
                         vendorModel.findOne({ Email: Email }, function (err, result) {
                             if (result === null) {
                                 vendorModel.findOneAndUpdate({ _id: id },
-                                    { $set: { Email: Email, Password: Password, VendorName: VendorName, Address: Address, PhoneNumber: PhoneNumber, ProfileImage: imagesUrl.secure_url, Modified_On: Modified_On } }, function (err, result) {
+                                    { $set: { Email: Email, 
+                                              Password: Password, 
+                                              VendorName: VendorName, 
+                                              Address: {
+                                                Street : Street,
+                                                City : City,
+                                                District : District,
+                                                Pincode : Pincode
+                                            }, 
+                                              PhoneNumber: PhoneNumber,
+                                              DeliveryCharge:DeliveryCharge, 
+                                              ProfileImage: imagesUrl.secure_url,
+                                              Modified_On: Modified_On } }, function (err, result) {
                                         if (err) {
                                             res.send({ statusCode: 400, message: "Failed" });
                                         } else {
