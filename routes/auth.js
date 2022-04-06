@@ -17,10 +17,47 @@ const corsOptions ={
     optionSuccessStatus:200
 };
 app.use(cors(corsOptions));
-app.options('*', cors())
-const { getUsers,putUsers,validateUsers, getUsersbyPhoneNumber } = require('../controllers/userController');
-const { getAdminbyEmail,putAdmin,loginValidate, forgotPassword, getVendors,getVendorsbyEmail, addVendors, putVendors,deleteVendors, verifyToken } = require('../controllers/admin&vendorController');
-const { addCake,updateCake,deleteCake,getcakelist,getCakeDetails, getcakelistByVendorName } = require('../controllers/cakeController');
+app.options('*', cors());
+
+const { 
+    getUsers,
+    putUsers,
+    validateUsers, 
+    getUsersbyPhoneNumber 
+} = require('../controllers/userController');
+
+const { 
+    getAdminbyEmail,
+    putAdmin,
+    loginValidate, 
+    forgotPassword, 
+    getVendors,
+    getVendorsbyEmail, 
+    addVendors, 
+    putVendors,
+    deleteVendors, 
+    verifyToken 
+} = require('../controllers/admin&vendorController');
+
+const { 
+    addCake,
+    updateCake,
+    deleteCake,
+    getcakelist,
+    getCakeDetails, 
+    getcakelistByVendorName 
+} = require('../controllers/cakeController');
+
+const { 
+    getOrdersList, 
+    newOrder, 
+    updateOrder, 
+    updateOrderStatus,
+    getOrdersListById,
+    getOrdersListByUserID,
+    getOrdersListByVendorId 
+} = require('../controllers/orderListController');
+
 
 //Admin API
 
@@ -29,6 +66,7 @@ router.get("/admin/list/:email", getAdminbyEmail);
 
 //Update admin's details
 router.put("/admin/update/:id",upload.single("file"), putAdmin);
+
 
 //Users API
 
@@ -44,6 +82,7 @@ router.put("/users/update/:userId",upload.single("file"),putUsers);
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
 
+
 //Login & Forgot password API
 
 //login for admin and vendors
@@ -54,6 +93,7 @@ router.get("/verifytoken/:token", verifyToken);
 
 //forgot password
 router.put("/forgotpassword/:email", forgotPassword);
+
 
 //Vendors API
 
@@ -93,6 +133,29 @@ router.put("/cake/update/:id",upload.array("files"), updateCake);
 //Delete vendor
 router.put("/cake/delete/:id", deleteCake);
 
+
+//Cake order API
+
+//get orders list
+router.get('/order/list',getOrdersList);
+
+//get order's list based on orderId
+router.get('/order/list/:id',getOrdersListById);
+
+//get order list based on userId
+router.get('/order/listbyuserid/:userid',getOrdersListByUserID); 
+
+//get order list based on vendorId
+router.get('/order/listbyvendorid/:vendorid',getOrdersListByVendorId); 
+
+//Add new order
+router.post('/order/new',newOrder);
+
+//update order details
+router.put('/order/update/:id',updateOrder);
+
+//update order status
+router.put('/order/updatestatus/:id',updateOrderStatus);
 
 
 module.exports = router;

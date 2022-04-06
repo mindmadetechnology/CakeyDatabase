@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
+
     ProfileImage: {
         data: Buffer,
         contentType: String
@@ -32,6 +33,7 @@ const UserSchema = new mongoose.Schema({
     Modified_On : {
         type : String,
     }
+    
 });
 
 const collectionName = 'users';

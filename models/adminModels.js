@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const AdminSchema = new mongoose.Schema({
+
     Email: {
         type: String,
     },
@@ -14,6 +15,7 @@ const AdminSchema = new mongoose.Schema({
     Modified_On : {
         type : String,
     }
+    
 });
 
 const collectionName = 'admin';

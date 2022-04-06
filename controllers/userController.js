@@ -12,7 +12,8 @@ const getUsers = (req, res) => {
         } else {
             res.send(result);
         }
-    })
+    });
+
 };
 
 //Get user details by id
@@ -26,7 +27,7 @@ const getUsersbyPhoneNumber = (req, res) => {
         } else {
             res.send(result);
         }
-    })
+    });
 };
 
 //Update user's details
@@ -38,10 +39,7 @@ const putUsers = async (req, res) => {
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        // for (let i = 0; i < req.files.length; i++) {
-        //     await cloudinary.uploader.upload(req.files[i].path, function (err, result) {
-        //         imageUrlList.push(result.url);
-        //     })
+
         if (req.file === undefined) {
             userModel.findById({ _id: userId }, function (err, result) {
                 if (err) {
@@ -52,11 +50,14 @@ const putUsers = async (req, res) => {
                             res.send({ statusCode: 400, message: "*required" });
                         } else {
                             if (UserName !== "" && Address !== "") {
-
                                 userModel.findOneAndUpdate({ _id: userId },
-                                    { $set: { UserName: UserName, 
-                                              Address: Address, 
-                                              Modified_On: Modified_On } }, function (err, result) {
+                                    {
+                                        $set: {
+                                            UserName: UserName,
+                                            Address: Address,
+                                            Modified_On: Modified_On
+                                        }
+                                    }, function (err, result) {
                                         if (err) {
                                             res.send({ statusCode: 400, message: "Failed" });
                                         } else {
@@ -69,9 +70,12 @@ const putUsers = async (req, res) => {
                         }
                     } else {
                         if (UserName !== "" && Address !== "") {
-
                             userModel.findOneAndUpdate({ _id: userId },
-                                { $set: { UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                                { $set: { 
+                                    UserName: UserName, 
+                                    Address: Address, 
+                                    Modified_On: Modified_On 
+                                } }, function (err, result) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
@@ -83,9 +87,9 @@ const putUsers = async (req, res) => {
                         }
                     }
                 }
-            })
+            });
         } else {
-            const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+            const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 270, height: 270, crop: "fill" });
 
             userModel.findById({ _id: userId }, function (err, result) {
                 if (err) {
@@ -98,7 +102,12 @@ const putUsers = async (req, res) => {
                             if (UserName !== "" && Address !== "") {
 
                                 userModel.findOneAndUpdate({ _id: userId },
-                                    { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                                    { $set: { 
+                                        ProfileImage: imagesUrl.secure_url, 
+                                        UserName: UserName, 
+                                        Address: Address, 
+                                        Modified_On: Modified_On 
+                                    } }, function (err, result) {
                                         if (err) {
                                             res.send({ statusCode: 400, message: "Failed" });
                                         } else {
@@ -111,9 +120,13 @@ const putUsers = async (req, res) => {
                         }
                     } else {
                         if (UserName !== "" && Address !== "") {
-
                             userModel.findOneAndUpdate({ _id: userId },
-                                { $set: { ProfileImage: imagesUrl.secure_url, UserName: UserName, Address: Address, Modified_On: Modified_On } }, function (err, result) {
+                                { $set: { 
+                                    ProfileImage: imagesUrl.secure_url, 
+                                    UserName: UserName, 
+                                    Address: Address, 
+                                    Modified_On: Modified_On 
+                                } }, function (err, result) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
@@ -125,11 +138,13 @@ const putUsers = async (req, res) => {
                         }
                     }
                 }
-            })
+            });
         }
+
     } catch (err) {
-        console.log(err);
-    }
+        return err;
+    };
+
 };
 
 //Validate the user -> If phonenumber is exists login else register
@@ -147,6 +162,7 @@ const validateUsers = (req, res) => {
                     PhoneNumber: PhoneNumber,
                     Created_On
                 });
+
                 uservalidate.save(function (err, result) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
@@ -164,6 +180,7 @@ const validateUsers = (req, res) => {
             res.send({ statusCode: 200, message: "Login Succeed", token: token });
         }
     });
+    
 };
 
 // var fs = require('fs');

@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
+
+    CakeID : {
+        type : String
+    },
     Title: {
         type: String,
     },
@@ -17,6 +21,18 @@ const OrderSchema = new mongoose.Schema({
         type : String,
     },
     Price: {
+        type : String,
+    },
+    Flavour : {
+        type : String,
+    },
+    Shape : {
+        type : String,
+    },
+    CakeToppings: [{
+        type: String
+    }],
+    Weight : {
         type : String,
     },
     VendorID : {
@@ -44,7 +60,7 @@ const OrderSchema = new mongoose.Schema({
         type : String,
     },
     ItemCount : {
-        type : String,
+        type : Number,
     },
     Total : {
         type : String,
@@ -54,6 +70,7 @@ const OrderSchema = new mongoose.Schema({
     },
     Status : {
         type : String,
+        default : 'Order Placed'
     },
     PaymentType : {
         type : String,
@@ -63,7 +80,17 @@ const OrderSchema = new mongoose.Schema({
     },
     Discount : {
         type : String,
-    }
+    },
+    Created_On: {
+        type: String
+    },
+    Modified_On: {
+        type: String
+    },
+    Status_Updated_On : {
+        type : String,
+    },
+    
 });
 
 const collectionName = 'OrdersList';

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const VendorSchema = new mongoose.Schema({
+
     Email: {
         type: String,
     },
@@ -52,6 +53,7 @@ const VendorSchema = new mongoose.Schema({
         type : String,
         default : 'n'
     }
+    
 });
 
 const collectionName = 'vendors';

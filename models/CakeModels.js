@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const CakeSchema = new mongoose.Schema({
+
     Title: {
         type: String
     },
@@ -57,7 +58,6 @@ const CakeSchema = new mongoose.Schema({
         type: String,
         default: 'n'
     },
-
 
 });
 
