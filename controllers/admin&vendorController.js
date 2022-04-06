@@ -340,6 +340,7 @@ const putVendors = async (req, res) => {
                             },
                               PhoneNumber: PhoneNumber,
                               DeliveryCharge:DeliveryCharge, 
+                              Description : Description, 
                               ProfileImage: imagesUrl.secure_url, 
                               Modified_On: Modified_On } }, function (err, result) {
                         if (err) {
@@ -365,7 +366,8 @@ const putVendors = async (req, res) => {
                                                 Pincode : Pincode
                                             }, 
                                               PhoneNumber: PhoneNumber,
-                                              DeliveryCharge:DeliveryCharge, 
+                                              DeliveryCharge:DeliveryCharge,
+                                              Description : Description,  
                                               ProfileImage: imagesUrl.secure_url,
                                               Modified_On: Modified_On } }, function (err, result) {
                                         if (err) {
