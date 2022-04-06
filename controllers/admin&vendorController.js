@@ -363,7 +363,7 @@ const putVendors = async (req, res) => {
             }
         });
     } else {
-        const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 270, height: 270, crop: "fill" });
+        const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 185, height: 185, crop: "fill" });
 
         vendorModel.findById({ _id: id }, function (err, result) {
             if (err) {
