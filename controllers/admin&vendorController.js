@@ -169,7 +169,8 @@ const loginValidate = (req, res) => {
                     res.send({ statusCode: 400, message: "error" });
                 } else {
                     const token = JWT.sign({
-                        id: result._id
+                        id: result._id,
+                        Email : result.Email
                     }, 'secret123', { expiresIn: 60 * 60 * 96 })
                     res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
                 }
@@ -178,7 +179,8 @@ const loginValidate = (req, res) => {
             res.send({ statusCode: 400, message: "error" });
         } else {
             const token = JWT.sign({
-                id: result._id
+                id: result._id,
+                Email : result.Email
             }, 'secret123', { expiresIn:  60 * 60 * 96 })
             res.send({ statusCode: 200, message: "Login Succeed", type: 'admin', token: token });
         }
@@ -207,7 +209,7 @@ const verifyToken = (req, res) => {
                     if(decodeToken.exp < Date.now()/1000){
                         res.send({statusCode : 400,message : "Invalid token"});
                     }else{
-                        res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp, type : 'vendor'});
+                        res.send({statusCode : 200, Email : result.Email, _id : result._id, type : 'vendor'});
                     }    
                 }
             });
@@ -215,7 +217,7 @@ const verifyToken = (req, res) => {
             if(decodeToken.exp < Date.now()/1000){
                 res.send({statusCode : 400,message : "Invalid token"});
             }else{
-                res.send({statusCode : 200, Email : result.Email, _id : result._id, exp : decodeToken.exp, type : 'admin'});
+                res.send({statusCode : 200, Email : result.Email, _id : result._id, type : 'admin'});
             }  
         }
     });
