@@ -217,7 +217,7 @@ const verifyToken = (req, res) => {
             if(decodeToken.exp < Date.now()/1000){
                 res.send({statusCode : 400,message : "Invalid token"});
             }else{
-                res.send({statusCode : 200, Email : result.Email, _id : result._id, type : 'admin'});
+                res.send({statusCode : 200, result : result, type : 'admin'});
             }  
         }
     });
