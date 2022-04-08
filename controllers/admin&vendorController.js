@@ -25,6 +25,7 @@ const putAdmin = async (req, res) => {
 
     const id = req.params.id;
     const Email = req.body.Email;
+    const AdminName = req.body.AdminName;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -37,6 +38,7 @@ const putAdmin = async (req, res) => {
                     adminModel.findOneAndUpdate({ _id: id },
                         { $set: { 
                             Email: Email, 
+                            AdminName : AdminName,
                             Modified_On: Modified_On 
                         } }, function (err, result) {
                             if (err) {
@@ -52,7 +54,8 @@ const putAdmin = async (req, res) => {
                                 if (result === null) {
                                     adminModel.findOneAndUpdate({ _id: id },
                                         { $set: { 
-                                            Email: Email, 
+                                            Email: Email,
+                                            AdminName : AdminName, 
                                             Modified_On: Modified_On 
                                         } }, function (err, result) {
                                             if (err) {
@@ -80,6 +83,7 @@ const putAdmin = async (req, res) => {
                     adminModel.findOneAndUpdate({ _id: id },
                         { $set: { 
                             ProfileImage: imagesUrl.secure_url, 
+                            AdminName : AdminName,
                             Modified_On: Modified_On 
                         } }, function (err, result) {
                             if (err) {
@@ -96,6 +100,7 @@ const putAdmin = async (req, res) => {
                                     adminModel.findOneAndUpdate({ _id: id },
                                         { $set: { 
                                             Email: Email, 
+                                            AdminName : AdminName,
                                             ProfileImage: imagesUrl.secure_url, 
                                             Modified_On: Modified_On 
                                         } }, function (err, result) {
