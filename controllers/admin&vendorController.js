@@ -26,6 +26,7 @@ const putAdmin = async (req, res) => {
     const id = req.params.id;
     const Email = req.body.Email;
     const AdminName = req.body.AdminName;
+    const Password = req.body.Password;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -39,6 +40,7 @@ const putAdmin = async (req, res) => {
                         { $set: { 
                             Email: Email, 
                             AdminName : AdminName,
+                            Password : Password,
                             Modified_On: Modified_On 
                         } }, function (err, result) {
                             if (err) {
@@ -55,7 +57,8 @@ const putAdmin = async (req, res) => {
                                     adminModel.findOneAndUpdate({ _id: id },
                                         { $set: { 
                                             Email: Email,
-                                            AdminName : AdminName, 
+                                            AdminName : AdminName,
+                                            Password : Password, 
                                             Modified_On: Modified_On 
                                         } }, function (err, result) {
                                             if (err) {
@@ -82,8 +85,10 @@ const putAdmin = async (req, res) => {
                 } else if (result.Email === Email) {
                     adminModel.findOneAndUpdate({ _id: id },
                         { $set: { 
+                            Email: Email,
                             ProfileImage: imagesUrl.secure_url, 
                             AdminName : AdminName,
+                            Password : Password,
                             Modified_On: Modified_On 
                         } }, function (err, result) {
                             if (err) {
@@ -101,6 +106,7 @@ const putAdmin = async (req, res) => {
                                         { $set: { 
                                             Email: Email, 
                                             AdminName : AdminName,
+                                            Password : Password,
                                             ProfileImage: imagesUrl.secure_url, 
                                             Modified_On: Modified_On 
                                         } }, function (err, result) {
