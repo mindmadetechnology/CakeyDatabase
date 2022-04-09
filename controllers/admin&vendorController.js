@@ -21,7 +21,7 @@ const getAdminbyEmail = (req, res) => {
 };
 
 //Update admin's details
-const putAdmin = async (req, res) => {
+const putAdmin =  (req, res) => {
 
     const id = req.params.id;
     const Email = req.body.Email;
@@ -32,7 +32,7 @@ const putAdmin = async (req, res) => {
     try {
 
         if (req.file === undefined) {
-            adminModel.findById({ _id: id }, function (err, result) {
+            adminModel.findById({ _id: id },async function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
                 } else if (result.Email === Email) {
