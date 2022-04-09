@@ -21,7 +21,7 @@ const getAdminbyEmail = (req, res) => {
 };
 
 //Update admin's details
-const putAdmin =  (req, res) => {
+const putAdmin =async  (req, res) => {
 
     const id = req.params.id;
     const Email = req.body.Email;
@@ -31,53 +31,7 @@ const putAdmin =  (req, res) => {
 
     try {
 
-        if (req.file === undefined) {
-            adminModel.findById({ _id: id },async function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else if (result.Email === Email) {
-                    adminModel.findOneAndUpdate({ _id: id },
-                        { $set: { 
-                            Email: Email, 
-                            AdminName : AdminName,
-                            Password : Password,
-                            Modified_On: Modified_On 
-                        } }, function (err, result) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
-                            } else {
-                                res.send({ statusCode: 200, message: "Updated Successfully" });
-                            }
-                        });
-                } else {
-                    adminModel.findOne({ Email: Email }, function (err, result) {
-                        if (result === null) {
-                            vendorModel.findOne({ Email: Email }, function (err, result) {
-                                if (result === null) {
-                                    adminModel.findOneAndUpdate({ _id: id },
-                                        { $set: { 
-                                            Email: Email,
-                                            AdminName : AdminName,
-                                            Password : Password, 
-                                            Modified_On: Modified_On 
-                                        } }, function (err, result) {
-                                            if (err) {
-                                                res.send({ statusCode: 400, message: "Failed" });
-                                            } else {
-                                                res.send({ statusCode: 200, message: "Updated Successfully" });
-                                            }
-                                        });
-                                } else {
-                                    res.send({ statusCode: 400, message: "Email already Exist" });
-                                }
-                            })
-                        } else {
-                            res.send({ statusCode: 400, message: "Email already Exist" });
-                        }
-                    });
-                }
-            });
-        } else {
+        if (req.file !== undefined) {
             const imagesUrl = await cloudinary.uploader.upload(req.file.path);
             adminModel.findById({ _id: id }, function (err, result) {
                 if (err) {
@@ -120,6 +74,52 @@ const putAdmin =  (req, res) => {
                                     res.send({ statusCode: 400, message: "Email already Exist" });
                                 }
                             });
+                        } else {
+                            res.send({ statusCode: 400, message: "Email already Exist" });
+                        }
+                    });
+                }
+            });
+        } else {
+             adminModel.findById({ _id: id }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else if (result.Email === Email) {
+                    adminModel.findOneAndUpdate({ _id: id },
+                        { $set: { 
+                            Email: Email, 
+                            AdminName : AdminName,
+                            Password : Password,
+                            Modified_On: Modified_On 
+                        } }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+                } else {
+                    adminModel.findOne({ Email: Email }, function (err, result) {
+                        if (result === null) {
+                            vendorModel.findOne({ Email: Email }, function (err, result) {
+                                if (result === null) {
+                                    adminModel.findOneAndUpdate({ _id: id },
+                                        { $set: { 
+                                            Email: Email,
+                                            AdminName : AdminName,
+                                            Password : Password, 
+                                            Modified_On: Modified_On 
+                                        } }, function (err, result) {
+                                            if (err) {
+                                                res.send({ statusCode: 400, message: "Failed" });
+                                            } else {
+                                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                                            }
+                                        });
+                                } else {
+                                    res.send({ statusCode: 400, message: "Email already Exist" });
+                                }
+                            })
                         } else {
                             res.send({ statusCode: 400, message: "Email already Exist" });
                         }
