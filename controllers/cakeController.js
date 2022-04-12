@@ -30,6 +30,22 @@ const getcakelistByVendorName = (req, res) => {
             res.send(result);
         }
     });
+};
+
+const getcakelistByVendorId = (req,res) => {
+
+    const VendorId = req.params.VendorId;
+
+    cakeModel.find({
+        _id: VendorId,
+        IsDeleted: 'n'
+    }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            res.send(result);
+        }
+    });
 
 };
 
@@ -269,6 +285,7 @@ module.exports = {
     deleteCake,
     getcakelist,
     getCakeDetails,
-    getcakelistByVendorName
+    getcakelistByVendorName,
+    getcakelistByVendorId
 
 };

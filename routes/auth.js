@@ -45,7 +45,8 @@ const {
     deleteCake,
     getcakelist,
     getCakeDetails, 
-    getcakelistByVendorName 
+    getcakelistByVendorName,
+    getcakelistByVendorId 
 } = require('../controllers/cakeController');
 
 const { 
@@ -123,6 +124,9 @@ router.get("/cake/list/:id",getCakeDetails);
 
 // get cake details based on vendorname
 router.get("/cake/listbyName/:VendorName",getcakelistByVendorName);
+
+// get cake details based on vendorId
+router.get("/cake/listbyId/:VendorId",getcakelistByVendorId);
 
 //Create new vendor
 router.post("/cake/new",upload.array("files"), addCake);
