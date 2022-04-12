@@ -35,6 +35,12 @@ const OrderSchema = new mongoose.Schema({
     Weight : {
         type : String,
     },
+    MessageOnTheCake : {
+        type : String,
+    },
+    SpecialRequest : {
+        type : String,
+    },
     VendorID : {
         type : String,
     },

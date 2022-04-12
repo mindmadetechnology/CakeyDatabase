@@ -88,6 +88,8 @@ const newOrder = (req, res) => {
     const DeliveryCharge = req.body.DeliveryCharge;
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
+    const MessageOnTheCake = req.body.MessageOnTheCake;
+    const SpecialRequest = req.body.SpecialRequest;
     // const Discount = req.body.Discount;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
@@ -97,7 +99,8 @@ const newOrder = (req, res) => {
             EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || CakeToppings === undefined ||
             Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
-            Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined) {
+            Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || MessageOnTheCake === undefined  ||
+            SpecialRequest === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             const OrderList = new OrdersListModel({
@@ -111,6 +114,8 @@ const newOrder = (req, res) => {
                 Flavour: Flavour,
                 Shape: Shape,
                 CakeToppings: CakeToppings,
+                MessageOnTheCake : MessageOnTheCake,
+                SpecialRequest : SpecialRequest,
                 Weight: Weight,
                 VendorID: VendorID,
                 VendorName: VendorName,
