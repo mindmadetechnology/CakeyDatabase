@@ -56,6 +56,7 @@ const addCake = async (req, res) => {
     const TypeOfCake = req.body.TypeOfCake;
     const EggOrEggless = req.body.EggOrEggless;
     const Price = req.body.Price;
+    const Discount = req.body.Discount;
     const Ratings = req.body.Ratings;
     const VendorID = req.body.VendorID;
     const VendorName = req.body.VendorName;
@@ -65,6 +66,10 @@ const addCake = async (req, res) => {
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
     const Stock = req.body.Stock;
+    const Street = req.body.Street;
+    const City = req.body.City;
+    const District = req.body.District;
+    const Pincode = req.body.Pincode;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -72,7 +77,9 @@ const addCake = async (req, res) => {
         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
             EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined ||
             VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined ||
-            ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined) {
+            ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined ||
+            Street === undefined || City === undefined || District === undefined || Pincode === undefined || 
+            Discount === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var imageUrlList = [];
@@ -88,10 +95,17 @@ const addCake = async (req, res) => {
                 Images: imageUrlList,
                 EggOrEggless: EggOrEggless,
                 Price: Price,
+                Discount: Discount,
                 Ratings: Ratings,
                 VendorID: VendorID,
                 VendorName: VendorName,
                 VendorPhoneNumber: VendorPhoneNumber,
+                VendorAddress : {
+                    Street : Street,
+                    City : City,
+                    District : District,
+                    Pincode : Pincode
+                },
                 FlavourList: FlavourList,
                 ShapeList: ShapeList,
                 CakeToppings: CakeToppings,

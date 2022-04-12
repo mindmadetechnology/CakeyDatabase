@@ -90,7 +90,7 @@ const newOrder = (req, res) => {
     const PaymentStatus = req.body.PaymentStatus;
     const MessageOnTheCake = req.body.MessageOnTheCake;
     const SpecialRequest = req.body.SpecialRequest;
-    // const Discount = req.body.Discount;
+    const Discount = req.body.Discount;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -100,7 +100,7 @@ const newOrder = (req, res) => {
             Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
             Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || MessageOnTheCake === undefined  ||
-            SpecialRequest === undefined) {
+            SpecialRequest === undefined || Discount === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             const OrderList = new OrdersListModel({
@@ -132,7 +132,7 @@ const newOrder = (req, res) => {
                 DeliveryCharge: DeliveryCharge,
                 PaymentType: PaymentType,
                 PaymentStatus: PaymentStatus,
-                // Discount: Discount,
+                Discount: Discount,
                 Created_On: Created_On
 
             });

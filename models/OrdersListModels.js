@@ -23,6 +23,10 @@ const OrderSchema = new mongoose.Schema({
     Price: {
         type : String,
     },
+    Discount : {
+        type : Number,
+        default : 0,
+    },
     Flavour : {
         type : String,
     },

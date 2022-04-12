@@ -21,6 +21,10 @@ const CakeSchema = new mongoose.Schema({
     Price: {
         type: String
     },
+    Discount : {
+        type : Number,
+        default : 0,
+    },
     Ratings: {
         type: String
     },
@@ -32,6 +36,20 @@ const CakeSchema = new mongoose.Schema({
     },
     VendorPhoneNumber: {
         type: String
+    },
+    VendorAddress : {
+        Street: {
+            type: String
+        },
+        City: {
+            type: String
+        },
+        District: {
+            type: String
+        },
+        Pincode : {
+            type : Number
+        }
     },
     Created_On: {
         type: String
