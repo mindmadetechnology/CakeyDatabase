@@ -37,7 +37,7 @@ const getcakelistByVendorId = (req,res) => {
     const VendorId = req.params.VendorId;
 
     cakeModel.find({
-        _id: VendorId,
+        VendorID : VendorId,
         IsDeleted: 'n'
     }, function (err, result) {
         if (err) {
