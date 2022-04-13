@@ -168,9 +168,9 @@ const updateCake = (req, res) => {
 
         cakeModel.findById({ _id: id }, async function (err, result) {
             if (err) {
-                res.send({ statusCode: 400, message: "Failed" });
+                res.send({ statusCode: 400, message: "Failed1" });
             } else if (result === null) {
-                res.send({ statusCode: 400, message: "Failed" });
+                res.send({ statusCode: 400, message: "Failed2" });
             } else {
                 if (req.files === undefined || req.files === null) {
                     cakeModel.findOneAndUpdate({ _id: id },
@@ -194,7 +194,7 @@ const updateCake = (req, res) => {
                             }
                         }, function (err, result) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
+                                res.send({ statusCode: 400, message: "Failed3" });
                             } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
@@ -234,7 +234,7 @@ const updateCake = (req, res) => {
                             }
                         }, function (err, result) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
+                                res.send({ statusCode: 400, message: "Failed4" });
                             } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
@@ -244,7 +244,7 @@ const updateCake = (req, res) => {
         });
 
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" });
+        res.send({ statusCode: 400, message: "Failed5" });
     };
 
 };
