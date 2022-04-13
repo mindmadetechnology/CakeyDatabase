@@ -146,7 +146,7 @@ const addCake = async (req, res) => {
 };
 
 //Update cake's details
-const updateCake = (req, res) => {
+const updateCake = async (req, res) => {
 
     const id = req.params.id;
     const Title = req.body.Title;
@@ -163,6 +163,23 @@ const updateCake = (req, res) => {
     const WeightList = req.body.WeightList;
     const Stock = req.body.Stock;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    var imageUrlList;
+
+    if (Images === null || Images === undefined || Images === []) {
+        imageUrlList = [];
+    } else {
+        imageUrlList = Images;
+    }
+
+    if(req.files.length > 0){
+        for (let i = 0; i < req.files.length; i++) {
+            await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
+                imageUrlList.push(result.url);
+            });
+        };
+    }else{
+        return imageUrlList;
+    };
 
     try {
 
@@ -252,53 +269,13 @@ const updateCake = (req, res) => {
 
 
 
-       cakeModel.findById({ _id: id }, async function (err, result) { 
+       cakeModel.findById({ _id: id }, function (err, result) { 
             if (err) {
                 res.send({ statusCode: 400, message: "Failed1" });
             } else if (result === null) {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
-                if (req.files === undefined || req.files === null) {
-                   await cakeModel.findOneAndUpdate({ _id: id },
-                        {
-                            $set: {
-                                Title: Title,
-                                Description: Description,
-                                TypeOfCake: TypeOfCake,
-                                Images: Images,
-                                EggOrEggless: EggOrEggless,
-                                Price: Price,
-                                Discount: Discount,
-                                Ratings: Ratings,
-                                FlavourList: FlavourList,
-                                ShapeList: ShapeList,
-                                CakeToppings: CakeToppings,
-                                WeightList: WeightList,
-                                Stock: Stock,
-                                Modified_On: Modified_On,
-
-                            }
-                        }, function (err, result) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed3" });
-                            } else {
-                                res.send({ statusCode: 200, message: "Updated Successfully" });
-                            }
-                        });
-                } else {
-
-                    // res.send({ statusCode: 200, message: "rgtrsyrts" });
-                    if (Images === null || Images === undefined || Images === []) {
-                        var imageUrlList = [];
-                    } else {
-                        var imageUrlList = Images;
-                    }
-                    // res.send({ statusCode: 400, message: req.files });
-                    for (let i = 0; i < req.files.length; i++) {
-                        await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
-                            imageUrlList.push(result.url);
-                        });
-                    };
+                // if (req.files === undefined || req.files === null) {
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
@@ -320,12 +297,53 @@ const updateCake = (req, res) => {
                             }
                         }, function (err, result) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed4" });
+                                res.send({ statusCode: 400, message: "Failed3" });
                             } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
                         });
-                }
+                // } 
+                // else {
+
+                    // res.send({ statusCode: 200, message: "rgtrsyrts" });
+                    // if (Images === null || Images === undefined || Images === []) {
+                    //     var imageUrlList = [];
+                    // } else {
+                    //     var imageUrlList = Images;
+                    // }
+                    // // res.send({ statusCode: 400, message: req.files });
+                    // for (let i = 0; i < req.files.length; i++) {
+                    //     await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
+                    //         imageUrlList.push(result.url);
+                    //     });
+                    // };
+                //     cakeModel.findOneAndUpdate({ _id: id },
+                //         {
+                //             $set: {
+                //                 Title: Title,
+                //                 Description: Description,
+                //                 TypeOfCake: TypeOfCake,
+                //                 Images: imageUrlList,
+                //                 EggOrEggless: EggOrEggless,
+                //                 Price: Price,
+                //                 Discount: Discount,
+                //                 Ratings: Ratings,
+                //                 FlavourList: FlavourList,
+                //                 ShapeList: ShapeList,
+                //                 CakeToppings: CakeToppings,
+                //                 WeightList: WeightList,
+                //                 Stock: Stock,
+                //                 Modified_On: Modified_On,
+
+                //             }
+                //         }, function (err, result) {
+                //             if (err) {
+                //                 res.send({ statusCode: 400, message: "Failed4" });
+                //             } else {
+                //                 res.send({ statusCode: 200, message: "Updated Successfully" });
+                //             }
+                //         });
+                // }
             }
         });
 
