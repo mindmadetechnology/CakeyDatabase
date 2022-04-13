@@ -286,26 +286,25 @@ const updateCake = (req, res) => {
                             }
                         });
                 } else {
-
-                    // res.send({ statusCode: 200, message: "rgtrsyrts" });
                     if (Images === null || Images === undefined || Images === []) {
                         var imageUrlList = [];
                     } else {
                         var imageUrlList = Images;
                     }
                     // res.send({ statusCode: 400, message: req.files });
-                    return new Promise((resolve, reject)=>{
+                     
                     for (let i = 0; i < req.files.length; i++) {
-                       
+                        new Promise((resolve, reject)=>{
                             cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
                                 if(err){
                                     return reject(err);
                                 }else{
-                                    return resolve(imageUrlList.push(result.url));
+                                    resolve(imageUrlList.push(result.url));
                                 };
                             });
-                        }
                         });
+                        }
+                       
                   
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
