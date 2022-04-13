@@ -341,7 +341,7 @@ const updateCake = async(req, res) => {
             } else if (result === null) {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
-                if (req.files === undefined || req.files === null || req.files.length <0) {
+                if (req.files === undefined || req.files === null) {
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
@@ -374,7 +374,6 @@ const updateCake = async(req, res) => {
                     } else {
                         var imageUrlList = Images;
                     }
-                    // res.send({ statusCode: 400, message: req.files });
                      
                     for (let i = 0; i < req.files.length; i++) {
                         await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
@@ -383,7 +382,7 @@ const updateCake = async(req, res) => {
                     };
                        
                   
-                    cakeModel.findOneAndUpdate({ _id: id },
+                  return cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
