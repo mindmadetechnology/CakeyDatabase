@@ -342,7 +342,7 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
                 if (req.files === undefined || req.files === null) {
-                  await cakeModel.findOneAndUpdate({ _id: id },
+                   cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
@@ -373,7 +373,7 @@ const updateCake = (req, res) => {
                     if (Images === null || Images === undefined || Images === []) {
                         imageUrlList = [];
                     } else {
-                        imageUrlList = await Images;
+                        imageUrlList = Images;
                     }
                      
                     for (let i = 0; i < req.files.length; i++) {
@@ -383,7 +383,7 @@ const updateCake = (req, res) => {
                     };
                        
                   
-                  await cakeModel.findOneAndUpdate({ _id: id },
+                   cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
