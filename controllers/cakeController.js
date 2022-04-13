@@ -294,19 +294,17 @@ const updateCake = (req, res) => {
                         var imageUrlList = Images;
                     }
                     // res.send({ statusCode: 400, message: req.files });
-                    new Promise((resolve, reject)=>{
-                        for (let i = 0; i < req.files.length; i++) {
-                        
+                    for (let i = 0; i < req.files.length; i++) {
+                       return new Promise((resolve, reject)=>{
                             cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
                                 if(err){
                                     return reject(err);
                                 }else{
                                     return resolve(imageUrlList.push(result.url));
-                                }
-                            })
-                        }
-                    })
-                    
+                                };
+                            });
+                        });
+                    };
                     cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
