@@ -252,14 +252,14 @@ const updateCake = (req, res) => {
 
 
 
-       cakeModel.findById({ _id: id }, async function (err, result) { 
+       cakeModel.findById({ _id: id }, function (err, result) { 
             if (err) {
                 res.send({ statusCode: 400, message: "Failed1" });
             } else if (result === null) {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
                 if (req.files === undefined || req.files === null) {
-                   await cakeModel.findOneAndUpdate({ _id: id },
+                    cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
@@ -295,8 +295,14 @@ const updateCake = (req, res) => {
                     }
                     // res.send({ statusCode: 400, message: req.files });
                     for (let i = 0; i < req.files.length; i++) {
-                        await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
-                            imageUrlList.push(result.url);
+                        new Promise((resolve, reject)=>{
+                            cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
+                                if(err){
+                                    return reject(err);
+                                }else{
+                                    return resolve(imageUrlList.push(result.url));
+                                };
+                            });
                         });
                     };
                     cakeModel.findOneAndUpdate({ _id: id },
