@@ -155,6 +155,7 @@ const updateCake = (req, res) => {
     const Images = req.body.Images;
     const EggOrEggless = req.body.EggOrEggless;
     const Price = req.body.Price;
+    const Discount = req.body.Discount;
     const Ratings = req.body.Ratings;
     const VendorID = req.body.VendorID;
     const VendorName = req.body.VendorName;
@@ -184,6 +185,7 @@ const updateCake = (req, res) => {
                                 Images: Images,
                                 EggOrEggless: EggOrEggless,
                                 Price: Price,
+                                Discount: Discount,
                                 Ratings: Ratings,
                                 VendorID: VendorID,
                                 VendorName: VendorName,
@@ -226,6 +228,7 @@ const updateCake = (req, res) => {
                                 Images: imageUrlList,
                                 EggOrEggless: EggOrEggless,
                                 Price: Price,
+                                Discount: Discount,
                                 Ratings: Ratings,
                                 VendorID: VendorID,
                                 VendorName: VendorName,
