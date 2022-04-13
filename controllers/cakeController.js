@@ -342,7 +342,7 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
                 if (req.files === undefined || req.files === null) {
-                   cakeModel.findOneAndUpdate({ _id: id },
+                  await cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
@@ -373,19 +373,17 @@ const updateCake = (req, res) => {
                     if (Images === null || Images === undefined || Images === []) {
                         imageUrlList = [];
                     } else {
-                        imageUrlList = Images;
+                        imageUrlList = await Images;
                     }
                      
                     for (let i = 0; i < req.files.length; i++) {
-                       const result = await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" })
-                        imageUrlList.push(result.url)
-                        // await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
-                        //     imageUrlList.push(result.url);
-                        // });
+                        await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
+                            imageUrlList.push(result.url);
+                        });
                     };
                        
                   
-                   cakeModel.findOneAndUpdate({ _id: id },
+                  await cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
