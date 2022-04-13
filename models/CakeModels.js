@@ -26,7 +26,7 @@ const CakeSchema = new mongoose.Schema({
         default : 0,
     },
     Ratings: {
-        type: String
+        type: Number
     },
     VendorID: {
         type: String
