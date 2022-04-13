@@ -172,7 +172,35 @@ const updateCake = (req, res) => {
             } else if (result === null) {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
-                if (req.files.length > 0) {
+                if (req.files === undefined || req.files === null) {
+                    cakeModel.findOneAndUpdate({ _id: id },
+                        {
+                            $set: {
+                                Title: Title,
+                                Description: Description,
+                                TypeOfCake: TypeOfCake,
+                                Images: Images,
+                                EggOrEggless: EggOrEggless,
+                                Price: Price,
+                                Discount: Discount,
+                                Ratings: Ratings,
+                                FlavourList: FlavourList,
+                                ShapeList: ShapeList,
+                                CakeToppings: CakeToppings,
+                                WeightList: WeightList,
+                                Stock: Stock,
+                                Modified_On: Modified_On,
+
+                            }
+                        }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed3" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+                } else {
+
                     // res.send({ statusCode: 200, message: "rgtrsyrts" });
                     if (Images === null || Images === undefined || Images === []) {
                         var imageUrlList = [];
@@ -206,35 +234,7 @@ const updateCake = (req, res) => {
                             }
                         }, function (err, result) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed4", error : err });
-                            } else {
-                                res.send({ statusCode: 200, message: "Updated Successfully" });
-                            }
-                    });
-                   
-                } else {
-                    cakeModel.findOneAndUpdate({ _id: id },
-                        {
-                            $set: {
-                                Title: Title,
-                                Description: Description,
-                                TypeOfCake: TypeOfCake,
-                                Images: Images,
-                                EggOrEggless: EggOrEggless,
-                                Price: Price,
-                                Discount: Discount,
-                                Ratings: Ratings,
-                                FlavourList: FlavourList,
-                                ShapeList: ShapeList,
-                                CakeToppings: CakeToppings,
-                                WeightList: WeightList,
-                                Stock: Stock,
-                                Modified_On: Modified_On,
-
-                            }
-                        }, function (err, result) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed3", error : err });
+                                res.send({ statusCode: 400, message: "Failed4" });
                             } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
