@@ -369,10 +369,11 @@ const updateCake = async(req, res) => {
                             }
                         });
                 } else {
+                    var imageUrlList;
                     if (Images === null || Images === undefined || Images === []) {
-                        var imageUrlList = [];
+                        imageUrlList = [];
                     } else {
-                        var imageUrlList = Images;
+                        imageUrlList = Images;
                     }
                      
                     for (let i = 0; i < req.files.length; i++) {
@@ -382,7 +383,7 @@ const updateCake = async(req, res) => {
                     };
                        
                   
-                  return cakeModel.findOneAndUpdate({ _id: id },
+                   cakeModel.findOneAndUpdate({ _id: id },
                         {
                             $set: {
                                 Title: Title,
