@@ -166,7 +166,7 @@ const updateCake = async(req, res) => {
 
     try {
 
-        if(req.files !== undefined || req.files !== null){
+        if(req.files !== undefined || req.files !== null || req.files.length > 0){
             cakeModel.findById({ _id: id }, async function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed1" });
