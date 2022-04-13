@@ -157,9 +157,6 @@ const updateCake = (req, res) => {
     const Price = req.body.Price;
     const Discount = req.body.Discount;
     const Ratings = req.body.Ratings;
-    const VendorID = req.body.VendorID;
-    const VendorName = req.body.VendorName;
-    const VendorPhoneNumber = req.body.VendorPhoneNumber;
     const FlavourList = req.body.FlavourList;
     const ShapeList = req.body.ShapeList;
     const CakeToppings = req.body.CakeToppings;
@@ -187,9 +184,6 @@ const updateCake = (req, res) => {
                                 Price: Price,
                                 Discount: Discount,
                                 Ratings: Ratings,
-                                VendorID: VendorID,
-                                VendorName: VendorName,
-                                VendorPhoneNumber: VendorPhoneNumber,
                                 FlavourList: FlavourList,
                                 ShapeList: ShapeList,
                                 CakeToppings: CakeToppings,
@@ -230,9 +224,6 @@ const updateCake = (req, res) => {
                                 Price: Price,
                                 Discount: Discount,
                                 Ratings: Ratings,
-                                VendorID: VendorID,
-                                VendorName: VendorName,
-                                VendorPhoneNumber: VendorPhoneNumber,
                                 FlavourList: FlavourList,
                                 ShapeList: ShapeList,
                                 CakeToppings: CakeToppings,
