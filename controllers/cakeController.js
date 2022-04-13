@@ -252,7 +252,7 @@ const updateCake = (req, res) => {
 
 
 
-       cakeModel.findById({ _id: id }, function (err, result) { 
+       cakeModel.findById({ _id: id },async function (err, result) { 
             if (err) {
                 res.send({ statusCode: 400, message: "Failed1" });
             } else if (result === null) {
@@ -294,16 +294,10 @@ const updateCake = (req, res) => {
                     // res.send({ statusCode: 400, message: req.files });
                      
                     for (let i = 0; i < req.files.length; i++) {
-                        new Promise((resolve, reject)=>{
-                            cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
-                                if(err){
-                                    return reject(err);
-                                }else{
-                                    resolve(imageUrlList.push(result.url));
-                                };
-                            });
+                        await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
+                            imageUrlList.push(result.url);
                         });
-                        }
+                    };
                        
                   
                     cakeModel.findOneAndUpdate({ _id: id },
@@ -331,7 +325,7 @@ const updateCake = (req, res) => {
                             } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
-                        });
+                    });
                 }
             }
         });
