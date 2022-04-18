@@ -185,6 +185,8 @@ const updateCake = (req, res) => {
                             imageUrlList.push(result.url); 
                         });
                     };
+                }else{
+                    var imageUrlList = Images;
                 }
 
                 cakeModel.findOneAndUpdate({ _id: id },
@@ -193,7 +195,7 @@ const updateCake = (req, res) => {
                             Title: Title,
                             Description: Description,
                             TypeOfCake: TypeOfCake,
-                            Images: imageUrlList ? imageUrlList : Images,
+                            Images: imageUrlList,
                             EggOrEggless: EggOrEggless,
                             Price: Price,
                             Discount: Discount,
