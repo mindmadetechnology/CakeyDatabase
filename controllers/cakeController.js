@@ -177,7 +177,7 @@ const updateCake = (req, res) => {
                     if (Images === null || Images === undefined || Images === []) {
                         var imageUrlList = [];
                     } else {
-                        var imageUrlList = [Images];
+                        var imageUrlList = Images;
                     }
 
                     for (let i = 0; i < req.files.length; i++) {
