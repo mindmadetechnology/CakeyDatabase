@@ -146,7 +146,7 @@ const addCake = async (req, res) => {
 };
 
 //Update cake's details
-const updateCake = (req, res) => {
+const updateCake =async (req, res) => {
 
     const id = req.params.id;
     const Title = req.body.Title;
@@ -165,6 +165,8 @@ const updateCake = (req, res) => {
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
+
+       
 
         // if(req.files !== undefined || req.files !== null || req.files.length > 0){
         //     cakeModel.findById({ _id: id }, async function (err, result) {
@@ -332,9 +334,6 @@ const updateCake = (req, res) => {
         //     }); 
         // }
 
-
-
-
         cakeModel.findById({ _id: id },async function (err, result) { 
             if (err) {
                 res.send({ statusCode: 400, message: "Failed1" });
@@ -369,16 +368,15 @@ const updateCake = (req, res) => {
                             }
                         });
                 } else {
-                    var imageUrlList;
                     if (Images === null || Images === undefined || Images === []) {
-                        imageUrlList = [];
+                        var imageUrlList = [];
                     } else {
-                        imageUrlList = Images;
+                        var imageUrlList = [Images];
                     }
-                     
                     for (let i = 0; i < req.files.length; i++) {
                         await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
                             imageUrlList.push(result.url);
+                            
                         });
                     };
                        
