@@ -173,20 +173,18 @@ const updateCake = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
 
-                if (req.files !== undefined || req.files !== null){
                     if (Images === null || Images === undefined || Images === []) {
                         var imageUrlList = [];
                     } else {
                         var imageUrlList = Images;
                     }
-
+                    
+                    if (req.files !== undefined || req.files !== null){
                     for (let i = 0; i < req.files.length; i++) {
                         await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
                             imageUrlList.push(result.url); 
                         });
                     };
-                }else{
-                    var imageUrlList = Images;
                 }
 
                 cakeModel.findOneAndUpdate({ _id: id },
