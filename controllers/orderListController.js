@@ -224,9 +224,102 @@ const updateOrderStatus = (req, res) => {
     } catch (err) {
         return err;
     };
-
 };
 
+const getOrdersListByStatus = (req, res) => {
+    const Status = req.params.status;
+
+    OrdersListModel.find({ Status : Status},function(err,result){
+        if(err){
+            res.send({statusCode : 400, message : "Failed"});
+        }else{
+            res.send(result);
+        }
+    });
+};
+
+const getVendorOrdersListByStatus = (req, res) => {
+    const id = req.params.id;
+    const Status = req.body.Status;
+
+    OrdersListModel.find({ VendorID : id, Status : Status },function(err, result){
+        if(err){
+            res.send({statusCode : 400, message : "Failed"});
+        }else{
+            res.send(result);
+        }
+    });
+};
+
+const getOrdersStatusCount = (req, res) => {
+
+    OrdersListModel.count({}, function(err,count1){
+        if(err){
+            res.send({statusCode : 400, message : "Failed"});
+        }else{
+            OrdersListModel.count({Status : 'New'}, function(err,count2){
+                if(err){
+                    res.send({statusCode : 400, message : "Failed"});
+                }else{
+                    OrdersListModel.count({Status : 'Preparing'}, function(err,count3){
+                        if(err){
+                            res.send({statusCode : 400, message : "Failed"});
+                        }else{
+                            OrdersListModel.count({Status : 'Delivered'}, function(err,count4){
+                                if(err){
+                                    res.send({statusCode : 400, message : "Failed"});
+                                }else{
+                                    res.send({ 
+                                                Total : count1.toString(), 
+                                                New : count2.toString(), 
+                                                Preparing : count3.toString(),
+                                                Delivered : count4.toString()
+                                            });
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    });
+};
+
+const getVendorOrdersStatusCount = (req, res) => {
+
+    const id = req.params.id;
+
+    OrdersListModel.count({ VendorID : id }, function(err,count1){
+        if(err){
+            res.send({statusCode : 400, message : "Failed"});
+        }else{
+            OrdersListModel.count({Status : 'New', VendorID : id}, function(err,count2){
+                if(err){
+                    res.send({statusCode : 400, message : "Failed"});
+                }else{
+                    OrdersListModel.count({Status : 'Preparing', VendorID : id}, function(err,count3){
+                        if(err){
+                            res.send({statusCode : 400, message : "Failed"});
+                        }else{
+                            OrdersListModel.count({Status : 'Delivered', VendorID : id}, function(err,count4){
+                                if(err){
+                                    res.send({statusCode : 400, message : "Failed"});
+                                }else{
+                                    res.send({ 
+                                                Total : count1.toString(), 
+                                                New : count2.toString(), 
+                                                Preparing : count3.toString(),
+                                                Delivered : count4.toString()
+                                            });
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    });
+};
 
 module.exports = {
 
@@ -237,5 +330,9 @@ module.exports = {
     newOrder,
     updateOrder,
     updateOrderStatus,
+    getOrdersListByStatus,
+    getVendorOrdersListByStatus,
+    getOrdersStatusCount,
+    getVendorOrdersStatusCount
 
 };

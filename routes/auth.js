@@ -56,7 +56,11 @@ const {
     updateOrderStatus,
     getOrdersListById,
     getOrdersListByUserID,
-    getOrdersListByVendorId 
+    getOrdersListByVendorId,
+    getOrdersListByStatus,
+    getVendorOrdersListByStatus,
+    getOrdersStatusCount,
+    getVendorOrdersStatusCount
 } = require('../controllers/orderListController');
 
 
@@ -160,6 +164,18 @@ router.put('/order/update/:id',updateOrder);
 
 //update order status
 router.put('/order/updatestatus/:id',updateOrderStatus);
+
+//get Orders list by Status
+router.get('/order/listbystatus/:status',getOrdersListByStatus);
+
+//get Orders list by Status
+router.get('/order/listbyvendorstatus/:id',getVendorOrdersListByStatus);
+
+//get Orders list by Status
+router.get('/order/totalcount',getOrdersStatusCount);
+
+//get Orders list by Status
+router.get('/order/countbyvendorid/:id',getVendorOrdersStatusCount);
 
 
 module.exports = router;
