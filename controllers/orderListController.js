@@ -239,8 +239,9 @@ const getOrdersListByStatus = (req, res) => {
 };
 
 const getVendorOrdersListByStatus = (req, res) => {
+
     const id = req.params.id;
-    const Status = req.body.Status;
+    const Status = req.params.status;
 
     OrdersListModel.find({ VendorID : id, Status : Status },function(err, result){
         if(err){
