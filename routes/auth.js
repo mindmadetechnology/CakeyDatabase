@@ -169,7 +169,7 @@ router.put('/order/updatestatus/:id',updateOrderStatus);
 router.get('/order/listbystatus/:status',getOrdersListByStatus);
 
 //get Orders list by Status
-router.get('/order/listbystatus/:id/:status',getVendorOrdersListByStatus);
+router.get('/order/listbyvendorstatus/:id/:status',getVendorOrdersListByStatus);
 
 //get Orders list by Status
 router.get('/order/totalcount',getOrdersStatusCount);
