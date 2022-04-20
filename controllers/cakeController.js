@@ -173,47 +173,49 @@ const updateCake = (req, res) => {
             } else if (result === null) {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
-
                     if (Images === null || Images === undefined || Images === []) {
                         var imageUrlList = [];
                     } else {
-                        var imageUrlList = Images;
+                        var imageUrlList = JSON.parse(Images);
                     }
                     
                     if (req.files !== undefined || req.files !== null){
                     for (let i = 0; i < req.files.length; i++) {
                         await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400 }, function (err, result) {
+                            // imageUrlList=[...imageUrlList,result.url]
                             imageUrlList.push(result.url); 
                         });
                     };
                 }
-
-                cakeModel.findOneAndUpdate({ _id: id },
-                    {
-                        $set: {
-                            Title: Title,
-                            Description: Description,
-                            TypeOfCake: TypeOfCake,
-                            Images: imageUrlList,
-                            EggOrEggless: EggOrEggless,
-                            Price: Price,
-                            Discount: Discount,
-                            Ratings: Ratings,
-                            FlavourList: FlavourList,
-                            ShapeList: ShapeList,
-                            CakeToppings: CakeToppings,
-                            WeightList: WeightList,
-                            Stock: Stock,
-                            Modified_On: Modified_On,
-
-                        }
-                    }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed4", error:err });
-                        } else {
-                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                        }
-                });
+                console.log(imageUrlList)
+                    cakeModel.findOneAndUpdate({ _id: id },
+                        {
+                            $set: {
+                                Title: Title,
+                                Description: Description,
+                                TypeOfCake: TypeOfCake,
+                                Images: imageUrlList,
+                                EggOrEggless: EggOrEggless,
+                                Price: Price,
+                                Discount: Discount,
+                                Ratings: Ratings,
+                                FlavourList: FlavourList,
+                                ShapeList: ShapeList,
+                                CakeToppings: CakeToppings,
+                                WeightList: WeightList,
+                                Stock: Stock,
+                                Modified_On: Modified_On,
+    
+                            }
+                        }, function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed4", error:err });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                    });
+                
+               
             }
         });
 
