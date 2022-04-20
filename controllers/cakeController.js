@@ -176,7 +176,7 @@ const updateCake = (req, res) => {
                     if (Images === null || Images === undefined || Images === []) {
                         var imageUrlList = [];
                     } else {
-                        var imageUrlList = JSON.parse(Images);
+                        var imageUrlList =Images;
                     }
                     
                     if (req.files !== undefined || req.files !== null){
