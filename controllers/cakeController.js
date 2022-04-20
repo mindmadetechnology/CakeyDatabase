@@ -99,8 +99,9 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var imageUrlList = [];
+            console.log(req.files);
             for (let i = 0; i < req.files.length; i++) {
-                var result = await cloudinary.uploader.upload(req.files[i].path, { width: 1040, height: 400, crop: "fill" });
+                var result = await cloudinary.uploader.upload(req.files[i].path, { width: 1040, height: 400 });
                 imageUrlList.push(result.url);
             };
 
@@ -181,7 +182,7 @@ const updateCake = (req, res) => {
                     
                     if (req.files !== undefined || req.files !== null){
                     for (let i = 0; i < req.files.length; i++) {
-                        await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
+                        await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400 }, function (err, result) {
                             imageUrlList.push(result.url); 
                         });
                     };
