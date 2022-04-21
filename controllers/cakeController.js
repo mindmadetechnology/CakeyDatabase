@@ -178,9 +178,14 @@ const updateCake = (req, res) => {
                     } else {
                         var imageUrlList = Images;
                     }
-                    console.log(Images)
+                    console.log(Array.isArray(Images))
+                    
                     
                     if (req.files !== undefined || req.files !== null){
+                        if(Array.isArray(Images)===false){
+                            var imageUrlList = [Images]
+                        }
+                        
                     for (let i = 0; i < req.files.length; i++) {
                         await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400 }, function (err, result) {
                             // imageUrlList=[...imageUrlList,result.url]
