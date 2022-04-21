@@ -1,5 +1,6 @@
 const adminModel = require("../models/adminModels");
 const vendorModel = require("../models/vendorModels");
+const userModel = require("../models/userModels");
 const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
@@ -568,6 +569,19 @@ const forgotPassword = (req, res) => {
 
 };
 
+const getAllUsersCount = (req,res) => {
+    userModel.count({},function(err,count1){
+        // res.send(count1.toString())
+        if(!err){
+            vendorModel.count({},function(err,count2){
+                if(!err){
+                    res.send({Users : count1.toString(), Vendors : count2.toString()});
+                }
+            });
+        }
+    })
+}
+
 module.exports = {
 
     getAdminbyEmail,
@@ -579,6 +593,7 @@ module.exports = {
     getVendorsbyEmail,
     addVendors,
     putVendors,
-    deleteVendors
+    deleteVendors,
+    getAllUsersCount
 
 };
