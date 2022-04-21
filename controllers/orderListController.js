@@ -233,7 +233,11 @@ const getOrdersListByStatus = (req, res) => {
         if(err){
             res.send({statusCode : 400, message : "Failed"});
         }else{
-            res.send(result);
+            if(result.length === 0){
+                res.send("No Orders")
+            }else{
+                res.send(result)
+            }
         }
     });
 };
@@ -247,7 +251,11 @@ const getVendorOrdersListByStatus = (req, res) => {
         if(err){
             res.send({statusCode : 400, message : "Failed"});
         }else{
-            res.send(result);
+            if(result.length === 0){
+                res.send("No Orders")
+            }else{
+                res.send(result)
+            }
         }
     });
 };
