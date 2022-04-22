@@ -234,7 +234,7 @@ const getOrdersListByStatus = (req, res) => {
             res.send({statusCode : 400, message : "Failed"});
         }else{
             if(result.length === 0){
-                res.send("No Orders")
+                res.send({message : "No Orders"})
             }else{
                 res.send(result)
             }
@@ -252,7 +252,7 @@ const getVendorOrdersListByStatus = (req, res) => {
             res.send({statusCode : 400, message : "Failed"});
         }else{
             if(result.length === 0){
-                res.send("No Orders")
+                res.send({message : "No Orders"})
             }else{
                 res.send(result)
             }
