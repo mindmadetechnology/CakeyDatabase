@@ -9,7 +9,11 @@ const getcakelist = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.send(result);
+            if(result.length === 0){
+                res.send({message : "No Records Found"})
+            }else{
+                res.send(result)
+            }
         }
     });
 
@@ -27,7 +31,11 @@ const getcakelistByVendorName = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.send(result);
+            if(result.length === 0){
+                res.send({message : "No Records Found"})
+            }else{
+                res.send(result)
+            }
         }
     });
 };
@@ -43,7 +51,11 @@ const getcakelistByVendorId = (req,res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.send(result);
+            if(result.length === 0){
+                res.send({message : "No Records Found"})
+            }else{
+                res.send(result)
+            }
         }
     });
 
@@ -220,253 +232,8 @@ const updateCake = (req, res) => {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
                     });
-                
-               
             }
         });
-
-        // if(req.files !== undefined || req.files !== null || req.files.length > 0){
-        //     cakeModel.findById({ _id: id }, async function (err, result) {
-        //         if (err) {
-        //             res.send({ statusCode: 400, message: "Failed1" });
-        //         } else if (result === null) {
-        //             res.send({ statusCode: 400, message: "Failed2" });
-        //         } else { 
-        //             if (Images === null || Images === undefined || Images === []) {
-        //                 var imageUrlList = [];
-        //             } else {
-        //                 var imageUrlList = Images;
-        //             }
-        //             // res.send({ statusCode: 400, message: req.files });
-        //             for (let i = 0; i < req.files.length; i++) {
-        //                 await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
-        //                     imageUrlList.push(result.url);
-        //                 });
-        //             }; 
-        //             cakeModel.findOneAndUpdate({ _id: id },
-        //                 {
-        //                     $set: {
-        //                         Title: Title,
-        //                         Description: Description,
-        //                         TypeOfCake: TypeOfCake,
-        //                         Images: imageUrlList,
-        //                         EggOrEggless: EggOrEggless,
-        //                         Price: Price,
-        //                         Discount: Discount,
-        //                         Ratings: Ratings,
-        //                         FlavourList: FlavourList,
-        //                         ShapeList: ShapeList,
-        //                         CakeToppings: CakeToppings,
-        //                         WeightList: WeightList,
-        //                         Stock: Stock,
-        //                         Modified_On: Modified_On,
-
-        //                     }
-        //                 }, function (err, result) {
-        //                     if (err) {
-        //                         res.send({ statusCode: 400, message: "Failed4" });
-        //                     } else {
-        //                         res.send({ statusCode: 200, message: "Updated Successfully" });
-        //                     }
-        //                 });
-        //         } 
-        //     }); 
-        // }else{
-        //     cakeModel.findById({ _id: id }, function (err, result) {
-        //         if (err) {
-        //             res.send({ statusCode: 400, message: "Failed1" });
-        //         } else if (result === null) {
-        //             res.send({ statusCode: 400, message: "Failed2" });
-        //         } else { 
-        //             cakeModel.findOneAndUpdate({ _id: id },
-        //                 {
-        //                     $set: {
-        //                         Title: Title,
-        //                         Description: Description,
-        //                         TypeOfCake: TypeOfCake,
-        //                         Images: imageUrlList,
-        //                         EggOrEggless: EggOrEggless,
-        //                         Price: Price,
-        //                         Discount: Discount,
-        //                         Ratings: Ratings,
-        //                         FlavourList: FlavourList,
-        //                         ShapeList: ShapeList,
-        //                         CakeToppings: CakeToppings,
-        //                         WeightList: WeightList,
-        //                         Stock: Stock,
-        //                         Modified_On: Modified_On,
-
-        //                     }
-        //                 }, function (err, result) {
-        //                     if (err) {
-        //                         res.send({ statusCode: 400, message: "Failed3" });
-        //                     } else {
-        //                         res.send({ statusCode: 200, message: "Updated Successfully" });
-        //                     }
-        //                 });  
-        //         } 
-        //     });   
-        // }
-
-        // if(req.files === undefined || req.files === null){
-        //     cakeModel.findById({ _id: id }, function (err, result) {
-        //         if (err) {
-        //             res.send({ statusCode: 400, message: "Failed1" });
-        //         } else if (result === null) {
-        //             res.send({ statusCode: 400, message: "Failed2" });
-        //         } else { 
-        //             cakeModel.findOneAndUpdate({ _id: id },
-        //                 {
-        //                     $set: {
-        //                         Title: Title,
-        //                         Description: Description,
-        //                         TypeOfCake: TypeOfCake,
-        //                         Images: Images,
-        //                         EggOrEggless: EggOrEggless,
-        //                         Price: Price,
-        //                         Discount: Discount,
-        //                         Ratings: Ratings,
-        //                         FlavourList: FlavourList,
-        //                         ShapeList: ShapeList,
-        //                         CakeToppings: CakeToppings,
-        //                         WeightList: WeightList,
-        //                         Stock: Stock,
-        //                         Modified_On: Modified_On,
-
-        //                     }
-        //                 }, function (err, result) {
-        //                     if (err) {
-        //                         res.send({ statusCode: 400, message: "Failed3" });
-        //                     } else {
-        //                         res.send({ statusCode: 200, message: "Updated Successfully" });
-        //                     }
-        //                 });  
-        //         } 
-        //     });
-        // }else{
-        //     cakeModel.findById({ _id: id }, async function (err, result) {
-        //         if (err) {
-        //             res.send({ statusCode: 400, message: "Failed1" });
-        //         } else if (result === null) {
-        //             res.send({ statusCode: 400, message: "Failed2" });
-        //         } else { 
-        //             if (Images === null || Images === undefined || Images === []) {
-        //                 var imageUrlList = [];
-        //             } else {
-        //                 var imageUrlList = Images;
-        //             }
-        //             // res.send({ statusCode: 400, message: req.files });
-        //             for (let i = 0; i < req.files.length; i++) {
-        //                 await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
-        //                     imageUrlList.push(result.url);
-        //                 });
-        //             }; 
-        //             cakeModel.findOneAndUpdate({ _id: id },
-        //                 {
-        //                     $set: {
-        //                         Title: Title,
-        //                         Description: Description,
-        //                         TypeOfCake: TypeOfCake,
-        //                         Images: imageUrlList,
-        //                         EggOrEggless: EggOrEggless,
-        //                         Price: Price,
-        //                         Discount: Discount,
-        //                         Ratings: Ratings,
-        //                         FlavourList: FlavourList,
-        //                         ShapeList: ShapeList,
-        //                         CakeToppings: CakeToppings,
-        //                         WeightList: WeightList,
-        //                         Stock: Stock,
-        //                         Modified_On: Modified_On,
-
-        //                     }
-        //                 }, function (err, result) {
-        //                     if (err) {
-        //                         res.send({ statusCode: 400, message: "Failed4" });
-        //                     } else {
-        //                         res.send({ statusCode: 200, message: "Updated Successfully" });
-        //                     }
-        //                 });
-        //         } 
-        //     }); 
-        // }
-
-        // cakeModel.findById({ _id: id },async function (err, result) { 
-        //     if (err) {
-        //         res.send({ statusCode: 400, message: "Failed1" });
-        //     } else if (result === null) {
-        //         res.send({ statusCode: 400, message: "Failed2" });
-        //     } else {
-        //         if (req.files === undefined || req.files === null) {
-        //           await cakeModel.findOneAndUpdate({ _id: id },
-        //                 {
-        //                     $set: {
-        //                         Title: Title,
-        //                         Description: Description,
-        //                         TypeOfCake: TypeOfCake,
-        //                         Images: Images,
-        //                         EggOrEggless: EggOrEggless,
-        //                         Price: Price,
-        //                         Discount: Discount,
-        //                         Ratings: Ratings,
-        //                         FlavourList: FlavourList,
-        //                         ShapeList: ShapeList,
-        //                         CakeToppings: CakeToppings,
-        //                         WeightList: WeightList,
-        //                         Stock: Stock,
-        //                         Modified_On: Modified_On,
-
-        //                     }
-        //                 }, function (err, result) {
-        //                     if (err) {
-        //                         res.send({ statusCode: 400, message: "Failed3" });
-        //                     } else {
-        //                         res.send({ statusCode: 200, message: "Updated Successfully" });
-        //                     }
-        //                 });
-        //         } else {
-                    
-        //             if (Images === null || Images === undefined || Images === []) {
-        //                 var imageUrlList = await [];
-        //             } else {
-        //                 var imageUrlList = await [Images];
-        //             }
-        //             for (let i = 0; i < req.files.length; i++) {
-        //                 await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400, crop: "fill" }, function (err, result) {
-        //                     imageUrlList.push(result.url);
-                            
-        //                 });
-        //             };
-                       
-        //           await cakeModel.findOneAndUpdate({ _id: id },
-        //                 {
-        //                     $set: {
-        //                         Title: Title,
-        //                         Description: Description,
-        //                         TypeOfCake: TypeOfCake,
-        //                         Images: imageUrlList,
-        //                         EggOrEggless: EggOrEggless,
-        //                         Price: Price,
-        //                         Discount: Discount,
-        //                         Ratings: Ratings,
-        //                         FlavourList: FlavourList,
-        //                         ShapeList: ShapeList,
-        //                         CakeToppings: CakeToppings,
-        //                         WeightList: WeightList,
-        //                         Stock: Stock,
-        //                         Modified_On: Modified_On,
-
-        //                     }
-        //                 }, function (err, result) {
-        //                     if (err) {
-        //                         res.send({ statusCode: 400, message: "Failed4", error:err });
-        //                     } else {
-        //                         res.send({ statusCode: 200, message: "Updated Successfully" });
-        //                     }
-        //             });
-        //         }
-        //     }
-        // });
 
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed5" });

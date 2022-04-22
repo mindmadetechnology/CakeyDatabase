@@ -8,7 +8,11 @@ const getOrdersList = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.send(result);
+            if(result.length === 0){
+                res.send({message : "No Orders"})
+            }else{
+                res.send(result)
+            }
         }
     });
 
@@ -38,7 +42,11 @@ const getOrdersListByUserID = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.send(result);
+            if(result.length === 0){
+                res.send({message : "No Orders"})
+            }else{
+                res.send(result)
+            }
         }
     });
 
@@ -53,7 +61,11 @@ const getOrdersListByVendorId = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.send(result);
+            if(result.length === 0){
+                res.send({message : "No Orders"})
+            }else{
+                res.send(result)
+            }
         }
     });
 

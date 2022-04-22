@@ -10,7 +10,11 @@ const getUsers = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            res.send(result);
+            if(result.length === 0){
+                res.send({message : "No Records Found"})
+            }else{
+                res.send(result)
+            }
         }
     });
 
