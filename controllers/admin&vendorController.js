@@ -180,7 +180,7 @@ const loginValidate = (req, res) => {
         if (result === null) {
             vendorModel.findOne({ Email: Email, Password: Password }, function (err, result) {
                 if (result === null) {
-                    res.send({ statusCode: 400, message: "Invalid username or password" });
+                    res.send({ statusCode: 400, message: "Invalid Email or Password" });
                 } else if (err) {
                     res.send({ statusCode: 400, message: "error" });
                 } else {
