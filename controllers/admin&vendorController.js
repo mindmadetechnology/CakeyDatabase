@@ -283,7 +283,7 @@ const addVendors = (req, res) => {
 
                         vendorValidate.save(function (err, result) {
                             if (err) {
-                                res.send({ statusCode: 400, message: err });
+                                res.send({ statusCode: 400, message: "Failed" });
                             } else {
                                 res.send({ statusCode: 200, message: "Registered Successfully" });
                             }
