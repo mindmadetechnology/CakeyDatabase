@@ -252,6 +252,7 @@ const addVendors = (req, res) => {
     const Pincode = req.body.Pincode;
     const PhoneNumber = req.body.PhoneNumber;
     const EggOrEggless = req.body.EggOrEggless;
+    const FullAddress = req.body.FullAddress;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     adminModel.findOne({ Email: Email }, function (err, result) {
@@ -266,7 +267,7 @@ const addVendors = (req, res) => {
                 } else if (result === null) {
                     if (Email === undefined || VendorName === undefined || Street === undefined || City ===undefined || 
                         District === undefined || Pincode === undefined || PhoneNumber === undefined || Password === undefined ||
-                        EggOrEggless === undefined) {
+                        EggOrEggless === undefined || FullAddress == undefined) {
                             res.send({ statusCode: 400, message: "*required" });
                     } else {
                         const vendorValidate = new vendorModel({
@@ -274,6 +275,7 @@ const addVendors = (req, res) => {
                             Password: Password,
                             VendorName: VendorName,
                             Address: {
+                                FullAddress : FullAddress,
                                 Street : Street,
                                 City : City,
                                 District : District,
@@ -314,6 +316,7 @@ const putVendors = async (req, res) => {
     const City = req.body.City;
     const District = req.body.District;
     const Pincode = req.body.Pincode;
+    const FullAddress = req.body.FullAddress;
     const PhoneNumber = req.body.PhoneNumber;
     const DeliveryCharge = req.body.DeliveryCharge;
     const Description = req.body.Description;
@@ -331,6 +334,7 @@ const putVendors = async (req, res) => {
                         Password: Password, 
                         VendorName: VendorName, 
                         Address: {
+                            FullAddress : FullAddress,
                             Street : Street,
                             City : City,
                             District : District,
@@ -359,6 +363,7 @@ const putVendors = async (req, res) => {
                                         Password: Password, 
                                         VendorName: VendorName, 
                                         Address: {
+                                            FullAddress : FullAddress,
                                             Street : Street,
                                             City : City,
                                             District : District,
@@ -399,6 +404,7 @@ const putVendors = async (req, res) => {
                         Password: Password, 
                         VendorName: VendorName, 
                         Address: {
+                            FullAddress : FullAddress,
                             Street : Street,
                             City : City,
                             District : District,
@@ -428,6 +434,7 @@ const putVendors = async (req, res) => {
                                         Password: Password, 
                                         VendorName: VendorName, 
                                         Address: {
+                                            FullAddress : FullAddress,
                                             Street : Street,
                                             City : City,
                                             District : District,

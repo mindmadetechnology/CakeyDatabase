@@ -13,6 +13,9 @@ const VendorSchema = new mongoose.Schema({
     },
     Address: {
         // type : String
+        FullAddress : {
+            type : String
+        },
         Street: {
             type: String
         },
