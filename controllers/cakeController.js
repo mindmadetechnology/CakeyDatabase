@@ -107,7 +107,7 @@ const addCake = async (req, res) => {
         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
             EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined ||
             VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined ||
-            ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined ||
+            ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || 
             Street === undefined || City === undefined || District === undefined || Pincode === undefined || 
             Discount === undefined || DeliveryCharge === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
@@ -118,6 +118,7 @@ const addCake = async (req, res) => {
                 var result = await cloudinary.uploader.upload(req.files[i].path, { width: 1040, height: 400 });
                 imageUrlList.push(result.url);
             };
+            console.log(imageUrlList);
 
             const vendorValidate = new cakeModel({
                 Title: Title,
