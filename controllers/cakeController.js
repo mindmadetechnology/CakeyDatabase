@@ -141,7 +141,6 @@ const addCake = async (req, res) => {
                 ShapeList: ShapeList,
                 CakeToppings: CakeToppings,
                 WeightList: WeightList,
-                Stock: Stock,
                 DeliveryCharge : DeliveryCharge,
                 Tax : Tax,
                 Created_On: Created_On
