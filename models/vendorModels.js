@@ -44,6 +44,9 @@ const VendorSchema = new mongoose.Schema({
         type : String,
         default : '0'
     },
+    EggOrEggless : {
+        type : String
+    },
     Created_On: {
         type : String,
     },
