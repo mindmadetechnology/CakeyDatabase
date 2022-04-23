@@ -93,11 +93,13 @@ const addCake = async (req, res) => {
     const ShapeList = req.body.ShapeList;
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
-    const Stock = req.body.Stock;
+    // const Stock = req.body.Stock;
     const Street = req.body.Street;
     const City = req.body.City;
     const District = req.body.District;
     const Pincode = req.body.Pincode;
+    const DeliveryCharge = req.body.DeliveryCharge;
+    const Tax = req.body.Tax;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -107,7 +109,7 @@ const addCake = async (req, res) => {
             VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined ||
             ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || Stock === undefined ||
             Street === undefined || City === undefined || District === undefined || Pincode === undefined || 
-            Discount === undefined) {
+            Discount === undefined || DeliveryCharge === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var imageUrlList = [];
@@ -140,6 +142,8 @@ const addCake = async (req, res) => {
                 CakeToppings: CakeToppings,
                 WeightList: WeightList,
                 Stock: Stock,
+                DeliveryCharge : DeliveryCharge,
+                Tax : Tax,
                 Created_On: Created_On
             });
 

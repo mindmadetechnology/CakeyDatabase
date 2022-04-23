@@ -70,7 +70,16 @@ const CakeSchema = new mongoose.Schema({
         type: String
     }],
     Stock : {
-        type : String
+        type : String,
+        default : 'InStock'
+    },
+    DeliveryCharge : {
+        type : String,
+        default : '0'
+    },
+    Tax : {
+        type : Number,
+        default : '0'
     },
     IsDeleted: {
         type: String,
