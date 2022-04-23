@@ -29,10 +29,10 @@ const VendorSchema = new mongoose.Schema({
     PhoneNumber: {
         type : String,
     },
-    ProfileBanner: {
-        data: Buffer,
-        contentType: String
-    },
+    // ProfileBanner: {
+    //     data: Buffer,
+    //     contentType: String
+    // },
     Description:{
         type : String,
     },
@@ -41,7 +41,8 @@ const VendorSchema = new mongoose.Schema({
         contentType: String
     },
     DeliveryCharge : {
-        type : String
+        type : String,
+        default : '0'
     },
     Created_On: {
         type : String,

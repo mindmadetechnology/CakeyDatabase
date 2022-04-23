@@ -251,6 +251,7 @@ const addVendors = (req, res) => {
     const District = req.body.District;
     const Pincode = req.body.Pincode;
     const PhoneNumber = req.body.PhoneNumber;
+    const EggOrEggless = req.body.EggOrEggless;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     adminModel.findOne({ Email: Email }, function (err, result) {
@@ -264,7 +265,8 @@ const addVendors = (req, res) => {
 
                 } else if (result === null) {
                     if (Email === undefined || VendorName === undefined || Street === undefined || City ===undefined || 
-                        District === undefined || Pincode === undefined || PhoneNumber === undefined || Password === undefined) {
+                        District === undefined || Pincode === undefined || PhoneNumber === undefined || Password === undefined ||
+                        EggOrEggless === undefined) {
                             res.send({ statusCode: 400, message: "*required" });
                     } else {
                         const vendorValidate = new vendorModel({
@@ -278,6 +280,7 @@ const addVendors = (req, res) => {
                                 Pincode : Pincode
                             },
                             PhoneNumber: PhoneNumber,
+                            EggOrEggless : EggOrEggless,
                             Created_On: Created_On
                         });
 
@@ -314,6 +317,7 @@ const putVendors = async (req, res) => {
     const PhoneNumber = req.body.PhoneNumber;
     const DeliveryCharge = req.body.DeliveryCharge;
     const Description = req.body.Description;
+    const EggOrEggless = req.body.EggOrEggless;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     if (req.file === undefined) {
@@ -335,6 +339,7 @@ const putVendors = async (req, res) => {
                         PhoneNumber: PhoneNumber, 
                         DeliveryCharge:DeliveryCharge,
                         Description : Description, 
+                        EggOrEggless : EggOrEggless,
                         Modified_On: Modified_On
                     } }, function (err, result) {
                         if (err) {
@@ -362,6 +367,7 @@ const putVendors = async (req, res) => {
                                         PhoneNumber: PhoneNumber,
                                         DeliveryCharge:DeliveryCharge, 
                                         Description : Description, 
+                                        EggOrEggless : EggOrEggless,
                                         Modified_On: Modified_On
                                     } }, function (err, result) {
                                         if (err) {
@@ -402,6 +408,7 @@ const putVendors = async (req, res) => {
                         DeliveryCharge:DeliveryCharge, 
                         Description : Description, 
                         ProfileImage: imagesUrl.secure_url, 
+                        EggOrEggless : EggOrEggless,
                         Modified_On: Modified_On
                     } }, function (err, result) {
                         if (err) {
@@ -430,6 +437,7 @@ const putVendors = async (req, res) => {
                                         DeliveryCharge:DeliveryCharge,
                                         Description : Description,  
                                         ProfileImage: imagesUrl.secure_url,
+                                        EggOrEggless :EggOrEggless,
                                         Modified_On: Modified_On 
                                     } }, function (err, result) {
                                         if (err) {
