@@ -179,6 +179,8 @@ const updateCake = (req, res) => {
     const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
     const Stock = req.body.Stock;
+    const DeliveryCharge = req.body.DeliveryCharge;
+    const Tax = req.body.Tax;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -226,6 +228,8 @@ const updateCake = (req, res) => {
                                 CakeToppings: CakeToppings,
                                 WeightList: WeightList,
                                 Stock: Stock,
+                                DeliveryCharge : DeliveryCharge,
+                                Tax : Tax,
                                 Modified_On: Modified_On,
     
                             }
