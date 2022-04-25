@@ -72,6 +72,12 @@ const OrderSchema = new mongoose.Schema({
     DeliverySession : {
         type : String,
     },
+    DeliveryInformation : {
+        type : String
+    },
+    Articles : {
+        type : String
+    },
     VendorAddress : {
         type : String,
     },
@@ -96,6 +102,9 @@ const OrderSchema = new mongoose.Schema({
     },
     Discount : {
         type : String,
+    },
+    Tax : {
+        type : Number,
     },
     Created_On: {
         type: String
