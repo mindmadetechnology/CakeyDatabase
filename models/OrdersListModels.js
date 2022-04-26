@@ -100,9 +100,6 @@ const OrderSchema = new mongoose.Schema({
     PaymentStatus : {
         type : String,
     },
-    Discount : {
-        type : String,
-    },
     Tax : {
         type : Number,
     },
