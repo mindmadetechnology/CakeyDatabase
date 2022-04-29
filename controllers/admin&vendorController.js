@@ -79,7 +79,7 @@ const putAdmin =async  (req, res) => {
                 }
             });
         } else {
-            const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+            const imagesUrl = await cloudinary.uploader.upload(req.file.path,{ width: 640,height : 426, crop: "scale",format:'webp' });
             adminModel.findById({ _id: id }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
@@ -392,7 +392,7 @@ const putVendors = async (req, res) => {
             }
         });
     } else {
-        const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 185, height: 185, crop: "fill" });
+        const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 640,height : 426, crop: "scale",format:'webp' });
 
         vendorModel.findById({ _id: id }, function (err, result) {
             if (err) {

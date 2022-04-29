@@ -3,6 +3,7 @@ const moment = require('moment-timezone');
 const JWT = require('jsonwebtoken');
 const cloudinary = require("../middleware/cloudnary");
 
+
 //Get all users
 const getUsers = (req, res) => {
 
@@ -93,7 +94,7 @@ const putUsers = async (req, res) => {
                 }
             });
         } else {
-            const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 185, height: 185, crop: "fill" });
+            const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 640,height : 426, crop: "scale",format:'webp' });
 
             userModel.findById({ _id: userId }, function (err, result) {
                 if (err) {

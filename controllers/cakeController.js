@@ -115,7 +115,7 @@ const addCake = async (req, res) => {
             var imageUrlList = [];
             console.log(req.files);
             for (let i = 0; i < req.files.length; i++) {
-                var result = await cloudinary.uploader.upload(req.files[i].path, { width: 1040, height: 400 });
+                var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640,height : 426, crop: "scale",format:'webp' });
                 imageUrlList.push(result.url);
             };
             console.log(imageUrlList);
@@ -205,7 +205,7 @@ const updateCake = (req, res) => {
                         }
                         
                     for (let i = 0; i < req.files.length; i++) {
-                        await cloudinary.uploader.upload(req.files[i].path,{ width: 1040, height: 400 }, function (err, result) {
+                        await cloudinary.uploader.upload(req.files[i].path,{ width: 640,height : 426, crop: "scale",format:'webp' }, function (err, result) {
                             // imageUrlList=[...imageUrlList,result.url]
                             imageUrlList.push(result.url); 
                         });
