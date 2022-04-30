@@ -3,6 +3,8 @@ const cors = require('cors');
 
 const app = express();
 
+app.use(express.static(__dirname));
+
 const router = express.Router();
 app.use(router);
 
@@ -10,6 +12,8 @@ router.use(express.json());
 app.use(cors());
 
 const upload=require("../middleware/multer");
+
+// const Authorization = require('../middleware/autherization');
 
 const corsOptions ={
     origin:'http://localhost:3000', 
@@ -63,6 +67,12 @@ const {
     getOrdersStatusCount,
     getVendorOrdersStatusCount
 } = require('../controllers/orderListController');
+
+const { 
+    AddCategory,
+    AddNewSubCategory,
+    GetAllCategory
+} = require('../controllers/categoryController');
 
 
 //Admin API
@@ -127,13 +137,13 @@ router.put("/vendors/delete/:id", deleteVendors);
 router.get("/cake/list", getcakelist);
 
 // get cake details
-router.get("/cake/list/:id",getCakeDetails);
+router.get("/cake/list/:id", getCakeDetails);
 
 // get cake details based on vendorname
-router.get("/cake/listbyName/:VendorName",getcakelistByVendorName);
+router.get("/cake/listbyName/:VendorName", getcakelistByVendorName);
 
 // get cake details based on vendorId
-router.get("/cake/listbyId/:VendorId",getcakelistByVendorId);
+router.get("/cake/listbyId/:VendorId", getcakelistByVendorId);
 
 //Create new vendor
 router.post("/cake/new",upload.array("files"), addCake);
@@ -148,16 +158,16 @@ router.put("/cake/delete/:id", deleteCake);
 //Cake order API
 
 //get orders list
-router.get('/order/list',getOrdersList);
+router.get('/order/list', getOrdersList);
 
 //get order's list based on orderId
-router.get('/order/list/:id',getOrdersListById);
+router.get('/order/list/:id', getOrdersListById);
 
 //get order list based on userId
-router.get('/order/listbyuserid/:userid',getOrdersListByUserID); 
+router.get('/order/listbyuserid/:userid', getOrdersListByUserID); 
 
 //get order list based on vendorId
-router.get('/order/listbyvendorid/:vendorid',getOrdersListByVendorId); 
+router.get('/order/listbyvendorid/:vendorid', getOrdersListByVendorId); 
 
 //Add new order
 router.post('/order/new',newOrder);
@@ -169,16 +179,28 @@ router.put('/order/update/:id',updateOrder);
 router.put('/order/updatestatus/:id',updateOrderStatus);
 
 //get Orders list by Status
-router.get('/order/listbystatus/:status',getOrdersListByStatus);
+router.get('/order/listbystatus/:status', getOrdersListByStatus);
 
 //get Orders list by Status
-router.get('/order/listbyvendorstatus/:id/:status',getVendorOrdersListByStatus);
+router.get('/order/listbyvendorstatus/:id/:status', getVendorOrdersListByStatus);
 
 //get Orders list by Status
-router.get('/order/totalcount',getOrdersStatusCount);
+router.get('/order/totalcount', getOrdersStatusCount);
 
 //get Orders list by Status
-router.get('/order/countbyvendorid/:id',getVendorOrdersStatusCount);
+router.get('/order/countbyvendorid/:id', getVendorOrdersStatusCount);
+
+
+//Category
+
+// get all category
+router.get('/category/list',GetAllCategory);
+
+//Add new Category
+router.post('/category/new',AddCategory);
+
+//Add new SubCategory
+router.put('/subcategory/new',AddNewSubCategory);
 
 
 module.exports = router;

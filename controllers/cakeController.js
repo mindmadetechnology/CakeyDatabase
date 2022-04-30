@@ -200,8 +200,10 @@ const updateCake = (req, res) => {
                     
                     
                     if (req.files !== undefined || req.files !== null){
-                        if(Array.isArray(Images)===false){
+                        if(Array.isArray(Images)===false && Images !== undefined){
                             var imageUrlList = [Images]
+                        }else if(Array.isArray(Images)===false && Images === undefined){
+                            var imageUrlList = [];
                         }
                         
                     for (let i = 0; i < req.files.length; i++) {

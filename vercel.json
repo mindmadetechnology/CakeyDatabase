@@ -13,8 +13,9 @@
           "headers": {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "*",
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token",
-            "Access-Control-Allow-Credentials": "true"
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token, Authorization",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Expose-Headers" : "Autorization"
           },
           "dest": "index.js",
           "continue": true

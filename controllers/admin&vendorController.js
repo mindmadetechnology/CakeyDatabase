@@ -5,6 +5,7 @@ const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 const { transporter } = require('../middleware/nodemailer');
+require('dotenv').config();
 
 //Get Admin details by email
 const getAdminbyEmail = (req, res) => {
@@ -187,7 +188,7 @@ const loginValidate = (req, res) => {
                     const token = JWT.sign({
                         id: result._id,
                         Email : result.Email
-                    }, 'secret123', { expiresIn: 60 * 60 * 96 })
+                    },  process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 })
                     res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
                 }
             });
@@ -197,7 +198,7 @@ const loginValidate = (req, res) => {
             const token = JWT.sign({
                 id: result._id,
                 Email : result.Email
-            }, 'secret123', { expiresIn:  60 * 60 * 96 })
+            },  process.env.JWT_SECRET, { expiresIn:  60 * 60 * 96 })
             res.send({ statusCode: 200, message: "Login Succeed", type: 'admin', token: token });
         }
     });
