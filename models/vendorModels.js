@@ -117,6 +117,7 @@ const VendorSchema = new mongoose.Schema({
     },
     Status : {
         type : String,
+        default : 'New'
     },
     IsDeleted: {
         type : String,
