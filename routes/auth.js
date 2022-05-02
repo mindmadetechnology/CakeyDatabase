@@ -37,6 +37,7 @@ const {
     forgotPassword, 
     getVendors,
     getVendorsbyEmail, 
+    RegisterVendors,
     addVendors, 
     putVendors,
     deleteVendors, 
@@ -120,6 +121,9 @@ router.get("/vendors/list", getVendors);
 
 //Get vendor's details based on email
 router.get("/vendors/list/:email", getVendorsbyEmail);
+
+//Register vendor
+router.post("/vendors/register",upload.single("file"), RegisterVendors);
 
 //Create new vendor
 router.post("/vendors/new", addVendors);

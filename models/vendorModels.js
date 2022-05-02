@@ -29,7 +29,13 @@ const VendorSchema = new mongoose.Schema({
             type : Number
         }
     },
-    PhoneNumber: {
+    GoogleLocation : {
+        type : String,
+    },
+    PhoneNumber1: {
+        type : String,
+    },
+    PhoneNumber2: {
         type : String,
     },
     // ProfileBanner: {
@@ -43,17 +49,73 @@ const VendorSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
-    DeliveryCharge : {
-        type : String,
-        default : '0'
-    },
     EggOrEggless : {
+        type : String
+    },
+    PreferredVendorName : {
+        type : String
+    },
+    DateOfBirth : {
+        type : String
+    },
+    Gender : {
+        type :String
+    },
+    YearsOfExperienceAsBaker : {
+        type : String,
+    },
+    AadhaarNumber : {
+        type : String
+    },
+    PANNumber : {
+        type : String
+    },
+    GSTNumber : {
+        type : String,
+    },
+    FSSAINumber : {
+        type : String
+    },
+    FSSAIExpiryDate : {
+        type : String
+    },
+    MaximumCakesPerDay : {
+        type : String
+    },
+    MaximumCakesPerWeek : {
+        type : String
+    },
+    JobType : {
+        type : String
+    },
+    SpecializedIn : {
+        type : String
+    },
+    BankName : {
+        type : String
+    },
+    Branch : {
+        type : String
+    },
+    AccountNumber : {
+        type : String
+    },
+    IFSCCode : {
+        type : String
+    },
+    UPIId : {
+        type : String
+    }, 
+    Registered_On : {
         type : String
     },
     Created_On: {
         type : String,
     },
     Modified_On: {
+        type : String,
+    },
+    Status : {
         type : String,
     },
     IsDeleted: {
