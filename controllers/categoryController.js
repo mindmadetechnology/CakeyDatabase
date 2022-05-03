@@ -10,7 +10,7 @@ const AddCategory = (req, res) => {
             res.send({ statusCode: 400, message: "Failed1" });
         }
         else if (result === null) {
-            if (Category === undefined) {
+            if (Category === undefined || Category === "") {
                 res.send({ statusCode: 400, message: "*required" });
             } else {
                 const NewCategory = new categoryModel({
@@ -102,7 +102,7 @@ const GetAllCategory = (req, res) => {
             res.send({ statusCode: 400, message: "Failed" })
         }else{
             if(result.length === 0){
-                res.send({ message : 'No Records Found' });
+                res.send({ statusCode : 400, message : 'No Records Found' });
             }else{
                 res.send(result)
             }
