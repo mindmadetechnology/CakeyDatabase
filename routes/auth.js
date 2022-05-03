@@ -37,7 +37,6 @@ const {
     forgotPassword, 
     getVendors,
     getVendorsbyEmail, 
-    RegisterVendors,
     addVendors, 
     putVendors,
     deleteVendors, 
@@ -72,8 +71,13 @@ const {
 const { 
     AddCategory,
     AddNewSubCategory,
-    GetAllCategory
+    GetAllCategory,
+    getSample
 } = require('../controllers/categoryController');
+
+const {
+    RegisterVendors,
+} = require('../controllers/VendorRegisterController');
 
 
 //Admin API
@@ -205,6 +209,8 @@ router.post('/category/new',AddCategory);
 
 //Add new SubCategory
 router.put('/subcategory/new',AddNewSubCategory);
+
+router.get('/sample',getSample)
 
 
 module.exports = router;

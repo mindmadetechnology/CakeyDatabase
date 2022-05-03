@@ -1,5 +1,6 @@
 const categoryModel = require("../models/CategoryModels");
 const moment = require('moment-timezone');
+const vendorModel = require("../models/vendorModels");
 
 const AddCategory = (req, res) => {
     const Category = req.body.Category;
@@ -110,8 +111,14 @@ const GetAllCategory = (req, res) => {
     })
 };
 
+const getSample = (req, res) => {
+   
+   console.log(vendorModel.stats())
+}
+
 module.exports = {
     AddCategory,
     AddNewSubCategory,
-    GetAllCategory
+    GetAllCategory,
+    getSample
 };

@@ -22,7 +22,7 @@ const VendorSchema = new mongoose.Schema({
         City: {
             type: String
         },
-        District: {
+        State: {
             type: String
         },
         Pincode : {
@@ -46,8 +46,7 @@ const VendorSchema = new mongoose.Schema({
         type : String,
     },
     ProfileImage: {
-        data: Buffer,
-        contentType: String
+        type : String,
     },
     EggOrEggless : {
         type : String
