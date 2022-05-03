@@ -115,7 +115,7 @@ const RegisterVendors = (req, res) => {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else if (result === null) {
-                                const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                                const imagesUrl = await cloudinary.uploader.upload(req.file.path);
 
                                 const vendorValidate = new vendorModel({
                                     Email: Email,

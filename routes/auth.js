@@ -130,7 +130,7 @@ router.get("/vendors/list/:email", getVendorsbyEmail);
 router.post("/vendors/register",upload.single("file"), RegisterVendors);
 
 //Create new vendor
-router.post("/vendors/new", addVendors);
+router.put("/vendors/new/:id", addVendors);
 
 //Update vendor's details
 router.put("/vendors/update/:id",upload.single("file"), putVendors);

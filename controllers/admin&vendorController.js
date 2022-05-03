@@ -84,7 +84,7 @@ const putAdmin = async (req, res) => {
                 }
             });
         } else {
-            const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+            const imagesUrl = await cloudinary.uploader.upload(req.file.path);
             adminModel.findById({ _id: id }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
@@ -254,65 +254,75 @@ const verifyToken = (req, res) => {
 //Add new vendors
 const addVendors = (req, res) => {
 
+    const id = req.params.id;
+    const VendorName = req.body.VendorName;
     const Email = req.body.Email;
     const Password = req.body.Password;
-    const VendorName = req.body.VendorName;
-    const Street = req.body.Street;
-    const City = req.body.City;
-    const District = req.body.District;
-    const Pincode = req.body.Pincode;
-    const PhoneNumber = req.body.PhoneNumber;
-    const EggOrEggless = req.body.EggOrEggless;
-    const FullAddress = req.body.FullAddress;
+    const Status = req.body.Status;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    adminModel.findOne({ Email: Email }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "Failed1" });
+    const mailBody = `
+    <h3>Hello ${VendorName},</h3>
+      <br />
+    <p>
+        Your Registration was approved as a vendor on Cakey. <br /><br />
+        To log in, go to https://cakey-react-project.vercel.app/ then enter the following credentials <br /><br />
 
-        } else if (result === null) {
-            vendorModel.findOne({ Email: Email }, function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed2" });
+      <b>Email</b> : ${Email} <br />
+      <b>Password</b> : ${Password} <br /> <br />
+      
 
-                } else if (result === null) {
-                    if (Email === undefined || VendorName === undefined || Street === undefined || City === undefined ||
-                        District === undefined || Pincode === undefined || PhoneNumber === undefined || Password === undefined ||
-                        EggOrEggless === undefined || FullAddress == undefined) {
-                        res.send({ statusCode: 400, message: "*required" });
-                    } else {
-                        const vendorValidate = new vendorModel({
-                            Email: Email,
-                            Password: Password,
-                            VendorName: VendorName,
-                            Address: {
-                                FullAddress: FullAddress,
-                                Street: Street,
-                                City: City,
-                                District: District,
-                                Pincode: Pincode
-                            },
-                            PhoneNumber: PhoneNumber,
-                            EggOrEggless: EggOrEggless,
-                            Created_On: Created_On
-                        });
+      You can change your password once you logged in.
+      </p>
 
-                        vendorValidate.save(function (err, result) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
-                            } else {
-                                res.send({ statusCode: 200, message: "Registered Successfully" });
-                            }
-                        });
-                    }
-                } else {
-                    res.send({ statusCode: 400, message: "Email already Exist" });
+      <h4>Best wishes,</h4>
+      <h5>MindMade Team</h5>
+    `
+
+    if (Status === 'Approved') {
+        vendorModel.findOneAndUpdate({ _id: id },
+            {
+                $set: {
+                    Password: Password,
+                    Status: Status,
+                    Created_On: Created_On
                 }
-            });
-        } else {
-            res.send({ statusCode: 400, message: "Email already Exist" });
-        }
-    });
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    let mailOptions = {
+                        from: 'support@mindmade.in',
+                        to: Email,
+                        subject: 'Cakey Credentials - reg',
+                        html: mailBody
+                    };
+                    transporter.sendMail(mailOptions, (err, info) => {
+                        if (err) {
+                            return err;
+                        } else {
+                            return info;
+                        }
+                    });
+                    res.send({ statusCode: 200, message: "Registered Successfully" });
+                }
+            })
+    } else if (Status === 'Rejected') {
+        vendorModel.findOneAndUpdate({ _id: id },
+            {
+                $set: {
+                    Status: Status,
+                    Created_On: Created_On
+                }
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    res.send({ statusCode: 200, message: "Updated Successfully" });
+                }
+            })
+    }
+
 
 };
 
