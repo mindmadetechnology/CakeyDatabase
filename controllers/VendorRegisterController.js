@@ -175,8 +175,23 @@ const RegisterVendors = (req, res) => {
     }
 };
 
+const GetNewVendorList = (req, res) => {
+    vendorModel.find({ Status : 'New'},function(err,result){
+        if(err){
+            res.send({ statusCode: 400, message: "Failed" });
+        }else{
+            if(result.length === 0){
+                res.send({ message : 'No Records Found'});
+            }else{
+                res.send(result);
+            }
+        }
+    })
+};
+
 module.exports = {
 
     RegisterVendors,
+    GetNewVendorList
 
 };

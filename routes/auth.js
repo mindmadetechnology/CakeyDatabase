@@ -77,6 +77,7 @@ const {
 
 const {
     RegisterVendors,
+    GetNewVendorList
 } = require('../controllers/VendorRegisterController');
 
 
@@ -122,6 +123,9 @@ router.put("/forgotpassword/:email", forgotPassword);
 
 //Get all vendors
 router.get("/vendors/list", getVendors);
+
+//Get registered vendors
+router.get("/vendors/newlist", GetNewVendorList);
 
 //Get vendor's details based on email
 router.get("/vendors/list/:email", getVendorsbyEmail);
