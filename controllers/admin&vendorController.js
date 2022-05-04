@@ -187,7 +187,7 @@ const loginValidate = (req, res) => {
 
     adminModel.findOne({ Email: Email, Password: Password }, function (err, result) {
         if (result === null) {
-            vendorModel.findOne({ Email: Email, Password: Password }, function (err, result) {
+            vendorModel.findOne({ Email: Email, Password: Password,Status :'Approved' }, function (err, result) {
                 if (result === null) {
                     res.send({ statusCode: 400, message: "Invalid Email or Password" });
                 } else if (err) {
