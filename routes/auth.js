@@ -72,7 +72,7 @@ const {
     AddCategory,
     AddNewSubCategory,
     GetAllCategory,
-    getSample
+    DeleteCategory,
 } = require('../controllers/categoryController');
 
 const {
@@ -214,7 +214,11 @@ router.post('/category/new',AddCategory);
 //Add new SubCategory
 router.put('/subcategory/new',AddNewSubCategory);
 
-router.get('/sample',getSample)
+//Delete category
+router.put('/category/delete/:id',DeleteCategory);
+
+
+
 
 
 module.exports = router;

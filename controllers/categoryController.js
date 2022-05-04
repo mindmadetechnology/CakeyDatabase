@@ -102,7 +102,7 @@ const AddNewSubCategory = (req, res) => {
 };
 
 const GetAllCategory = (req, res) => {
-    categoryModel.find({},function(err,result){
+    categoryModel.find({IsDeleted:'n'},function(err,result){
         if(err){
             res.send({ statusCode: 400, message: "Failed" })
         }else{
@@ -114,15 +114,34 @@ const GetAllCategory = (req, res) => {
         }
     })
 };
+const DeleteCategory = (req, res) => {
 
-const getSample = (req, res) => {
-   
-   console.log(vendorModel.stats())
-}
+    const id = req.params.id;
+    const IsDeleted = 'y';
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    categoryModel.findOneAndUpdate({ _id: id },
+        {
+            $set: {
+                IsDeleted: IsDeleted,
+                Modified_On: Modified_On
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                res.send({ statusCode: 200, message: "Deleted Successfully" });
+            }
+        });
+
+};
+
+
 
 module.exports = {
     AddCategory,
     AddNewSubCategory,
     GetAllCategory,
-    getSample
+    DeleteCategory
+    
 };

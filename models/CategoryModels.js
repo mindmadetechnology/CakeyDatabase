@@ -15,7 +15,12 @@ const CategorySchema = new mongoose.Schema({
     }],
     Category_Created_On : {
         type : String,
+    },
+    IsDeleted: {
+        type: String,
+        default: 'n'
     }
+
 });
 
 const collectionName = 'category';
