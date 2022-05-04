@@ -187,7 +187,7 @@ const loginValidate = (req, res) => {
 
     adminModel.findOne({ Email: Email, Password: Password }, function (err, result) {
         if (result === null) {
-            vendorModel.findOne({ Email: Email, Password: Password,Status :'Approved' }, function (err, result) {
+            vendorModel.findOne({ Email: Email, Password: Password, Status: 'Approved' }, function (err, result) {
                 if (result === null) {
                     res.send({ statusCode: 400, message: "Invalid Email or Password" });
                 } else if (err) {
@@ -333,15 +333,33 @@ const putVendors = async (req, res) => {
     const Email = req.body.Email;
     const Password = req.body.Password;
     const VendorName = req.body.VendorName;
+    const PhoneNumber1 = req.body.PhoneNumber1;
+    const PhoneNumber2 = req.body.PhoneNumber2;
     const Street = req.body.Street;
     const City = req.body.City;
-    const District = req.body.District;
+    const State = req.body.State;
     const Pincode = req.body.Pincode;
     const FullAddress = req.body.FullAddress;
-    const PhoneNumber = req.body.PhoneNumber;
-    const DeliveryCharge = req.body.DeliveryCharge;
     const Description = req.body.Description;
     const EggOrEggless = req.body.EggOrEggless;
+    const PreferredVendorName = req.body.PreferredVendorName; //optional
+    const DateOfBirth = req.body.DateOfBirth;
+    const Gender = req.body.Gender;
+    const YearsOfExperienceAsBaker = req.body.YearsOfExperienceAsBaker;
+    const AadhaarNumber = req.body.AadhaarNumber;
+    const PANNumber = req.body.PANNumber;
+    const GSTNumber = req.body.GSTNumber; //optional
+    const FSSAINumber = req.body.FSSAINumber;
+    const FSSAIExpiryDate = req.body.FSSAIExpiryDate;
+    const MaximumCakesPerDay = req.body.MaximumCakesPerDay;
+    const MaximumCakesPerWeek = req.body.MaximumCakesPerWeek;
+    const JobType = req.body.JobType;
+    const SpecializedIn = req.body.SpecializedIn; //optional
+    const BankName = req.body.BankName;
+    const Branch = req.body.Branch;
+    const AccountNumber = req.body.AccountNumber;
+    const IFSCCode = req.body.IFSCCode;
+    const UPIId = req.body.UPIId; //optional
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     if (req.file === undefined) {
@@ -353,19 +371,37 @@ const putVendors = async (req, res) => {
                     {
                         $set: {
                             Email: Email,
-                            Password: Password,
+                            Password : Password,
                             VendorName: VendorName,
+                            PhoneNumber1: PhoneNumber1,
+                            PhoneNumber2: PhoneNumber2,
                             Address: {
                                 FullAddress: FullAddress,
                                 Street: Street,
                                 City: City,
-                                District: District,
+                                State: State,
                                 Pincode: Pincode
                             },
-                            PhoneNumber: PhoneNumber,
-                            DeliveryCharge: DeliveryCharge,
                             Description: Description,
                             EggOrEggless: EggOrEggless,
+                            PreferredVendorName: PreferredVendorName,
+                            DateOfBirth: DateOfBirth,
+                            Gender: Gender,
+                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+                            AadhaarNumber: AadhaarNumber,
+                            PANNumber: PANNumber,
+                            GSTNumber: GSTNumber,
+                            FSSAINumber: FSSAINumber,
+                            FSSAIExpiryDate: FSSAIExpiryDate,
+                            MaximumCakesPerDay: MaximumCakesPerDay,
+                            MaximumCakesPerWeek: MaximumCakesPerWeek,
+                            JobType: JobType,
+                            SpecializedIn: SpecializedIn,
+                            BankName: BankName,
+                            Branch: Branch,
+                            AccountNumber: AccountNumber,
+                            IFSCCode: IFSCCode,
+                            UPIId: UPIId,
                             Modified_On: Modified_On
                         }
                     }, function (err, result) {
@@ -384,19 +420,37 @@ const putVendors = async (req, res) => {
                                     {
                                         $set: {
                                             Email: Email,
-                                            Password: Password,
+                                            Password : Password,
                                             VendorName: VendorName,
+                                            PhoneNumber1: PhoneNumber1,
+                                            PhoneNumber2: PhoneNumber2,
                                             Address: {
                                                 FullAddress: FullAddress,
                                                 Street: Street,
                                                 City: City,
-                                                District: District,
+                                                State: State,
                                                 Pincode: Pincode
                                             },
-                                            PhoneNumber: PhoneNumber,
-                                            DeliveryCharge: DeliveryCharge,
                                             Description: Description,
                                             EggOrEggless: EggOrEggless,
+                                            PreferredVendorName: PreferredVendorName,
+                                            DateOfBirth: DateOfBirth,
+                                            Gender: Gender,
+                                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+                                            AadhaarNumber: AadhaarNumber,
+                                            PANNumber: PANNumber,
+                                            GSTNumber: GSTNumber,
+                                            FSSAINumber: FSSAINumber,
+                                            FSSAIExpiryDate: FSSAIExpiryDate,
+                                            MaximumCakesPerDay: MaximumCakesPerDay,
+                                            MaximumCakesPerWeek: MaximumCakesPerWeek,
+                                            JobType: JobType,
+                                            SpecializedIn: SpecializedIn,
+                                            BankName: BankName,
+                                            Branch: Branch,
+                                            AccountNumber: AccountNumber,
+                                            IFSCCode: IFSCCode,
+                                            UPIId: UPIId,
                                             Modified_On: Modified_On
                                         }
                                     }, function (err, result) {
@@ -417,7 +471,7 @@ const putVendors = async (req, res) => {
             }
         });
     } else {
-        const imagesUrl = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+        const imagesUrl = await cloudinary.uploader.upload(req.file.path);
 
         vendorModel.findById({ _id: id }, function (err, result) {
             if (err) {
@@ -427,20 +481,38 @@ const putVendors = async (req, res) => {
                     {
                         $set: {
                             Email: Email,
-                            Password: Password,
+                            Password : Password,
                             VendorName: VendorName,
+                            PhoneNumber1: PhoneNumber1,
+                            PhoneNumber2: PhoneNumber2,
                             Address: {
                                 FullAddress: FullAddress,
                                 Street: Street,
                                 City: City,
-                                District: District,
+                                State: State,
                                 Pincode: Pincode
                             },
-                            PhoneNumber: PhoneNumber,
-                            DeliveryCharge: DeliveryCharge,
                             Description: Description,
-                            ProfileImage: imagesUrl.secure_url,
                             EggOrEggless: EggOrEggless,
+                            PreferredVendorName: PreferredVendorName,
+                            DateOfBirth: DateOfBirth,
+                            Gender: Gender,
+                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+                            AadhaarNumber: AadhaarNumber,
+                            PANNumber: PANNumber,
+                            GSTNumber: GSTNumber,
+                            FSSAINumber: FSSAINumber,
+                            FSSAIExpiryDate: FSSAIExpiryDate,
+                            MaximumCakesPerDay: MaximumCakesPerDay,
+                            MaximumCakesPerWeek: MaximumCakesPerWeek,
+                            JobType: JobType,
+                            SpecializedIn: SpecializedIn,
+                            BankName: BankName,
+                            Branch: Branch,
+                            AccountNumber: AccountNumber,
+                            IFSCCode: IFSCCode,
+                            UPIId: UPIId,
+                            ProfileImage: imagesUrl.secure_url,
                             Modified_On: Modified_On
                         }
                     }, function (err, result) {
@@ -459,20 +531,38 @@ const putVendors = async (req, res) => {
                                     {
                                         $set: {
                                             Email: Email,
-                                            Password: Password,
+                                            Password : Password,
                                             VendorName: VendorName,
+                                            PhoneNumber1: PhoneNumber1,
+                                            PhoneNumber2: PhoneNumber2,
                                             Address: {
                                                 FullAddress: FullAddress,
                                                 Street: Street,
                                                 City: City,
-                                                District: District,
+                                                State: State,
                                                 Pincode: Pincode
                                             },
-                                            PhoneNumber: PhoneNumber,
-                                            DeliveryCharge: DeliveryCharge,
                                             Description: Description,
-                                            ProfileImage: imagesUrl.secure_url,
                                             EggOrEggless: EggOrEggless,
+                                            PreferredVendorName: PreferredVendorName,
+                                            DateOfBirth: DateOfBirth,
+                                            Gender: Gender,
+                                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+                                            AadhaarNumber: AadhaarNumber,
+                                            PANNumber: PANNumber,
+                                            GSTNumber: GSTNumber,
+                                            FSSAINumber: FSSAINumber,
+                                            FSSAIExpiryDate: FSSAIExpiryDate,
+                                            MaximumCakesPerDay: MaximumCakesPerDay,
+                                            MaximumCakesPerWeek: MaximumCakesPerWeek,
+                                            JobType: JobType,
+                                            SpecializedIn: SpecializedIn,
+                                            BankName: BankName,
+                                            Branch: Branch,
+                                            AccountNumber: AccountNumber,
+                                            IFSCCode: IFSCCode,
+                                            UPIId: UPIId,
+                                            ProfileImage: imagesUrl.secure_url,
                                             Modified_On: Modified_On
                                         }
                                     }, function (err, result) {
