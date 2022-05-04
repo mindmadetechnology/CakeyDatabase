@@ -39,6 +39,9 @@ const AddNewSubCategory = (req, res) => {
     const Category = req.body.Category;
     const SubCategory = req.body.SubCategory;
     const SubCategory_Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    if(Category === "" || Category === undefined || SubCategory === "" || SubCategory === undefined){
+        res.send({statusCode :400,message:"*required"});
+    }else{
     categoryModel.findOne({ Category: Category }, function (err, result) {
         if (err) {
             return res.send({ statusCode: 400, message: "Failed1" })
@@ -95,6 +98,7 @@ const AddNewSubCategory = (req, res) => {
             }
         }
     })
+}
 };
 
 const GetAllCategory = (req, res) => {
