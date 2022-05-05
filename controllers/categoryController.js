@@ -1,7 +1,8 @@
 const categoryModel = require("../models/CategoryModels");
 const moment = require('moment-timezone');
-const vendorModel = require("../models/vendorModels");
+const { find } = require("../models/CategoryModels");
 
+//add new category
 const AddCategory = (req, res) => {
     const Category = req.body.Category;
     const Category_Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
@@ -35,6 +36,8 @@ const AddCategory = (req, res) => {
         }
     })
 }
+
+//add new Subcategory
 const AddNewSubCategory = (req, res) => {
     const Category = req.body.Category;
     const SubCategory = req.body.SubCategory;
@@ -42,12 +45,15 @@ const AddNewSubCategory = (req, res) => {
     if(Category === "" || Category === undefined || SubCategory === "" || SubCategory === undefined){
         res.send({statusCode :400,message:"*required"});
     }else{
-    categoryModel.findOne({ Category: Category }, function (err, result) {
+    categoryModel.findOne({ Category: Category ,IsDeleted:'n' }, function (err, result) {
         if (err) {
             return res.send({ statusCode: 400, message: "Failed1" })
-        } else {
+        } else if( result === null){
+            res.send({statusCode:400,message:"Category Not Exist"});
+        }
+        else{
             if (result.SubCategory.length === 0) {
-                categoryModel.findOneAndUpdate({ Category: Category },
+                categoryModel.findOneAndUpdate({ Category: Category,IsDeleted :'n' },
                     {
                         $set: {
                             SubCategory: {
@@ -81,7 +87,7 @@ const AddNewSubCategory = (req, res) => {
                         SubCategory_Created_On: SubCategory_Created_On
                     }
                     var NewSubCategoryList = [...SubCategoryList, NewSubCategory];
-                    categoryModel.findOneAndUpdate({ Category: Category },
+                    categoryModel.findOneAndUpdate({ Category: Category ,IsDeleted:'n'},
                         {
                             $set: {
                                 SubCategory: NewSubCategoryList
@@ -101,6 +107,7 @@ const AddNewSubCategory = (req, res) => {
 }
 };
 
+//get category list
 const GetAllCategory = (req, res) => {
     categoryModel.find({IsDeleted:'n'},function(err,result){
         if(err){
@@ -114,27 +121,90 @@ const GetAllCategory = (req, res) => {
         }
     })
 };
-const DeleteCategory = (req, res) => {
 
-    const id = req.params.id;
-    const IsDeleted = 'y';
-    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+//Hard delete
+const DeleteCategory=(req,res)=>{
+    const id=req.params.id;
+    categoryModel.findByIdAndDelete({ _id: id },function(err,result){
+        if(err){
+            res.send({ statusCode: 400, message: "Failed" });
+        }else{
+            res.send({ statusCode: 200, message: "Deleted Successfully" ,result:result});
 
-    categoryModel.findOneAndUpdate({ _id: id },
-        {
-            $set: {
-                IsDeleted: IsDeleted,
-                Modified_On: Modified_On
-            }
-        }, function (err, result) {
-            if (err) {
-                res.send({ statusCode: 400, message: "Failed" });
-            } else {
-                res.send({ statusCode: 200, message: "Deleted Successfully" });
-            }
-        });
+        }
+        
+    })
+}
 
-};
+//Delete Subcategory
+const DeleteSubCategory=(req,res)=>{
+    const id=req.params.id;
+    const Category=req.body.Category;
+    categoryModel.findOne({Category:Category},function(err,result){
+        if(err){
+            res.send({statusCode:400,message:"Failed"})
+        }else{
+           const SubcategoryList= result.SubCategory.filter((val)=>{
+                if(val._id.toString() !== id){
+                   return val;
+
+                }
+
+            })
+            categoryModel.findOneAndUpdate({Category:Category},{
+                $set:{
+                    SubCategory:SubcategoryList
+                }
+            },function(err,result){
+                if(err){
+                    res.send({statusCode:400,message:"Failed"})
+                }
+                else{
+                    res.send({statusCode:200,message:"Subcategory Deleted Successfully"});
+
+                }
+            })
+           
+           
+           
+            // res.send({statusCode:200,message:"category exist"})
+            // categoryModel.findByIdAndDelete({ _id: id },function(err,result){
+            //     if(err){
+            //         res.send({ statusCode: 400, message: "Failed" });
+            //     }else{
+            //         res.send({ statusCode: 200, message: "Deleted Successfully" ,result:result});
+        
+            //     }
+                
+            // })
+
+        }
+    })
+    
+}
+
+// soft delete
+// const DeleteCategory = (req, res) => {
+
+//     const id = req.params.id;
+//     const IsDeleted = 'y';
+//     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+//     categoryModel.findOneAndUpdate({ _id: id },
+//         {
+//             $set: {
+//                 IsDeleted: IsDeleted,
+//                 Modified_On: Modified_On
+//             }
+//         }, function (err, result) {
+//             if (err) {
+//                 res.send({ statusCode: 400, message: "Failed" });
+//             } else {
+//                 res.send({ statusCode: 200, message: "Deleted Successfully" });
+//             }
+//         });
+
+// };
 
 
 
@@ -142,6 +212,7 @@ module.exports = {
     AddCategory,
     AddNewSubCategory,
     GetAllCategory,
-    DeleteCategory
+    DeleteCategory,
+    DeleteSubCategory
     
 };

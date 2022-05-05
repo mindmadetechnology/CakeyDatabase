@@ -6,20 +6,20 @@ const CategorySchema = new mongoose.Schema({
         type: String,
     },
     SubCategory:[{
+      
         Name:{
             type:String
         },
         SubCategory_Created_On:{
             type:String
         }
+       
     }],
     Category_Created_On : {
         type : String,
-    },
-    IsDeleted: {
-        type: String,
-        default: 'n'
     }
+    
+    
 
 });
 

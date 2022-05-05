@@ -73,12 +73,17 @@ const {
     AddNewSubCategory,
     GetAllCategory,
     DeleteCategory,
+    DeleteSubCategory
 } = require('../controllers/categoryController');
 
 const {
     RegisterVendors,
     GetNewVendorList
 } = require('../controllers/VendorRegisterController');
+
+const {
+    HelpDeskNew
+} = require('../controllers/helpDeskController')
 
 
 //Admin API
@@ -141,6 +146,11 @@ router.put("/vendors/update/:id",upload.single("file"), putVendors);
 
 //Delete vendor
 router.put("/vendors/delete/:id", deleteVendors);
+
+//Help Desk API
+
+//Create New Help desk member
+router.post('/helpdesk/new',HelpDeskNew);
 
 
 // Cake API
@@ -215,7 +225,10 @@ router.post('/category/new',AddCategory);
 router.put('/subcategory/new',AddNewSubCategory);
 
 //Delete category
-router.put('/category/delete/:id',DeleteCategory);
+router.delete('/category/delete/:id',DeleteCategory);
+
+//Delete subcategory
+router.put('/subcategory/delete/:id',DeleteSubCategory);
 
 
 

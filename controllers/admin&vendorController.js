@@ -6,6 +6,7 @@ const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 const { transporter } = require('../middleware/nodemailer');
 require('dotenv').config();
+const helpDeskModel = require('../models/helpDeskModels')
 
 //Get Admin details by email
 const getAdminbyEmail = (req, res) => {
@@ -189,7 +190,19 @@ const loginValidate = (req, res) => {
         if (result === null) {
             vendorModel.findOne({ Email: Email, Password: Password, Status: 'Approved' }, function (err, result) {
                 if (result === null) {
-                    res.send({ statusCode: 400, message: "Invalid Email or Password" });
+                    helpDeskModel.findOne({ Email: Email, Password: Password }, function(err, result){
+                        if(err){
+                            res.send(res.send({ statusCode: 400, message: "error" }))
+                        }else if(result === null){
+                            res.send({ statusCode: 400, message: "Invalid Email or Password" });
+                        }else{
+                            const token = JWT.sign({
+                                id: result._id,
+                                Email: result.Email
+                            }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 })
+                            res.send({ statusCode: 200, message: "Login Succeed", type: 'helpdesk', token: token });
+                        }
+                    })
                 } else if (err) {
                     res.send({ statusCode: 400, message: "error" });
                 } else {
@@ -206,7 +219,7 @@ const loginValidate = (req, res) => {
             const token = JWT.sign({
                 id: result._id,
                 Email: result.Email
-            }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 })
+            }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96})
             res.send({ statusCode: 200, message: "Login Succeed", type: 'admin', token: token });
         }
     });
