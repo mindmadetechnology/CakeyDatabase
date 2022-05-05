@@ -6,7 +6,7 @@ const AddCategory = (req, res) => {
     const Category = req.body.Category;
     const Category_Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    categoryModel.findOne({ Category: Category }, function (err, result) {
+    categoryModel.findOne({ Category: Category,IsDeleted :'n' }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "Failed1" });
         }
