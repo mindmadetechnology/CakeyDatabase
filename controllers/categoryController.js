@@ -130,60 +130,11 @@ const DeleteCategory=(req,res)=>{
             res.send({ statusCode: 400, message: "Failed" });
         }else{
             res.send({ statusCode: 200, message: "Deleted Successfully" ,result:result});
-
         }
-        
     })
 }
 
-//Delete Subcategory
-const DeleteSubCategory=(req,res)=>{
-    const id=req.params.id;
-    const Category=req.body.Category;
-    categoryModel.findOne({Category:Category},function(err,result){
-        if(err){
-            res.send({statusCode:400,message:"Failed"})
-        }else{
-           const SubcategoryList= result.SubCategory.filter((val)=>{
-                if(val._id.toString() !== id){
-                   return val;
-
-                }
-
-            })
-            categoryModel.findOneAndUpdate({Category:Category},{
-                $set:{
-                    SubCategory:SubcategoryList
-                }
-            },function(err,result){
-                if(err){
-                    res.send({statusCode:400,message:"Failed"})
-                }
-                else{
-                    res.send({statusCode:200,message:"Subcategory Deleted Successfully"});
-
-                }
-            })
-           
-           
-           
-            // res.send({statusCode:200,message:"category exist"})
-            // categoryModel.findByIdAndDelete({ _id: id },function(err,result){
-            //     if(err){
-            //         res.send({ statusCode: 400, message: "Failed" });
-            //     }else{
-            //         res.send({ statusCode: 200, message: "Deleted Successfully" ,result:result});
-        
-            //     }
-                
-            // })
-
-        }
-    })
-    
-}
-
-// soft delete
+//soft delete
 // const DeleteCategory = (req, res) => {
 
 //     const id = req.params.id;
@@ -207,12 +158,41 @@ const DeleteSubCategory=(req,res)=>{
 // };
 
 
+//Delete Subcategory using filter method
+const DeleteSubCategory=(req,res)=>{
+    const id=req.params.id;
+    const Category=req.body.Category;
+    categoryModel.findOne({Category:Category},function(err,result){
+        if(err){
+            res.send({statusCode:400,message:"Failed"})
+        }else{
+           const SubcategoryList= result.SubCategory.filter((val)=>{
+                if(val._id.toString() !== id){
+                   return val;
+                }
+            })
+            categoryModel.findOneAndUpdate({Category:Category},{
+                $set:{
+                    SubCategory:SubcategoryList
+                }
+            },function(err,result){
+                if(err){
+                    res.send({statusCode:400,message:"Failed"})
+                }
+                else{
+                    res.send({statusCode:200,message:"Subcategory Deleted Successfully"});
+
+                }
+            })
+            // res.send({ statusCode: 200, message: "Deleted Successfully" ,result:result}); 
+        }
+    })   
+}
 
 module.exports = {
     AddCategory,
     AddNewSubCategory,
     GetAllCategory,
     DeleteCategory,
-    DeleteSubCategory
-    
+    DeleteSubCategory   
 };
