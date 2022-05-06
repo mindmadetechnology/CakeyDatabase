@@ -130,7 +130,7 @@ router.put("/forgotpassword/:email", forgotPassword);
 router.get("/vendors/list", getVendors);
 
 //Get registered vendors
-router.get("/vendors/list/:status", GetNewVendorList);
+router.get("/vendors/list/:Status", GetNewVendorList);
 
 //Get vendor's details based on email
 router.get("/vendors/list/:email", getVendorsbyEmail);
