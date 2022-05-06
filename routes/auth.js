@@ -133,7 +133,7 @@ router.get("/vendors/list", getVendors);
 router.get("/vendors/list/:Status", GetNewVendorList);
 
 //Get vendor's details based on email
-router.get("/vendors/list/:email", getVendorsbyEmail);
+router.get("/vendors/listbyemail/:email", getVendorsbyEmail);
 
 //Register vendor
 router.post("/vendors/register",upload.single("file"), RegisterVendors);
