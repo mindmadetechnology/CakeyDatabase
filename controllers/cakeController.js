@@ -118,7 +118,6 @@ const addCake = async (req, res) => {
                 var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640,height : 426, crop: "scale",format:'webp' });
                 imageUrlList.push(result.url);
             };
-            console.log(imageUrlList);
 
             const vendorValidate = new cakeModel({
                 Title: Title,
@@ -161,6 +160,92 @@ const addCake = async (req, res) => {
     };
 
 };
+
+
+// //Add new cake
+// const addCake = async (req, res) => {
+
+//     const Title = req.body.Title;
+//     const Description = req.body.Description;
+//     const TypeOfCake = req.body.TypeOfCake;
+//     const EggOrEggless = req.body.EggOrEggless;
+//     const Price = req.body.Price;
+//     const Discount = req.body.Discount;
+//     const Ratings = req.body.Ratings;
+//     const VendorID = req.body.VendorID;
+//     const VendorName = req.body.VendorName;
+//     const VendorPhoneNumber = req.body.VendorPhoneNumber;
+//     const FlavourList = req.body.FlavourList;
+//     const ShapeList = req.body.ShapeList;
+//     const CakeToppings = req.body.CakeToppings;
+//     const WeightList = req.body.WeightList;
+//     // const Stock = req.body.Stock;
+//     const Street = req.body.Street;
+//     const City = req.body.City;
+//     const District = req.body.District;
+//     const Pincode = req.body.Pincode;
+//     const DeliveryCharge = req.body.DeliveryCharge;
+//     const Tax = req.body.Tax;
+//     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+//     try {
+
+//         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
+//             EggOrEggless === undefined || Price === undefined || Ratings === undefined || VendorID === undefined ||
+//             VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined ||
+//             ShapeList === undefined || CakeToppings === undefined || WeightList === undefined || 
+//             Street === undefined || City === undefined || District === undefined || Pincode === undefined || 
+//             Discount === undefined || DeliveryCharge === undefined || Tax === undefined) {
+//             res.send({ statusCode: 400, message: "*required" });
+//         } else {
+//             var imageUrlList = [];
+//             console.log(req.files);
+//             for (let i = 0; i < req.files.length; i++) {
+//                 var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640,height : 426, crop: "scale",format:'webp' });
+//                 imageUrlList.push(result.url);
+//             };
+
+//             const vendorValidate = new cakeModel({
+//                 Title: Title,
+//                 Description: Description,
+//                 TypeOfCake: TypeOfCake,
+//                 Images: imageUrlList,
+//                 EggOrEggless: EggOrEggless,
+//                 Price: Price,
+//                 Discount: Discount,
+//                 Ratings: Ratings,
+//                 VendorID: VendorID,
+//                 VendorName: VendorName,
+//                 VendorPhoneNumber: VendorPhoneNumber,
+//                 VendorAddress : {
+//                     Street : Street,
+//                     City : City,
+//                     District : District,
+//                     Pincode : Pincode
+//                 },
+//                 FlavourList: FlavourList,
+//                 ShapeList: ShapeList,
+//                 CakeToppings: CakeToppings,
+//                 WeightList: WeightList,
+//                 DeliveryCharge : DeliveryCharge,
+//                 Tax : Tax,
+//                 Created_On: Created_On
+//             });
+
+//             vendorValidate.save(function (err, result) {
+//                 if (err) {
+//                     res.send({ statusCode: 400, message: "Failed" });
+//                 } else {
+//                     res.send({ statusCode: 200, message: "Added Successfully" });
+//                 }
+//             });
+//         }
+
+//     } catch (err) {
+//         return err;
+//     };
+
+// };
 
 //Update cake's details
 const updateCake = (req, res) => {

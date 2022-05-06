@@ -81,6 +81,13 @@ const CakeSchema = new mongoose.Schema({
         type : Number,
         default : '0'
     },
+    Status : {
+        type : String,
+        default : 'New'
+    },
+    Status_Updated_On : {
+        type : String,
+    },
     IsDeleted: {
         type: String,
         default: 'n'
