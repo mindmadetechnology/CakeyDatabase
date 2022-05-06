@@ -185,7 +185,7 @@ const validateUsers = (req, res) => {
                 id: result._id
             }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 });
             res.send({ statusCode: 200, message: "Login Succeed", token: token });
-            req.setHeader('Authorization','Bearer ' + token)
+            // req.setHeader('Authorization','Bearer ' + token)
         }
     });
     
