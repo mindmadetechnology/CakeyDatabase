@@ -176,7 +176,8 @@ const RegisterVendors = (req, res) => {
 };
 
 const GetNewVendorList = (req, res) => {
-    vendorModel.find({ Status : 'New'},function(err,result){
+    const Status = req.params.Status;
+    vendorModel.find({ Status : Status },function(err,result){
         if(err){
             res.send({ statusCode: 400, message: "Failed" });
         }else{
