@@ -87,7 +87,13 @@ const {
 
 const {
     AddNewFlavours,
-    GetFlavoursList
+    GetFlavoursList,
+    AddNewShapes,
+    GetShapesList,
+    AddNewWeight,
+    GetWeightList,
+    AddNewCakeToppings,
+    GetCakeToppingsList
 } = require('../controllers/cakeArrayController');
 
 
@@ -218,7 +224,7 @@ router.get('/order/totalcount', getOrdersStatusCount);
 router.get('/order/countbyvendorid/:id', getVendorOrdersStatusCount);
 
 
-//Category
+//Category API
 
 // get all category
 router.get('/category/list',GetAllCategory);
@@ -236,7 +242,7 @@ router.delete('/category/delete/:id',DeleteCategory);
 router.put('/subcategory/delete/:id',DeleteSubCategory);
 
 
-//Flavour API
+//Cake Array List API
 
 //Add new Flavours
 router.post('/flavour/new',AddNewFlavours);
@@ -244,5 +250,22 @@ router.post('/flavour/new',AddNewFlavours);
 //Get Flavours List
 router.get('/flavour/list',GetFlavoursList);
 
+//Add new Shape
+router.post('/shape/new',AddNewShapes);
+
+//Get Shapes List
+router.get('/shape/list',GetShapesList);
+
+//Add new Weight
+router.post('/weight/new', AddNewWeight);
+
+//Get Weight List
+router.get('/weight/list', GetWeightList);
+
+//Add new Cake Toppings
+router.post('/toppings/new', AddNewCakeToppings);
+
+//Get Cake Toppings List
+router.get('/toppings/list', GetCakeToppingsList);
 
 module.exports = router;
