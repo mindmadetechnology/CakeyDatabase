@@ -17,7 +17,7 @@
             "Access-Control-Allow-Credentials": "true",
             "Access-Control-Expose-Headers" : "Autorization"
           },
-          "dest": "index.js",
+          "dest": "/",
           "continue": true
         }
       ]
