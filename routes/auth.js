@@ -85,6 +85,11 @@ const {
     HelpDeskNew
 } = require('../controllers/helpDeskController');
 
+const {
+    AddNewFlavours,
+    GetFlavoursList
+} = require('../controllers/cakeArrayController');
+
 
 //Admin API
 
@@ -229,6 +234,15 @@ router.delete('/category/delete/:id',DeleteCategory);
 
 //Delete subcategory
 router.put('/subcategory/delete/:id',DeleteSubCategory);
+
+
+//Flavour API
+
+//Add new Flavours
+router.post('/flavour/new',AddNewFlavours);
+
+//Get Flavours List
+router.get('/flavour/list',GetFlavoursList);
 
 
 module.exports = router;
