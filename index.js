@@ -9,10 +9,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
   
 const authRoute = require("./routes/auth");
-// const cakeRoute = require("./routes/cake");
 
 app.use('/api',authRoute);
-// app.use('/api',cakeRoute);
 
 
 app.listen(3001, () => {
