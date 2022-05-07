@@ -83,7 +83,7 @@ const {
 
 const {
     HelpDeskNew
-} = require('../controllers/helpDeskController')
+} = require('../controllers/helpDeskController');
 
 
 //Admin API
@@ -229,9 +229,6 @@ router.delete('/category/delete/:id',DeleteCategory);
 
 //Delete subcategory
 router.put('/subcategory/delete/:id',DeleteSubCategory);
-
-
-
 
 
 module.exports = router;
