@@ -1,6 +1,6 @@
 const categoryModel = require("../models/CategoryModels");
 const moment = require('moment-timezone');
-const { find } = require("../models/CategoryModels");
+// const { find } = require("../models/CategoryModels");
 
 //add new category
 const AddCategory = (req, res) => {
@@ -187,12 +187,38 @@ const DeleteSubCategory=(req,res)=>{
             // res.send({ statusCode: 200, message: "Deleted Successfully" ,result:result}); 
         }
     })   
-}
+};
+
+const UpdateCategory = (req, res) => {
+    const id = req.params.id;
+    const Category = req.body.Category;
+    const Category_Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    try {
+        if(Category){
+            categoryModel.findByIdAndUpdate({_id : id},{
+                $set : {
+                    Category:Category,
+                    Category_Modified_On : Category_Modified_On
+                }
+            },function(err, result){
+                if(err){
+                    res.send({ statusCode : 400, message : 'Failed'});
+                }else{
+                    res.send({ statusCode : 200, message : 'Category Updated Successfully'});
+                }
+            })
+        };
+    }catch (err){
+        console.log(err);
+    };
+};
 
 module.exports = {
     AddCategory,
     AddNewSubCategory,
     GetAllCategory,
     DeleteCategory,
-    DeleteSubCategory   
+    DeleteSubCategory,
+    UpdateCategory 
 };

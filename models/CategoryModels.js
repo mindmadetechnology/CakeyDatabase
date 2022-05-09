@@ -17,10 +17,11 @@ const CategorySchema = new mongoose.Schema({
     }],
     Category_Created_On : {
         type : String,
-    }
+    },
+    Category_Modified_On : {
+        type : String
+    },
     
-    
-
 });
 
 const collectionName = 'category';

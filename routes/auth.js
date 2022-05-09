@@ -73,7 +73,8 @@ const {
     AddNewSubCategory,
     GetAllCategory,
     DeleteCategory,
-    DeleteSubCategory
+    DeleteSubCategory,
+    UpdateCategory
 } = require('../controllers/categoryController');
 
 const {
@@ -241,6 +242,8 @@ router.delete('/category/delete/:id',DeleteCategory);
 //Delete subcategory
 router.put('/subcategory/delete/:id',DeleteSubCategory);
 
+//Update Category
+router.put('/category/update/:id',UpdateCategory);
 
 //Cake Array List API
 
