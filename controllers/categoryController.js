@@ -196,27 +196,38 @@ const UpdateCategory = (req, res) => {
 
     try {
         if(Category){
-            categoryModel.find({Category : Category},function(err, result){
+            categoryModel.findById({_id : id},function(err, result){
+                console.log(result.Category)
                 if(err){
                     res.send({ statusCode : 400, message : 'Failed'});
-                }else if(result === null){
-                    categoryModel.findByIdAndUpdate({_id : id},{
-                        $set : {
-                            Category:Category,
-                            Category_Modified_On : Category_Modified_On
-                        }
-                    },function(err, result){
+                }else if(result.Category === Category){
+                    res.send({statusCode : 200, message : 'Category Updated Successfully'});
+                }else{
+                    console.log(Category)
+                    categoryModel.findOne({Category : Category},function(err, result){
                         if(err){
                             res.send({ statusCode : 400, message : 'Failed'});
+                        }else if(result === null){
+                            console.log(result)
+                            categoryModel.findByIdAndUpdate({_id : id},{
+                                $set : {
+                                    Category:Category,
+                                    Category_Modified_On : Category_Modified_On
+                                }
+                            },function(err, result){
+                                if(err){
+                                    res.send({ statusCode : 400, message : 'Failed'});
+                                }else{
+                                    res.send({ statusCode : 200, message : 'Category Updated Successfully'});
+                                }
+                            });
                         }else{
-                            res.send({ statusCode : 200, message : 'Category Updated Successfully'});
+                            console.log('result',result)
+                            res.send({ statusCode : 400, message : 'Category Already Exist'});
                         }
-                    });
-                }else{
-                    res.send({ statusCode : 400, message : 'Category Already Exist'});
+                    })
                 }
-            })
-            
+            })  
         };
     }catch (err){
         console.log(err);
