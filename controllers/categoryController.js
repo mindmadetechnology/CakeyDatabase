@@ -196,18 +196,27 @@ const UpdateCategory = (req, res) => {
 
     try {
         if(Category){
-            categoryModel.findByIdAndUpdate({_id : id},{
-                $set : {
-                    Category:Category,
-                    Category_Modified_On : Category_Modified_On
-                }
-            },function(err, result){
+            categoryModel.find({Category : Category},function(err, result){
                 if(err){
                     res.send({ statusCode : 400, message : 'Failed'});
+                }else if(result === null){
+                    categoryModel.findByIdAndUpdate({_id : id},{
+                        $set : {
+                            Category:Category,
+                            Category_Modified_On : Category_Modified_On
+                        }
+                    },function(err, result){
+                        if(err){
+                            res.send({ statusCode : 400, message : 'Failed'});
+                        }else{
+                            res.send({ statusCode : 200, message : 'Category Updated Successfully'});
+                        }
+                    });
                 }else{
-                    res.send({ statusCode : 200, message : 'Category Updated Successfully'});
+                    res.send({ statusCode : 400, message : 'Category Already Exist'});
                 }
             })
+            
         };
     }catch (err){
         console.log(err);
