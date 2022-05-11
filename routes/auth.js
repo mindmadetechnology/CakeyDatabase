@@ -93,6 +93,8 @@ const {
     GetShapesList,
     AddNewWeight,
     GetWeightList,
+    AddNewArticle,
+    GetArticleList,
     AddNewCakeToppings,
     GetCakeToppingsList
 } = require('../controllers/cakeArrayController');
@@ -264,6 +266,12 @@ router.post('/weight/new', AddNewWeight);
 
 //Get Weight List
 router.get('/weight/list', GetWeightList);
+
+//Add new Articles
+router.post('/article/new',AddNewArticle);
+
+//Get Articles List
+router.get('/article/list',GetArticleList)
 
 //Add new Cake Toppings
 router.post('/toppings/new', AddNewCakeToppings);

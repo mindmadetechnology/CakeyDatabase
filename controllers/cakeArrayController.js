@@ -2,6 +2,7 @@ const CakeFlavoursModel = require('../models/flavourModels');
 const CakeShapesModel = require('../models/shapesModels');
 const CakeWeightModel = require('../models/weightModels');
 const CakeToppingsModel = require('../models/cakeToppingsModel');
+const CakeArticlesModel = require('../models/articlesModels');
 const moment = require('moment-timezone');
 
 const AddNewFlavours = (req, res) => {
@@ -78,11 +79,11 @@ const AddNewShapes = (req, res) => {
                         if(err){
                             res.send({ statusCode : 400, message : "Failed"});
                         }else{
-                            res.send({ statusCode : 200, message : "Flavour Added Successfully"});
+                            res.send({ statusCode : 200, message : "Shape Added Successfully"});
                         }
                     });
                 }else{
-                    res.send({statusCode : 400, message : 'Flavour Already Exist'});
+                    res.send({statusCode : 400, message : 'Shape Already Exist'});
                 }    
             }
         })
@@ -129,11 +130,11 @@ const AddNewWeight = (req, res) => {
                         if(err){
                             res.send({ statusCode : 400, message : "Failed"});
                         }else{
-                            res.send({ statusCode : 200, message : "Flavour Added Successfully"});
+                            res.send({ statusCode : 200, message : "Weight Added Successfully"});
                         }
                     });
                 }else{
-                    res.send({statusCode : 400, message : 'Flavour Already Exist'});
+                    res.send({statusCode : 400, message : 'Weight Already Exist'});
                 }    
             }
         })
@@ -145,6 +146,57 @@ const AddNewWeight = (req, res) => {
 const GetWeightList = (req, res) => {
 
     CakeWeightModel.find({}, function(err, result){
+        if(err){
+            res.send({statusCode : 400, message : 'Failed'});
+        }else{
+            if(result.length === 0){
+                res.send({message : 'No Records Found'});
+            }else{
+                res.send(result);
+            }
+        }
+    })
+};
+
+const AddNewArticle = (req, res) => {
+
+    const Article = req.body.Article;
+    const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    try{
+        CakeArticlesModel.find({},function(err,result){
+            if(err){
+                res.send(err);
+            }else{
+                const NewArticle = result.filter(val=>{
+                   return Article === val.Name
+                });
+                if(NewArticle.length === 0){
+
+                    const Article_List = new CakeArticlesModel ({
+                        Name : Article,
+                        Created_On : Created_On
+                    });
+                    Article_List.save(function(err, result){
+                        if(err){
+                            res.send({ statusCode : 400, message : "Failed"});
+                        }else{
+                            res.send({ statusCode : 200, message : "Article Added Successfully"});
+                        }
+                    });
+                }else{
+                    res.send({statusCode : 400, message : 'Article Already Exist'});
+                }    
+            }
+        })
+    }catch(err){
+        console.log(err);
+    }
+};
+
+const GetArticleList = (req, res) => {
+
+    CakeArticlesModel.find({}, function(err, result){
         if(err){
             res.send({statusCode : 400, message : 'Failed'});
         }else{
@@ -216,6 +268,8 @@ module.exports = {
     GetShapesList,
     AddNewWeight,
     GetWeightList,
+    AddNewArticle,
+    GetArticleList,
     AddNewCakeToppings,
     GetCakeToppingsList
 };
