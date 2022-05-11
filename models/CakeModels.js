@@ -21,13 +21,19 @@ const CakeSchema = new mongoose.Schema({
     Price: {
         type: String
     },
+    Category : {
+        type : String
+    },
+    SubCategory : {
+        type : String
+    },
     Discount : {
         type : Number,
         default : 0,
     },
-    Ratings: {
-        type: Number
-    },
+    // Ratings: {
+    //     type: Number
+    // },
     VendorID: {
         type: String
     },
@@ -44,7 +50,7 @@ const CakeSchema = new mongoose.Schema({
         City: {
             type: String
         },
-        District: {
+        State: {
             type: String
         },
         Pincode : {
@@ -63,9 +69,12 @@ const CakeSchema = new mongoose.Schema({
     ShapeList: [{
         type: String
     }],
-    CakeToppings: [{
+    ArticleList: [{
         type: String
     }],
+    // CakeToppings: [{
+    //     type: String
+    // }],
     WeightList: [{
         type: String
     }],
@@ -73,10 +82,10 @@ const CakeSchema = new mongoose.Schema({
         type : String,
         default : 'InStock'
     },
-    DeliveryCharge : {
-        type : String,
-        default : '0'
-    },
+    // DeliveryCharge : {
+    //     type : String,
+    //     default : '0'
+    // },
     Tax : {
         type : Number,
         default : '0'
@@ -92,7 +101,6 @@ const CakeSchema = new mongoose.Schema({
         type: String,
         default: 'n'
     },
-
 });
 
 const collectionName = 'CakeList';
