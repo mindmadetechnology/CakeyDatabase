@@ -118,8 +118,8 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             
-            // const NewFlavourList = FlavourList.map(val => JSON.parse(val));
-            // const NewArticleList = ArticleList.map(val => JSON.parse(val));
+            const NewFlavourList = FlavourList.map(val => JSON.parse(val));
+            const NewArticleList = ArticleList.map(val => JSON.parse(val));
             // console.log(req.files)
             // console.log(NewFlavourList);
             // console.log(NewArticleList);
@@ -149,9 +149,9 @@ const addCake = async (req, res) => {
                     State : State,
                     Pincode : Pincode
                 },
-                FlavourList: FlavourList,
+                FlavourList: NewFlavourList,
                 ShapeList: ShapeList,
-                ArticleList: ArticleList,
+                ArticleList: NewArticleList,
                 WeightList: WeightList,
                 Tax : Tax,
                 Created_On: Created_On
