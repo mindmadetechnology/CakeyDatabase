@@ -1,6 +1,7 @@
 const cakeModel = require("../models/CakeModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
+const articlesModels = require("../models/articlesModels");
 
 // get cake list
 const getcakelist = (req, res) => {
@@ -115,17 +116,9 @@ const addCake = async (req, res) => {
             Discount === undefined || SubCategory === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
-            // res.send(FlavourList)
-            //   var NewFlavourList = FlavourList.map((val) => res.send(val));
-        // console.log('NewFlavourList',NewFlavourList)
-            // var NewFlavourList = [];
-            // for(let j=0; j<FlavourList.length; j++){
-            //     var falvour =FlavourList[j];
-            //     console.log('flavour',JSON.parse(falvour))
-            //     NewFlavourList.push(falvour)
-            // }
-            // console.log(NewFlavourList)
-          
+            const NewFlavourList = FlavourList.map(val => JSON.parse(val));
+            const NewArticleList = ArticleList.map(val => JSON.parse(val));
+            
             var imageUrlList = [];
             for (let i = 0; i < req.files.length; i++) {
                 var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640,height : 426, crop: "scale",format:'webp' });
@@ -151,9 +144,9 @@ const addCake = async (req, res) => {
                     State : State,
                     Pincode : Pincode
                 },
-                FlavourList: FlavourList,
+                FlavourList: NewFlavourList,
                 ShapeList: ShapeList,
-                ArticleList: ArticleList,
+                ArticleList: NewArticleList,
                 WeightList: WeightList,
                 Tax : Tax,
                 Created_On: Created_On
@@ -161,7 +154,7 @@ const addCake = async (req, res) => {
 
             vendorValidate.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
+                    res.send({ statusCode: 400, message: "Failed" , error:err});
                 } else {
                     res.send({ statusCode: 200, message: "Added Successfully" });
                 }
