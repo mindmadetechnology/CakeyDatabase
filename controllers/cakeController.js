@@ -116,8 +116,8 @@ const addCake = async (req, res) => {
             Discount === undefined || SubCategory === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
-            // const NewFlavourList = FlavourList.map(val => JSON.parse(val));
-            // const NewArticleList = ArticleList.map(val => JSON.parse(val));
+            const NewFlavourList = FlavourList.map(val => JSON.parse(val));
+            const NewArticleList = ArticleList.map(val => JSON.parse(val));
             
             var imageUrlList = [];
             for (let i = 0; i < req.files.length; i++) {
@@ -144,9 +144,9 @@ const addCake = async (req, res) => {
                     State : State,
                     Pincode : Pincode
                 },
-                FlavourList: FlavourList,
+                FlavourList: NewFlavourList,
                 ShapeList: ShapeList,
-                ArticleList: ArticleList,
+                ArticleList: NewArticleList,
                 WeightList: WeightList,
                 Tax : Tax,
                 Created_On: Created_On
