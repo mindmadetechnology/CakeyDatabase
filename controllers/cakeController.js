@@ -120,9 +120,6 @@ const addCake = async (req, res) => {
             
             const NewFlavourList = FlavourList.map(val => JSON.parse(val));
             const NewArticleList = ArticleList.map(val => JSON.parse(val));
-            // console.log(req.files)
-            // console.log(NewFlavourList);
-            // console.log(NewArticleList);
 
             var imageUrlList = [];
             for (let i = 0; i < req.files.length; i++) {
