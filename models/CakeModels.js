@@ -64,13 +64,25 @@ const CakeSchema = new mongoose.Schema({
         type: String
     },
     FlavourList: [{
-        type: String
+        // type: String
+        Name : {
+            type : String
+        },
+        Price : {
+            type : String
+        }
     }],
     ShapeList: [{
         type: String
     }],
     ArticleList: [{
-        type: String
+        // type: String
+        Name : {
+            type : String
+        },
+        Price : {
+            type : String
+        }
     }],
     // CakeToppings: [{
     //     type: String
