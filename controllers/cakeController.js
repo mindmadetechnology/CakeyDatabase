@@ -105,6 +105,7 @@ const addCake = async (req, res) => {
     // const DeliveryCharge = req.body.DeliveryCharge;
     const Tax = req.body.Tax;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    
 
     try {
       
@@ -116,9 +117,9 @@ const addCake = async (req, res) => {
             Discount === undefined || SubCategory === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
-            const NewFlavourList = FlavourList.map(val => JSON.parse(val));
-            const NewArticleList = ArticleList.map(val => JSON.parse(val));
-            
+            // const NewFlavourList = FlavourList.map(val => JSON.parse(val));
+            // const NewArticleList = ArticleList.map(val => JSON.parse(val));
+
             var imageUrlList = [];
             for (let i = 0; i < req.files.length; i++) {
                 var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640,height : 426, crop: "scale",format:'webp' });
@@ -144,9 +145,9 @@ const addCake = async (req, res) => {
                     State : State,
                     Pincode : Pincode
                 },
-                FlavourList: NewFlavourList,
+                FlavourList: FlavourList,
                 ShapeList: ShapeList,
-                ArticleList: NewArticleList,
+                ArticleList: ArticleList,
                 WeightList: WeightList,
                 Tax : Tax,
                 Created_On: Created_On
