@@ -118,8 +118,11 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             
-            const NewFlavourList = FlavourList.map(val => JSON.parse(val));
-            const NewArticleList = ArticleList.map(val => JSON.parse(val));
+            // const NewFlavourList = FlavourList.map(val => JSON.parse(val));
+            // const NewArticleList = ArticleList.map(val => JSON.parse(val));
+            // res.send(NewFlavourList)
+            const NewFlavourList = JSON.parse(FlavourList);
+            const NewArticleList = JSON.parse(ArticleList); 
 
             var imageUrlList = [];
             for (let i = 0; i < req.files.length; i++) {
