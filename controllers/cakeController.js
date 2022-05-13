@@ -190,9 +190,9 @@ const addCake = async (req, res) => {
 const ApproveCake = (req, res) => {
 
     const Id = req.params.id;
-    const Status = 'Approved';
+    const Status = req.body.Status;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    
+
     try {
         cakeModel.findOneAndUpdate({ _id: Id }, {
             $set : {
