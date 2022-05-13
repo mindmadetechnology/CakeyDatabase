@@ -110,6 +110,7 @@ router.get("/admin/list/:email", getAdminbyEmail);
 //Update admin's details
 router.put("/admin/update/:id",upload.single("file"), putAdmin);
 
+//users count 
 router.get('/admin/userscount', getAllUsersCount)
 
 
