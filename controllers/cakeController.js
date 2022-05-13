@@ -20,6 +20,25 @@ const getcakelist = (req, res) => {
 
 };
 
+//get cake list based on status
+const getCakeListByStatus = (req, res) => {
+
+    const Status = req.params.status;
+
+    cakeModel.find({ Status : Status }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            if(result.length === 0){
+                res.send({message : "No Records Found"})
+            }else{
+                res.send(result)
+            }
+        }
+    });
+
+};
+
 // get cake list based on vendoename
 const getcakelistByVendorName = (req, res) => {
 
@@ -117,10 +136,6 @@ const addCake = async (req, res) => {
             Discount === undefined || SubCategory === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
-            
-            // const NewFlavourList = FlavourList.map(val => JSON.parse(val));
-            // const NewArticleList = ArticleList.map(val => JSON.parse(val));
-            // res.send(NewFlavourList)
             const NewFlavourList = JSON.parse(FlavourList);
             const NewArticleList = JSON.parse(ArticleList); 
 
@@ -169,6 +184,32 @@ const addCake = async (req, res) => {
     } catch (err) {
         return err;
     };
+};
+
+//cake approval
+const ApproveCake = (req, res) => {
+
+    const Id = req.params.id;
+    const Status = 'Approved';
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    
+    try {
+        cakeModel.findOneAndUpdate({ _id: Id }, {
+            $set : {
+                Status : Status,
+                Status_Updated_On : Status_Updated_On
+            }
+        }, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                res.send({ statusCode: 200, message: "Updated Successfully" });
+            }
+        })
+    }catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+
 };
 
 //Update cake's details
@@ -246,7 +287,7 @@ const updateCake = (req, res) => {
                             }
                         }, function (err, result) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed4", error:err });
+                                res.send({ statusCode: 400, message: "Failed4" });
                             } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
@@ -291,6 +332,8 @@ module.exports = {
     getcakelist,
     getCakeDetails,
     getcakelistByVendorName,
-    getcakelistByVendorId
+    getcakelistByVendorId,
+    getCakeListByStatus,
+    ApproveCake
 
 };
