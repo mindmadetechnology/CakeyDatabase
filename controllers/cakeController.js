@@ -6,13 +6,13 @@ const articlesModels = require("../models/articlesModels");
 // get cake list
 const getcakelist = (req, res) => {
 
-    cakeModel.find({ IsDeleted: 'n', Status : 'Approved' }, function (err, result) {
+    cakeModel.find({ IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            if(result.length === 0){
-                res.send({message : "No Records Found"})
-            }else{
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
                 res.send(result)
             }
         }
@@ -25,13 +25,13 @@ const getCakeListByStatus = (req, res) => {
 
     const Status = req.params.status;
 
-    cakeModel.find({ Status : Status }, function (err, result) {
+    cakeModel.find({ Status: Status }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            if(result.length === 0){
-                res.send({message : "No Records Found"})
-            }else{
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
                 res.send(result)
             }
         }
@@ -51,29 +51,29 @@ const getcakelistByVendorName = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            if(result.length === 0){
-                res.send({message : "No Records Found"})
-            }else{
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
                 res.send(result)
             }
         }
     });
 };
 
-const getcakelistByVendorId = (req,res) => {
+const getcakelistByVendorId = (req, res) => {
 
     const VendorId = req.params.VendorId;
 
     cakeModel.find({
-        VendorID : VendorId,
+        VendorID: VendorId,
         IsDeleted: 'n'
     }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            if(result.length === 0){
-                res.send({message : "No Records Found"})
-            }else{
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
                 res.send(result)
             }
         }
@@ -124,24 +124,24 @@ const addCake = async (req, res) => {
     // const DeliveryCharge = req.body.DeliveryCharge;
     const Tax = req.body.Tax;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    
+
 
     try {
-      
+
         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
             EggOrEggless === undefined || Price === undefined || Category === undefined || VendorID === undefined ||
             VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined ||
-            ShapeList === undefined || ArticleList === undefined || WeightList === undefined || 
-            Street === undefined || City === undefined || State === undefined || Pincode === undefined || 
+            ShapeList === undefined || ArticleList === undefined || WeightList === undefined ||
+            Street === undefined || City === undefined || State === undefined || Pincode === undefined ||
             Discount === undefined || SubCategory === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             const NewFlavourList = JSON.parse(FlavourList);
-            const NewArticleList = JSON.parse(ArticleList); 
+            const NewArticleList = JSON.parse(ArticleList);
 
             var imageUrlList = [];
             for (let i = 0; i < req.files.length; i++) {
-                var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640,height : 426, crop: "scale",format:'webp' });
+                var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 imageUrlList.push(result.url);
             };
 
@@ -158,23 +158,23 @@ const addCake = async (req, res) => {
                 VendorID: VendorID,
                 VendorName: VendorName,
                 VendorPhoneNumber: VendorPhoneNumber,
-                VendorAddress : {
-                    Street : Street,
-                    City : City,
-                    State : State,
-                    Pincode : Pincode
+                VendorAddress: {
+                    Street: Street,
+                    City: City,
+                    State: State,
+                    Pincode: Pincode
                 },
                 FlavourList: NewFlavourList,
                 ShapeList: ShapeList,
                 ArticleList: NewArticleList,
                 WeightList: WeightList,
-                Tax : Tax,
+                Tax: Tax,
                 Created_On: Created_On
             });
 
             vendorValidate.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed" , error:err});
+                    res.send({ statusCode: 400, message: "Failed", error: err });
                 } else {
                     res.send({ statusCode: 200, message: "Added Successfully" });
                 }
@@ -195,18 +195,18 @@ const ApproveCake = (req, res) => {
 
     try {
         cakeModel.findOneAndUpdate({ _id: Id }, {
-            $set : {
-                Status : Status,
-                Status_Updated_On : Status_Updated_On
+            $set: {
+                Status: Status,
+                Status_Updated_On: Status_Updated_On
             }
-        }, function(err, result){
-            if(err){
+        }, function (err, result) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
+            } else {
                 res.send({ statusCode: 200, message: "Updated Successfully" });
             }
         })
-    }catch (err) {
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 
@@ -217,80 +217,83 @@ const updateCake = (req, res) => {
 
     const id = req.params.id;
     const Title = req.body.Title;
+    const Category = req.body.Category;
+    const SubCategory = req.body.SubCategory;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
     const Images = req.body.Images;
     const EggOrEggless = req.body.EggOrEggless;
     const Price = req.body.Price;
     const Discount = req.body.Discount;
-    const Ratings = req.body.Ratings;
+    // const Ratings = req.body.Ratings;
     const FlavourList = req.body.FlavourList;
     const ShapeList = req.body.ShapeList;
-    const CakeToppings = req.body.CakeToppings;
+    const ArticleList = req.body.ArticleList;
+    // const CakeToppings = req.body.CakeToppings;
     const WeightList = req.body.WeightList;
     const Stock = req.body.Stock;
-    const DeliveryCharge = req.body.DeliveryCharge;
+    // const DeliveryCharge = req.body.DeliveryCharge;
     const Tax = req.body.Tax;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
 
-        cakeModel.findById({ _id: id },async function (err, result) { 
+        cakeModel.findById({ _id: id }, async function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed1" });
             } else if (result === null) {
                 res.send({ statusCode: 400, message: "Failed2" });
             } else {
-                    if (Images === null || Images === undefined || Images === []) {
+                if (Images === null || Images === undefined || Images === []) {
+                    var imageUrlList = [];
+                } else {
+                    var imageUrlList = Images;
+                }
+
+                if (req.files !== undefined || req.files !== null) {
+                    if (Array.isArray(Images) === false && Images !== undefined) {
+                        var imageUrlList = [Images]
+                    } else if (Array.isArray(Images) === false && Images === undefined) {
                         var imageUrlList = [];
-                    } else {
-                        var imageUrlList = Images;
                     }
-                    console.log(Array.isArray(Images))
-                    
-                    
-                    if (req.files !== undefined || req.files !== null){
-                        if(Array.isArray(Images)===false && Images !== undefined){
-                            var imageUrlList = [Images]
-                        }else if(Array.isArray(Images)===false && Images === undefined){
-                            var imageUrlList = [];
-                        }
-                        
+
                     for (let i = 0; i < req.files.length; i++) {
-                        await cloudinary.uploader.upload(req.files[i].path,{ width: 640,height : 426, crop: "scale",format:'webp' }, function (err, result) {
+                        await cloudinary.uploader.upload(req.files[i].path, { width: 640, height: 426, crop: "scale", format: 'webp' }, function (err, result) {
                             // imageUrlList=[...imageUrlList,result.url]
-                            imageUrlList.push(result.url); 
+                            imageUrlList.push(result.url);
                         });
                     };
                 }
-                console.log(imageUrlList)
-                    cakeModel.findOneAndUpdate({ _id: id },
-                        {
-                            $set: {
-                                Title: Title,
-                                Description: Description,
-                                TypeOfCake: TypeOfCake,
-                                Images: imageUrlList,
-                                EggOrEggless: EggOrEggless,
-                                Price: Price,
-                                Discount: Discount,
-                                Ratings: Ratings,
-                                FlavourList: FlavourList,
-                                ShapeList: ShapeList,
-                                CakeToppings: CakeToppings,
-                                WeightList: WeightList,
-                                Stock: Stock,
-                                DeliveryCharge : DeliveryCharge,
-                                Tax : Tax,
-                                Modified_On: Modified_On,
-    
-                            }
-                        }, function (err, result) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed4" });
-                            } else {
-                                res.send({ statusCode: 200, message: "Updated Successfully" });
-                            }
+                const NewFlavourList = JSON.parse(FlavourList);
+                const NewArticleList = JSON.parse(ArticleList);
+
+                cakeModel.findOneAndUpdate({ _id: id },
+                    {
+                        $set: {
+                            Title: Title,
+                            Description: Description,
+                            TypeOfCake: TypeOfCake,
+                            Images: imageUrlList,
+                            EggOrEggless: EggOrEggless,
+                            Price: Price,
+                            Discount: Discount,
+                            Category: Category,
+                            SubCategory: SubCategory,
+                            FlavourList: NewFlavourList,
+                            ShapeList: ShapeList,
+                            ArticleList: NewArticleList,
+                            WeightList: WeightList,
+                            Stock: Stock,
+                            Tax: Tax,
+                            Modified_On: Modified_On,
+
+                        }
+                    }, function (err, result) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed4" });
+                        } else {
+                            res.send({ statusCode: 200, message: "Updated Successfully" });
+                        }
                     });
             }
         });
