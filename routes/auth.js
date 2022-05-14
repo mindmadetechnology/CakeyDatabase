@@ -102,7 +102,11 @@ const {
 } = require('../controllers/cakeArrayController');
 
 const {
-    AddNewCustomizeCake
+    AddNewCustomizeCake,
+    GetCustomizeCakeList,
+    GetAbove5kgCustomizeCakeList,
+    GetCustomizeCakeListByVendorId, 
+    GetCustomizeCakeListByUserId
 } = require('../controllers/customizeCakeController');
 
 
@@ -297,5 +301,17 @@ router.get('/toppings/list', GetCakeToppingsList);
 
 //Add new customize cake
 router.post('/customize/cake/new',upload.array("files"), AddNewCustomizeCake);
+
+//get all Customize cake
+router.get('/customize/cake/list', GetCustomizeCakeList);
+
+//get customize cake based on above 5kg yes or no
+router.get('/customize/cake/list/:above', GetAbove5kgCustomizeCakeList);
+
+//get customize cake based on vendor id
+router.get('/customize/cake/listbyvendorid/:id', GetCustomizeCakeListByVendorId);
+
+//get customize cake based on user id
+router.get('/customize/cake/listbyuserid/:id', GetCustomizeCakeListByUserId);
 
 module.exports = router;

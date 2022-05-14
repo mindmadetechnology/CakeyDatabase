@@ -2,6 +2,76 @@ const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
+const GetCustomizeCakeList = (req, res) => {
+
+    CustomizeCakeModel.find({}, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
+                res.send(result)
+            }
+        }
+    });
+
+};
+
+const GetAbove5kgCustomizeCakeList = (req, res) => {
+
+    const Above5KG = req.params.above;
+
+    CustomizeCakeModel.find({ Above5KG : Above5KG }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
+                res.send(result)
+            }
+        }
+    });
+
+};
+
+const GetCustomizeCakeListByVendorId = (req, res) => {
+
+    const VendorID = req.params.id;
+
+    CustomizeCakeModel.find({ VendorID : VendorID }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
+                res.send(result)
+            }
+        }
+    });
+
+};
+
+const GetCustomizeCakeListByUserId = (req, res) => {
+
+    const UserID = req.params.id;
+
+    CustomizeCakeModel.find({ UserID : UserID }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+        } else {
+            if (result.length === 0) {
+                res.send({ message: "No Records Found" })
+            } else {
+                res.send(result)
+            }
+        }
+    });
+
+};
+
 const AddNewCustomizeCake = async (req, res) => {
 
     const TypeOfCake = req.body.TypeOfCake;
@@ -186,5 +256,9 @@ const AddNewCustomizeCake = async (req, res) => {
 };
 
 module.exports = {
-    AddNewCustomizeCake
+    AddNewCustomizeCake,
+    GetCustomizeCakeList,
+    GetAbove5kgCustomizeCakeList,
+    GetCustomizeCakeListByVendorId,
+    GetCustomizeCakeListByUserId
 }
