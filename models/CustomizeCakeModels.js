@@ -8,20 +8,24 @@ const OrderSchema = new mongoose.Schema({
     EggOrEggless : {
         type : String,
     },
-    Flavour : {
+    Images: [{
+        type: String
+    }],
+    Flavour : [{
         type : String,
-    },
+    }],
     Shape : {
         type : String,
     },
-    CakeToppings: [{
-        type: String
-    }],
+    Article : {
+        type : String,
+    },
     Weight : {
         type : String,
     },
-    CakeTower : {
+    Above5KG : {
         type : String,
+        default : 'n'
     },
     MessageOnTheCake : {
         type : String,
@@ -38,6 +42,9 @@ const OrderSchema = new mongoose.Schema({
     VendorPhoneNumber : {
         type : String,
     }, 
+    VendorAddress : {
+        type : String,
+    },
     UserID : {
         type : String,
     },
@@ -48,6 +55,9 @@ const OrderSchema = new mongoose.Schema({
         type : String,
     },
     DeliveryAddress: {
+        type : String,
+    },
+    DeliveryInformation: {
         type : String,
     },
     DeliveryDate : {

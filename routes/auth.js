@@ -101,6 +101,10 @@ const {
     GetCakeToppingsList
 } = require('../controllers/cakeArrayController');
 
+const {
+    AddNewCustomizeCake
+} = require('../controllers/customizeCakeController');
+
 
 //Admin API
 
@@ -287,5 +291,11 @@ router.post('/toppings/new', AddNewCakeToppings);
 
 //Get Cake Toppings List
 router.get('/toppings/list', GetCakeToppingsList);
+
+
+//Customize Cake API
+
+//Add new customize cake
+router.post('/customize/cake/new',upload.array("files"), AddNewCustomizeCake);
 
 module.exports = router;
