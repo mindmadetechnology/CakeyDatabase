@@ -27,15 +27,28 @@ const OrderSchema = new mongoose.Schema({
         type : Number,
         default : 0,
     },
-    Flavour : {
-        type : String,
-    },
+    Flavour : [{
+       Name : {
+           type : String
+       },
+       Price : {
+           type : String
+       }
+    }],
     Shape : {
         type : String,
     },
-    CakeToppings: [{
-        type: String
-    }],
+    Article : {
+        Name : {
+            type : String
+        },
+        Price : {
+            type : String
+        }
+    },
+    // CakeToppings: [{
+    //     type: String
+    // }],
     Weight : {
         type : String,
     },
@@ -75,9 +88,6 @@ const OrderSchema = new mongoose.Schema({
     DeliveryInformation : {
         type : String
     },
-    Articles : {
-        type : String
-    },
     VendorAddress : {
         type : String,
     },
@@ -100,8 +110,11 @@ const OrderSchema = new mongoose.Schema({
     PaymentStatus : {
         type : String,
     },
-    Tax : {
-        type : Number,
+    Gst : {
+        type : String,
+    },
+    Sgst : {
+        type : String,
     },
     Created_On: {
         type: String

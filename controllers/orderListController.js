@@ -81,10 +81,10 @@ const newOrder = (req, res) => {
     const Images = req.body.Images;
     const EggOrEggless = req.body.EggOrEggless;
     const Price = req.body.Price;
-    const Flavour = req.body.Flavour;
+    const Flavour = req.body.Flavour; //Array
     const Shape = req.body.Shape;
-    const CakeToppings = req.body.CakeToppings;
-    const Weight = req.body.Weight;
+    const Article = req.body.Article; //Optional
+    const Weight = req.body.Weight; 
     const VendorID = req.body.VendorID;
     const VendorName = req.body.VendorName;
     const VendorPhoneNumber = req.body.VendorPhoneNumber;
@@ -100,24 +100,26 @@ const newOrder = (req, res) => {
     const DeliveryCharge = req.body.DeliveryCharge;
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
-    const MessageOnTheCake = req.body.MessageOnTheCake;
-    const SpecialRequest = req.body.SpecialRequest;
+    const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
+    const SpecialRequest = req.body.SpecialRequest; //Optional
     const Discount = req.body.Discount;
     const DeliveryInformation = req.body.DeliveryInformation;
-    const Articles = req.body.Articles;
-    const Tax = req.body.Tax;
+    const Gst = req.body.Gst;
+    const Sgst = req.body.Sgst;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
 
         if (CakeID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
-            EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || CakeToppings === undefined ||
+            EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
             Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
-            Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || MessageOnTheCake === undefined  ||
-            SpecialRequest === undefined || Discount === undefined || DeliveryInformation === undefined || Articles === undefined || Tax === undefined) {
+            Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
+            Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
+            // const NewFlavourList = JSON.parse(Flavour)
+            // const NewArticleList = JSON.parse(Article);
             const OrderList = new OrdersListModel({
                 CakeID: CakeID,
                 Title: Title,
@@ -126,9 +128,9 @@ const newOrder = (req, res) => {
                 Images: Images,
                 EggOrEggless: EggOrEggless,
                 Price: Price,
-                Flavour: Flavour,
+                Flavour: Flavour, //array
                 Shape: Shape,
-                CakeToppings: CakeToppings,
+                Article: Article, //Object
                 MessageOnTheCake : MessageOnTheCake,
                 SpecialRequest : SpecialRequest,
                 Weight: Weight,
@@ -149,14 +151,14 @@ const newOrder = (req, res) => {
                 PaymentStatus: PaymentStatus,
                 Discount: Discount,
                 DeliveryInformation : DeliveryInformation,
-                Articles : Articles,
-                Tax : Tax,
+                Gst : Gst,
+                Sgst : Sgst,
                 Created_On: Created_On
 
             });
             OrderList.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
+                    res.send({ statusCode: 400, message: "Failed", error:err });
                 } else {
                     res.send({ statusCode: 200, message: "Added Successfully" })
                 }
