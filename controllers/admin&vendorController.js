@@ -239,6 +239,9 @@ const verifyToken = (req, res) => {
         if (result === null) {
             vendorModel.findById({ _id: decodeToken.id }, function (err, result) {
                 if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                }
+                if (result === null) {
                     helpDeskModel.findById({ _id: decodeToken.id }, function (err, result) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
@@ -253,9 +256,6 @@ const verifyToken = (req, res) => {
                             }
                         }
                     });
-                }
-                if (result === null) {
-                    res.send({ statusCode: 400, message: "Invalid token" });
                 } else {
                     if (decodeToken.exp < Date.now() / 1000) {
                         res.send({ statusCode: 400, message: "Invalid token" });
