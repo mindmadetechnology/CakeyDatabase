@@ -27,6 +27,10 @@ const OrderSchema = new mongoose.Schema({
         type : Number,
         default : 0,
     },
+    ExtraCharges : {
+        type : String,
+        default : '0',
+    },
     Flavour : [{
        Name : {
            type : String

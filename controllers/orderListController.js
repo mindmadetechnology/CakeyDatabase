@@ -106,6 +106,7 @@ const newOrder = (req, res) => {
     const DeliveryInformation = req.body.DeliveryInformation;
     const Gst = req.body.Gst;
     const Sgst = req.body.Sgst;
+    const ExtraCharges = req.body.ExtraCharges;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -115,7 +116,7 @@ const newOrder = (req, res) => {
             Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
             Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
-            Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined) {
+            Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             // const NewFlavourList = JSON.parse(Flavour)
@@ -153,6 +154,7 @@ const newOrder = (req, res) => {
                 DeliveryInformation : DeliveryInformation,
                 Gst : Gst,
                 Sgst : Sgst,
+                ExtraCharges : ExtraCharges,
                 Created_On: Created_On
 
             });
