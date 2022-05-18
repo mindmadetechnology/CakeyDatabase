@@ -1,6 +1,7 @@
 const adminModel = require("../models/adminModels");
 const vendorModel = require("../models/vendorModels");
 const userModel = require("../models/userModels");
+const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
@@ -760,9 +761,11 @@ const getAllUsersCount = (req, res) => {
     userModel.count({}, function (err, count1) {
         // res.send(count1.toString())
         if (!err) {
-            vendorModel.count({}, function (err, count2) {
+            vendorModel.count({Status : 'Approved'}, function (err, count2) {
                 if (!err) {
-                    res.send({ Users: count1.toString(), Vendors: count2.toString() });
+                    CustomizeCakeModel.count({Status : 'New'},function(err,count3){
+                        res.send({ Users: count1.toString(), Vendors: count2.toString(), CustomizeCakes: count3.toString() });
+                    })
                 }
             });
         }
