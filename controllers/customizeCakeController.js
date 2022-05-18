@@ -87,10 +87,12 @@ const AddNewCustomizeCake = async (req, res) => {
     const DeliverySession = req.body.DeliverySession;
     const DeliveryInformation = req.body.DeliveryInformation;
     const VendorID = req.body.VendorID;
+    const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
     const VendorPhoneNumber = req.body.VendorPhoneNumber;
     const VendorAddress = req.body.VendorAddress;
     const UserID = req.body.UserID;
+    const User_ID = req.body.User_ID;
     const UserName = req.body.UserName;
     const UserPhoneNumber = req.body.UserPhoneNumber;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
@@ -98,7 +100,7 @@ const AddNewCustomizeCake = async (req, res) => {
 
     try {
         if (Weight > '5Kg' || Weight > '5kg') {
-            if (TypeOfCake === undefined || EggOrEggless === undefined || Flavour === undefined ||
+            if (TypeOfCake === undefined || EggOrEggless === undefined || Flavour === undefined || User_ID === undefined ||
                 Shape === undefined || Weight === undefined || DeliveryAddress === undefined || DeliveryDate === undefined ||
                 DeliverySession === undefined || DeliveryInformation === undefined || UserID === undefined ||
                 UserName === undefined || UserPhoneNumber === undefined) {
@@ -120,6 +122,7 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliveryInformation: DeliveryInformation,
                         Above5KG : 'y',
                         UserID: UserID,
+                        User_ID: User_ID,
                         UserName: UserName,
                         UserPhoneNumber: UserPhoneNumber,
                         Created_On: Created_On
@@ -155,6 +158,7 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliveryInformation: DeliveryInformation,
                         Above5KG : 'y',
                         UserID: UserID,
+                        User_ID: User_ID,
                         UserName: UserName,
                         UserPhoneNumber: UserPhoneNumber,
                         Created_On: Created_On
@@ -170,9 +174,9 @@ const AddNewCustomizeCake = async (req, res) => {
                 }
             }
         } else {
-            if (TypeOfCake === undefined || EggOrEggless === undefined || Flavour === undefined ||
+            if (TypeOfCake === undefined || EggOrEggless === undefined || Flavour === undefined || Vendor_ID === undefined ||
                 Shape === undefined || Weight === undefined || DeliveryAddress === undefined || DeliveryDate === undefined ||
-                DeliverySession === undefined || DeliveryInformation === undefined || VendorID === undefined ||
+                DeliverySession === undefined || DeliveryInformation === undefined || VendorID === undefined || User_ID === undefined ||
                 VendorName === undefined || VendorPhoneNumber === undefined || VendorAddress === undefined || UserID === undefined ||
                 UserName === undefined || UserPhoneNumber === undefined) {
                 res.send({ statusCode: 400, message: "*required" });
@@ -192,10 +196,12 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliverySession: DeliverySession,
                         DeliveryInformation: DeliveryInformation,
                         VendorID: VendorID,
+                        Vendor_ID : Vendor_ID,
                         VendorName: VendorName,
                         VendorPhoneNumber: VendorPhoneNumber,
                         VendorAddress: VendorAddress,
                         UserID: UserID,
+                        User_ID: User_ID,
                         UserName: UserName,
                         UserPhoneNumber: UserPhoneNumber,
                         Created_On: Created_On
@@ -230,10 +236,12 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliverySession: DeliverySession,
                         DeliveryInformation: DeliveryInformation,
                         VendorID: VendorID,
+                        Vendor_ID : Vendor_ID,
                         VendorName: VendorName,
                         VendorPhoneNumber: VendorPhoneNumber,
                         VendorAddress: VendorAddress,
                         UserID: UserID,
+                        User_ID: User_ID,
                         UserName: UserName,
                         UserPhoneNumber: UserPhoneNumber,
                         Created_On: Created_On

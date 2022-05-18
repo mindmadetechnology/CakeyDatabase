@@ -69,6 +69,9 @@ const OrderSchema = new mongoose.Schema({
     VendorID: {
         type: String,
     },
+    Vendor_ID: {
+        type: String,
+    },
     VendorName: {
         type: String,
     },
@@ -76,6 +79,9 @@ const OrderSchema = new mongoose.Schema({
         type: String,
     },
     UserID: {
+        type: String,
+    },
+    User_ID: {
         type: String,
     },
     UserName: {

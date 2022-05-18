@@ -38,6 +38,9 @@ const CakeSchema = new mongoose.Schema({
     VendorID: {
         type: String
     },
+    Vendor_ID: {
+        type: String,
+    },
     VendorName: {
         type: String
     },

@@ -109,6 +109,7 @@ const addCake = async (req, res) => {
     const Discount = req.body.Discount;
     // const Ratings = req.body.Ratings;
     const VendorID = req.body.VendorID;
+    const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
     const VendorPhoneNumber = req.body.VendorPhoneNumber;
     const FlavourList = req.body.FlavourList;
@@ -131,7 +132,7 @@ const addCake = async (req, res) => {
         if (req.files === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
             EggOrEggless === undefined || Price === undefined || Category === undefined || VendorID === undefined ||
             VendorName === undefined || VendorPhoneNumber === undefined || FlavourList === undefined ||
-            ShapeList === undefined || ArticleList === undefined || WeightList === undefined ||
+            ShapeList === undefined || ArticleList === undefined || WeightList === undefined || Vendor_ID === undefined ||
             Street === undefined || City === undefined || State === undefined || Pincode === undefined ||
             Discount === undefined || SubCategory === undefined || Tax === undefined) {
             res.send({ statusCode: 400, message: "*required" });
@@ -156,6 +157,7 @@ const addCake = async (req, res) => {
                 SubCategory: SubCategory,
                 Discount: Discount,
                 VendorID: VendorID,
+                Vendor_ID : Vendor_ID,
                 VendorName: VendorName,
                 VendorPhoneNumber: VendorPhoneNumber,
                 VendorAddress: {
