@@ -42,7 +42,8 @@ const {
     deleteVendors, 
     verifyToken,
     getAllUsersCount,
-    NewAdmin
+    NewAdmin,
+    GetNotificationCount
 } = require('../controllers/admin&vendorController');
 
 const { 
@@ -107,7 +108,7 @@ const {
     GetCustomizeCakeList,
     GetAbove5kgCustomizeCakeList,
     GetCustomizeCakeListByVendorId, 
-    GetCustomizeCakeListByUserId
+    GetCustomizeCakeListByUserId,
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -126,7 +127,10 @@ router.get("/admin/list/:email", getAdminbyEmail);
 router.put("/admin/update/:id",upload.single("file"), putAdmin);
 
 //users count 
-router.get('/admin/userscount', getAllUsersCount)
+router.get('/admin/userscount', getAllUsersCount);
+
+//get Notification Count
+router.get('/notification/count',GetNotificationCount);
 
 
 //Users API
@@ -320,6 +324,7 @@ router.get('/customize/cake/listbyvendorid/:id', GetCustomizeCakeListByVendorId)
 
 //get customize cake based on user id
 router.get('/customize/cake/listbyuserid/:id', GetCustomizeCakeListByUserId);
+
 
 router.post('/sample/new', sampleCode);
 

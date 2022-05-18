@@ -2,6 +2,7 @@ const adminModel = require("../models/adminModels");
 const vendorModel = require("../models/vendorModels");
 const userModel = require("../models/userModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
+const OrdersListModel = require("../models/OrdersListModels");
 const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
@@ -770,7 +771,23 @@ const getAllUsersCount = (req, res) => {
             });
         }
     })
-}
+};
+
+const GetNotificationCount = (req, res) => {
+    OrdersListModel.count({ Status : 'New' }, function(err,count1){
+        if(!err){
+            CustomizeCakeModel.count({ Status : 'New'}, function(err,count2){
+                if(!err){
+                    vendorModel.count({ Status : 'New' }, function(err, count3){
+                        if(!err){
+                            res.send({ Orders : count1.toString(), CustomizeCakes : count2.toString(), Newvendors : count3.toString() });
+                        }
+                    })
+                }
+            })
+        }
+    })
+};
 
 
 
@@ -787,6 +804,7 @@ module.exports = {
     putVendors,
     deleteVendors,
     getAllUsersCount,
-    NewAdmin
+    NewAdmin,
+    GetNotificationCount
 
 };

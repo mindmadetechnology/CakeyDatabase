@@ -268,5 +268,5 @@ module.exports = {
     GetCustomizeCakeList,
     GetAbove5kgCustomizeCakeList,
     GetCustomizeCakeListByVendorId,
-    GetCustomizeCakeListByUserId
+    GetCustomizeCakeListByUserId,
 }
