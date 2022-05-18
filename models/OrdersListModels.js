@@ -6,6 +6,9 @@ const OrderSchema = new mongoose.Schema({
     CakeID: {
         type: String
     },
+    Cake_ID: {
+        type: String
+    },
     Title: {
         type: String,
     },

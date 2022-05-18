@@ -75,6 +75,7 @@ const getOrdersListByVendorId = (req, res) => {
 const newOrder = (req, res) => {
 
     const CakeID = req.body.CakeID;
+    const Cake_ID = req.body.Cake_ID;
     const Title = req.body.Title;
     const Description = req.body.Description;
     const TypeOfCake = req.body.TypeOfCake;
@@ -111,7 +112,7 @@ const newOrder = (req, res) => {
 
     try {
 
-        if (CakeID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
+        if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
             EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
             Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
@@ -123,6 +124,7 @@ const newOrder = (req, res) => {
             // const NewArticleList = JSON.parse(Article);
             const OrderList = new OrdersListModel({
                 CakeID: CakeID,
+                Cake_ID : Cake_ID,
                 Title: Title,
                 Description: Description,
                 TypeOfCake: TypeOfCake,
