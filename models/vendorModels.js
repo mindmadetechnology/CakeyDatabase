@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { increment } = require('../config/db');
 
 const VendorSchema = new mongoose.Schema({
 
@@ -6,15 +7,15 @@ const VendorSchema = new mongoose.Schema({
         type: String,
     },
     Password: {
-        type : String,
+        type: String,
     },
     VendorName: {
-        type : String,
+        type: String,
     },
     Address: {
         // type : String
-        FullAddress : {
-            type : String
+        FullAddress: {
+            type: String
         },
         Street: {
             type: String
@@ -25,106 +26,113 @@ const VendorSchema = new mongoose.Schema({
         State: {
             type: String
         },
-        Pincode : {
-            type : Number
+        Pincode: {
+            type: Number
         }
     },
-    GoogleLocation : {
-        type : String,
+    GoogleLocation: {
+        type: String,
     },
     PhoneNumber1: {
-        type : String,
+        type: String,
     },
     PhoneNumber2: {
-        type : String,
+        type: String,
     },
     // ProfileBanner: {
     //     data: Buffer,
     //     contentType: String
     // },
-    Description:{
-        type : String,
+    Description: {
+        type: String,
     },
     ProfileImage: {
-        type : String,
+        type: String,
     },
-    EggOrEggless : {
-        type : String
+    EggOrEggless: {
+        type: String
     },
-    PreferredVendorName : {
-        type : String
+    PreferredVendorName: {
+        type: String
     },
-    DateOfBirth : {
-        type : String
+    DateOfBirth: {
+        type: String
     },
-    Gender : {
-        type :String
+    Gender: {
+        type: String
     },
-    YearsOfExperienceAsBaker : {
-        type : String,
+    YearsOfExperienceAsBaker: {
+        type: String,
     },
-    AadhaarNumber : {
-        type : String
+    AadhaarNumber: {
+        type: String
     },
-    PANNumber : {
-        type : String
+    PANNumber: {
+        type: String
     },
-    GSTNumber : {
-        type : String,
+    GSTNumber: {
+        type: String,
     },
-    FSSAINumber : {
-        type : String
+    FSSAINumber: {
+        type: String
     },
-    FSSAIExpiryDate : {
-        type : String
+    FSSAIExpiryDate: {
+        type: String
     },
-    MaximumCakesPerDay : {
-        type : String
+    MaximumCakesPerDay: {
+        type: String
     },
-    MaximumCakesPerWeek : {
-        type : String
+    MaximumCakesPerWeek: {
+        type: String
     },
-    JobType : {
-        type : String
+    JobType: {
+        type: String
     },
-    SpecializedIn : {
-        type : String
+    SpecializedIn: {
+        type: String
     },
-    BankName : {
-        type : String
+    BankName: {
+        type: String
     },
-    Branch : {
-        type : String
+    Branch: {
+        type: String
     },
-    AccountNumber : {
-        type : String
+    AccountNumber: {
+        type: String
     },
-    IFSCCode : {
-        type : String
+    IFSCCode: {
+        type: String
     },
-    UPIId : {
-        type : String
-    }, 
-    Registered_On : {
-        type : String
+    UPIId: {
+        type: String
+    },
+    Registered_On: {
+        type: String
     },
     Created_On: {
-        type : String,
+        type: String,
     },
     Modified_On: {
-        type : String,
+        type: String,
     },
-    Status : {
-        type : String,
-        default : 'New'
+    Status: {
+        type: String,
+        default: 'New'
     },
     IsDeleted: {
-        type : String,
-        default : 'n'
+        type: String,
+        default: 'n'
     }
-    
+
+});
+
+VendorSchema.plugin(increment, {
+    type: String,
+    modelName: 'vendors',
+    fieldName: 'Id',
+    prefix: 'CKYV-',
 });
 
 const collectionName = 'vendors';
 
-module.exports = mongoose.model('vendors',VendorSchema,collectionName);
+module.exports = mongoose.model('vendors', VendorSchema, collectionName);

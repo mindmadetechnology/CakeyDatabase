@@ -1,124 +1,125 @@
 const mongoose = require("mongoose");
+const { increment } = require('../config/db');
 
 const OrderSchema = new mongoose.Schema({
 
-    CakeID : {
-        type : String
+    CakeID: {
+        type: String
     },
     Title: {
         type: String,
     },
-    TypeOfCake : {
-        type : String,
+    TypeOfCake: {
+        type: String,
     },
-    Description : {
-        type : String,
+    Description: {
+        type: String,
     },
-    Images : {
-        type : String,
+    Images: {
+        type: String,
     },
-    EggOrEggless : {
-        type : String,
+    EggOrEggless: {
+        type: String,
     },
     Price: {
-        type : String,
+        type: String,
     },
-    Discount : {
-        type : Number,
-        default : 0,
+    Discount: {
+        type: Number,
+        default: 0,
     },
-    ExtraCharges : {
-        type : String,
-        default : '0',
+    ExtraCharges: {
+        type: String,
+        default: '0',
     },
-    Flavour : [{
-       Name : {
-           type : String
-       },
-       Price : {
-           type : String
-       }
-    }],
-    Shape : {
-        type : String,
-    },
-    Article : {
-        Name : {
-            type : String
+    Flavour: [{
+        Name: {
+            type: String
         },
-        Price : {
-            type : String
+        Price: {
+            type: String
+        }
+    }],
+    Shape: {
+        type: String,
+    },
+    Article: {
+        Name: {
+            type: String
+        },
+        Price: {
+            type: String
         }
     },
     // CakeToppings: [{
     //     type: String
     // }],
-    Weight : {
-        type : String,
+    Weight: {
+        type: String,
     },
-    MessageOnTheCake : {
-        type : String,
+    MessageOnTheCake: {
+        type: String,
     },
-    SpecialRequest : {
-        type : String,
+    SpecialRequest: {
+        type: String,
     },
-    VendorID : {
-        type : String,
+    VendorID: {
+        type: String,
     },
-    VendorName : {
-        type : String,
+    VendorName: {
+        type: String,
     },
-    VendorPhoneNumber : {
-        type : String,
-    }, 
-    UserID : {
-        type : String,
+    VendorPhoneNumber: {
+        type: String,
     },
-    UserName : {
-        type : String,
+    UserID: {
+        type: String,
     },
-    UserPhoneNumber : {
-        type : String,
+    UserName: {
+        type: String,
+    },
+    UserPhoneNumber: {
+        type: String,
     },
     DeliveryAddress: {
-        type : String,
+        type: String,
     },
-    DeliveryDate : {
-        type : String,
+    DeliveryDate: {
+        type: String,
     },
-    DeliverySession : {
-        type : String,
+    DeliverySession: {
+        type: String,
     },
-    DeliveryInformation : {
-        type : String
+    DeliveryInformation: {
+        type: String
     },
-    VendorAddress : {
-        type : String,
+    VendorAddress: {
+        type: String,
     },
-    ItemCount : {
-        type : Number,
+    ItemCount: {
+        type: Number,
     },
-    Total : {
-        type : String,
+    Total: {
+        type: String,
     },
     DeliveryCharge: {
-        type : String,
+        type: String,
     },
-    Status : {
-        type : String,
-        default : 'New'
+    Status: {
+        type: String,
+        default: 'New'
     },
-    PaymentType : {
-        type : String,
+    PaymentType: {
+        type: String,
     },
-    PaymentStatus : {
-        type : String,
+    PaymentStatus: {
+        type: String,
     },
-    Gst : {
-        type : String,
+    Gst: {
+        type: String,
     },
-    Sgst : {
-        type : String,
+    Sgst: {
+        type: String,
     },
     Created_On: {
         type: String
@@ -126,15 +127,22 @@ const OrderSchema = new mongoose.Schema({
     Modified_On: {
         type: String
     },
-    Status_Updated_On : {
-        type : String,
+    Status_Updated_On: {
+        type: String,
     },
-    Status_Updated_By : {
-        type : String,
+    Status_Updated_By: {
+        type: String,
     },
 
 });
 
+OrderSchema.plugin(increment, {
+    type: String,
+    modelName: 'OrdersList',
+    fieldName: 'Id',
+    prefix: 'CKYORD-',
+});
+
 const collectionName = 'OrdersList';
 
-module.exports = mongoose.model('OrdersList',OrderSchema,collectionName);
+module.exports = mongoose.model('OrdersList', OrderSchema, collectionName);

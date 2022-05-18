@@ -6,7 +6,7 @@ const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 const { transporter } = require('../middleware/nodemailer');
 require('dotenv').config();
-const helpDeskModel = require('../models/helpDeskModels')
+const helpDeskModel = require('../models/helpDeskModels');
 
 //Get Admin details by email
 const getAdminbyEmail = (req, res) => {
@@ -21,6 +21,23 @@ const getAdminbyEmail = (req, res) => {
         }
     });
 
+};
+
+const NewAdmin = (req, res) => {
+    const Email = req.body.Email;
+    const Password = req.body.Password;
+
+    const data = adminModel({
+        Email : Email,
+        Password : Password
+    });
+    data.save(function(err, result){
+        if(err){
+            res.send('Failed')
+        }else{
+            res.send('success')
+        }
+    })
 };
 
 //Update admin's details
@@ -766,6 +783,7 @@ module.exports = {
     addVendors,
     putVendors,
     deleteVendors,
-    getAllUsersCount
+    getAllUsersCount,
+    NewAdmin
 
 };

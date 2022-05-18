@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { increment } = require('../config/db');
 
 const UserSchema = new mongoose.Schema({
 
@@ -13,7 +14,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
     },
     Address: {
-        type : String
+        type: String
         // Street: {
         //     type: String
         // },
@@ -27,13 +28,20 @@ const UserSchema = new mongoose.Schema({
         //     type : Number
         // }
     },
-    Created_On : {
-        type : String,
+    Created_On: {
+        type: String,
     },
-    Modified_On : {
-        type : String,
+    Modified_On: {
+        type: String,
     }
-    
+
+});
+
+UserSchema.plugin(increment, {
+    type: String,
+    modelName: 'users',
+    fieldName: 'Id',
+    prefix: 'CKYCUS-',
 });
 
 const collectionName = 'users';

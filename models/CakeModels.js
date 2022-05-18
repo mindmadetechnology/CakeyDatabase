@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { increment } = require('../config/db');
 
 const CakeSchema = new mongoose.Schema({
 
@@ -21,15 +22,15 @@ const CakeSchema = new mongoose.Schema({
     Price: {
         type: String
     },
-    Category : {
-        type : String
+    Category: {
+        type: String
     },
-    SubCategory : {
-        type : String
+    SubCategory: {
+        type: String
     },
-    Discount : {
-        type : Number,
-        default : 0,
+    Discount: {
+        type: Number,
+        default: 0,
     },
     // Ratings: {
     //     type: Number
@@ -43,7 +44,7 @@ const CakeSchema = new mongoose.Schema({
     VendorPhoneNumber: {
         type: String
     },
-    VendorAddress : {
+    VendorAddress: {
         Street: {
             type: String
         },
@@ -53,8 +54,8 @@ const CakeSchema = new mongoose.Schema({
         State: {
             type: String
         },
-        Pincode : {
-            type : Number
+        Pincode: {
+            type: Number
         }
     },
     Created_On: {
@@ -65,11 +66,11 @@ const CakeSchema = new mongoose.Schema({
     },
     FlavourList: [{
         // type: String
-        Name : {
-            type : String
+        Name: {
+            type: String
         },
-        Price : {
-            type : String
+        Price: {
+            type: String
         }
     }],
     ShapeList: [{
@@ -77,11 +78,11 @@ const CakeSchema = new mongoose.Schema({
     }],
     ArticleList: [{
         // type: String
-        Name : {
-            type : String
+        Name: {
+            type: String
         },
-        Price : {
-            type : String
+        Price: {
+            type: String
         }
     }],
     // CakeToppings: [{
@@ -90,29 +91,36 @@ const CakeSchema = new mongoose.Schema({
     WeightList: [{
         type: String
     }],
-    Stock : {
-        type : String,
-        default : 'InStock'
+    Stock: {
+        type: String,
+        default: 'InStock'
     },
     // DeliveryCharge : {
     //     type : String,
     //     default : '0'
     // },
-    Tax : {
-        type : Number,
-        default : '0'
+    Tax: {
+        type: Number,
+        default: '0'
     },
-    Status : {
-        type : String,
-        default : 'New'
+    Status: {
+        type: String,
+        default: 'New'
     },
-    Status_Updated_On : {
-        type : String,
+    Status_Updated_On: {
+        type: String,
     },
     IsDeleted: {
         type: String,
         default: 'n'
     },
+});
+
+CakeSchema.plugin(increment, {
+    type: String,
+    modelName: 'CakeList',
+    fieldName: 'Id',
+    prefix: 'CKYC-',
 });
 
 const collectionName = 'CakeList';

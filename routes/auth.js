@@ -41,7 +41,8 @@ const {
     putVendors,
     deleteVendors, 
     verifyToken,
-    getAllUsersCount
+    getAllUsersCount,
+    NewAdmin
 } = require('../controllers/admin&vendorController');
 
 const { 
@@ -109,8 +110,14 @@ const {
     GetCustomizeCakeListByUserId
 } = require('../controllers/customizeCakeController');
 
+const {
+    sampleCode
+} = require('../controllers/sample');
+
 
 //Admin API
+
+router.post('/admin/new', NewAdmin);
 
 //Get all vendors
 router.get("/admin/list/:email", getAdminbyEmail);
@@ -313,5 +320,7 @@ router.get('/customize/cake/listbyvendorid/:id', GetCustomizeCakeListByVendorId)
 
 //get customize cake based on user id
 router.get('/customize/cake/listbyuserid/:id', GetCustomizeCakeListByUserId);
+
+router.post('/sample/new', sampleCode);
 
 module.exports = router;
