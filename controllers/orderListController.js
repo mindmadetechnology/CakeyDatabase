@@ -87,9 +87,11 @@ const newOrder = (req, res) => {
     const Article = req.body.Article; //Optional
     const Weight = req.body.Weight; 
     const VendorID = req.body.VendorID;
+    const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
     const VendorPhoneNumber = req.body.VendorPhoneNumber;
     const UserID = req.body.UserID;
+    const User_ID = req.body.User_ID;
     const UserName = req.body.UserName;
     const UserPhoneNumber = req.body.UserPhoneNumber;
     const DeliveryAddress = req.body.DeliveryAddress;
@@ -117,7 +119,8 @@ const newOrder = (req, res) => {
             Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
             Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
-            Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined) {
+            Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined ||
+            Vendor_ID === undefined || User_ID === undefined) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             // const NewFlavourList = JSON.parse(Flavour)
@@ -138,9 +141,11 @@ const newOrder = (req, res) => {
                 SpecialRequest : SpecialRequest,
                 Weight: Weight,
                 VendorID: VendorID,
+                Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
                 VendorPhoneNumber: VendorPhoneNumber,
                 UserID: UserID,
+                User_ID: User_ID,
                 UserName: UserName,
                 UserPhoneNumber: UserPhoneNumber,
                 DeliveryAddress: DeliveryAddress,
