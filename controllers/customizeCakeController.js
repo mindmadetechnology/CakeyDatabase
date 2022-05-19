@@ -22,7 +22,7 @@ const GetAbove5kgCustomizeCakeList = (req, res) => {
 
     const Above5KG = req.params.above;
 
-    CustomizeCakeModel.find({ Above5KG : Above5KG }, function (err, result) {
+    CustomizeCakeModel.find({ Above5KG: Above5KG }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
@@ -40,7 +40,7 @@ const GetCustomizeCakeListByVendorId = (req, res) => {
 
     const VendorID = req.params.id;
 
-    CustomizeCakeModel.find({ VendorID : VendorID }, function (err, result) {
+    CustomizeCakeModel.find({ VendorID: VendorID }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
@@ -54,11 +54,33 @@ const GetCustomizeCakeListByVendorId = (req, res) => {
 
 };
 
+const GetNewCustomizeCakeListByVendorId = (req, res) => {
+
+    const Id = req.params.id;
+    const Status = req.params.status;
+
+    try {
+        CustomizeCakeModel.find({ VendorID: Id, Status: Status }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" })
+                } else {
+                    res.send(result)
+                }
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 const GetCustomizeCakeListByUserId = (req, res) => {
 
     const UserID = req.params.id;
 
-    CustomizeCakeModel.find({ UserID : UserID }, function (err, result) {
+    CustomizeCakeModel.find({ UserID: UserID }, function (err, result) {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
@@ -120,7 +142,7 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliveryDate: DeliveryDate,
                         DeliverySession: DeliverySession,
                         DeliveryInformation: DeliveryInformation,
-                        Above5KG : 'y',
+                        Above5KG: 'y',
                         UserID: UserID,
                         User_ID: User_ID,
                         UserName: UserName,
@@ -156,7 +178,7 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliveryDate: DeliveryDate,
                         DeliverySession: DeliverySession,
                         DeliveryInformation: DeliveryInformation,
-                        Above5KG : 'y',
+                        Above5KG: 'y',
                         UserID: UserID,
                         User_ID: User_ID,
                         UserName: UserName,
@@ -196,7 +218,7 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliverySession: DeliverySession,
                         DeliveryInformation: DeliveryInformation,
                         VendorID: VendorID,
-                        Vendor_ID : Vendor_ID,
+                        Vendor_ID: Vendor_ID,
                         VendorName: VendorName,
                         VendorPhoneNumber: VendorPhoneNumber,
                         VendorAddress: VendorAddress,
@@ -236,7 +258,7 @@ const AddNewCustomizeCake = async (req, res) => {
                         DeliverySession: DeliverySession,
                         DeliveryInformation: DeliveryInformation,
                         VendorID: VendorID,
-                        Vendor_ID : Vendor_ID,
+                        Vendor_ID: Vendor_ID,
                         VendorName: VendorName,
                         VendorPhoneNumber: VendorPhoneNumber,
                         VendorAddress: VendorAddress,
@@ -269,4 +291,5 @@ module.exports = {
     GetAbove5kgCustomizeCakeList,
     GetCustomizeCakeListByVendorId,
     GetCustomizeCakeListByUserId,
+    GetNewCustomizeCakeListByVendorId
 }

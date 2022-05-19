@@ -109,6 +109,7 @@ const {
     GetAbove5kgCustomizeCakeList,
     GetCustomizeCakeListByVendorId, 
     GetCustomizeCakeListByUserId,
+    GetNewCustomizeCakeListByVendorId
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -321,6 +322,9 @@ router.get('/customize/cake/list/:above', GetAbove5kgCustomizeCakeList);
 
 //get customize cake based on vendor id
 router.get('/customize/cake/listbyvendorid/:id', GetCustomizeCakeListByVendorId);
+
+//get new customizecake based on vendor id
+router.get('/customize/cake/listbystatus/:id/:status',GetNewCustomizeCakeListByVendorId);
 
 //get customize cake based on user id
 router.get('/customize/cake/listbyuserid/:id', GetCustomizeCakeListByUserId);

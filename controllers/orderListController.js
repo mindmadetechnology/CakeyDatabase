@@ -1,4 +1,5 @@
 const OrdersListModel = require("../models/OrdersListModels");
+const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
 
 //get all orders
@@ -343,18 +344,25 @@ const getVendorOrdersStatusCount = (req, res) => {
                                 if(err){
                                     res.send({statusCode : 400, message : "Failed"});
                                 }else{
-                                    res.send({ 
+                                    CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count5){
+                                        if(err){
+                                            res.send({statusCode : 400, message : "Failed"});
+                                        }else {
+                                            res.send({ 
                                                 Total : count1.toString(), 
                                                 New : count2.toString(), 
                                                 Preparing : count3.toString(),
-                                                Delivered : count4.toString()
+                                                Delivered : count4.toString(),
+                                                NewCustomizeCakes : count5.toString()
                                             });
+                                        }
+                                    }); 
                                 }
-                            })
+                            });
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
     });
 };
