@@ -344,19 +344,40 @@ const getVendorOrdersStatusCount = (req, res) => {
                                 if(err){
                                     res.send({statusCode : 400, message : "Failed"});
                                 }else{
-                                    CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count5){
+                                    OrdersListModel.count({Status : 'Cancelled', VendorID : id}, function(err,count5){
                                         if(err){
                                             res.send({statusCode : 400, message : "Failed"});
-                                        }else {
-                                            res.send({ 
-                                                Total : count1.toString(), 
-                                                New : count2.toString(), 
-                                                Preparing : count3.toString(),
-                                                Delivered : count4.toString(),
-                                                NewCustomizeCakes : count5.toString()
-                                            });
+                                        }else{
+                                            
+                                            CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count6){
+                                                if(err){
+                                                    res.send({statusCode : 400, message : "Failed"});
+                                                }else {
+                                                    res.send({ 
+                                                        Total : count1.toString(), 
+                                                        New : count2.toString(), 
+                                                        Preparing : count3.toString(),
+                                                        Delivered : count4.toString(),
+                                                        Cancelled : count5.toString(),
+                                                        NewCustomizeCakes : count6.toString()
+                                                    });
+                                                }
+                                            }); 
                                         }
-                                    }); 
+                                    });
+                                    // CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count5){
+                                    //     if(err){
+                                    //         res.send({statusCode : 400, message : "Failed"});
+                                    //     }else {
+                                    //         res.send({ 
+                                    //             Total : count1.toString(), 
+                                    //             New : count2.toString(), 
+                                    //             Preparing : count3.toString(),
+                                    //             Delivered : count4.toString(),
+                                    //             NewCustomizeCakes : count5.toString()
+                                    //         });
+                                    //     }
+                                    // }); 
                                 }
                             });
                         }
