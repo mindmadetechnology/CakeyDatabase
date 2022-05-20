@@ -35,6 +35,9 @@ const OrderSchema = new mongoose.Schema({
         type: String,
         default: '0',
     },
+    Theme : [{
+        type : String,
+    }],
     Flavour: [{
         Name: {
             type: String
@@ -129,6 +132,10 @@ const OrderSchema = new mongoose.Schema({
     },
     Sgst: {
         type: String,
+    },
+    Above5KG : {
+        type : String,
+        default : 'n'
     },
     Created_On: {
         type: String

@@ -9,9 +9,9 @@ const getOrdersList = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            if(result.length === 0){
-                res.send({message : "No Orders"})
-            }else{
+            if (result.length === 0) {
+                res.send({ message: "No Orders" })
+            } else {
                 res.send(result)
             }
         }
@@ -43,9 +43,9 @@ const getOrdersListByUserID = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            if(result.length === 0){
-                res.send({message : "No Orders"})
-            }else{
+            if (result.length === 0) {
+                res.send({ message: "No Orders" })
+            } else {
                 res.send(result)
             }
         }
@@ -62,9 +62,9 @@ const getOrdersListByVendorId = (req, res) => {
         if (err) {
             res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
         } else {
-            if(result.length === 0){
-                res.send({message : "No Orders"})
-            }else{
+            if (result.length === 0) {
+                res.send({ message: "No Orders" })
+            } else {
                 res.send(result)
             }
         }
@@ -85,8 +85,9 @@ const newOrder = (req, res) => {
     const Price = req.body.Price;
     const Flavour = req.body.Flavour; //Array
     const Shape = req.body.Shape;
+    const Theme = req.body.Theme; //Optional //Array
     const Article = req.body.Article; //Optional
-    const Weight = req.body.Weight; 
+    const Weight = req.body.Weight;
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
@@ -111,70 +112,132 @@ const newOrder = (req, res) => {
     const Gst = req.body.Gst;
     const Sgst = req.body.Sgst;
     const ExtraCharges = req.body.ExtraCharges;
+    const Above5KG = req.body.Above5KG; //if cake weight above 5kg
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
+        if (Weight > '5kg' || Weight > '5Kg') {
+            if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
+                EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
+                Weight === undefined || UserID === undefined || UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || ItemCount === undefined ||
+                Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
+                Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined || User_ID === undefined) {
+                    res.send({ statusCode: 400, message: "*required" });
+            } else {
+                // const NewFlavourList = JSON.parse(Flavour)
+                // const NewArticleList = JSON.parse(Article);
+                const OrderList = new OrdersListModel({
+                    CakeID: CakeID,
+                    Cake_ID: Cake_ID,
+                    Title: Title,
+                    Description: Description,
+                    TypeOfCake: TypeOfCake,
+                    Images: Images,
+                    EggOrEggless: EggOrEggless,
+                    Price: Price,
+                    Flavour: Flavour, //array
+                    Shape: Shape,
+                    Theme : Theme,
+                    Article: Article, //Object
+                    MessageOnTheCake: MessageOnTheCake,
+                    SpecialRequest: SpecialRequest,
+                    Weight: Weight,
+                    VendorID: VendorID,
+                    Vendor_ID: Vendor_ID,
+                    VendorName: VendorName,
+                    VendorPhoneNumber: VendorPhoneNumber,
+                    UserID: UserID,
+                    User_ID: User_ID,
+                    UserName: UserName,
+                    UserPhoneNumber: UserPhoneNumber,
+                    DeliveryAddress: DeliveryAddress,
+                    DeliveryDate: DeliveryDate,
+                    DeliverySession: DeliverySession,
+                    VendorAddress: VendorAddress,
+                    ItemCount: ItemCount,
+                    Total: Total,
+                    DeliveryCharge: DeliveryCharge,
+                    PaymentType: PaymentType,
+                    PaymentStatus: PaymentStatus,
+                    Discount: Discount,
+                    DeliveryInformation: DeliveryInformation,
+                    Gst: Gst,
+                    Sgst: Sgst,
+                    ExtraCharges: ExtraCharges,
+                    Above5KG : Above5KG,
+                    Created_On: Created_On
 
-        if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
-            EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
-            Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
-            UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
-            Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
-            Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined ||
-            Vendor_ID === undefined || User_ID === undefined) {
-            res.send({ statusCode: 400, message: "*required" });
+                });
+                OrderList.save(function (err, result) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed", error: err });
+                    } else {
+                        res.send({ statusCode: 200, message: "Added Successfully" })
+                    }
+                });
+            }
         } else {
-            // const NewFlavourList = JSON.parse(Flavour)
-            // const NewArticleList = JSON.parse(Article);
-            const OrderList = new OrdersListModel({
-                CakeID: CakeID,
-                Cake_ID : Cake_ID,
-                Title: Title,
-                Description: Description,
-                TypeOfCake: TypeOfCake,
-                Images: Images,
-                EggOrEggless: EggOrEggless,
-                Price: Price,
-                Flavour: Flavour, //array
-                Shape: Shape,
-                Article: Article, //Object
-                MessageOnTheCake : MessageOnTheCake,
-                SpecialRequest : SpecialRequest,
-                Weight: Weight,
-                VendorID: VendorID,
-                Vendor_ID: Vendor_ID,
-                VendorName: VendorName,
-                VendorPhoneNumber: VendorPhoneNumber,
-                UserID: UserID,
-                User_ID: User_ID,
-                UserName: UserName,
-                UserPhoneNumber: UserPhoneNumber,
-                DeliveryAddress: DeliveryAddress,
-                DeliveryDate : DeliveryDate,
-                DeliverySession : DeliverySession,
-                VendorAddress: VendorAddress,
-                ItemCount: ItemCount,
-                Total: Total,
-                DeliveryCharge: DeliveryCharge,
-                PaymentType: PaymentType,
-                PaymentStatus: PaymentStatus,
-                Discount: Discount,
-                DeliveryInformation : DeliveryInformation,
-                Gst : Gst,
-                Sgst : Sgst,
-                ExtraCharges : ExtraCharges,
-                Created_On: Created_On
+            if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
+                EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
+                Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
+                UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
+                Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
+                Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined ||
+                Vendor_ID === undefined || User_ID === undefined) {
+                res.send({ statusCode: 400, message: "*required" });
+            } else {
+                // const NewFlavourList = JSON.parse(Flavour)
+                // const NewArticleList = JSON.parse(Article);
+                const OrderList = new OrdersListModel({
+                    CakeID: CakeID,
+                    Cake_ID: Cake_ID,
+                    Title: Title,
+                    Description: Description,
+                    TypeOfCake: TypeOfCake,
+                    Images: Images,
+                    EggOrEggless: EggOrEggless,
+                    Price: Price,
+                    Flavour: Flavour, //array
+                    Shape: Shape,
+                    Theme : Theme,
+                    Article: Article, //Object
+                    MessageOnTheCake: MessageOnTheCake,
+                    SpecialRequest: SpecialRequest,
+                    Weight: Weight,
+                    VendorID: VendorID,
+                    Vendor_ID: Vendor_ID,
+                    VendorName: VendorName,
+                    VendorPhoneNumber: VendorPhoneNumber,
+                    UserID: UserID,
+                    User_ID: User_ID,
+                    UserName: UserName,
+                    UserPhoneNumber: UserPhoneNumber,
+                    DeliveryAddress: DeliveryAddress,
+                    DeliveryDate: DeliveryDate,
+                    DeliverySession: DeliverySession,
+                    VendorAddress: VendorAddress,
+                    ItemCount: ItemCount,
+                    Total: Total,
+                    DeliveryCharge: DeliveryCharge,
+                    PaymentType: PaymentType,
+                    PaymentStatus: PaymentStatus,
+                    Discount: Discount,
+                    DeliveryInformation: DeliveryInformation,
+                    Gst: Gst,
+                    Sgst: Sgst,
+                    ExtraCharges: ExtraCharges,
+                    Created_On: Created_On
 
-            });
-            OrderList.save(function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed", error:err });
-                } else {
-                    res.send({ statusCode: 200, message: "Added Successfully" })
-                }
-            });
+                });
+                OrderList.save(function (err, result) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed", error: err });
+                    } else {
+                        res.send({ statusCode: 200, message: "Added Successfully" })
+                    }
+                });
+            }
         }
-
     } catch (err) {
         return err;
     };
@@ -239,7 +302,7 @@ const updateOrderStatus = (req, res) => {
                     $set: {
                         Status: Status,
                         Status_Updated_On: Status_Updated_On,
-                        Status_Updated_By : Status_Updated_By
+                        Status_Updated_By: Status_Updated_By
                     }
                 }, function (err, result) {
                     if (err) {
@@ -259,13 +322,13 @@ const updateOrderStatus = (req, res) => {
 const getOrdersListByStatus = (req, res) => {
     const Status = req.params.status;
 
-    OrdersListModel.find({ Status : Status},function(err,result){
-        if(err){
-            res.send({statusCode : 400, message : "Failed"});
-        }else{
-            if(result.length === 0){
-                res.send({message : "No Orders"})
-            }else{
+    OrdersListModel.find({ Status: Status }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "Failed" });
+        } else {
+            if (result.length === 0) {
+                res.send({ message: "No Orders" })
+            } else {
                 res.send(result)
             }
         }
@@ -277,13 +340,13 @@ const getVendorOrdersListByStatus = (req, res) => {
     const id = req.params.id;
     const Status = req.params.status;
 
-    OrdersListModel.find({ VendorID : id, Status : Status },function(err, result){
-        if(err){
-            res.send({statusCode : 400, message : "Failed"});
-        }else{
-            if(result.length === 0){
-                res.send({message : "No Orders"})
-            }else{
+    OrdersListModel.find({ VendorID: id, Status: Status }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: "Failed" });
+        } else {
+            if (result.length === 0) {
+                res.send({ message: "No Orders" })
+            } else {
                 res.send(result)
             }
         }
@@ -292,28 +355,28 @@ const getVendorOrdersListByStatus = (req, res) => {
 
 const getOrdersStatusCount = (req, res) => {
 
-    OrdersListModel.count({}, function(err,count1){
-        if(err){
-            res.send({statusCode : 400, message : "Failed"});
-        }else{
-            OrdersListModel.count({Status : 'New'}, function(err,count2){
-                if(err){
-                    res.send({statusCode : 400, message : "Failed"});
-                }else{
-                    OrdersListModel.count({Status : 'Preparing'}, function(err,count3){
-                        if(err){
-                            res.send({statusCode : 400, message : "Failed"});
-                        }else{
-                            OrdersListModel.count({Status : 'Delivered'}, function(err,count4){
-                                if(err){
-                                    res.send({statusCode : 400, message : "Failed"});
-                                }else{
-                                    res.send({ 
-                                                Total : count1.toString(), 
-                                                New : count2.toString(), 
-                                                Preparing : count3.toString(),
-                                                Delivered : count4.toString()
-                                            });
+    OrdersListModel.count({}, function (err, count1) {
+        if (err) {
+            res.send({ statusCode: 400, message: "Failed" });
+        } else {
+            OrdersListModel.count({ Status: 'New' }, function (err, count2) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    OrdersListModel.count({ Status: 'Preparing' }, function (err, count3) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            OrdersListModel.count({ Status: 'Delivered' }, function (err, count4) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    res.send({
+                                        Total: count1.toString(),
+                                        New: count2.toString(),
+                                        Preparing: count3.toString(),
+                                        Delivered: count4.toString()
+                                    });
                                 }
                             })
                         }
@@ -328,41 +391,41 @@ const getVendorOrdersStatusCount = (req, res) => {
 
     const id = req.params.id;
 
-    OrdersListModel.count({ VendorID : id }, function(err,count1){
-        if(err){
-            res.send({statusCode : 400, message : "Failed"});
-        }else{
-            OrdersListModel.count({Status : 'New', VendorID : id}, function(err,count2){
-                if(err){
-                    res.send({statusCode : 400, message : "Failed"});
-                }else{
-                    OrdersListModel.count({Status : 'Preparing', VendorID : id}, function(err,count3){
-                        if(err){
-                            res.send({statusCode : 400, message : "Failed"});
-                        }else{
-                            OrdersListModel.count({Status : 'Delivered', VendorID : id}, function(err,count4){
-                                if(err){
-                                    res.send({statusCode : 400, message : "Failed"});
-                                }else{
-                                    OrdersListModel.count({Status : 'Cancelled', VendorID : id}, function(err,count5){
-                                        if(err){
-                                            res.send({statusCode : 400, message : "Failed"});
-                                        }else{
-                                            
-                                            CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count6){
-                                                if(err){
-                                                    res.send({statusCode : 400, message : "Failed"});
-                                                }else {
-                                                    res.send({ 
-                                                        Total : count1.toString(), 
-                                                        New : count2.toString(), 
-                                                        Preparing : count3.toString(),
-                                                        Delivered : count4.toString(),
-                                                        Cancelled : count5.toString(),
-                                                        NewCustomizeCakes : count6.toString()
+    OrdersListModel.count({ VendorID: id }, function (err, count1) {
+        if (err) {
+            res.send({ statusCode: 400, message: "Failed" });
+        } else {
+            OrdersListModel.count({ Status: 'New', VendorID: id }, function (err, count2) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    OrdersListModel.count({ Status: 'Preparing', VendorID: id }, function (err, count3) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            OrdersListModel.count({ Status: 'Delivered', VendorID: id }, function (err, count4) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    OrdersListModel.count({ Status: 'Cancelled', VendorID: id }, function (err, count5) {
+                                        if (err) {
+                                            res.send({ statusCode: 400, message: "Failed" });
+                                        } else {
+
+                                            CustomizeCakeModel.count({ Status: 'New', VendorID: id }, function (err, count6) {
+                                                if (err) {
+                                                    res.send({ statusCode: 400, message: "Failed" });
+                                                } else {
+                                                    res.send({
+                                                        Total: count1.toString(),
+                                                        New: count2.toString(),
+                                                        Preparing: count3.toString(),
+                                                        Delivered: count4.toString(),
+                                                        Cancelled: count5.toString(),
+                                                        NewCustomizeCakes: count6.toString()
                                                     });
                                                 }
-                                            }); 
+                                            });
                                         }
                                     });
                                     // CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count5){
