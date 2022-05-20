@@ -112,7 +112,7 @@ const newOrder = (req, res) => {
     const Gst = req.body.Gst;
     const Sgst = req.body.Sgst;
     const ExtraCharges = req.body.ExtraCharges;
-    const Above5KG = req.body.Above5KG; //if cake weight above 5kg
+    // const Above5KG = req.body.Above5KG; //if cake weight above 5kg
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -164,7 +164,7 @@ const newOrder = (req, res) => {
                     Gst: Gst,
                     Sgst: Sgst,
                     ExtraCharges: ExtraCharges,
-                    Above5KG : Above5KG,
+                    Above5KG : 'y',
                     Created_On: Created_On
 
                 });
