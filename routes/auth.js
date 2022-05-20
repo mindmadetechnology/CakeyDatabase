@@ -110,7 +110,8 @@ const {
     GetCustomizeCakeListByVendorId, 
     GetCustomizeCakeListByUserId,
     GetNewCustomizeCakeListByVendorId,
-    AssignCustomizecake
+    AssignCustomizecake,
+    CustomizeCakePriceInvoice
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -317,6 +318,9 @@ router.post('/customize/cake/new',upload.array("files"), AddNewCustomizeCake);
 
 //Assign customize cake to vendors
 router.put('/customize/cake/assign/:id', AssignCustomizecake);
+
+//send customize cake price invoice to user
+router.put('/customize/cake/price/:id', CustomizeCakePriceInvoice);
 
 //get all Customize cake
 router.get('/customize/cake/list', GetCustomizeCakeList);

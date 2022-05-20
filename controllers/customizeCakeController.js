@@ -286,6 +286,7 @@ const AddNewCustomizeCake = async (req, res) => {
 };
 
 const AssignCustomizecake = (req, res) => {
+
     const Id = req.params.id;
     const VendorID =req.body.VendorID;
     const Vendor_ID =req.body.Vendor_ID;
@@ -324,6 +325,84 @@ const AssignCustomizecake = (req, res) => {
     }
 };
 
+const CustomizeCakePriceInvoice = (req, res) => {
+    const Id = req.params.id;
+    const TypeOfCake = req.body.TypeOfCake;
+    const EggOrEggless = req.body.EggOrEggless;
+    const Flavour = req.body.Flavour; //multiple
+    const Shape = req.body.Shape;
+    const Article = req.body.Article; //Optional
+    const Weight = req.body.Weight;
+    const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
+    const SpecialRequest = req.body.SpecialRequest; //Optional
+    const DeliveryAddress = req.body.DeliveryAddress;
+    const DeliveryDate = req.body.DeliveryDate;
+    const DeliverySession = req.body.DeliverySession;
+    const DeliveryInformation = req.body.DeliveryInformation;
+    const VendorID = req.body.VendorID;
+    const Vendor_ID = req.body.Vendor_ID;
+    const VendorName = req.body.VendorName;
+    const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    const VendorAddress = req.body.VendorAddress;
+    const UserID = req.body.UserID;
+    const User_ID = req.body.User_ID;
+    const UserName = req.body.UserName;
+    const UserPhoneNumber = req.body.UserPhoneNumber;
+    const Status = req.body.Status;
+    const Notification = req.body.Notification;
+    const Price = req.body.Price;
+    const Discount = req.body.Discount; //Optional
+    const Tax = req.body.Tax;
+    const ExtraCharges = req.body.ExtraCharges; //Optional
+    const Invoice_Sent_By = req.body.Invoice_Sent_By;
+    const Invoice_Sent_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    try {
+       CustomizeCakeModel.findOneAndUpdate({_id : Id},{
+           $set : {
+            TypeOfCake: TypeOfCake,
+            EggOrEggless: EggOrEggless,
+            Flavour: Flavour,
+            Shape: Shape,
+            Weight: Weight,
+            Article: Article,
+            MessageOnTheCake: MessageOnTheCake,
+            SpecialRequest: SpecialRequest,
+            DeliveryAddress: DeliveryAddress,
+            DeliveryDate: DeliveryDate,
+            DeliverySession: DeliverySession,
+            DeliveryInformation: DeliveryInformation,
+            VendorID: VendorID,
+            Vendor_ID: Vendor_ID,
+            VendorName: VendorName,
+            VendorPhoneNumber: VendorPhoneNumber,
+            VendorAddress: VendorAddress,
+            UserID: UserID,
+            User_ID: User_ID,
+            UserName: UserName,
+            UserPhoneNumber: UserPhoneNumber,
+            Status: Status,
+            Notification: Notification,
+            Price: Price,
+            Discount: Discount,
+            Tax: Tax,
+            ExtraCharges: ExtraCharges,
+            Invoice_Sent_By: Invoice_Sent_By,
+            Invoice_Sent_On: Invoice_Sent_On,
+           }
+       }, function(err, result){
+           if(err){
+               res.send({ statusCode : 400, message : 'Failed'});
+           }else{
+               res.send({ statusCode : 200, message : 'Invoice Sent Successfully'});
+           }
+       })
+    }catch(err){
+        res.send({ statusCode : 400, message : 'Failed'});
+    }
+    
+};
+
 module.exports = {
     AddNewCustomizeCake,
     GetCustomizeCakeList,
@@ -331,5 +410,6 @@ module.exports = {
     GetCustomizeCakeListByVendorId,
     GetCustomizeCakeListByUserId,
     GetNewCustomizeCakeListByVendorId,
-    AssignCustomizecake
+    AssignCustomizecake,
+    CustomizeCakePriceInvoice
 }

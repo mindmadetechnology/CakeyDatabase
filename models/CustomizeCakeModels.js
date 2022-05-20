@@ -89,6 +89,29 @@ const OrderSchema = new mongoose.Schema({
     Status_Updated_By: {
         type: String,
     },
+    Notification : {
+        type : String,
+    },
+    Price : {
+        type : String,
+    },
+    Discount : {
+        type : Number,
+        default: 0
+    },
+    Tax : {
+        type: String,
+    },
+    ExtraCharges : {
+        type : String,
+        default: '0',
+    },
+    Invoice_Sent_On : {
+        type : String,
+    },
+    Invoice_Sent_By : {
+        type : String
+    }
 
 });
 
