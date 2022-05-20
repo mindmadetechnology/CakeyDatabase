@@ -5,18 +5,21 @@ const moment = require('moment-timezone');
 //get all orders
 const getOrdersList = (req, res) => {
 
-    OrdersListModel.find({}, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Orders" })
+    try {
+        OrdersListModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
-
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 //get order list based on orderId
@@ -24,14 +27,17 @@ const getOrdersListById = (req, res) => {
 
     const Id = req.params.id;
 
-    OrdersListModel.findById({ _id: Id }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            res.send(result);
-        }
-    });
-
+    try {
+        OrdersListModel.findById({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+            } else {
+                res.send(result);
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 //get order list based on userId
@@ -39,18 +45,21 @@ const getOrdersListByUserID = (req, res) => {
 
     const Id = req.params.userid;
 
-    OrdersListModel.find({ UserID: Id }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Orders" })
+    try {
+        OrdersListModel.find({ UserID: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
-
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 //get order list based on vendorId
@@ -58,18 +67,21 @@ const getOrdersListByVendorId = (req, res) => {
 
     const Id = req.params.vendorid;
 
-    OrdersListModel.find({ VendorID: Id }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Orders" })
+    try {
+        OrdersListModel.find({ VendorID: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
-
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 //Place new order
@@ -122,7 +134,7 @@ const newOrder = (req, res) => {
                 Weight === undefined || UserID === undefined || UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || ItemCount === undefined ||
                 Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
                 Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined || User_ID === undefined) {
-                    res.send({ statusCode: 400, message: "*required" });
+                res.send({ statusCode: 400, message: "*required" });
             } else {
                 // const NewFlavourList = JSON.parse(Flavour)
                 // const NewArticleList = JSON.parse(Article);
@@ -137,7 +149,7 @@ const newOrder = (req, res) => {
                     Price: Price,
                     Flavour: Flavour, //array
                     Shape: Shape,
-                    Theme : Theme,
+                    Theme: Theme,
                     Article: Article, //Object
                     MessageOnTheCake: MessageOnTheCake,
                     SpecialRequest: SpecialRequest,
@@ -159,7 +171,7 @@ const newOrder = (req, res) => {
                     Gst: Gst,
                     Sgst: Sgst,
                     ExtraCharges: ExtraCharges,
-                    Above5KG : 'y',
+                    Above5KG: 'y',
                     Created_On: Created_On
 
                 });
@@ -194,7 +206,7 @@ const newOrder = (req, res) => {
                     Price: Price,
                     Flavour: Flavour, //array
                     Shape: Shape,
-                    Theme : Theme,
+                    Theme: Theme,
                     Article: Article, //Object
                     MessageOnTheCake: MessageOnTheCake,
                     SpecialRequest: SpecialRequest,
@@ -317,17 +329,21 @@ const updateOrderStatus = (req, res) => {
 const getOrdersListByStatus = (req, res) => {
     const Status = req.params.status;
 
-    OrdersListModel.find({ Status: Status }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "Failed" });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Orders" })
+    try {
+        OrdersListModel.find({ Status: Status }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 const getVendorOrdersListByStatus = (req, res) => {
@@ -335,115 +351,127 @@ const getVendorOrdersListByStatus = (req, res) => {
     const id = req.params.id;
     const Status = req.params.status;
 
-    OrdersListModel.find({ VendorID: id, Status: Status }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "Failed" });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Orders" })
+    try {
+        OrdersListModel.find({ VendorID: id, Status: Status }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 const getOrdersStatusCount = (req, res) => {
 
-    OrdersListModel.count({}, function (err, count1) {
-        if (err) {
-            res.send({ statusCode: 400, message: "Failed" });
-        } else {
-            OrdersListModel.count({ Status: 'New' }, function (err, count2) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else {
-                    OrdersListModel.count({ Status: 'Preparing' }, function (err, count3) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            OrdersListModel.count({ Status: 'Delivered' }, function (err, count4) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else {
-                                    res.send({
-                                        Total: count1.toString(),
-                                        New: count2.toString(),
-                                        Preparing: count3.toString(),
-                                        Delivered: count4.toString()
-                                    });
-                                }
-                            })
-                        }
-                    })
-                }
-            })
-        }
-    });
+    try {
+        OrdersListModel.count({}, function (err, count1) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                OrdersListModel.count({ Status: 'New' }, function (err, count2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        OrdersListModel.count({ Status: 'Preparing' }, function (err, count3) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                OrdersListModel.count({ Status: 'Delivered' }, function (err, count4) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        res.send({
+                                            Total: count1.toString(),
+                                            New: count2.toString(),
+                                            Preparing: count3.toString(),
+                                            Delivered: count4.toString()
+                                        });
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 const getVendorOrdersStatusCount = (req, res) => {
 
     const id = req.params.id;
 
-    OrdersListModel.count({ VendorID: id }, function (err, count1) {
-        if (err) {
-            res.send({ statusCode: 400, message: "Failed" });
-        } else {
-            OrdersListModel.count({ Status: 'New', VendorID: id }, function (err, count2) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else {
-                    OrdersListModel.count({ Status: 'Preparing', VendorID: id }, function (err, count3) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            OrdersListModel.count({ Status: 'Delivered', VendorID: id }, function (err, count4) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else {
-                                    OrdersListModel.count({ Status: 'Cancelled', VendorID: id }, function (err, count5) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
-                                        } else {
+    try {
+        OrdersListModel.count({ VendorID: id }, function (err, count1) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                OrdersListModel.count({ Status: 'New', VendorID: id }, function (err, count2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        OrdersListModel.count({ Status: 'Preparing', VendorID: id }, function (err, count3) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                OrdersListModel.count({ Status: 'Delivered', VendorID: id }, function (err, count4) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        OrdersListModel.count({ Status: 'Cancelled', VendorID: id }, function (err, count5) {
+                                            if (err) {
+                                                res.send({ statusCode: 400, message: "Failed" });
+                                            } else {
 
-                                            CustomizeCakeModel.count({ Status: 'New', VendorID: id }, function (err, count6) {
-                                                if (err) {
-                                                    res.send({ statusCode: 400, message: "Failed" });
-                                                } else {
-                                                    res.send({
-                                                        Total: count1.toString(),
-                                                        New: count2.toString(),
-                                                        Preparing: count3.toString(),
-                                                        Delivered: count4.toString(),
-                                                        Cancelled: count5.toString(),
-                                                        NewCustomizeCakes: count6.toString()
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    });
-                                    // CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count5){
-                                    //     if(err){
-                                    //         res.send({statusCode : 400, message : "Failed"});
-                                    //     }else {
-                                    //         res.send({ 
-                                    //             Total : count1.toString(), 
-                                    //             New : count2.toString(), 
-                                    //             Preparing : count3.toString(),
-                                    //             Delivered : count4.toString(),
-                                    //             NewCustomizeCakes : count5.toString()
-                                    //         });
-                                    //     }
-                                    // }); 
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    });
+                                                CustomizeCakeModel.count({ Status: 'New', VendorID: id }, function (err, count6) {
+                                                    if (err) {
+                                                        res.send({ statusCode: 400, message: "Failed" });
+                                                    } else {
+                                                        res.send({
+                                                            Total: count1.toString(),
+                                                            New: count2.toString(),
+                                                            Preparing: count3.toString(),
+                                                            Delivered: count4.toString(),
+                                                            Cancelled: count5.toString(),
+                                                            NewCustomizeCakes: count6.toString()
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                        // CustomizeCakeModel.count({ Status : 'New', VendorID : id}, function(err, count5){
+                                        //     if(err){
+                                        //         res.send({statusCode : 400, message : "Failed"});
+                                        //     }else {
+                                        //         res.send({ 
+                                        //             Total : count1.toString(), 
+                                        //             New : count2.toString(), 
+                                        //             Preparing : count3.toString(),
+                                        //             Delivered : count4.toString(),
+                                        //             NewCustomizeCakes : count5.toString()
+                                        //         });
+                                        //     }
+                                        // }); 
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 module.exports = {

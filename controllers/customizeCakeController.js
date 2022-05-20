@@ -285,11 +285,51 @@ const AddNewCustomizeCake = async (req, res) => {
 
 };
 
+const AssignCustomizecake = (req, res) => {
+    const Id = req.params.id;
+    const VendorID =req.body.VendorID;
+    const Vendor_ID =req.body.Vendor_ID;
+    const VendorName =req.body.VendorName;
+    const VendorPhoneNumber =req.body.VendorPhoneNumber;
+    const VendorAddress =req.body.VendorAddress;
+    const Status = req.body.Status;
+    const Status_Updated_By = req.body.Status_Updated_By;
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    try {
+        if(!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber || !VendorAddress || !Status || !Status_Updated_By){
+            res.send({ statusCode : 400, message : '*required' });
+        }else{
+            CustomizeCakeModel.findOneAndUpdate({_id : Id},{
+                $set : {
+                    VendorID : VendorID,
+                    Vendor_ID : Vendor_ID,
+                    VendorName : VendorName,
+                    VendorPhoneNumber : VendorPhoneNumber,
+                    VendorAddress : VendorAddress,
+                    Status : Status,
+                    Status_Updated_By : Status_Updated_By,
+                    Status_Updated_On : Status_Updated_On
+                }
+            }, function(err, result){
+                if(err) { 
+                    res.send({ statusCode : 400, message : 'Failed'});
+                }else{
+                    res.send({ statusCode : 200, message : 'Assigned successfully'});
+                }
+            });
+        }
+    }catch(err) {
+        res.send({ statusCode : 400, message : 'Failed'});
+    }
+};
+
 module.exports = {
     AddNewCustomizeCake,
     GetCustomizeCakeList,
     GetAbove5kgCustomizeCakeList,
     GetCustomizeCakeListByVendorId,
     GetCustomizeCakeListByUserId,
-    GetNewCustomizeCakeListByVendorId
+    GetNewCustomizeCakeListByVendorId,
+    AssignCustomizecake
 }

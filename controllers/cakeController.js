@@ -6,18 +6,21 @@ const articlesModels = require("../models/articlesModels");
 // get cake list
 const getcakelist = (req, res) => {
 
-    cakeModel.find({ IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Records Found" })
+    try {
+        cakeModel.find({ IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
-
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 //get cake list based on status
@@ -25,18 +28,21 @@ const getCakeListByStatus = (req, res) => {
 
     const Status = req.params.status;
 
-    cakeModel.find({ Status: Status }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Records Found" })
+    try {
+        cakeModel.find({ Status: Status }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
-
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 // get cake list based on vendoename
@@ -44,41 +50,48 @@ const getcakelistByVendorName = (req, res) => {
 
     const VendorName = req.params.VendorName;
 
-    cakeModel.find({
-        VendorName: VendorName,
-        IsDeleted: 'n'
-    }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Records Found" })
+    try {
+        cakeModel.find({
+            VendorName: VendorName,
+            IsDeleted: 'n'
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 const getcakelistByVendorId = (req, res) => {
 
     const VendorId = req.params.VendorId;
 
-    cakeModel.find({
-        VendorID: VendorId,
-        IsDeleted: 'n'
-    }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Records Found" })
+    try {
+        cakeModel.find({
+            VendorID: VendorId,
+            IsDeleted: 'n'
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" })
+                } else {
+                    res.send(result)
+                }
             }
-        }
-    });
-
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 // get single cake's detail using id
@@ -86,14 +99,17 @@ const getCakeDetails = (req, res) => {
 
     const id = req.params.id;
 
-    cakeModel.findById({ _id: id }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: "Failed" });
-        } else {
-            res.send(result);
-        }
-    });
-
+    try {
+        cakeModel.findById({ _id: id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                res.send(result);
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 //Add new cake
@@ -157,7 +173,7 @@ const addCake = async (req, res) => {
                 SubCategory: SubCategory,
                 Discount: Discount,
                 VendorID: VendorID,
-                Vendor_ID : Vendor_ID,
+                Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
                 VendorPhoneNumber: VendorPhoneNumber,
                 VendorAddress: {
@@ -313,20 +329,23 @@ const deleteCake = (req, res) => {
     const IsDeleted = 'y';
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    cakeModel.findOneAndUpdate({ _id: id },
-        {
-            $set: {
-                IsDeleted: IsDeleted,
-                Modified_On: Modified_On
-            }
-        }, function (err, result) {
-            if (err) {
-                res.send({ statusCode: 400, message: "Failed" });
-            } else {
-                res.send({ statusCode: 200, message: "Deleted Successfully" });
-            }
-        });
-
+    try {
+        cakeModel.findOneAndUpdate({ _id: id },
+            {
+                $set: {
+                    IsDeleted: IsDeleted,
+                    Modified_On: Modified_On
+                }
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    res.send({ statusCode: 200, message: "Deleted Successfully" });
+                }
+            });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 module.exports = {

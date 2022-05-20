@@ -109,7 +109,8 @@ const {
     GetAbove5kgCustomizeCakeList,
     GetCustomizeCakeListByVendorId, 
     GetCustomizeCakeListByUserId,
-    GetNewCustomizeCakeListByVendorId
+    GetNewCustomizeCakeListByVendorId,
+    AssignCustomizecake
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -313,6 +314,9 @@ router.get('/toppings/list', GetCakeToppingsList);
 
 //Add new customize cake
 router.post('/customize/cake/new',upload.array("files"), AddNewCustomizeCake);
+
+//Assign customize cake to vendors
+router.put('/customize/cake/assign/:id', AssignCustomizecake);
 
 //get all Customize cake
 router.get('/customize/cake/list', GetCustomizeCakeList);
