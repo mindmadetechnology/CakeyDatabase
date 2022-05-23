@@ -13,13 +13,23 @@ const OrderSchema = new mongoose.Schema({
         type: String
     }],
     Flavour: [{
-        type: String,
+        Name: {
+            type: String
+        },
+        Price: {
+            type: String
+        }
     }],
     Shape: {
         type: String,
     },
     Article: {
-        type: String,
+        Name: {
+            type: String
+        },
+        Price: {
+            type: String
+        }
     },
     Weight: {
         type: String,
