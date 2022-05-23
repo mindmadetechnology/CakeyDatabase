@@ -149,6 +149,10 @@ const OrderSchema = new mongoose.Schema({
     Status_Updated_By: {
         type: String,
     },
+    CustomizeCake : {
+        type:String,
+        default:'n'
+    }
 
 });
 
