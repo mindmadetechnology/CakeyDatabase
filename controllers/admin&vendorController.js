@@ -797,7 +797,18 @@ const getAllUsersCount = (req, res) => {
                 vendorModel.count({ Status: 'Approved' }, function (err, count2) {
                     if (!err) {
                         CustomizeCakeModel.count({ Status: 'New' }, function (err, count3) {
-                            res.send({ Users: count1.toString(), Vendors: count2.toString(), CustomizeCakes: count3.toString() });
+                            if(!err){
+                                CustomizeCakeModel.count({}, function (err, count4) {
+                                    if(!err){
+                                        res.send({ 
+                                            Users: count1.toString(), 
+                                            Vendors: count2.toString(), 
+                                            CustomizeCakes: count3.toString(),
+                                            TotalCustomizeCakes: count4.toString() 
+                                        });
+                                    } 
+                                })
+                            } 
                         })
                     }
                 });
