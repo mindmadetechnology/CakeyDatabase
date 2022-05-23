@@ -109,7 +109,13 @@ const OrderSchema = new mongoose.Schema({
         type : Number,
         default: 0
     },
-    Tax : {
+    Gst : {
+        type: String,
+    },
+    Sgst : {
+        type: String,
+    },
+    Total : {
         type: String,
     },
     ExtraCharges : {

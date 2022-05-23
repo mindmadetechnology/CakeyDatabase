@@ -356,7 +356,9 @@ const CustomizeCakePriceInvoice = (req, res) => {
     const Notification = req.body.Notification;
     const Price = req.body.Price;
     const Discount = req.body.Discount; //Optional
-    const Tax = req.body.Tax;
+    const Gst = req.body.Gst;
+    const Sgst = req.body.Sgst;
+    const Total = req.body.Total;
     const ExtraCharges = req.body.ExtraCharges; //Optional
     const Invoice_Sent_By = req.body.Invoice_Sent_By;
     const Invoice_Sent_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
@@ -389,7 +391,9 @@ const CustomizeCakePriceInvoice = (req, res) => {
             Notification: Notification,
             Price: Price,
             Discount: Discount,
-            Tax: Tax,
+            Gst: Gst,
+            Sgst: Sgst,
+            Total: Total,
             ExtraCharges: ExtraCharges,
             Invoice_Sent_By: Invoice_Sent_By,
             Invoice_Sent_On: Invoice_Sent_On,
