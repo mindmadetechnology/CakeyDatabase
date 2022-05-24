@@ -102,6 +102,9 @@ const OrderSchema = new mongoose.Schema({
     Notification : {
         type : String,
     },
+    Notification_Updated_On : {
+        type : String,
+    },
     Price : {
         type : String,
     },

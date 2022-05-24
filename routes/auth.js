@@ -113,7 +113,8 @@ const {
     GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake,
     CustomizeCakePriceInvoice,
-    CustomizeCakeConfirmOrder
+    CustomizeCakeConfirmOrder,
+    ChangeNotificationStatus
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -261,6 +262,9 @@ router.get('/order/countbyvendorid/:id', getVendorOrdersStatusCount);
 
 //get single users orders and customize cake orders for notification
 router.get('/users/notification/:id', OrderandCustomizecakeNotification);
+
+//change notification status for customize  cake
+router.put('/customize/cake/update/notification/:id', ChangeNotificationStatus);
 
 
 //Category API

@@ -199,7 +199,7 @@ const AddNewCustomizeCake = async (req, res) => {
                     });
                 }
             }
-        } 
+        }
         else {
             if (TypeOfCake === undefined || EggOrEggless === undefined || Flavour === undefined || Vendor_ID === undefined ||
                 Shape === undefined || Weight === undefined || DeliveryAddress === undefined || DeliveryDate === undefined ||
@@ -293,40 +293,40 @@ const AddNewCustomizeCake = async (req, res) => {
 const AssignCustomizecake = (req, res) => {
 
     const Id = req.params.id;
-    const VendorID =req.body.VendorID;
-    const Vendor_ID =req.body.Vendor_ID;
-    const VendorName =req.body.VendorName;
-    const VendorPhoneNumber =req.body.VendorPhoneNumber;
-    const VendorAddress =req.body.VendorAddress;
+    const VendorID = req.body.VendorID;
+    const Vendor_ID = req.body.Vendor_ID;
+    const VendorName = req.body.VendorName;
+    const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    const VendorAddress = req.body.VendorAddress;
     const Status = req.body.Status;
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        if(!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber || !VendorAddress || !Status || !Status_Updated_By){
-            res.send({ statusCode : 400, message : '*required' });
-        }else{
-            CustomizeCakeModel.findOneAndUpdate({_id : Id},{
-                $set : {
-                    VendorID : VendorID,
-                    Vendor_ID : Vendor_ID,
-                    VendorName : VendorName,
-                    VendorPhoneNumber : VendorPhoneNumber,
-                    VendorAddress : VendorAddress,
-                    Status : Status,
-                    Status_Updated_By : Status_Updated_By,
-                    Status_Updated_On : Status_Updated_On
+        if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber || !VendorAddress || !Status || !Status_Updated_By) {
+            res.send({ statusCode: 400, message: '*required' });
+        } else {
+            CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
+                $set: {
+                    VendorID: VendorID,
+                    Vendor_ID: Vendor_ID,
+                    VendorName: VendorName,
+                    VendorPhoneNumber: VendorPhoneNumber,
+                    VendorAddress: VendorAddress,
+                    Status: Status,
+                    Status_Updated_By: Status_Updated_By,
+                    Status_Updated_On: Status_Updated_On
                 }
-            }, function(err, result){
-                if(err) { 
-                    res.send({ statusCode : 400, message : 'Failed'});
-                }else{
-                    res.send({ statusCode : 200, message : 'Assigned successfully'});
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: 'Failed' });
+                } else {
+                    res.send({ statusCode: 200, message: 'Assigned successfully' });
                 }
             });
         }
-    }catch(err) {
-        res.send({ statusCode : 400, message : 'Failed'});
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
     }
 };
 
@@ -365,51 +365,51 @@ const CustomizeCakePriceInvoice = (req, res) => {
     const Invoice_Sent_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-       CustomizeCakeModel.findOneAndUpdate({_id : Id},{
-           $set : {
-            TypeOfCake: TypeOfCake,
-            EggOrEggless: EggOrEggless,
-            Flavour: Flavour,
-            Shape: Shape,
-            Weight: Weight,
-            Article: Article,
-            MessageOnTheCake: MessageOnTheCake,
-            SpecialRequest: SpecialRequest,
-            DeliveryAddress: DeliveryAddress,
-            DeliveryDate: DeliveryDate,
-            DeliverySession: DeliverySession,
-            DeliveryInformation: DeliveryInformation,
-            VendorID: VendorID,
-            Vendor_ID: Vendor_ID,
-            VendorName: VendorName,
-            VendorPhoneNumber: VendorPhoneNumber,
-            VendorAddress: VendorAddress,
-            UserID: UserID,
-            User_ID: User_ID,
-            UserName: UserName,
-            UserPhoneNumber: UserPhoneNumber,
-            Status: Status,
-            Notification: Notification,
-            Price: Price,
-            Discount: Discount,
-            Gst: Gst,
-            Sgst: Sgst,
-            Total: Total,
-            ExtraCharges: ExtraCharges,
-            Invoice_Sent_By: Invoice_Sent_By,
-            Invoice_Sent_On: Invoice_Sent_On,
-           }
-       }, function(err, result){
-           if(err){
-               res.send({ statusCode : 400, message : 'Failed'});
-           }else{
-               res.send({ statusCode : 200, message : 'Invoice Sent Successfully'});
-           }
-       })
-    }catch(err){
-        res.send({ statusCode : 400, message : 'Failed'});
+        CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                TypeOfCake: TypeOfCake,
+                EggOrEggless: EggOrEggless,
+                Flavour: Flavour,
+                Shape: Shape,
+                Weight: Weight,
+                Article: Article,
+                MessageOnTheCake: MessageOnTheCake,
+                SpecialRequest: SpecialRequest,
+                DeliveryAddress: DeliveryAddress,
+                DeliveryDate: DeliveryDate,
+                DeliverySession: DeliverySession,
+                DeliveryInformation: DeliveryInformation,
+                VendorID: VendorID,
+                Vendor_ID: Vendor_ID,
+                VendorName: VendorName,
+                VendorPhoneNumber: VendorPhoneNumber,
+                VendorAddress: VendorAddress,
+                UserID: UserID,
+                User_ID: User_ID,
+                UserName: UserName,
+                UserPhoneNumber: UserPhoneNumber,
+                Status: Status,
+                Notification: Notification,
+                Price: Price,
+                Discount: Discount,
+                Gst: Gst,
+                Sgst: Sgst,
+                Total: Total,
+                ExtraCharges: ExtraCharges,
+                Invoice_Sent_By: Invoice_Sent_By,
+                Invoice_Sent_On: Invoice_Sent_On,
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Invoice Sent Successfully' });
+            }
+        })
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
     }
-    
+
 };
 
 const CustomizeCakeConfirmOrder = (req, res) => {
@@ -419,11 +419,11 @@ const CustomizeCakeConfirmOrder = (req, res) => {
     const DeliveryCharge = req.body.DeliveryCharge;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    try{
-        CustomizeCakeModel.findOne({_id:Id}, function(err, result){
-            if(err){
-                res.send({ statusCode : 400, message : 'Failed'});
-            }else{
+    try {
+        CustomizeCakeModel.findOne({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
                 const OrderList = new OrdersListModel({
                     CakeID: result._id.toString(),
                     Cake_ID: result.Id,
@@ -454,29 +454,50 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                     Gst: result.Gst,
                     Sgst: result.Sgst,
                     ExtraCharges: result.ExtraCharges,
-                    CustomizeCake : 'y',
+                    CustomizeCake: 'y',
                     Created_On: Created_On
 
                 });
 
-                OrderList.save(function(err, result){
-                    if(err){
-                        res.send({statusCode : 400, message : 'Failed'});
-                    }else{
-                        CustomizeCakeModel.findOneAndUpdate({_id:Id},{
-                            $set : {
-                                Status : 'Ordered',
-                                Status_Updated_On : Created_On
+                OrderList.save(function (err, result) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    } else {
+                        CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
+                            $set: {
+                                Status: 'Ordered',
+                                Status_Updated_On: Created_On
                             }
-                        }, function(err, result){
-                            res.send({statusCode : 200, message : 'Order Placed Successfully'});
+                        }, function (err, result) {
+                            res.send({ statusCode: 200, message: 'Order Placed Successfully' });
                         })
                     }
                 })
             }
         })
-    }catch(err){
-        res.send({ statusCode : 400, message : 'Failed'});
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
+const ChangeNotificationStatus = (req, res) => {
+    const Id = req.params.id;
+    const Notification_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    try {
+        CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                Notification: 'seen',
+                Notification_Updated_On: Notification_Updated_On
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Notification Updated Successfully' });
+            }
+        })
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
     }
 };
 
@@ -489,5 +510,6 @@ module.exports = {
     GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake,
     CustomizeCakePriceInvoice,
-    CustomizeCakeConfirmOrder
+    CustomizeCakeConfirmOrder,
+    ChangeNotificationStatus
 }
