@@ -128,7 +128,8 @@ const newOrder = (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        if (Weight > '5kg' || Weight > '5Kg') {
+        const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
+        if (JSON.parse(parseInt(weight[0])) >= 5) {
             if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
                 EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
                 Weight === undefined || UserID === undefined || UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || ItemCount === undefined ||
