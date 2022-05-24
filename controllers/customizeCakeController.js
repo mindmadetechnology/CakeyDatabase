@@ -1,4 +1,5 @@
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
+const OrdersListModel = require("../models/OrdersListModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -411,6 +412,74 @@ const CustomizeCakePriceInvoice = (req, res) => {
     
 };
 
+const CustomizeCakeConfirmOrder = (req, res) => {
+    const Id = req.params.id;
+    const PaymentType = req.body.PaymentType;
+    const PaymentStatus = req.body.PaymentStatus;
+    const DeliveryCharge = req.body.DeliveryCharge;
+    const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    try{
+        CustomizeCakeModel.findOne({_id:Id}, function(err, result){
+            if(err){
+                res.send({ statusCode : 400, message : 'Failed'});
+            }else{
+                const OrderList = new OrdersListModel({
+                    CakeID: result._id.toString(),
+                    Cake_ID: result.Id,
+                    TypeOfCake: result.TypeOfCake,
+                    Images: result.Images[0],
+                    EggOrEggless: result.EggOrEggless,
+                    Price: result.Price,
+                    Flavour: result.Flavour, //array
+                    Shape: result.Shape,
+                    Article: result.Article, //Object
+                    MessageOnTheCake: result.MessageOnTheCake,
+                    SpecialRequest: result.SpecialRequest,
+                    Weight: result.Weight,
+                    UserID: result.UserID,
+                    User_ID: result.User_ID,
+                    UserName: result.UserName,
+                    UserPhoneNumber: result.UserPhoneNumber,
+                    DeliveryAddress: result.DeliveryAddress,
+                    DeliveryDate: result.DeliveryDate,
+                    DeliverySession: result.DeliverySession,
+                    ItemCount: 1,
+                    Total: result.Total,
+                    DeliveryCharge: DeliveryCharge,
+                    PaymentType: PaymentType,
+                    PaymentStatus: PaymentStatus,
+                    Discount: result.Discount,
+                    DeliveryInformation: result.DeliveryInformation,
+                    Gst: result.Gst,
+                    Sgst: result.Sgst,
+                    ExtraCharges: result.ExtraCharges,
+                    CustomizeCake : 'y',
+                    Created_On: Created_On
+
+                });
+
+                OrderList.save(function(err, result){
+                    if(err){
+                        res.send({statusCode : 400, message : 'Failed'});
+                    }else{
+                        CustomizeCakeModel.findOneAndUpdate({_id:Id},{
+                            $set : {
+                                Status : 'Ordered',
+                                Status_Updated_On : Created_On
+                            }
+                        }, function(err, result){
+                            res.send({statusCode : 200, message : 'Order Placed Successfully'});
+                        })
+                    }
+                })
+            }
+        })
+    }catch(err){
+        res.send({ statusCode : 400, message : 'Failed'});
+    }
+};
+
 module.exports = {
     AddNewCustomizeCake,
     GetCustomizeCakeList,
@@ -419,5 +488,6 @@ module.exports = {
     GetCustomizeCakeListByUserId,
     GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake,
-    CustomizeCakePriceInvoice
+    CustomizeCakePriceInvoice,
+    CustomizeCakeConfirmOrder
 }

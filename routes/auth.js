@@ -69,7 +69,8 @@ const {
     getOrdersListByStatus,
     getVendorOrdersListByStatus,
     getOrdersStatusCount,
-    getVendorOrdersStatusCount
+    getVendorOrdersStatusCount,
+    OrderandCustomizecakeNotification
 } = require('../controllers/orderListController');
 
 const { 
@@ -111,7 +112,8 @@ const {
     GetCustomizeCakeListByUserId,
     GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake,
-    CustomizeCakePriceInvoice
+    CustomizeCakePriceInvoice,
+    CustomizeCakeConfirmOrder
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -257,6 +259,9 @@ router.get('/order/totalcount', getOrdersStatusCount);
 //get Orders list by Status
 router.get('/order/countbyvendorid/:id', getVendorOrdersStatusCount);
 
+//get single users orders and customize cake orders for notification
+router.get('/users/notification/:id', OrderandCustomizecakeNotification);
+
 
 //Category API
 
@@ -321,6 +326,9 @@ router.put('/customize/cake/assign/:id', AssignCustomizecake);
 
 //send customize cake price invoice to user
 router.put('/customize/cake/price/:id', CustomizeCakePriceInvoice);
+
+//customize cake's confirm order
+router.post('/customize/cake/order/new/:id', CustomizeCakeConfirmOrder);
 
 //get all Customize cake
 router.get('/customize/cake/list', GetCustomizeCakeList);

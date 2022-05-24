@@ -468,6 +468,28 @@ const getVendorOrdersStatusCount = (req, res) => {
     }
 };
 
+const OrderandCustomizecakeNotification = (req, res) => {
+    const Id = req.params.id;
+
+    try{
+        CustomizeCakeModel.find({UserID : Id}, function(err, result1){
+            if(err){
+                res.send({ statusCode: 400, message: 'Failed' });
+            }else{
+                OrdersListModel.find({UserID : Id},function(err, result2){
+                    if(err){
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    }else{
+                        res.send({CustomizeCakesList : result1, OrdersList : result2});
+                    }
+                })
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
 module.exports = {
 
     getOrdersList,
@@ -480,6 +502,7 @@ module.exports = {
     getOrdersListByStatus,
     getVendorOrdersListByStatus,
     getOrdersStatusCount,
-    getVendorOrdersStatusCount
+    getVendorOrdersStatusCount,
+    OrderandCustomizecakeNotification
 
 };
