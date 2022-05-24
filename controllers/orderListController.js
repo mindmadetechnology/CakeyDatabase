@@ -491,6 +491,22 @@ const OrderandCustomizecakeNotification = (req, res) => {
     }
 };
 
+const GetAbove5kgOrdersList = (req, res) => {
+    const Above5KG = req.params.above;
+
+    OrdersListModel.find({ Above5KG : Above5KG, CustomizeCake : 'n'},function(err, result){
+        if(err){
+            res.send({ statusCode: 400, message : 'Failed'});
+        }else{
+            if (result.length === 0) {
+                res.send({ message: "No Orders" })
+            } else {
+                res.send(result)
+            }
+        }
+    })
+};
+
 module.exports = {
 
     getOrdersList,
@@ -504,6 +520,7 @@ module.exports = {
     getVendorOrdersListByStatus,
     getOrdersStatusCount,
     getVendorOrdersStatusCount,
-    OrderandCustomizecakeNotification
+    OrderandCustomizecakeNotification,
+    GetAbove5kgOrdersList
 
 };
