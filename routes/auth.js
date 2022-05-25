@@ -90,7 +90,8 @@ const {
 } = require('../controllers/VendorRegisterController');
 
 const {
-    HelpDeskNew
+    HelpDeskNew,
+    Above5kgCount
 } = require('../controllers/helpDeskController');
 
 const {
@@ -195,6 +196,9 @@ router.put("/vendors/delete/:id", deleteVendors);
 
 //Create New Help desk member
 router.post('/helpdesk/new',HelpDeskNew);
+
+//get above 5kg orders and customize cake orders count
+router.get('/helpdesk/orders/count',Above5kgCount);
 
 
 // Cake API

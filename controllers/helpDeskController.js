@@ -1,4 +1,6 @@
 const helpDeskModel = require('../models/helpDeskModels');
+const OrdersListModel = require("../models/OrdersListModels");
+const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
 
 const HelpDeskNew = (req, res) => {
@@ -30,6 +32,45 @@ const HelpDeskNew = (req, res) => {
     }
 };
 
+const Above5kgCount = (req, res) => {
+
+    try{
+        OrdersListModel.count({ Above5KG : 'y', Status : 'New'},function(err, count1){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" })
+            }else{
+                OrdersListModel.count({ Above5KG : 'y', Status : 'Assigned'},function(err, count2){
+                    if(err){
+                        res.send({ statusCode: 400, message: "Failed" })
+                    }else{
+                        CustomizeCakeModel.count({ Above5KG : 'y', Status : 'New'},function(err, count3){
+                            if(err){
+                                res.send({ statusCode: 400, message: "Failed" })
+                            }else{
+                                CustomizeCakeModel.count({ Above5KG : 'y', Status : 'Assigned'},function(err, count4){
+                                    if(err){
+                                        res.send({ statusCode: 400, message: "Failed" })
+                                    }else{
+                                        res.send({ 
+                                            OrderNew : count1, 
+                                            OrderAssigned : count2, 
+                                            CustomizeCakeNew : count3, 
+                                            CustomizeCakeAssigned : count4
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }catch(err) {
+        res.send({ statusCode: 400, message: "Failed" }) 
+    }
+};
+
 module.exports = {
-    HelpDeskNew
+    HelpDeskNew,
+    Above5kgCount
 }
