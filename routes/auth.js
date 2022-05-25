@@ -13,7 +13,7 @@ app.use(cors());
 
 const upload=require("../middleware/multer");
 
-// const Authorization = require('../middleware/autherization');
+const Authorization = require('../middleware/autherization');
 
 const corsOptions ={
     origin:'http://localhost:3000', 
@@ -244,7 +244,7 @@ router.get('/order/list', getOrdersList);
 router.get('/order/list/:id', getOrdersListById);
 
 //get order list based on userId
-router.get('/order/listbyuserid/:userid', getOrdersListByUserID); 
+router.get('/order/listbyuserid/:userid', Authorization, getOrdersListByUserID); 
 
 //get order list based on vendorId
 router.get('/order/listbyvendorid/:vendorid', getOrdersListByVendorId); 

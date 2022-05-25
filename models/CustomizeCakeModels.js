@@ -101,6 +101,7 @@ const OrderSchema = new mongoose.Schema({
     },
     Notification : {
         type : String,
+        default:'New'
     },
     Notification_Updated_On : {
         type : String,
