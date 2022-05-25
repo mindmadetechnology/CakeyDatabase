@@ -71,7 +71,8 @@ const {
     getOrdersStatusCount,
     getVendorOrdersStatusCount,
     OrderandCustomizecakeNotification,
-    GetAbove5kgOrdersList
+    GetAbove5kgOrdersList,
+    Above5KGOrderAssign
 } = require('../controllers/orderListController');
 
 const { 
@@ -263,6 +264,9 @@ router.get('/order/countbyvendorid/:id', getVendorOrdersStatusCount);
 
 //get customize cake based on above 5kg yes or no
 router.get('/order/listbyAbove5KG/:above', GetAbove5kgOrdersList);
+
+//Above 5k orders assign to vendors
+router.put('/order/assign/:id', Above5KGOrderAssign);
 
 //get single users orders and customize cake orders for notification
 router.get('/users/notification/:id', OrderandCustomizecakeNotification);

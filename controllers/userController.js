@@ -197,7 +197,7 @@ const validateUsers = (req, res) => {
             } else {
                 const token = JWT.sign({
                     id: result._id
-                }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 });
+                }, process.env.JWT_SECRET, { expiresIn: '1825d' });
                 res.send({ statusCode: 200, message: "Login Succeed", token: token });
                 // req.setHeader('Authorization','Bearer ' + token)
             }

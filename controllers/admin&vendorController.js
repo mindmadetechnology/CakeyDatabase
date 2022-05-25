@@ -232,7 +232,7 @@ const loginValidate = (req, res) => {
                                 const token = JWT.sign({
                                     id: result._id,
                                     Email: result.Email
-                                }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 })
+                                }, process.env.JWT_SECRET, { expiresIn: '7d' })
                                 res.send({ statusCode: 200, message: "Login Succeed", type: 'helpdesk', token: token });
                             }
                         })
@@ -242,7 +242,7 @@ const loginValidate = (req, res) => {
                         const token = JWT.sign({
                             id: result._id,
                             Email: result.Email
-                        }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 })
+                        }, process.env.JWT_SECRET, { expiresIn: '7d' })
                         res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
                     }
                 });
@@ -252,7 +252,7 @@ const loginValidate = (req, res) => {
                 const token = JWT.sign({
                     id: result._id,
                     Email: result.Email
-                }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 96 })
+                }, process.env.JWT_SECRET, { expiresIn: '7d' })
                 res.send({ statusCode: 200, message: "Login Succeed", type: 'admin', token: token });
             }
         });
