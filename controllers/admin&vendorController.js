@@ -313,8 +313,6 @@ const verifyToken = (req, res) => {
     }
 };
 
-
-
 //Add new vendors
 const addVendors = (req, res) => {
 
@@ -855,6 +853,6 @@ module.exports = {
     deleteVendors,
     getAllUsersCount,
     NewAdmin,
-    GetNotificationCount
+    GetNotificationCount,
 
 };

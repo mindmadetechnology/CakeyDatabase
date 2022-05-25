@@ -43,7 +43,7 @@ const {
     verifyToken,
     getAllUsersCount,
     NewAdmin,
-    GetNotificationCount
+    GetNotificationCount,
 } = require('../controllers/admin&vendorController');
 
 const { 
@@ -91,7 +91,8 @@ const {
 
 const {
     HelpDeskNew,
-    Above5kgCount
+    Above5kgCount,
+    ChangePassword
 } = require('../controllers/helpDeskController');
 
 const {
@@ -167,6 +168,9 @@ router.get("/verifytoken/:token", verifyToken);
 
 //forgot password
 router.put("/forgotpassword/:email", forgotPassword);
+
+//Change Password
+router.put('/password/change/:id',ChangePassword);
 
 
 //Vendors API
