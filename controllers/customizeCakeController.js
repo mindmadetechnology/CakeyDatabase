@@ -417,7 +417,7 @@ const CustomizeCakeConfirmOrder = (req, res) => {
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
     const DeliveryCharge = req.body.DeliveryCharge;
-    const Price = req.body.Price;
+    const Total = req.body.Total;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -431,7 +431,7 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                     TypeOfCake: result.TypeOfCake,
                     Images: result.Images[0],
                     EggOrEggless: result.EggOrEggless,
-                    Price: Price,
+                    Price: result.Price,
                     Flavour: result.Flavour, //array
                     Shape: result.Shape,
                     Article: result.Article, //Object
@@ -446,7 +446,7 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                     DeliveryDate: result.DeliveryDate,
                     DeliverySession: result.DeliverySession,
                     ItemCount: 1,
-                    Total: result.Total,
+                    Total: Total,
                     DeliveryCharge: DeliveryCharge,
                     PaymentType: PaymentType,
                     PaymentStatus: PaymentStatus,
