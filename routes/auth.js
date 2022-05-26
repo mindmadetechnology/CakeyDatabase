@@ -72,7 +72,8 @@ const {
     getVendorOrdersStatusCount,
     OrderandCustomizecakeNotification,
     GetAbove5kgOrdersList,
-    Above5KGOrderAssign
+    Above5KGOrderAssign,
+    Above5KGOrderPriceInvoice
 } = require('../controllers/orderListController');
 
 const { 
@@ -146,7 +147,7 @@ router.get('/notification/count',GetNotificationCount);
 //Users API
 
 //Get all users
-router.get("/users/list", getUsers);
+router.get("/users/list", Authorization, getUsers);
 
 //Get user's details by phone number
 router.get("/users/list/:pn", getUsersbyPhoneNumber);
@@ -254,6 +255,9 @@ router.post('/order/new',newOrder);
 
 //update order details
 router.put('/order/update/:id',updateOrder);
+
+//send above 5kg orders price invoice 
+router.put('/order/price/:id', Above5KGOrderPriceInvoice)
 
 //update order status
 router.put('/order/updatestatus/:id',updateOrderStatus);

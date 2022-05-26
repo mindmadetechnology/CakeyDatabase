@@ -547,6 +547,48 @@ const Above5KGOrderAssign = (req, res) => {
     }
 };
 
+const Above5KGOrderPriceInvoice = (req, res) => {
+    // const CakeID = req.body.CakeID;
+    // const Cake_ID = req.body.Cake_ID;
+    // const Title = req.body.Title;
+    // const Description = req.body.Description;
+    // const TypeOfCake = req.body.TypeOfCake;
+    // const Images = req.body.Images;
+    // const EggOrEggless = req.body.EggOrEggless;
+    // const Flavour = req.body.Flavour; //Array
+    // const Shape = req.body.Shape;
+    // const Theme = req.body.Theme; //Optional //Array
+    // const Article = req.body.Article; //Optional
+    // const Weight = req.body.Weight;
+    // const VendorID = req.body.VendorID;
+    // const Vendor_ID = req.body.Vendor_ID;
+    // const VendorName = req.body.VendorName;
+    // const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    // const UserID = req.body.UserID;
+    // const User_ID = req.body.User_ID;
+    // const UserName = req.body.UserName;
+    // const UserPhoneNumber = req.body.UserPhoneNumber;
+    // const DeliveryAddress = req.body.DeliveryAddress;
+    // const DeliveryDate = req.body.DeliveryDate;
+    // const DeliverySession = req.body.DeliverySession;
+    // const VendorAddress = req.body.VendorAddress;
+    // const ItemCount = req.body.ItemCount;
+    // const PaymentType = req.body.PaymentType;
+    // const PaymentStatus = req.body.PaymentStatus;
+    // const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
+    // const SpecialRequest = req.body.SpecialRequest; //Optional
+    // const DeliveryInformation = req.body.DeliveryInformation;
+    // // const Above5KG = req.body.Above5KG; //if cake weight above 5kg
+    // const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    // const Price = req.body.Price;
+    // const Total = req.body.Total;
+    // const DeliveryCharge = req.body.DeliveryCharge;
+    // const Discount = req.body.Discount;
+    // const Gst = req.body.Gst;
+    // const Sgst = req.body.Sgst;
+    // const ExtraCharges = req.body.ExtraCharges;
+};
+
 module.exports = {
 
     getOrdersList,
@@ -562,6 +604,7 @@ module.exports = {
     getVendorOrdersStatusCount,
     OrderandCustomizecakeNotification,
     GetAbove5kgOrdersList,
-    Above5KGOrderAssign
+    Above5KGOrderAssign,
+    Above5KGOrderPriceInvoice
 
 };
