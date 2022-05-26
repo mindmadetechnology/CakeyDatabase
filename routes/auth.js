@@ -263,7 +263,7 @@ router.put('/order/price/:id', Above5KGOrderPriceInvoice)
 router.put('/order/updatestatus/:id',updateOrderStatus);
 
 //get Orders list by Status
-router.get('/order/listbystatus/:status', Authorization, getOrdersListByStatus);
+router.get('/order/listbystatus/:status/:above', Authorization, getOrdersListByStatus);
 
 //get Orders list by Status
 router.get('/order/listbyvendorstatus/:id/:status', Authorization, getVendorOrdersListByStatus);
