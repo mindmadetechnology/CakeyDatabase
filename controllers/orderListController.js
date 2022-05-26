@@ -329,6 +329,26 @@ const updateOrderStatus = (req, res) => {
 
 const getOrdersListByStatus = (req, res) => {
     const Status = req.params.status;
+
+    try {
+        OrdersListModel.find({ Status: Status }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" })
+                } else {
+                    res.send(result)
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
+const getOrdersListByStatusAndAbove5Kg = (req, res) => {
+    const Status = req.params.status;
     const Above5KG = req.params.above;
 
     try {
@@ -599,6 +619,7 @@ module.exports = {
     newOrder,
     updateOrder,
     updateOrderStatus,
+    getOrdersListByStatusAndAbove5Kg,
     getOrdersListByStatus,
     getVendorOrdersListByStatus,
     getOrdersStatusCount,

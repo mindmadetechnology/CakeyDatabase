@@ -66,6 +66,7 @@ const {
     getOrdersListById,
     getOrdersListByUserID,
     getOrdersListByVendorId,
+    getOrdersListByStatusAndAbove5Kg,
     getOrdersListByStatus,
     getVendorOrdersListByStatus,
     getOrdersStatusCount,
@@ -262,8 +263,11 @@ router.put('/order/price/:id', Above5KGOrderPriceInvoice)
 //update order status
 router.put('/order/updatestatus/:id',updateOrderStatus);
 
-//get Orders list by Status
-router.get('/order/listbystatus/:status/:above', Authorization, getOrdersListByStatus);
+//get orders list by status
+router.get('/order/listby/status/:status', Authorization, getOrdersListByStatus)
+
+//get Orders list by Status and above 5kg
+router.get('/order/listbystatus/:status/:above', Authorization, getOrdersListByStatusAndAbove5Kg);
 
 //get Orders list by Status
 router.get('/order/listbyvendorstatus/:id/:status', Authorization, getVendorOrdersListByStatus);
