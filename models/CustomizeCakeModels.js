@@ -110,8 +110,7 @@ const OrderSchema = new mongoose.Schema({
         type : String,
     },
     Discount : {
-        type : Number,
-        default: 0
+        type : Number
     },
     Gst : {
         type: String,
@@ -123,8 +122,7 @@ const OrderSchema = new mongoose.Schema({
         type: String,
     },
     ExtraCharges : {
-        type : String,
-        default: '0',
+        type : String
     },
     Invoice_Sent_On : {
         type : String,
