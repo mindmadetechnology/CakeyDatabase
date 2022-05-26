@@ -132,16 +132,16 @@ const {
 router.post('/admin/new', NewAdmin);
 
 //Get all vendors
-router.get("/admin/list/:email", getAdminbyEmail);
+router.get("/admin/list/:email", Authorization, getAdminbyEmail);
 
 //Update admin's details
 router.put("/admin/update/:id",upload.single("file"), putAdmin);
 
 //users count 
-router.get('/admin/userscount', getAllUsersCount);
+router.get('/admin/userscount', Authorization, getAllUsersCount);
 
 //get Notification Count
-router.get('/notification/count',GetNotificationCount);
+router.get('/notification/count', Authorization, GetNotificationCount);
 
 
 //Users API
@@ -150,7 +150,7 @@ router.get('/notification/count',GetNotificationCount);
 router.get("/users/list", Authorization, getUsers);
 
 //Get user's details by phone number
-router.get("/users/list/:pn", getUsersbyPhoneNumber);
+router.get("/users/list/:pn", Authorization, getUsersbyPhoneNumber);
 
 //Update user's details
 router.put("/users/update/:userId",upload.single("file"),putUsers);
@@ -165,7 +165,7 @@ router.post("/userslogin/validate", validateUsers);
 router.post("/login/validate", loginValidate);
 
 //verify token
-router.get("/verifytoken/:token", verifyToken);
+router.get("/verifytoken/:token", Authorization, verifyToken);
 
 //forgot password
 router.put("/forgotpassword/:email", forgotPassword);
@@ -177,13 +177,13 @@ router.put('/password/change/:id',ChangePassword);
 //Vendors API
 
 //Get all vendors
-router.get("/vendors/list", getVendors);
+router.get("/vendors/list", Authorization, getVendors);
 
 //Get registered vendors
-router.get("/vendors/list/:Status", GetNewVendorList);
+router.get("/vendors/list/:Status", Authorization, GetNewVendorList);
 
 //Get vendor's details based on email
-router.get("/vendors/listbyemail/:email", getVendorsbyEmail);
+router.get("/vendors/listbyemail/:email", Authorization, getVendorsbyEmail);
 
 //Register vendor
 router.post("/vendors/register",upload.single("file"), RegisterVendors);
@@ -203,25 +203,25 @@ router.put("/vendors/delete/:id", deleteVendors);
 router.post('/helpdesk/new',HelpDeskNew);
 
 //get above 5kg orders and customize cake orders count
-router.get('/helpdesk/orders/count',Above5kgCount);
+router.get('/helpdesk/orders/count', Authorization, Above5kgCount);
 
 
 // Cake API
 
 //Get all cakes
-router.get("/cake/list", getcakelist);
+router.get("/cake/list", Authorization, getcakelist);
 
 // get cake details
-router.get("/cake/list/:id", getCakeDetails);
+router.get("/cake/list/:id", Authorization, getCakeDetails);
 
 //get cake list based on status
-router.get('/cake/listbystatus/:status', getCakeListByStatus);
+router.get('/cake/listbystatus/:status', Authorization, getCakeListByStatus);
 
 // get cake details based on vendorname
-router.get("/cake/listbyName/:VendorName", getcakelistByVendorName);
+router.get("/cake/listbyName/:VendorName", Authorization, getcakelistByVendorName);
 
 // get cake details based on vendorId
-router.get("/cake/listbyId/:VendorId", getcakelistByVendorId);
+router.get("/cake/listbyId/:VendorId", Authorization, getcakelistByVendorId);
 
 //Create new vendor
 router.post("/cake/new",upload.array("files"), addCake);
@@ -239,16 +239,16 @@ router.put("/cake/delete/:id", deleteCake);
 //Cake order API
 
 //get orders list
-router.get('/order/list', getOrdersList);
+router.get('/order/list', Authorization, getOrdersList);
 
 //get order's list based on orderId
-router.get('/order/list/:id', getOrdersListById);
+router.get('/order/list/:id', Authorization, getOrdersListById);
 
 //get order list based on userId
 router.get('/order/listbyuserid/:userid', Authorization, getOrdersListByUserID); 
 
 //get order list based on vendorId
-router.get('/order/listbyvendorid/:vendorid', getOrdersListByVendorId); 
+router.get('/order/listbyvendorid/:vendorid', Authorization, getOrdersListByVendorId); 
 
 //Add new order
 router.post('/order/new',newOrder);
@@ -263,25 +263,25 @@ router.put('/order/price/:id', Above5KGOrderPriceInvoice)
 router.put('/order/updatestatus/:id',updateOrderStatus);
 
 //get Orders list by Status
-router.get('/order/listbystatus/:status', getOrdersListByStatus);
+router.get('/order/listbystatus/:status', Authorization, getOrdersListByStatus);
 
 //get Orders list by Status
-router.get('/order/listbyvendorstatus/:id/:status', getVendorOrdersListByStatus);
+router.get('/order/listbyvendorstatus/:id/:status', Authorization, getVendorOrdersListByStatus);
 
 //get Orders list by Status
-router.get('/order/totalcount', getOrdersStatusCount);
+router.get('/order/totalcount', Authorization, getOrdersStatusCount);
 
 //get Orders list by Status
-router.get('/order/countbyvendorid/:id', getVendorOrdersStatusCount);
+router.get('/order/countbyvendorid/:id', Authorization, getVendorOrdersStatusCount);
 
 //get customize cake based on above 5kg yes or no
-router.get('/order/listbyAbove5KG/:above', GetAbove5kgOrdersList);
+router.get('/order/listbyAbove5KG/:above', Authorization, GetAbove5kgOrdersList);
 
 //Above 5k orders assign to vendors
 router.put('/order/assign/:id', Above5KGOrderAssign);
 
 //get single users orders and customize cake orders for notification
-router.get('/users/notification/:id', OrderandCustomizecakeNotification);
+router.get('/users/notification/:id', Authorization, OrderandCustomizecakeNotification);
 
 //change notification status for customize  cake
 router.put('/customize/cake/update/notification/:id', ChangeNotificationStatus);
@@ -290,7 +290,7 @@ router.put('/customize/cake/update/notification/:id', ChangeNotificationStatus);
 //Category API
 
 // get all category
-router.get('/category/list',GetAllCategory);
+router.get('/category/list', Authorization, GetAllCategory);
 
 //Add new Category
 router.post('/category/new',AddCategory);
@@ -313,31 +313,31 @@ router.put('/category/update/:id',UpdateCategory);
 router.post('/flavour/new',AddNewFlavours);
 
 //Get Flavours List
-router.get('/flavour/list',GetFlavoursList);
+router.get('/flavour/list', Authorization, GetFlavoursList);
 
 //Add new Shape
 router.post('/shape/new',AddNewShapes);
 
 //Get Shapes List
-router.get('/shape/list',GetShapesList);
+router.get('/shape/list', Authorization, GetShapesList);
 
 //Add new Weight
 router.post('/weight/new', AddNewWeight);
 
 //Get Weight List
-router.get('/weight/list', GetWeightList);
+router.get('/weight/list', Authorization, GetWeightList);
 
 //Add new Articles
 router.post('/article/new',AddNewArticle);
 
 //Get Articles List
-router.get('/article/list',GetArticleList)
+router.get('/article/list', Authorization, GetArticleList)
 
 //Add new Cake Toppings
 router.post('/toppings/new', AddNewCakeToppings);
 
 //Get Cake Toppings List
-router.get('/toppings/list', GetCakeToppingsList);
+router.get('/toppings/list', Authorization, GetCakeToppingsList);
 
 
 //Customize Cake API
@@ -355,19 +355,19 @@ router.put('/customize/cake/price/:id', CustomizeCakePriceInvoice);
 router.post('/customize/cake/order/new/:id', CustomizeCakeConfirmOrder);
 
 //get all Customize cake
-router.get('/customize/cake/list', GetCustomizeCakeList);
+router.get('/customize/cake/list', Authorization, GetCustomizeCakeList);
 
 //get customize cake based on above 5kg yes or no
-router.get('/customize/cake/list/:above', GetAbove5kgCustomizeCakeList);
+router.get('/customize/cake/list/:above', Authorization, GetAbove5kgCustomizeCakeList);
 
 //get customize cake based on vendor id
-router.get('/customize/cake/listbyvendorid/:id', GetCustomizeCakeListByVendorId);
+router.get('/customize/cake/listbyvendorid/:id', Authorization, GetCustomizeCakeListByVendorId);
 
 //get new customizecake based on vendor id
-router.get('/customize/cake/listbystatus/:id/:status',GetNewCustomizeCakeListByVendorId);
+router.get('/customize/cake/listbystatus/:id/:status', Authorization, GetNewCustomizeCakeListByVendorId);
 
 //get customize cake based on user id
-router.get('/customize/cake/listbyuserid/:id', GetCustomizeCakeListByUserId);
+router.get('/customize/cake/listbyuserid/:id', Authorization, GetCustomizeCakeListByUserId);
 
 
 router.post('/sample/new', sampleCode);
