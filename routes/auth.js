@@ -267,7 +267,7 @@ router.put('/order/updatestatus/:id',updateOrderStatus);
 router.get('/order/listby/status/:status', Authorization, getOrdersListByStatus)
 
 //get Orders list by Status and above 5kg
-router.get('/order/listbystatus/:status/:above', Authorization, getOrdersListByStatusAndAbove5Kg);
+router.get('/order/listbystatus/:above', Authorization, getOrdersListByStatusAndAbove5Kg);
 
 //get Orders list by Status
 router.get('/order/listbyvendorstatus/:id/:status', Authorization, getVendorOrdersListByStatus);

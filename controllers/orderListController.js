@@ -348,11 +348,11 @@ const getOrdersListByStatus = (req, res) => {
 };
 
 const getOrdersListByStatusAndAbove5Kg = (req, res) => {
-    const Status = req.params.status;
+    // const Status = req.params.status;
     const Above5KG = req.params.above;
 
     try {
-        OrdersListModel.find({ Status: Status, Above5KG : Above5KG }, function (err, result) {
+        OrdersListModel.find({ Above5KG : Above5KG }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
