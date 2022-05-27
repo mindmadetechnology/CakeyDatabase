@@ -75,7 +75,8 @@ const {
     GetAbove5kgOrdersList,
     Above5KGOrderAssign,
     Above5KGOrderPriceInvoice,
-    UpdateOrderResponse
+    UpdateOrderResponse,
+    UpdateOrderResponsebyVendor
 } = require('../controllers/orderListController');
 
 const { 
@@ -286,8 +287,8 @@ router.get('/order/listbyAbove5KG/:above', Authorization, GetAbove5kgOrdersList)
 router.put('/order/assign/:id', Above5KGOrderAssign);
 
 //update order response
-router.put('/order/response/update/:id/:response', UpdateOrderResponse);
-// router.put('/order/response/update', UpdateOrderResponse);
+router.put('/order/response/update/:id/:response', UpdateOrderResponsebyVendor);
+router.put('/order/response/update', UpdateOrderResponse);
 
 //get single users orders and customize cake orders for notification
 router.get('/users/notification/:id', Authorization, OrderandCustomizecakeNotification);

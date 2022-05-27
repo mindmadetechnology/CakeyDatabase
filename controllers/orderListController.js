@@ -612,80 +612,66 @@ const Above5KGOrderPriceInvoice = (req, res) => {
 };
 
 const UpdateOrderResponse = (req, res) => {
+
+    try {
+        setInterval(() => {
+            OrdersListModel.find({ Vendor_Response_Status: 'unseen' }, function (err, result) {
+                if (!err) {
+                    if (result !== null) {
+                        result.map((val) => {
+                            var today = moment(new Date()).format("DD-MM-YYYY hh:mm A");
+                            console.log('today', today)
+                            const ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.Created_On, "DD-MM-YYYY HH:mm A"));
+                            var d = moment.duration(ms);
+                            var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+                            var a = s.split(':');
+                            var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+                            console.log(seconds)
+                            if (seconds === 300 || seconds > 300) {
+                                OrdersListModel.findOneAndUpdate({ _id: val._id }, {
+                                    $set: {
+                                        Vendor_Response_Status: 'no response'
+                                    }
+                                }, function (err, result) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: 'Failed' });
+                                    } else {
+                                        res.send({ statusCode: 200, message: 'Updated Successfully' })
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        return null;
+                    }
+                }
+            })
+        }, 5000).unref()
+
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
+const UpdateOrderResponsebyVendor = (req, res) => {
     const Id = req.params.id;
     const Response = req.params.response;
 
     try {
-        if (Id === 'null' || Response === 'null') {
-            setInterval(() => {
-                OrdersListModel.find({ Vendor_Response_Status: 'unseen' }, function (err, result) {
-                    if (!err) {
-                        if (result !== null) {
-                            result.map((val) => {
-                                var today = moment(new Date()).format("DD-MM-YYYY hh:mm A");
-                                console.log('today', today)
-                                const ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.Created_On, "DD-MM-YYYY HH:mm A"));
-                                var d = moment.duration(ms);
-                                var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-                                var a = s.split(':');
-                                var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-                                console.log(seconds)
-                                if (seconds === 300 || seconds > 300) {
-                                    OrdersListModel.findOneAndUpdate({ _id: val._id }, {
-                                        $set: {
-                                            Vendor_Response_Status: 'no response'
-                                        }
-                                    },function(err, result) {
-                                        if(err){
-                                            res.send({statusCode : 400, message : 'Failed'});
-                                        }else{
-                                            res.send({ statusCode : 200, message : 'Updated Successfully'})
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            return null;
-                        }
-                    }
-                })
-            }, 5000).unref()
-        } else {
-            OrdersListModel.findOneAndUpdate({ _id: Id }, {
-                $set: {
-                    Vendor_Response_Status: Response
-                }
-            }, function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: 'Failed' });
-                } else {
-                    res.send({ statusCode: 200, message: 'Updated Successfully' });
-                }
-            });
-        }
+        OrdersListModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                Vendor_Response_Status: Response
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Updated Successfully' });
+            }
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     }
-
-
-    // const Id = req.params.id;
-    // const Response = req.params.response;
-
-    // try{
-    //     OrdersListModel.findOneAndUpdate({_id : Id},{
-    //         $set : {
-    //             Vendor_Response_Status : Response
-    //         }
-    //     }, function(err, result){
-    //         if(err){
-    //             res.send({ statusCode : 400, message : 'Failed'});
-    //         }else {
-    //             res.send({ statusCode : 200, message : 'Updated Successfully'});
-    //         }
-    //     });
-    // }catch(err) {
-    //     res.send({ statusCode : 400, message : 'Failed'});
-    // }
 };
 
 module.exports = {
@@ -706,6 +692,7 @@ module.exports = {
     GetAbove5kgOrdersList,
     Above5KGOrderAssign,
     Above5KGOrderPriceInvoice,
-    UpdateOrderResponse
+    UpdateOrderResponse,
+    UpdateOrderResponsebyVendor
 
 };
