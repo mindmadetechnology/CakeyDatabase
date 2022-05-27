@@ -619,6 +619,12 @@ const UpdateOrderResponse = (req, res) => {
             $set : {
                 Vendor_Response_Status : Response
             }
+        }, function(err, result){
+            if(err){
+                res.send({ statusCode : 400, message : 'Failed'});
+            }else {
+                res.send({ statusCode : 200, message : 'Updated Successfully'});
+            }
         });
     }catch(err) {
         res.send({ statusCode : 400, message : 'Failed'});
