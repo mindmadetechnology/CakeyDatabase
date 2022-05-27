@@ -288,7 +288,7 @@ router.put('/order/assign/:id', Above5KGOrderAssign);
 
 //update order response
 router.put('/order/response/update/:id/:response', UpdateOrderResponsebyVendor);
-router.put('/order/response/update', UpdateOrderResponse);
+router.put('/order/updateresponse', UpdateOrderResponse);
 
 //get single users orders and customize cake orders for notification
 router.get('/users/notification/:id', Authorization, OrderandCustomizecakeNotification);
