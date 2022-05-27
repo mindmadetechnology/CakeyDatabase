@@ -644,7 +644,7 @@ const UpdateOrderResponse = (req, res) => {
                     }
                 }
             })
-        }, 5000);
+        }, 5000).unref();
 
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
