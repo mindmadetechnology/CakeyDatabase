@@ -1,6 +1,7 @@
 const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
+const moments = require('moment');
 
 //get all orders
 const getOrdersList = (req, res) => {
@@ -352,7 +353,7 @@ const getOrdersListByStatusAndAbove5Kg = (req, res) => {
     const Above5KG = req.params.above;
 
     try {
-        OrdersListModel.find({ Above5KG : Above5KG }, function (err, result) {
+        OrdersListModel.find({ Above5KG: Above5KG }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -493,21 +494,21 @@ const getVendorOrdersStatusCount = (req, res) => {
 const OrderandCustomizecakeNotification = (req, res) => {
     const Id = req.params.id;
 
-    try{
-        CustomizeCakeModel.find({UserID : Id}, function(err, result1){
-            if(err){
+    try {
+        CustomizeCakeModel.find({ UserID: Id }, function (err, result1) {
+            if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
-            }else{
-                OrdersListModel.find({UserID : Id},function(err, result2){
-                    if(err){
+            } else {
+                OrdersListModel.find({ UserID: Id }, function (err, result2) {
+                    if (err) {
                         res.send({ statusCode: 400, message: 'Failed' });
-                    }else{
-                        res.send({CustomizeCakesList : result1, OrdersList : result2});
+                    } else {
+                        res.send({ CustomizeCakesList: result1, OrdersList: result2 });
                     }
                 })
             }
         })
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     }
 };
@@ -515,10 +516,10 @@ const OrderandCustomizecakeNotification = (req, res) => {
 const GetAbove5kgOrdersList = (req, res) => {
     const Above5KG = req.params.above;
 
-    OrdersListModel.find({ Above5KG : Above5KG, CustomizeCake : 'n'},function(err, result){
-        if(err){
-            res.send({ statusCode: 400, message : 'Failed'});
-        }else{
+    OrdersListModel.find({ Above5KG: Above5KG, CustomizeCake: 'n' }, function (err, result) {
+        if (err) {
+            res.send({ statusCode: 400, message: 'Failed' });
+        } else {
             if (result.length === 0) {
                 res.send({ message: "No Orders" })
             } else {
@@ -614,21 +615,77 @@ const UpdateOrderResponse = (req, res) => {
     const Id = req.params.id;
     const Response = req.params.response;
 
-    try{
-        OrdersListModel.findOneAndUpdate({_id : Id},{
-            $set : {
-                Vendor_Response_Status : Response
-            }
-        }, function(err, result){
-            if(err){
-                res.send({ statusCode : 400, message : 'Failed'});
-            }else {
-                res.send({ statusCode : 200, message : 'Updated Successfully'});
-            }
-        });
-    }catch(err) {
-        res.send({ statusCode : 400, message : 'Failed'});
+    try {
+        if (Id === 'null' || Response === 'null') {
+            setInterval(() => {
+                OrdersListModel.find({ Vendor_Response_Status: 'unseen' }, function (err, result) {
+                    if (!err) {
+                        if (result !== null) {
+                            result.map((val) => {
+                                var today = moment(new Date()).format("DD-MM-YYYY hh:mm A");
+                                console.log('today', today)
+                                const ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.Created_On, "DD-MM-YYYY HH:mm A"));
+                                var d = moment.duration(ms);
+                                var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+                                var a = s.split(':');
+                                var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+                                console.log(seconds)
+                                if (seconds === 300 || seconds > 300) {
+                                    OrdersListModel.findOneAndUpdate({ _id: val._id }, {
+                                        $set: {
+                                            Vendor_Response_Status: 'no response'
+                                        }
+                                    },function(err, result) {
+                                        if(err){
+                                            res.send({statusCode : 400, message : 'Failed'});
+                                        }else{
+                                            res.send({ statusCode : 200, message : 'Updated Successfully'})
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            return null;
+                        }
+                    }
+                })
+            }, 5000).unref()
+        } else {
+            OrdersListModel.findOneAndUpdate({ _id: Id }, {
+                $set: {
+                    Vendor_Response_Status: Response
+                }
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: 'Failed' });
+                } else {
+                    res.send({ statusCode: 200, message: 'Updated Successfully' });
+                }
+            });
+        }
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
     }
+
+
+    // const Id = req.params.id;
+    // const Response = req.params.response;
+
+    // try{
+    //     OrdersListModel.findOneAndUpdate({_id : Id},{
+    //         $set : {
+    //             Vendor_Response_Status : Response
+    //         }
+    //     }, function(err, result){
+    //         if(err){
+    //             res.send({ statusCode : 400, message : 'Failed'});
+    //         }else {
+    //             res.send({ statusCode : 200, message : 'Updated Successfully'});
+    //         }
+    //     });
+    // }catch(err) {
+    //     res.send({ statusCode : 400, message : 'Failed'});
+    // }
 };
 
 module.exports = {
