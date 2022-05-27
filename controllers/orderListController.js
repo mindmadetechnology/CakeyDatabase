@@ -620,13 +620,11 @@ const UpdateOrderResponse = (req, res) => {
                     if (result !== null) {
                         result.map((val) => {
                             var today = moment(new Date()).format("DD-MM-YYYY hh:mm A");
-                            console.log('today', today)
                             const ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.Created_On, "DD-MM-YYYY HH:mm A"));
                             var d = moment.duration(ms);
                             var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
                             var a = s.split(':');
                             var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-                            console.log(seconds)
                             if (seconds === 300 || seconds > 300) {
                                 OrdersListModel.findOneAndUpdate({ _id: val._id }, {
                                     $set: {
@@ -646,7 +644,7 @@ const UpdateOrderResponse = (req, res) => {
                     }
                 }
             })
-        }, 5000).unref()
+        }, 5000);
 
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
