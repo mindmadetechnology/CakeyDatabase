@@ -76,7 +76,8 @@ const {
     Above5KGOrderAssign,
     Above5KGOrderPriceInvoice,
     UpdateOrderResponse,
-    UpdateOrderResponsebyVendor
+    UpdateOrderResponsebyVendor,
+    GetNotRespondOrders
 } = require('../controllers/orderListController');
 
 const { 
@@ -282,6 +283,9 @@ router.get('/order/countbyvendorid/:id', Authorization, getVendorOrdersStatusCou
 
 //get customize cake based on above 5kg yes or no
 router.get('/order/listbyAbove5KG/:above', Authorization, GetAbove5kgOrdersList);
+
+//get not respond orders for display in helpdesk and admin dashboard
+router.get('/order/listbyresponse',GetNotRespondOrders);
 
 //Above 5k orders assign to vendors
 router.put('/order/assign/:id', Above5KGOrderAssign);

@@ -672,6 +672,25 @@ const UpdateOrderResponsebyVendor = (req, res) => {
     }
 };
 
+const GetNotRespondOrders = (req, res) => {
+
+    try{
+        OrdersListModel.find({Vendor_Response_Status : 'no response'},function(err, result){
+            if(err){
+                res.send({ statusCode : 400, message : 'Failed'});
+            }else{
+                if(result.length === 0){
+                    res.send({ message: "No Orders" })
+                }else{
+                    res.send(result);
+                }
+            }
+        })
+    }catch(err){
+        res.send({ statusCode : 400, message : 'Failed'});
+    }
+}
+
 module.exports = {
 
     getOrdersList,
@@ -691,6 +710,7 @@ module.exports = {
     Above5KGOrderAssign,
     Above5KGOrderPriceInvoice,
     UpdateOrderResponse,
-    UpdateOrderResponsebyVendor
+    UpdateOrderResponsebyVendor,
+    GetNotRespondOrders
 
 };
