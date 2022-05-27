@@ -610,6 +610,21 @@ const Above5KGOrderPriceInvoice = (req, res) => {
     // const ExtraCharges = req.body.ExtraCharges;
 };
 
+const UpdateOrderResponse = (req, res) => {
+    const Id = req.params.id;
+    const Response = req.params.response;
+
+    try{
+        OrdersListModel.findOneAndUpdate({_id : Id},{
+            $set : {
+                Vendor_Response_Status : Response
+            }
+        });
+    }catch(err) {
+        res.send({ statusCode : 400, message : 'Failed'});
+    }
+};
+
 module.exports = {
 
     getOrdersList,
@@ -627,6 +642,7 @@ module.exports = {
     OrderandCustomizecakeNotification,
     GetAbove5kgOrdersList,
     Above5KGOrderAssign,
-    Above5KGOrderPriceInvoice
+    Above5KGOrderPriceInvoice,
+    UpdateOrderResponse
 
 };

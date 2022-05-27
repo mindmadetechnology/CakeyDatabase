@@ -152,6 +152,10 @@ const OrderSchema = new mongoose.Schema({
     CustomizeCake : {
         type:String,
         default:'n'
+    },
+    Vendor_Response_Status : {
+        type : String,
+        default : 'unseen'
     }
 
 });
