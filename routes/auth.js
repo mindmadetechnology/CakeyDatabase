@@ -169,7 +169,7 @@ router.put("/vendors/delete/:id", deleteVendors);
 //Help Desk API
 
 //get all helpdesk members
-router.get('/helpdesk/list', GetHelpdeskMembers);
+router.get('/helpdesk/list', Authorization, GetHelpdeskMembers);
 
 //Create New Help desk member
 router.post('/helpdesk/new',HelpDeskNew);
