@@ -9,7 +9,7 @@ const moment = require('moment-timezone');
 const GetHelpdeskMembers = (req, res) => {
 
     try{
-        helpDeskModel.find({}, function(err, result){
+        helpDeskModel.find({ IsDeleted : 'n' }, function(err, result){
             if(err){
                 res.send({ statusCode : 400, message: 'Failed'});  
             }else{
@@ -176,11 +176,35 @@ const ChangePassword = (req, res) => {
     };
 };
 
+const DeleteHelpdeskMember = (req, res) => {
+
+    const id = req.params.id;
+    const IsDeleted = 'y';
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    try {
+        helpDeskModel.findOneAndUpdate({ _id: id }, {
+            $set: {
+                IsDeleted: IsDeleted,
+                Modified_On: Modified_On
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                res.send({ statusCode: 200, message: "Deleted Successfully" });
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 module.exports = {
 
     HelpDeskNew,
     Above5kgCount,
     ChangePassword,
-    GetHelpdeskMembers
+    GetHelpdeskMembers,
+    DeleteHelpdeskMember
 
 }

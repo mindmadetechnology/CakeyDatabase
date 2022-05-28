@@ -71,7 +71,8 @@ const {
 
 const {
     HelpDeskNew, Above5kgCount,
-    ChangePassword, GetHelpdeskMembers
+    ChangePassword, GetHelpdeskMembers,
+    DeleteHelpdeskMember
 } = require('../controllers/helpDeskController');
 
 const {
@@ -176,6 +177,9 @@ router.post('/helpdesk/new',HelpDeskNew);
 
 //get above 5kg orders and customize cake orders count
 router.get('/helpdesk/orders/count', Authorization, Above5kgCount);
+
+//delete helpdesk member
+router.put('/helpdesk/delete/:id', DeleteHelpdeskMember);
 
 
 //Cake API

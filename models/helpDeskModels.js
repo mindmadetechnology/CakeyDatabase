@@ -21,6 +21,10 @@ const HelpDeskSchema = new mongoose.Schema({
     },
     Modified_On: {
         type: String,
+    },
+    IsDeleted : {
+        type : String,
+        default : 'n'
     }
 
 });
