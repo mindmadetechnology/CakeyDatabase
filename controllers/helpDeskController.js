@@ -14,7 +14,7 @@ const HelpDeskNew = (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         if (Email || Password || Name) {
-            helpDeskModel.find({ Email: Email }, function (err, result) {
+            helpDeskModel.findOne({ Email: Email }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: 'Failed' });
                 } else {
