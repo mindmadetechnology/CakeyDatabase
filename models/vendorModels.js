@@ -122,6 +122,10 @@ const VendorSchema = new mongoose.Schema({
     IsDeleted: {
         type: String,
         default: 'n'
+    },
+    Ratings : {
+        type : Number,
+        default : 0
     }
 
 });

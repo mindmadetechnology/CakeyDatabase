@@ -127,6 +127,11 @@ const {
 } = require('../controllers/customizeCakeController');
 
 const {
+    VendorRatings,
+    CakeRatings
+} = require('../controllers/RatingsController');
+
+const {
     sampleCode
 } = require('../controllers/sample');
 
@@ -382,6 +387,15 @@ router.get('/customize/cake/listbystatus/:id/:status', Authorization, GetNewCust
 
 //get customize cake based on user id
 router.get('/customize/cake/listbyuserid/:id', Authorization, GetCustomizeCakeListByUserId);
+
+
+//Ratings
+
+//Vendor Ratings
+router.put('/vendor/ratings/:id', VendorRatings);
+
+//cake Ratings
+router.put('/cake/ratings/:id', CakeRatings);
 
 
 router.post('/sample/new', sampleCode);

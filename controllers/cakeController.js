@@ -1,7 +1,6 @@
 const cakeModel = require("../models/CakeModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
-const articlesModels = require("../models/articlesModels");
 
 // get cake list
 const getcakelist = (req, res) => {

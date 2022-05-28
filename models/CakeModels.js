@@ -32,9 +32,10 @@ const CakeSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    // Ratings: {
-    //     type: Number
-    // },
+    Ratings : {
+        type : Number,
+        default : 0
+    },
     VendorID: {
         type: String
     },

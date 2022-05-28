@@ -156,7 +156,7 @@ const OrderSchema = new mongoose.Schema({
     Vendor_Response_Status : {
         type : String,
         default : 'unseen'
-    }
+    },
 
 });
 
