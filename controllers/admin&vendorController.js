@@ -176,9 +176,9 @@ const getVendors = (req, res) => {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
                 if (result.length === 0) {
-                    res.send({ message: "No Records Found" })
+                    res.send({ message: "No Records Found" });
                 } else {
-                    res.send(result)
+                    res.send(result);
                 }
             }
         });

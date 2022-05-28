@@ -71,7 +71,7 @@ const {
 
 const {
     HelpDeskNew, Above5kgCount,
-    ChangePassword
+    ChangePassword, GetHelpdeskMembers
 } = require('../controllers/helpDeskController');
 
 const {
@@ -167,6 +167,9 @@ router.put("/vendors/delete/:id", deleteVendors);
 
 
 //Help Desk API
+
+//get all helpdesk members
+router.get('/helpdesk/list', GetHelpdeskMembers);
 
 //Create New Help desk member
 router.post('/helpdesk/new',HelpDeskNew);

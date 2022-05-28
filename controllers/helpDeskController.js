@@ -5,6 +5,26 @@ const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
 
+//get all helpdesk members
+const GetHelpdeskMembers = (req, res) => {
+
+    try{
+        helpDeskModel.find({}, function(err, result){
+            if(err){
+                res.send({ statusCode : 400, message: 'Failed'});  
+            }else{
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result);
+                }
+            }
+        });
+    }catch(err){
+        res.send({ statusCode : 400, message: 'Failed'});
+    };
+};
+
 //add new helpdesk member
 const HelpDeskNew = (req, res) => {
 
@@ -160,6 +180,7 @@ module.exports = {
 
     HelpDeskNew,
     Above5kgCount,
-    ChangePassword
+    ChangePassword,
+    GetHelpdeskMembers
 
 }
