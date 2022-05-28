@@ -32,9 +32,9 @@ const CakeSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    Ratings : {
-        type : Number,
-        default : 0
+    Ratings: {
+        type: Number,
+        default: 0
     },
     VendorID: {
         type: String
@@ -69,7 +69,6 @@ const CakeSchema = new mongoose.Schema({
         type: String
     },
     FlavourList: [{
-        // type: String
         Name: {
             type: String
         },
@@ -81,7 +80,6 @@ const CakeSchema = new mongoose.Schema({
         type: String
     }],
     ArticleList: [{
-        // type: String
         Name: {
             type: String
         },
@@ -89,9 +87,6 @@ const CakeSchema = new mongoose.Schema({
             type: String
         }
     }],
-    // CakeToppings: [{
-    //     type: String
-    // }],
     WeightList: [{
         type: String
     }],
@@ -99,10 +94,6 @@ const CakeSchema = new mongoose.Schema({
         type: String,
         default: 'InStock'
     },
-    // DeliveryCharge : {
-    //     type : String,
-    //     default : '0'
-    // },
     Tax: {
         type: Number,
         default: '0'
@@ -118,6 +109,7 @@ const CakeSchema = new mongoose.Schema({
         type: String,
         default: 'n'
     },
+
 });
 
 CakeSchema.plugin(increment, {

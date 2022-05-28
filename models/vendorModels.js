@@ -13,7 +13,6 @@ const VendorSchema = new mongoose.Schema({
         type: String,
     },
     Address: {
-        // type : String
         FullAddress: {
             type: String
         },
@@ -39,10 +38,6 @@ const VendorSchema = new mongoose.Schema({
     PhoneNumber2: {
         type: String,
     },
-    // ProfileBanner: {
-    //     data: Buffer,
-    //     contentType: String
-    // },
     Description: {
         type: String,
     },
@@ -123,9 +118,9 @@ const VendorSchema = new mongoose.Schema({
         type: String,
         default: 'n'
     },
-    Ratings : {
-        type : Number,
-        default : 0
+    Ratings: {
+        type: Number,
+        default: 0
     }
 
 });

@@ -1,7 +1,6 @@
 const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
-const moments = require('moment');
 
 //get all orders
 const getOrdersList = (req, res) => {
@@ -9,80 +8,77 @@ const getOrdersList = (req, res) => {
     try {
         OrdersListModel.find({}, function (err, result) {
             if (err) {
-                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+                res.send({ statusCode: 400, message: "Failed" });
             } else {
                 if (result.length === 0) {
-                    res.send({ message: "No Orders" })
+                    res.send({ message: "No Orders" });
                 } else {
-                    res.send(result)
+                    res.send(result);
                 }
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
 //get order list based on orderId
 const getOrdersListById = (req, res) => {
 
     const Id = req.params.id;
-
     try {
         OrdersListModel.findById({ _id: Id }, function (err, result) {
             if (err) {
-                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+                res.send({ statusCode: 400, message: "Failed" });
             } else {
                 res.send(result);
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
 //get order list based on userId
 const getOrdersListByUserID = (req, res) => {
 
     const Id = req.params.userid;
-
     try {
         OrdersListModel.find({ UserID: Id }, function (err, result) {
             if (err) {
-                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+                res.send({ statusCode: 400, message: "Failed" });
             } else {
                 if (result.length === 0) {
-                    res.send({ message: "No Orders" })
+                    res.send({ message: "No Orders" });
                 } else {
-                    res.send(result)
+                    res.send(result);
                 }
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
 //get order list based on vendorId
 const getOrdersListByVendorId = (req, res) => {
 
     const Id = req.params.vendorid;
-
     try {
         OrdersListModel.find({ VendorID: Id }, function (err, result) {
             if (err) {
-                res.send({ statusCode: 400, message: "There  is was a problem adding the information to the database." });
+                res.send({ statusCode: 400, message: "Failed" });
             } else {
                 if (result.length === 0) {
-                    res.send({ message: "No Orders" })
+                    res.send({ message: "No Orders" });
                 } else {
-                    res.send(result)
+                    res.send(result);
                 }
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
 //Place new order
@@ -125,11 +121,10 @@ const newOrder = (req, res) => {
     const Gst = req.body.Gst;
     const Sgst = req.body.Sgst;
     const ExtraCharges = req.body.ExtraCharges;
-    // const Above5KG = req.body.Above5KG; //if cake weight above 5kg
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
+        //for check weight above 5kg or not
         if (JSON.parse(parseInt(weight[0])) >= 5) {
             if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
                 EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
@@ -138,8 +133,6 @@ const newOrder = (req, res) => {
                 Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined || User_ID === undefined) {
                 res.send({ statusCode: 400, message: "*required" });
             } else {
-                // const NewFlavourList = JSON.parse(Flavour)
-                // const NewArticleList = JSON.parse(Article);
                 const OrderList = new OrdersListModel({
                     CakeID: CakeID,
                     Cake_ID: Cake_ID,
@@ -175,7 +168,6 @@ const newOrder = (req, res) => {
                     ExtraCharges: ExtraCharges,
                     Above5KG: 'y',
                     Created_On: Created_On
-
                 });
                 OrderList.save(function (err, result) {
                     if (err) {
@@ -195,8 +187,6 @@ const newOrder = (req, res) => {
                 Vendor_ID === undefined || User_ID === undefined) {
                 res.send({ statusCode: 400, message: "*required" });
             } else {
-                // const NewFlavourList = JSON.parse(Flavour)
-                // const NewArticleList = JSON.parse(Article);
                 const OrderList = new OrdersListModel({
                     CakeID: CakeID,
                     Cake_ID: Cake_ID,
@@ -236,21 +226,19 @@ const newOrder = (req, res) => {
                     Sgst: Sgst,
                     ExtraCharges: ExtraCharges,
                     Created_On: Created_On
-
                 });
                 OrderList.save(function (err, result) {
                     if (err) {
-                        res.send({ statusCode: 400, message: "Failed", error: err });
+                        res.send({ statusCode: 400, message: "Failed" });
                     } else {
                         res.send({ statusCode: 200, message: "Added Successfully" })
                     }
                 });
             }
-        }
+        };
     } catch (err) {
-        return err;
+        res.send({ statusCode: 400, message: "Failed" });
     };
-
 };
 
 //update order details (UserPhoenumber & DeliveryAddress only have edit option)
@@ -260,9 +248,7 @@ const updateOrder = (req, res) => {
     const UserPhoneNumber = req.body.UserPhoneNumber;
     const DeliveryAddress = req.body.DeliveryAddress;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
-
         OrdersListModel.findById({ _id: Id }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
@@ -284,11 +270,9 @@ const updateOrder = (req, res) => {
                 });
             }
         });
-
     } catch (err) {
-        return err;
+        res.send({ statusCode: 400, message: "Failed" });
     };
-
 };
 
 //update order status
@@ -298,9 +282,7 @@ const updateOrderStatus = (req, res) => {
     const Status = req.body.Status;
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
-
         OrdersListModel.findById({ _id: Id }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
@@ -322,75 +304,76 @@ const updateOrderStatus = (req, res) => {
                 });
             }
         });
-
     } catch (err) {
-        return err;
+        res.send({ statusCode: 400, message: "Failed" });
     };
 };
 
+//get orders list by status
 const getOrdersListByStatus = (req, res) => {
-    const Status = req.params.status;
 
+    const Status = req.params.status;
     try {
         OrdersListModel.find({ Status: Status }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
                 if (result.length === 0) {
-                    res.send({ message: "No Orders" })
+                    res.send({ message: "No Orders" });
                 } else {
-                    res.send(result)
+                    res.send(result);
                 }
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
+//get orders list by above 5kg
 const getOrdersListByStatusAndAbove5Kg = (req, res) => {
-    // const Status = req.params.status;
-    const Above5KG = req.params.above;
 
+    const Above5KG = req.params.above;
     try {
         OrdersListModel.find({ Above5KG: Above5KG }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
                 if (result.length === 0) {
-                    res.send({ message: "No Orders" })
+                    res.send({ message: "No Orders" });
                 } else {
-                    res.send(result)
+                    res.send(result);
                 }
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
+// get vendors orders list by status
 const getVendorOrdersListByStatus = (req, res) => {
 
     const id = req.params.id;
     const Status = req.params.status;
-
     try {
         OrdersListModel.find({ VendorID: id, Status: Status }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
                 if (result.length === 0) {
-                    res.send({ message: "No Orders" })
+                    res.send({ message: "No Orders" });
                 } else {
-                    res.send(result)
+                    res.send(result);
                 }
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
+// get orders status count
 const getOrdersStatusCount = (req, res) => {
 
     try {
@@ -417,22 +400,22 @@ const getOrdersStatusCount = (req, res) => {
                                             Delivered: count4.toString()
                                         });
                                     }
-                                })
+                                });
                             }
-                        })
+                        });
                     }
-                })
+                });
             }
         });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
+//get vendor orders status count
 const getVendorOrdersStatusCount = (req, res) => {
 
     const id = req.params.id;
-
     try {
         OrdersListModel.count({ VendorID: id }, function (err, count1) {
             if (err) {
@@ -488,12 +471,13 @@ const getVendorOrdersStatusCount = (req, res) => {
         });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
+//get order and customized cake orders notification
 const OrderandCustomizecakeNotification = (req, res) => {
-    const Id = req.params.id;
 
+    const Id = req.params.id;
     try {
         CustomizeCakeModel.find({ UserID: Id }, function (err, result1) {
             if (err) {
@@ -505,30 +489,36 @@ const OrderandCustomizecakeNotification = (req, res) => {
                     } else {
                         res.send({ CustomizeCakesList: result1, OrdersList: result2 });
                     }
-                })
+                });
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
+//get above 5kg orders list
 const GetAbove5kgOrdersList = (req, res) => {
-    const Above5KG = req.params.above;
 
-    OrdersListModel.find({ Above5KG: Above5KG, CustomizeCake: 'n' }, function (err, result) {
-        if (err) {
-            res.send({ statusCode: 400, message: 'Failed' });
-        } else {
-            if (result.length === 0) {
-                res.send({ message: "No Orders" })
+    const Above5KG = req.params.above;
+    try {
+        OrdersListModel.find({ Above5KG: Above5KG, CustomizeCake: 'n' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" });
+                } else {
+                    res.send(result);
+                }
             }
-        }
-    })
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
 };
 
+//assign above 5kg orders to vendors
 const Above5KGOrderAssign = (req, res) => {
 
     const Id = req.params.id;
@@ -540,7 +530,6 @@ const Above5KGOrderAssign = (req, res) => {
     const Status = req.body.Status;
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber || !VendorAddress || !Status || !Status_Updated_By) {
             res.send({ statusCode: 400, message: '*required' });
@@ -566,7 +555,89 @@ const Above5KGOrderAssign = (req, res) => {
         }
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
+};
+
+//update order response automatically
+const UpdateOrderResponse = (req, res) => {
+
+    try {
+        setInterval(() => {
+            OrdersListModel.find({ Vendor_Response_Status: 'unseen' }, function (err, result) {
+                if (!err) {
+                    if (result !== null) {
+                        result.map((val) => {
+                            var today = moment(new Date()).format("DD-MM-YYYY hh:mm A");
+                            const ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.Created_On, "DD-MM-YYYY HH:mm A"));
+                            var d = moment.duration(ms);
+                            var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+                            var a = s.split(':');
+                            var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+                            if (seconds === 300 || seconds > 300) {
+                                OrdersListModel.findOneAndUpdate({ _id: val._id }, {
+                                    $set: {
+                                        Vendor_Response_Status: 'no response'
+                                    }
+                                }, function (err, result) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: 'Failed' });
+                                    } else {
+                                        res.send({ statusCode: 200, message: 'Updated Successfully' });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        return null;
+                    }
+                }
+            });
+        }, 5000).unref();
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+//update order response by vendor
+const UpdateOrderResponsebyVendor = (req, res) => {
+
+    const Id = req.params.id;
+    const Response = req.params.response;
+    try {
+        OrdersListModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                Vendor_Response_Status: Response
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Updated Successfully' });
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+//get not respond orders
+const GetNotRespondOrders = (req, res) => {
+
+    try {
+        OrdersListModel.find({ Vendor_Response_Status: 'no response' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Orders" });
+                } else {
+                    res.send(result);
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
 };
 
 const Above5KGOrderPriceInvoice = (req, res) => {
@@ -610,86 +681,6 @@ const Above5KGOrderPriceInvoice = (req, res) => {
     // const Sgst = req.body.Sgst;
     // const ExtraCharges = req.body.ExtraCharges;
 };
-
-const UpdateOrderResponse = (req, res) => {
-
-    try {
-        setInterval(() => {
-            OrdersListModel.find({ Vendor_Response_Status: 'unseen' }, function (err, result) {
-                if (!err) {
-                    if (result !== null) {
-                        result.map((val) => {
-                            var today = moment(new Date()).format("DD-MM-YYYY hh:mm A");
-                            const ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.Created_On, "DD-MM-YYYY HH:mm A"));
-                            var d = moment.duration(ms);
-                            var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-                            var a = s.split(':');
-                            var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-                            if (seconds === 300 || seconds > 300) {
-                                OrdersListModel.findOneAndUpdate({ _id: val._id }, {
-                                    $set: {
-                                        Vendor_Response_Status: 'no response'
-                                    }
-                                }, function (err, result) {
-                                    if (err) {
-                                        res.send({ statusCode: 400, message: 'Failed' });
-                                    } else {
-                                        res.send({ statusCode: 200, message: 'Updated Successfully' })
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        return null;
-                    }
-                }
-            })
-        }, 5000).unref();
-
-    } catch (err) {
-        res.send({ statusCode: 400, message: 'Failed' });
-    }
-};
-
-const UpdateOrderResponsebyVendor = (req, res) => {
-    const Id = req.params.id;
-    const Response = req.params.response;
-
-    try {
-        OrdersListModel.findOneAndUpdate({ _id: Id }, {
-            $set: {
-                Vendor_Response_Status: Response
-            }
-        }, function (err, result) {
-            if (err) {
-                res.send({ statusCode: 400, message: 'Failed' });
-            } else {
-                res.send({ statusCode: 200, message: 'Updated Successfully' });
-            }
-        });
-    } catch (err) {
-        res.send({ statusCode: 400, message: 'Failed' });
-    }
-};
-
-const GetNotRespondOrders = (req, res) => {
-
-    try{
-        OrdersListModel.find({Vendor_Response_Status : 'no response'},function(err, result){
-            if(err){
-                res.send({ statusCode : 400, message : 'Failed'});
-            }else{
-                if(result.length === 0){
-                    res.send({ message: "No Orders" })
-                }else{
-                    res.send(result);
-                }
-            }
-        })
-    }catch(err){
-        res.send({ statusCode : 400, message : 'Failed'});
-    }
-}
 
 module.exports = {
 

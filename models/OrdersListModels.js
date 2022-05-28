@@ -35,8 +35,8 @@ const OrderSchema = new mongoose.Schema({
         type: String,
         default: '0',
     },
-    Theme : [{
-        type : String,
+    Theme: [{
+        type: String,
     }],
     Flavour: [{
         Name: {
@@ -57,9 +57,6 @@ const OrderSchema = new mongoose.Schema({
             type: String
         }
     },
-    // CakeToppings: [{
-    //     type: String
-    // }],
     Weight: {
         type: String,
     },
@@ -133,9 +130,9 @@ const OrderSchema = new mongoose.Schema({
     Sgst: {
         type: String,
     },
-    Above5KG : {
-        type : String,
-        default : 'n'
+    Above5KG: {
+        type: String,
+        default: 'n'
     },
     Created_On: {
         type: String
@@ -149,13 +146,13 @@ const OrderSchema = new mongoose.Schema({
     Status_Updated_By: {
         type: String,
     },
-    CustomizeCake : {
-        type:String,
-        default:'n'
+    CustomizeCake: {
+        type: String,
+        default: 'n'
     },
-    Vendor_Response_Status : {
-        type : String,
-        default : 'unseen'
+    Vendor_Response_Status: {
+        type: String,
+        default: 'unseen'
     },
 
 });

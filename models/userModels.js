@@ -15,18 +15,6 @@ const UserSchema = new mongoose.Schema({
     },
     Address: {
         type: String
-        // Street: {
-        //     type: String
-        // },
-        // City: {
-        //     type: String
-        // },
-        // District: {
-        //     type: String
-        // },
-        // Postalcode : {
-        //     type : Number
-        // }
     },
     Created_On: {
         type: String,

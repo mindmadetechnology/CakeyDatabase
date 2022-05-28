@@ -3,6 +3,7 @@ const adminModel = require("../models/adminModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
+//register vendor
 const RegisterVendors = (req, res) => {
 
     const VendorName = req.body.VendorName;
@@ -36,7 +37,6 @@ const RegisterVendors = (req, res) => {
     const UPIId = req.body.UPIId; //optional
     const Registered_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //profile image (optional)
-
     try {
         if (VendorName === undefined || Email === undefined || PhoneNumber1 === undefined || PhoneNumber2 === undefined ||
             FullAddress === undefined || Street === undefined || City === undefined || State === undefined ||
@@ -90,7 +90,6 @@ const RegisterVendors = (req, res) => {
                                     UPIId: UPIId,
                                     Registered_On: Registered_On
                                 });
-
                                 vendorValidate.save(function (err, result) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
@@ -101,11 +100,11 @@ const RegisterVendors = (req, res) => {
                             } else {
                                 res.send({ statusCode: 400, message: "Email already exist!" });
                             }
-                        })
+                        });
                     } else {
                         res.send({ statusCode: 400, message: "Email already exist!" });
                     }
-                })
+                });
             } else {
                 adminModel.findOne({ Email: Email }, function (err, result) {
                     if (err) {
@@ -116,7 +115,6 @@ const RegisterVendors = (req, res) => {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else if (result === null) {
                                 const imagesUrl = await cloudinary.uploader.upload(req.file.path);
-
                                 const vendorValidate = new vendorModel({
                                     Email: Email,
                                     VendorName: VendorName,
@@ -152,7 +150,6 @@ const RegisterVendors = (req, res) => {
                                     UPIId: UPIId,
                                     Registered_On: Registered_On
                                 });
-
                                 vendorValidate.save(function (err, result) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
@@ -163,21 +160,22 @@ const RegisterVendors = (req, res) => {
                             } else {
                                 res.send({ statusCode: 400, message: "Email already exist!" });
                             }
-                        })
+                        });
                     } else {
                         res.send({ statusCode: 400, message: "Email already exist!" });
                     }
-                })
+                });
             }
         }
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
+//get new vendors list
 const GetNewVendorList = (req, res) => {
-    const Status = req.params.Status;
 
+    const Status = req.params.Status;
     try {
         vendorModel.find({ Status: Status, IsDeleted: 'n' }, function (err, result) {
             if (err) {
@@ -189,10 +187,10 @@ const GetNewVendorList = (req, res) => {
                     res.send(result);
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
 module.exports = {

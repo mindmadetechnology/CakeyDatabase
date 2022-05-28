@@ -5,12 +5,13 @@ const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
 
+//add new helpdesk member
 const HelpDeskNew = (req, res) => {
+
     const Email = req.body.Email;
     const Password = req.body.Password;
     const Name = req.body.Name;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         if (Email || Password || Name) {
             const HelpDesk = new helpDeskModel({
@@ -21,19 +22,20 @@ const HelpDeskNew = (req, res) => {
             });
             HelpDesk.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed" })
+                    res.send({ statusCode: 400, message: "Failed" });
                 } else {
                     res.send({ statusCode: 200, message: "Registered Successfully" });
                 }
-            })
+            });
         } else {
             res.send({ statusCode: 400, message: '*reqired' });
         }
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" })
-    }
+        res.send({ statusCode: 400, message: "Failed" });
+    };
 };
 
+//get above 5kg orders and customized cake orders count
 const Above5kgCount = (req, res) => {
 
     try {
@@ -68,15 +70,15 @@ const Above5kgCount = (req, res) => {
             }
         });
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" })
-    }
+        res.send({ statusCode: 400, message: "Failed" });
+    };
 };
 
 //Change password
 const ChangePassword = (req, res) => {
+
     const Id = req.params.id;
     const Password = req.body.Password;
-
     try {
         adminModel.findOne({ _id: Id }, function (err, result) {
             if (err) {
@@ -105,10 +107,10 @@ const ChangePassword = (req, res) => {
                                                 } else {
                                                     res.send({ statusCode: 200, message: "Updated Successfully" });
                                                 }
-                                            })
+                                            });
                                         }
                                     }
-                                })
+                                });
                             } else {
                                 vendorModel.findOneAndUpdate({ _id: Id }, {
                                     $set: {
@@ -120,10 +122,10 @@ const ChangePassword = (req, res) => {
                                     } else {
                                         res.send({ statusCode: 200, message: "Updated Successfully" });
                                     }
-                                })
+                                });
                             }
                         }
-                    })
+                    });
                 } else {
                     adminModel.findOneAndUpdate({ _id: Id }, {
                         $set: {
@@ -135,18 +137,19 @@ const ChangePassword = (req, res) => {
                         } else {
                             res.send({ statusCode: 200, message: "Updated Successfully" });
                         }
-                    })
+                    });
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
-
+    };
 };
 
 module.exports = {
+
     HelpDeskNew,
     Above5kgCount,
     ChangePassword
+    
 }

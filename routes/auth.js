@@ -24,120 +24,79 @@ app.use(cors(corsOptions));
 app.options('*', cors());
 
 const { 
-    getUsers,
-    putUsers,
-    validateUsers, 
-    getUsersbyPhoneNumber 
+    getUsers, putUsers,
+    validateUsers, getUsersbyPhoneNumber 
 } = require('../controllers/userController');
 
 const { 
-    getAdminbyEmail,
-    putAdmin,
-    loginValidate, 
-    forgotPassword, 
-    getVendors,
-    getVendorsbyEmail, 
-    addVendors, 
-    putVendors,
-    deleteVendors, 
-    verifyToken,
-    getAllUsersCount,
-    NewAdmin,
+    getAdminbyEmail, putAdmin,
+    loginValidate, forgotPassword, 
+    getVendors, getVendorsbyEmail, 
+    addVendors, putVendors,
+    deleteVendors, verifyToken,
+    getAllUsersCount, NewAdmin,
     GetNotificationCount,
 } = require('../controllers/admin&vendorController');
 
 const { 
-    addCake,
-    updateCake,
-    deleteCake,
-    getcakelist,
-    getCakeDetails, 
-    getcakelistByVendorName,
-    getcakelistByVendorId ,
-    getCakeListByStatus,
+    addCake, updateCake,
+    deleteCake, getcakelist,
+    getCakeDetails, getcakelistByVendorName,
+    getcakelistByVendorId, getCakeListByStatus,
     ApproveCake
 } = require('../controllers/cakeController');
 
 const { 
-    getOrdersList, 
-    newOrder, 
-    updateOrder, 
-    updateOrderStatus,
-    getOrdersListById,
-    getOrdersListByUserID,
-    getOrdersListByVendorId,
-    getOrdersListByStatusAndAbove5Kg,
-    getOrdersListByStatus,
-    getVendorOrdersListByStatus,
-    getOrdersStatusCount,
-    getVendorOrdersStatusCount,
-    OrderandCustomizecakeNotification,
-    GetAbove5kgOrdersList,
-    Above5KGOrderAssign,
-    Above5KGOrderPriceInvoice,
-    UpdateOrderResponse,
-    UpdateOrderResponsebyVendor,
+    getOrdersList, newOrder, 
+    updateOrder, updateOrderStatus,
+    getOrdersListById, getOrdersListByUserID,
+    getOrdersListByVendorId, getOrdersListByStatusAndAbove5Kg,
+    getOrdersListByStatus, getVendorOrdersListByStatus,
+    getOrdersStatusCount, getVendorOrdersStatusCount,
+    OrderandCustomizecakeNotification, GetAbove5kgOrdersList,
+    Above5KGOrderAssign, Above5KGOrderPriceInvoice,
+    UpdateOrderResponse, UpdateOrderResponsebyVendor,
     GetNotRespondOrders
 } = require('../controllers/orderListController');
 
 const { 
-    AddCategory,
-    AddNewSubCategory,
-    GetAllCategory,
-    DeleteCategory,
-    DeleteSubCategory,
-    UpdateCategory
+    AddCategory, AddNewSubCategory,
+    GetAllCategory, DeleteCategory,
+    DeleteSubCategory, UpdateCategory
 } = require('../controllers/categoryController');
 
 const {
-    RegisterVendors,
-    GetNewVendorList
+    RegisterVendors, GetNewVendorList
 } = require('../controllers/VendorRegisterController');
 
 const {
-    HelpDeskNew,
-    Above5kgCount,
+    HelpDeskNew, Above5kgCount,
     ChangePassword
 } = require('../controllers/helpDeskController');
 
 const {
-    AddNewFlavours,
-    GetFlavoursList,
-    AddNewShapes,
-    GetShapesList,
-    AddNewWeight,
-    GetWeightList,
-    AddNewArticle,
-    GetArticleList,
-    AddNewCakeToppings,
-    GetCakeToppingsList
+    AddNewFlavours, GetFlavoursList,
+    AddNewShapes, GetShapesList,
+    AddNewWeight, GetWeightList,
+    AddNewArticle, GetArticleList,
+    AddNewCakeToppings, GetCakeToppingsList
 } = require('../controllers/cakeArrayController');
 
 const {
-    AddNewCustomizeCake,
-    GetCustomizeCakeList,
-    GetAbove5kgCustomizeCakeList,
-    GetCustomizeCakeListByVendorId, 
-    GetCustomizeCakeListByUserId,
-    GetNewCustomizeCakeListByVendorId,
-    AssignCustomizecake,
-    CustomizeCakePriceInvoice,
-    CustomizeCakeConfirmOrder,
-    ChangeNotificationStatus
+    AddNewCustomizeCake, GetCustomizeCakeList,
+    GetAbove5kgCustomizeCakeList, GetCustomizeCakeListByVendorId, 
+    GetCustomizeCakeListByUserId, GetNewCustomizeCakeListByVendorId,
+    AssignCustomizecake, CustomizeCakePriceInvoice,
+    CustomizeCakeConfirmOrder, ChangeNotificationStatus
 } = require('../controllers/customizeCakeController');
 
 const {
-    VendorRatings,
-    CakeRatings
+    VendorRatings, CakeRatings
 } = require('../controllers/RatingsController');
-
-const {
-    sampleCode
-} = require('../controllers/sample');
-
 
 //Admin API
 
+//add new admin
 router.post('/admin/new', NewAdmin);
 
 //Get all vendors
@@ -206,6 +165,7 @@ router.put("/vendors/update/:id",upload.single("file"), putVendors);
 //Delete vendor
 router.put("/vendors/delete/:id", deleteVendors);
 
+
 //Help Desk API
 
 //Create New Help desk member
@@ -215,21 +175,21 @@ router.post('/helpdesk/new',HelpDeskNew);
 router.get('/helpdesk/orders/count', Authorization, Above5kgCount);
 
 
-// Cake API
+//Cake API
 
 //Get all cakes
 router.get("/cake/list", Authorization, getcakelist);
 
-// get cake details
+//get cake details
 router.get("/cake/list/:id", Authorization, getCakeDetails);
 
 //get cake list based on status
 router.get('/cake/listbystatus/:status', Authorization, getCakeListByStatus);
 
-// get cake details based on vendorname
+//get cake details based on vendorname
 router.get("/cake/listbyName/:VendorName", Authorization, getcakelistByVendorName);
 
-// get cake details based on vendorId
+//get cake details based on vendorId
 router.get("/cake/listbyId/:VendorId", Authorization, getcakelistByVendorId);
 
 //Create new vendor
@@ -266,7 +226,7 @@ router.post('/order/new',newOrder);
 router.put('/order/update/:id',updateOrder);
 
 //send above 5kg orders price invoice 
-router.put('/order/price/:id', Above5KGOrderPriceInvoice)
+router.put('/order/price/:id', Above5KGOrderPriceInvoice); //not used
 
 //update order status
 router.put('/order/updatestatus/:id',updateOrderStatus);
@@ -297,6 +257,8 @@ router.put('/order/assign/:id', Above5KGOrderAssign);
 
 //update order response
 router.put('/order/response/update/:id/:response', UpdateOrderResponsebyVendor);
+
+//no response orders automatically send to helpdesk
 router.put('/order/updateresponse', UpdateOrderResponse);
 
 //get single users orders and customize cake orders for notification
@@ -325,6 +287,7 @@ router.put('/subcategory/delete/:id',DeleteSubCategory);
 
 //Update Category
 router.put('/category/update/:id',UpdateCategory);
+
 
 //Cake Array List API
 
@@ -397,7 +360,5 @@ router.put('/vendor/ratings/:id', VendorRatings);
 //cake Ratings
 router.put('/cake/ratings/:id', CakeRatings);
 
-
-router.post('/sample/new', sampleCode);
 
 module.exports = router;

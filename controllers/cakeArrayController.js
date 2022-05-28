@@ -5,11 +5,11 @@ const CakeToppingsModel = require('../models/cakeToppingsModel');
 const CakeArticlesModel = require('../models/articlesModels');
 const moment = require('moment-timezone');
 
+//add new flavours
 const AddNewFlavours = (req, res) => {
 
     const Flavour = req.body.Flavour;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         CakeFlavoursModel.find({}, function (err, result) {
             if (err) {
@@ -19,7 +19,6 @@ const AddNewFlavours = (req, res) => {
                     return Flavour === val.Name
                 });
                 if (NewFlavour.length === 0) {
-
                     const Flavour_List = new CakeFlavoursModel({
                         Name: Flavour,
                         Created_On: Created_On
@@ -35,12 +34,13 @@ const AddNewFlavours = (req, res) => {
                     res.send({ statusCode: 400, message: 'Flavour Already Exist' });
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
-    }
+    };
 };
 
+//get flavours list
 const GetFlavoursList = (req, res) => {
 
     try {
@@ -54,17 +54,17 @@ const GetFlavoursList = (req, res) => {
                     res.send(result);
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
+//add new shapes
 const AddNewShapes = (req, res) => {
 
     const Shape = req.body.Shape;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         CakeShapesModel.find({}, function (err, result) {
             if (err) {
@@ -74,7 +74,6 @@ const AddNewShapes = (req, res) => {
                     return Shape === val.Name
                 });
                 if (NewShape.length === 0) {
-
                     const Shape_List = new CakeShapesModel({
                         Name: Shape,
                         Created_On: Created_On
@@ -90,12 +89,13 @@ const AddNewShapes = (req, res) => {
                     res.send({ statusCode: 400, message: 'Shape Already Exist' });
                 }
             }
-        })
+        });
     } catch (err) {
         console.log(err);
-    }
+    };
 };
 
+//get shapes list
 const GetShapesList = (req, res) => {
 
     try {
@@ -109,17 +109,17 @@ const GetShapesList = (req, res) => {
                     res.send(result);
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
+//add new weight
 const AddNewWeight = (req, res) => {
 
     const Weight = req.body.Weight;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         CakeWeightModel.find({}, function (err, result) {
             if (err) {
@@ -129,7 +129,6 @@ const AddNewWeight = (req, res) => {
                     return Weight === val.Weight
                 });
                 if (NewWeight.length === 0) {
-
                     const Weight_List = new CakeWeightModel({
                         Weight: Weight,
                         Created_On: Created_On
@@ -145,12 +144,13 @@ const AddNewWeight = (req, res) => {
                     res.send({ statusCode: 400, message: 'Weight Already Exist' });
                 }
             }
-        })
+        });
     } catch (err) {
         console.log(err);
-    }
+    };
 };
 
+//get weight list
 const GetWeightList = (req, res) => {
 
     try {
@@ -164,17 +164,17 @@ const GetWeightList = (req, res) => {
                     res.send(result);
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
+//add new articles
 const AddNewArticle = (req, res) => {
 
     const Article = req.body.Article;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         CakeArticlesModel.find({}, function (err, result) {
             if (err) {
@@ -200,12 +200,13 @@ const AddNewArticle = (req, res) => {
                     res.send({ statusCode: 400, message: 'Article Already Exist' });
                 }
             }
-        })
+        });
     } catch (err) {
         console.log(err);
-    }
+    };
 };
 
+//get article list
 const GetArticleList = (req, res) => {
 
     try {
@@ -219,17 +220,18 @@ const GetArticleList = (req, res) => {
                     res.send(result);
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
+
+//add new cake toppings
 const AddNewCakeToppings = (req, res) => {
 
     const CakeToppings = req.body.CakeToppings;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-
     try {
         CakeToppingsModel.find({}, function (err, result) {
             if (err) {
@@ -256,12 +258,14 @@ const AddNewCakeToppings = (req, res) => {
                     res.send({ statusCode: 400, message: 'Flavour Already Exist' });
                 }
             }
-        })
+        });
     } catch (err) {
         console.log(err);
-    }
+    };
 };
 
+
+//get cake toppings 
 const GetCakeToppingsList = (req, res) => {
 
     try {
@@ -275,13 +279,14 @@ const GetCakeToppingsList = (req, res) => {
                     res.send(result);
                 }
             }
-        })
+        });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
-    }
+    };
 };
 
 module.exports = {
+
     AddNewFlavours,
     GetFlavoursList,
     AddNewShapes,
@@ -292,4 +297,5 @@ module.exports = {
     GetArticleList,
     AddNewCakeToppings,
     GetCakeToppingsList
+
 };
