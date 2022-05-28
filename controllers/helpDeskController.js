@@ -14,17 +14,27 @@ const HelpDeskNew = (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         if (Email || Password || Name) {
-            const HelpDesk = new helpDeskModel({
-                Email: Email,
-                Password: Password,
-                Name: Name,
-                Created_On: Created_On
-            });
-            HelpDesk.save(function (err, result) {
+            helpDeskModel.find({ Email: Email }, function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
+                    res.send({ statusCode: 400, message: 'Failed' });
                 } else {
-                    res.send({ statusCode: 200, message: "Registered Successfully" });
+                    if (result === null) {
+                        const HelpDesk = new helpDeskModel({
+                            Email: Email,
+                            Password: Password,
+                            Name: Name,
+                            Created_On: Created_On
+                        });
+                        HelpDesk.save(function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Registered Successfully" });
+                            }
+                        });
+                    } else {
+                        res.send({ statusCode: 400, message: 'Email Already Exist!' })
+                    }
                 }
             });
         } else {
@@ -151,5 +161,5 @@ module.exports = {
     HelpDeskNew,
     Above5kgCount,
     ChangePassword
-    
+
 }
