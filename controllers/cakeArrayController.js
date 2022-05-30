@@ -285,6 +285,71 @@ const GetCakeToppingsList = (req, res) => {
     };
 };
 
+const DeleteFlavour = (req, res) => {
+
+    const Id = req.params.id;
+
+    try {
+        CakeFlavoursModel.findByIdAndDelete({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Deleted Successfully' })
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+const DeleteShape = (req, res) => {
+
+    const Id = req.params.id;
+    try {
+        CakeShapesModel.findByIdAndDelete({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Deleted Successfully' })
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+const DeleteWeight = (req, res) => {
+
+    const Id = req.params.id;
+    try {
+        CakeWeightModel.findByIdAndDelete({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Deleted Successfully' })
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+const DeleteArticle = (req, res) => {
+
+    const Id = req.params.id;
+    try {
+        CakeArticlesModel.findByIdAndDelete({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Deleted Successfully' })
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
 module.exports = {
 
     AddNewFlavours,
@@ -296,6 +361,10 @@ module.exports = {
     AddNewArticle,
     GetArticleList,
     AddNewCakeToppings,
-    GetCakeToppingsList
+    GetCakeToppingsList,
+    DeleteFlavour,
+    DeleteShape,
+    DeleteWeight,
+    DeleteArticle
 
 };

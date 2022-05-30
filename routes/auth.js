@@ -80,7 +80,9 @@ const {
     AddNewShapes, GetShapesList,
     AddNewWeight, GetWeightList,
     AddNewArticle, GetArticleList,
-    AddNewCakeToppings, GetCakeToppingsList
+    AddNewCakeToppings, GetCakeToppingsList,
+    DeleteFlavour, DeleteShape, 
+    DeleteWeight, DeleteArticle
 } = require('../controllers/cakeArrayController');
 
 const {
@@ -304,11 +306,17 @@ router.post('/flavour/new',AddNewFlavours);
 //Get Flavours List
 router.get('/flavour/list', Authorization, GetFlavoursList);
 
+//delete Flavour
+router.delete('/flavour/delete/:id', DeleteFlavour);
+
 //Add new Shape
 router.post('/shape/new',AddNewShapes);
 
 //Get Shapes List
 router.get('/shape/list', Authorization, GetShapesList);
+
+//delete shape
+router.delete('/shape/delete/:id', DeleteShape);
 
 //Add new Weight
 router.post('/weight/new', AddNewWeight);
@@ -316,11 +324,17 @@ router.post('/weight/new', AddNewWeight);
 //Get Weight List
 router.get('/weight/list', Authorization, GetWeightList);
 
+//delete Weight
+router.delete('/weight/delete/:id', DeleteWeight);
+
 //Add new Articles
 router.post('/article/new',AddNewArticle);
 
 //Get Articles List
-router.get('/article/list', Authorization, GetArticleList)
+router.get('/article/list', Authorization, GetArticleList);
+
+//delete article
+router.delete('/article/delete/:id', DeleteArticle);
 
 //Add new Cake Toppings
 router.post('/toppings/new', AddNewCakeToppings);
