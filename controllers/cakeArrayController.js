@@ -125,12 +125,14 @@ const AddNewWeight = (req, res) => {
             if (err) {
                 res.send(err);
             } else {
+                const New = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
+                const weight = New[0] + 'kg';
                 const NewWeight = result.filter(val => {
-                    return Weight === val.Weight
+                    return weight === val.Weight
                 });
                 if (NewWeight.length === 0) {
                     const Weight_List = new CakeWeightModel({
-                        Weight: Weight,
+                        Weight: weight,
                         Created_On: Created_On
                     });
                     Weight_List.save(function (err, result) {
