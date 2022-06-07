@@ -20,10 +20,5 @@
           "dest": "/index.js",
           "continue": true
         }
-      ],
-      "on" : {
-        "schedule" : {
-          "cron" : "* * * * * *"
-        }
-      }
+      ]
 }
