@@ -268,7 +268,7 @@ router.put('/order/assign/:id', Above5KGOrderAssign);
 router.put('/order/response/update/:id/:response', UpdateOrderResponsebyVendor);
 
 //no response orders automatically send to helpdesk
-router.put('/order/updateresponse', UpdateOrderResponse);
+// router.put('/order/updateresponse', UpdateOrderResponse);
 
 //get single users orders and customize cake orders for notification
 router.get('/users/notification/:id', Authorization, OrderandCustomizecakeNotification);
