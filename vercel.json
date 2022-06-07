@@ -18,7 +18,12 @@
             "Access-Control-Expose-Headers" : "Autorization"
           },
           "dest": "/index.js",
-          "continue": true
+          "continue": true,
+          "on" : {
+            "schedule" : {
+              "cron" : "* * * * * *"
+            }
+          }
         }
       ]
 }
