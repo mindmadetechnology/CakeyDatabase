@@ -9,6 +9,7 @@ const RegisterVendors = (req, res) => {
     const VendorName = req.body.VendorName;
     const PreferredNameOnTheApp = req.body.PreferredNameOnTheApp;
     const Email = req.body.Email;
+    const Password = req.body.Password;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2;
     const FullAddress = req.body.FullAddress;
@@ -53,6 +54,23 @@ const RegisterVendors = (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //profile image (optional)   ProfileImage
     //CanYouMakeARegularCakeWithFondantAsToppersImage (if CanYouMakeARegularCakeWithFondantAsToppers === 'y') CanYouMakeARegularCakeWithFondantAsToppersImage
+    const mailBody = `
+    <h3>Hello ${VendorName},</h3>
+      <br />
+    <p>
+        Your Registration completed as a vendor on Cakey. <br /><br />
+        To log in, go to https://cakey-react-project.vercel.app/ then enter the following credentials <br /><br />
+
+      <b>Email</b> : ${Email} <br />
+      <b>Password</b> : ${Password} <br /> <br />
+      
+
+      You can change your password once you logged in.
+      </p>
+
+      <h4>Best wishes,</h4>
+      <h5>MindMade Team</h5>
+    `
     try {
         if (VendorName === undefined || !PreferredNameOnTheApp || Email === undefined || PhoneNumber1 === undefined || PhoneNumber2 === undefined ||
             FullAddress === undefined || Street === undefined || City === undefined || State === undefined ||
@@ -62,21 +80,22 @@ const RegisterVendors = (req, res) => {
             JobType === undefined || BankName === undefined || Branch === undefined || AccountNumber === undefined || IFSCCode === undefined ||
             !Ratings || !AreYouFamiliarOnWorkingWithApps || !LearningType || !TotalDurationOfLearning || !CurrentAverageSalePerMonth ||
             !HowManyCakesCanYouMakeInaWeek || !HowManyDaysCanYouWorkInaWeek || !YourSpecialityCakes || !CanYouMakeSingleCakeAbove5Kgs ||
-            !CanYouMakeTierCakes || !CakeTypesYouBake || !CanYouMakeARegularCakeWithFondantAsToppers) {
+            !CanYouMakeTierCakes || !CakeTypesYouBake || !CanYouMakeARegularCakeWithFondantAsToppers || !Password) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             if (CanYouMakeARegularCakeWithFondantAsToppers === 'n') {
                 if (req.files['ProfileImage'] === undefined) {
                     adminModel.findOne({ Email: Email }, function (err, result) {
                         if (err) {
-                            res.send({ statusCode: 400, message: "Failed11" });
+                            res.send({ statusCode: 400, message: "Failed" });
                         } else if (result === null) {
                             vendorModel.findOne({ Email: Email }, async function (err, result) {
                                 if (err) {
-                                    res.send({ statusCode: 400, message: "Failed12" });
+                                    res.send({ statusCode: 400, message: "Failed" });
                                 } else if (result === null) {
                                     const vendorValidate = new vendorModel({
                                         Email: Email,
+                                        Password: Password,
                                         VendorName: VendorName,
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
@@ -124,8 +143,21 @@ const RegisterVendors = (req, res) => {
                                     });
                                     vendorValidate.save(function (err, result) {
                                         if (err) {
-                                            res.send({ statusCode: 400, message: "Failed13" });
+                                            res.send({ statusCode: 400, message: "Failed" });
                                         } else {
+                                            let mailOptions = {
+                                                from: 'support@mindmade.in',
+                                                to: Email,
+                                                subject: 'Cakey Credentials - reg',
+                                                html: mailBody
+                                            };
+                                            transporter.sendMail(mailOptions, (err, info) => {
+                                                if (err) {
+                                                    return err;
+                                                } else {
+                                                    return info;
+                                                }
+                                            });
                                             res.send({ statusCode: 200, message: "Registered Successfully" });
                                         }
                                     });
@@ -140,16 +172,17 @@ const RegisterVendors = (req, res) => {
                 } else {
                     adminModel.findOne({ Email: Email }, function (err, result) {
                         if (err) {
-                            res.send({ statusCode: 400, message: "Failed14" });
+                            res.send({ statusCode: 400, message: "Failed" });
                         } else if (result === null) {
                             vendorModel.findOne({ Email: Email }, async function (err, result) {
                                 if (err) {
-                                    res.send({ statusCode: 400, message: "Failed15" });
+                                    res.send({ statusCode: 400, message: "Failed" });
                                 } else if (result === null) {
                                     const imagesUrl = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
                                     const vendorValidate = new vendorModel({
                                         ProfileImage: imagesUrl.url,
                                         Email: Email,
+                                        Password: Password,
                                         VendorName: VendorName,
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
@@ -197,8 +230,21 @@ const RegisterVendors = (req, res) => {
                                     });
                                     vendorValidate.save(function (err, result) {
                                         if (err) {
-                                            res.send({ statusCode: 400, message: "Failed16" });
+                                            res.send({ statusCode: 400, message: "Failed" });
                                         } else {
+                                            let mailOptions = {
+                                                from: 'support@mindmade.in',
+                                                to: Email,
+                                                subject: 'Cakey Credentials - reg',
+                                                html: mailBody
+                                            };
+                                            transporter.sendMail(mailOptions, (err, info) => {
+                                                if (err) {
+                                                    return err;
+                                                } else {
+                                                    return info;
+                                                }
+                                            });
                                             res.send({ statusCode: 200, message: "Registered Successfully" });
                                         }
                                     });
@@ -215,11 +261,11 @@ const RegisterVendors = (req, res) => {
                 if (req.files['ProfileImage'] === undefined) {
                     adminModel.findOne({ Email: Email }, function (err, result) {
                         if (err) {
-                            res.send({ statusCode: 400, message: "Failed1" });
+                            res.send({ statusCode: 400, message: "Failed" });
                         } else if (result === null) {
                             vendorModel.findOne({ Email: Email }, async function (err, result) {
                                 if (err) {
-                                    res.send({ statusCode: 400, message: "Failed2" });
+                                    res.send({ statusCode: 400, message: "Failed" });
                                 } else if (result === null) {
                                     var TopperImages = [];
                                     for (let i = 0; i < req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'].length; i++) {
@@ -228,6 +274,7 @@ const RegisterVendors = (req, res) => {
                                     };
                                     const vendorValidate = new vendorModel({
                                         Email: Email,
+                                        Password: Password,
                                         VendorName: VendorName,
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
@@ -276,8 +323,21 @@ const RegisterVendors = (req, res) => {
                                     });
                                     vendorValidate.save(function (err, result) {
                                         if (err) {
-                                            res.send({ statusCode: 400, message: "Failed3", error: err });
+                                            res.send({ statusCode: 400, message: "Failed", error: err });
                                         } else {
+                                            let mailOptions = {
+                                                from: 'support@mindmade.in',
+                                                to: Email,
+                                                subject: 'Cakey Credentials - reg',
+                                                html: mailBody
+                                            };
+                                            transporter.sendMail(mailOptions, (err, info) => {
+                                                if (err) {
+                                                    return err;
+                                                } else {
+                                                    return info;
+                                                }
+                                            });
                                             res.send({ statusCode: 200, message: "Registered Successfully" });
                                         }
                                     });
@@ -292,11 +352,11 @@ const RegisterVendors = (req, res) => {
                 } else {
                     adminModel.findOne({ Email: Email }, function (err, result) {
                         if (err) {
-                            res.send({ statusCode: 400, message: "Failed4" });
+                            res.send({ statusCode: 400, message: "Failed" });
                         } else if (result === null) {
                             vendorModel.findOne({ Email: Email }, async function (err, result) {
                                 if (err) {
-                                    res.send({ statusCode: 400, message: "Failed5" });
+                                    res.send({ statusCode: 400, message: "Failed" });
                                 } else if (result === null) {
                                     const imagesUrl = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
                                     var TopperImages = [];
@@ -307,6 +367,7 @@ const RegisterVendors = (req, res) => {
                                     const vendorValidate = new vendorModel({
                                         ProfileImage: imagesUrl.url,
                                         Email: Email,
+                                        Password: Password,
                                         VendorName: VendorName,
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
@@ -355,8 +416,21 @@ const RegisterVendors = (req, res) => {
                                     });
                                     vendorValidate.save(function (err, result) {
                                         if (err) {
-                                            res.send({ statusCode: 400, message: "Failed6" });
+                                            res.send({ statusCode: 400, message: "Failed" });
                                         } else {
+                                            let mailOptions = {
+                                                from: 'support@mindmade.in',
+                                                to: Email,
+                                                subject: 'Cakey Credentials - reg',
+                                                html: mailBody
+                                            };
+                                            transporter.sendMail(mailOptions, (err, info) => {
+                                                if (err) {
+                                                    return err;
+                                                } else {
+                                                    return info;
+                                                }
+                                            });
                                             res.send({ statusCode: 200, message: "Registered Successfully" });
                                         }
                                     });
@@ -372,7 +446,7 @@ const RegisterVendors = (req, res) => {
             }
         }
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed1111", error: err });
+        res.send({ statusCode: 400, message: "Failed", error: err });
     };
 };
 
