@@ -12,6 +12,9 @@ const VendorSchema = new mongoose.Schema({
     VendorName: {
         type: String,
     },
+    PreferredNameOnTheApp: {
+        type: String
+    },
     Address: {
         FullAddress: {
             type: String
@@ -47,9 +50,9 @@ const VendorSchema = new mongoose.Schema({
     EggOrEggless: {
         type: String
     },
-    PreferredVendorName: {
-        type: String
-    },
+    // PreferredVendorName: {
+    //     type: String
+    // },
     DateOfBirth: {
         type: String
     },
@@ -74,18 +77,18 @@ const VendorSchema = new mongoose.Schema({
     FSSAIExpiryDate: {
         type: String
     },
-    MaximumCakesPerDay: {
-        type: String
-    },
-    MaximumCakesPerWeek: {
-        type: String
-    },
+    // MaximumCakesPerDay: {
+    //     type: String
+    // },
+    // MaximumCakesPerWeek: {
+    //     type: String
+    // },
     JobType: {
         type: String
     },
-    SpecializedIn: {
-        type: String
-    },
+    // SpecializedIn: {
+    //     type: String
+    // },
     BankName: {
         type: String
     },
@@ -101,19 +104,19 @@ const VendorSchema = new mongoose.Schema({
     UPIId: {
         type: String
     },
-    Registered_On: {
-        type: String
-    },
+    // Registered_On: {
+    //     type: String
+    // },
     Created_On: {
         type: String,
     },
     Modified_On: {
         type: String,
     },
-    Status: {
-        type: String,
-        default: 'New'
-    },
+    // Status: {
+    //     type: String,
+    //     default: 'New'
+    // },
     IsDeleted: {
         type: String,
         default: 'n'
@@ -121,8 +124,50 @@ const VendorSchema = new mongoose.Schema({
     Ratings: {
         type: Number,
         default: 0
-    }
-
+    },
+    AreYouFamiliarOnWorkingWithApps: {
+        type : String,
+        default: 'n'
+    },
+    LearningType: {
+        type: String,
+    },
+    TotalDurationOfLearning: {
+        type: String,
+    },
+    InstitutionName: [{
+            type: String,
+    }],
+    CurrentAverageSalePerMonth: {
+        type: String
+    },
+    HowManyCakesCanYouMakeInaWeek: {
+        type: String
+    },
+    HowManyDaysCanYouWorkInaWeek: {
+        type: String
+    },
+    YourSpecialityCakes: [{
+            type: String
+    }],
+    CanYouMakeSingleCakeAbove5Kgs: {
+        type: String,
+        default: 'n'
+    },
+    CanYouMakeTierCakes: {
+        type: String,
+        default: 'n'
+    },
+    CakeTypesYouBake: [{
+            type: String,
+    }],
+    CanYouMakeARegularCakeWithFondantAsToppers: {
+        type: String,
+        default: 'n',
+    },
+    CanYouMakeARegularCakeWithFondantAsToppersImage:[{
+        type: String
+    }],
 });
 
 VendorSchema.plugin(increment, {
