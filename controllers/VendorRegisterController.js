@@ -2,6 +2,7 @@ const vendorModel = require("../models/vendorModels");
 const adminModel = require("../models/adminModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
+const { transporter } = require('../middleware/nodemailer');
 
 //register vendor
 const RegisterVendors = (req, res) => {
