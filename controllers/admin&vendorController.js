@@ -304,334 +304,334 @@ const verifyToken = (req, res) => {
 };
 
 //Add new vendors
-const addVendors = (req, res) => {
+// const addVendors = (req, res) => {
 
-    const id = req.params.id;
-    const VendorName = req.body.VendorName;
-    const Email = req.body.Email;
-    const Password = req.body.Password;
-    const Status = req.body.Status;
-    const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    const mailBody = `
-    <h3>Hello ${VendorName},</h3>
-      <br />
-    <p>
-        Your Registration was approved as a vendor on Cakey. <br /><br />
-        To log in, go to https://cakey-react-project.vercel.app/ then enter the following credentials <br /><br />
+//     const id = req.params.id;
+//     const VendorName = req.body.VendorName;
+//     const Email = req.body.Email;
+//     const Password = req.body.Password;
+//     const Status = req.body.Status;
+//     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+//     const mailBody = `
+//     <h3>Hello ${VendorName},</h3>
+//       <br />
+//     <p>
+//         Your Registration was approved as a vendor on Cakey. <br /><br />
+//         To log in, go to https://cakey-react-project.vercel.app/ then enter the following credentials <br /><br />
 
-      <b>Email</b> : ${Email} <br />
-      <b>Password</b> : ${Password} <br /> <br />
+//       <b>Email</b> : ${Email} <br />
+//       <b>Password</b> : ${Password} <br /> <br />
       
 
-      You can change your password once you logged in.
-      </p>
+//       You can change your password once you logged in.
+//       </p>
 
-      <h4>Best wishes,</h4>
-      <h5>MindMade Team</h5>
-    `
-    try {
-        if (Status === 'Approved') {
-            vendorModel.findOneAndUpdate({ _id: id }, {
-                $set: {
-                    Password: Password,
-                    Status: Status,
-                    Created_On: Created_On
-                }
-            }, function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else {
-                    let mailOptions = {
-                        from: 'support@mindmade.in',
-                        to: Email,
-                        subject: 'Cakey Credentials - reg',
-                        html: mailBody
-                    };
-                    transporter.sendMail(mailOptions, (err, info) => {
-                        if (err) {
-                            return err;
-                        } else {
-                            return info;
-                        }
-                    });
-                    res.send({ statusCode: 200, message: "Registered Successfully" });
-                }
-            });
-        } else if (Status === 'Rejected') {
-            vendorModel.findOneAndUpdate({ _id: id }, {
-                $set: {
-                    Status: Status,
-                    Created_On: Created_On
-                }
-            }, function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else {
-                    res.send({ statusCode: 200, message: "Updated Successfully" });
-                }
-            });
-        }
-    } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" });
-    };
-};
+//       <h4>Best wishes,</h4>
+//       <h5>MindMade Team</h5>
+//     `
+//     try {
+//         if (Status === 'Approved') {
+//             vendorModel.findOneAndUpdate({ _id: id }, {
+//                 $set: {
+//                     Password: Password,
+//                     Status: Status,
+//                     Created_On: Created_On
+//                 }
+//             }, function (err, result) {
+//                 if (err) {
+//                     res.send({ statusCode: 400, message: "Failed" });
+//                 } else {
+//                     let mailOptions = {
+//                         from: 'support@mindmade.in',
+//                         to: Email,
+//                         subject: 'Cakey Credentials - reg',
+//                         html: mailBody
+//                     };
+//                     transporter.sendMail(mailOptions, (err, info) => {
+//                         if (err) {
+//                             return err;
+//                         } else {
+//                             return info;
+//                         }
+//                     });
+//                     res.send({ statusCode: 200, message: "Registered Successfully" });
+//                 }
+//             });
+//         } else if (Status === 'Rejected') {
+//             vendorModel.findOneAndUpdate({ _id: id }, {
+//                 $set: {
+//                     Status: Status,
+//                     Created_On: Created_On
+//                 }
+//             }, function (err, result) {
+//                 if (err) {
+//                     res.send({ statusCode: 400, message: "Failed" });
+//                 } else {
+//                     res.send({ statusCode: 200, message: "Updated Successfully" });
+//                 }
+//             });
+//         }
+//     } catch (err) {
+//         res.send({ statusCode: 400, message: "Failed" });
+//     };
+// };
 
 //Update vendor's details
-const putVendors = async (req, res) => {
+// const putVendors = async (req, res) => {
 
-    const id = req.params.id;
-    const Email = req.body.Email;
-    const Password = req.body.Password;
-    const VendorName = req.body.VendorName;
-    const PhoneNumber1 = req.body.PhoneNumber1;
-    const PhoneNumber2 = req.body.PhoneNumber2;
-    const Street = req.body.Street;
-    const City = req.body.City;
-    const State = req.body.State;
-    const Pincode = req.body.Pincode;
-    const FullAddress = req.body.FullAddress;
-    const Description = req.body.Description;
-    const EggOrEggless = req.body.EggOrEggless;
-    const PreferredVendorName = req.body.PreferredVendorName; //optional
-    const DateOfBirth = req.body.DateOfBirth;
-    const Gender = req.body.Gender;
-    const YearsOfExperienceAsBaker = req.body.YearsOfExperienceAsBaker;
-    const AadhaarNumber = req.body.AadhaarNumber;
-    const PANNumber = req.body.PANNumber;
-    const GSTNumber = req.body.GSTNumber; //optional
-    const FSSAINumber = req.body.FSSAINumber;
-    const FSSAIExpiryDate = req.body.FSSAIExpiryDate;
-    const MaximumCakesPerDay = req.body.MaximumCakesPerDay;
-    const MaximumCakesPerWeek = req.body.MaximumCakesPerWeek;
-    const JobType = req.body.JobType;
-    const SpecializedIn = req.body.SpecializedIn; //optional
-    const BankName = req.body.BankName;
-    const Branch = req.body.Branch;
-    const AccountNumber = req.body.AccountNumber;
-    const IFSCCode = req.body.IFSCCode;
-    const UPIId = req.body.UPIId; //optional
-    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    try {
-        if (req.file === undefined) {
-            vendorModel.findById({ _id: id }, function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else if (result.Email === Email) {
-                    vendorModel.findOneAndUpdate({ _id: id }, {
-                        $set: {
-                            Email: Email,
-                            Password: Password,
-                            VendorName: VendorName,
-                            PhoneNumber1: PhoneNumber1,
-                            PhoneNumber2: PhoneNumber2,
-                            Address: {
-                                FullAddress: FullAddress,
-                                Street: Street,
-                                City: City,
-                                State: State,
-                                Pincode: Pincode
-                            },
-                            Description: Description,
-                            EggOrEggless: EggOrEggless,
-                            PreferredVendorName: PreferredVendorName,
-                            DateOfBirth: DateOfBirth,
-                            Gender: Gender,
-                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                            AadhaarNumber: AadhaarNumber,
-                            PANNumber: PANNumber,
-                            GSTNumber: GSTNumber,
-                            FSSAINumber: FSSAINumber,
-                            FSSAIExpiryDate: FSSAIExpiryDate,
-                            MaximumCakesPerDay: MaximumCakesPerDay,
-                            MaximumCakesPerWeek: MaximumCakesPerWeek,
-                            JobType: JobType,
-                            SpecializedIn: SpecializedIn,
-                            BankName: BankName,
-                            Branch: Branch,
-                            AccountNumber: AccountNumber,
-                            IFSCCode: IFSCCode,
-                            UPIId: UPIId,
-                            Modified_On: Modified_On
-                        }
-                    }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                        }
-                    });
-                } else {
-                    adminModel.findOne({ Email: Email }, function (err, result) {
-                        if (result === null) {
-                            vendorModel.findOne({ Email: Email }, function (err, result) {
-                                if (result === null) {
-                                    vendorModel.findOneAndUpdate({ _id: id }, {
-                                        $set: {
-                                            Email: Email,
-                                            Password: Password,
-                                            VendorName: VendorName,
-                                            PhoneNumber1: PhoneNumber1,
-                                            PhoneNumber2: PhoneNumber2,
-                                            Address: {
-                                                FullAddress: FullAddress,
-                                                Street: Street,
-                                                City: City,
-                                                State: State,
-                                                Pincode: Pincode
-                                            },
-                                            Description: Description,
-                                            EggOrEggless: EggOrEggless,
-                                            PreferredVendorName: PreferredVendorName,
-                                            DateOfBirth: DateOfBirth,
-                                            Gender: Gender,
-                                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                                            AadhaarNumber: AadhaarNumber,
-                                            PANNumber: PANNumber,
-                                            GSTNumber: GSTNumber,
-                                            FSSAINumber: FSSAINumber,
-                                            FSSAIExpiryDate: FSSAIExpiryDate,
-                                            MaximumCakesPerDay: MaximumCakesPerDay,
-                                            MaximumCakesPerWeek: MaximumCakesPerWeek,
-                                            JobType: JobType,
-                                            SpecializedIn: SpecializedIn,
-                                            BankName: BankName,
-                                            Branch: Branch,
-                                            AccountNumber: AccountNumber,
-                                            IFSCCode: IFSCCode,
-                                            UPIId: UPIId,
-                                            Modified_On: Modified_On
-                                        }
-                                    }, function (err, result) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
-                                        } else {
-                                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                                        }
-                                    });
-                                } else {
-                                    res.send({ statusCode: 400, message: "Email already Exist" });
-                                }
-                            });
-                        } else {
-                            res.send({ statusCode: 400, message: "Email already Exist" });
-                        }
-                    });
-                }
-            });
-        } else {
-            const imagesUrl = await cloudinary.uploader.upload(req.file.path);
-            vendorModel.findById({ _id: id }, function (err, result) {
-                if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
-                } else if (result.Email === Email) {
-                    vendorModel.findOneAndUpdate({ _id: id }, {
-                        $set: {
-                            Email: Email,
-                            Password: Password,
-                            VendorName: VendorName,
-                            PhoneNumber1: PhoneNumber1,
-                            PhoneNumber2: PhoneNumber2,
-                            Address: {
-                                FullAddress: FullAddress,
-                                Street: Street,
-                                City: City,
-                                State: State,
-                                Pincode: Pincode
-                            },
-                            Description: Description,
-                            EggOrEggless: EggOrEggless,
-                            PreferredVendorName: PreferredVendorName,
-                            DateOfBirth: DateOfBirth,
-                            Gender: Gender,
-                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                            AadhaarNumber: AadhaarNumber,
-                            PANNumber: PANNumber,
-                            GSTNumber: GSTNumber,
-                            FSSAINumber: FSSAINumber,
-                            FSSAIExpiryDate: FSSAIExpiryDate,
-                            MaximumCakesPerDay: MaximumCakesPerDay,
-                            MaximumCakesPerWeek: MaximumCakesPerWeek,
-                            JobType: JobType,
-                            SpecializedIn: SpecializedIn,
-                            BankName: BankName,
-                            Branch: Branch,
-                            AccountNumber: AccountNumber,
-                            IFSCCode: IFSCCode,
-                            UPIId: UPIId,
-                            ProfileImage: imagesUrl.secure_url,
-                            Modified_On: Modified_On
-                        }
-                    }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                        }
-                    });
-                } else {
-                    adminModel.findOne({ Email: Email }, function (err, result) {
-                        if (result === null) {
-                            vendorModel.findOne({ Email: Email }, function (err, result) {
-                                if (result === null) {
-                                    vendorModel.findOneAndUpdate({ _id: id }, {
-                                        $set: {
-                                            Email: Email,
-                                            Password: Password,
-                                            VendorName: VendorName,
-                                            PhoneNumber1: PhoneNumber1,
-                                            PhoneNumber2: PhoneNumber2,
-                                            Address: {
-                                                FullAddress: FullAddress,
-                                                Street: Street,
-                                                City: City,
-                                                State: State,
-                                                Pincode: Pincode
-                                            },
-                                            Description: Description,
-                                            EggOrEggless: EggOrEggless,
-                                            PreferredVendorName: PreferredVendorName,
-                                            DateOfBirth: DateOfBirth,
-                                            Gender: Gender,
-                                            YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                                            AadhaarNumber: AadhaarNumber,
-                                            PANNumber: PANNumber,
-                                            GSTNumber: GSTNumber,
-                                            FSSAINumber: FSSAINumber,
-                                            FSSAIExpiryDate: FSSAIExpiryDate,
-                                            MaximumCakesPerDay: MaximumCakesPerDay,
-                                            MaximumCakesPerWeek: MaximumCakesPerWeek,
-                                            JobType: JobType,
-                                            SpecializedIn: SpecializedIn,
-                                            BankName: BankName,
-                                            Branch: Branch,
-                                            AccountNumber: AccountNumber,
-                                            IFSCCode: IFSCCode,
-                                            UPIId: UPIId,
-                                            ProfileImage: imagesUrl.secure_url,
-                                            Modified_On: Modified_On
-                                        }
-                                    }, function (err, result) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
-                                        } else {
-                                            res.send({ statusCode: 200, message: "Updated Successfully" });
-                                        }
-                                    });
-                                } else {
-                                    res.send({ statusCode: 400, message: "Email already Exist" });
-                                }
-                            });
-                        } else {
-                            res.send({ statusCode: 400, message: "Email already Exist" });
-                        }
-                    });
-                }
-            });
-        }
-    } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" });
-    };
-};
+//     const id = req.params.id;
+//     const Email = req.body.Email;
+//     const Password = req.body.Password;
+//     const VendorName = req.body.VendorName;
+//     const PhoneNumber1 = req.body.PhoneNumber1;
+//     const PhoneNumber2 = req.body.PhoneNumber2;
+//     const Street = req.body.Street;
+//     const City = req.body.City;
+//     const State = req.body.State;
+//     const Pincode = req.body.Pincode;
+//     const FullAddress = req.body.FullAddress;
+//     const Description = req.body.Description;
+//     const EggOrEggless = req.body.EggOrEggless;
+//     const PreferredVendorName = req.body.PreferredVendorName; //optional
+//     const DateOfBirth = req.body.DateOfBirth;
+//     const Gender = req.body.Gender;
+//     const YearsOfExperienceAsBaker = req.body.YearsOfExperienceAsBaker;
+//     const AadhaarNumber = req.body.AadhaarNumber;
+//     const PANNumber = req.body.PANNumber;
+//     const GSTNumber = req.body.GSTNumber; //optional
+//     const FSSAINumber = req.body.FSSAINumber;
+//     const FSSAIExpiryDate = req.body.FSSAIExpiryDate;
+//     const MaximumCakesPerDay = req.body.MaximumCakesPerDay;
+//     const MaximumCakesPerWeek = req.body.MaximumCakesPerWeek;
+//     const JobType = req.body.JobType;
+//     const SpecializedIn = req.body.SpecializedIn; //optional
+//     const BankName = req.body.BankName;
+//     const Branch = req.body.Branch;
+//     const AccountNumber = req.body.AccountNumber;
+//     const IFSCCode = req.body.IFSCCode;
+//     const UPIId = req.body.UPIId; //optional
+//     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+//     try {
+//         if (req.file === undefined) {
+//             vendorModel.findById({ _id: id }, function (err, result) {
+//                 if (err) {
+//                     res.send({ statusCode: 400, message: "Failed" });
+//                 } else if (result.Email === Email) {
+//                     vendorModel.findOneAndUpdate({ _id: id }, {
+//                         $set: {
+//                             Email: Email,
+//                             Password: Password,
+//                             VendorName: VendorName,
+//                             PhoneNumber1: PhoneNumber1,
+//                             PhoneNumber2: PhoneNumber2,
+//                             Address: {
+//                                 FullAddress: FullAddress,
+//                                 Street: Street,
+//                                 City: City,
+//                                 State: State,
+//                                 Pincode: Pincode
+//                             },
+//                             Description: Description,
+//                             EggOrEggless: EggOrEggless,
+//                             PreferredVendorName: PreferredVendorName,
+//                             DateOfBirth: DateOfBirth,
+//                             Gender: Gender,
+//                             YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+//                             AadhaarNumber: AadhaarNumber,
+//                             PANNumber: PANNumber,
+//                             GSTNumber: GSTNumber,
+//                             FSSAINumber: FSSAINumber,
+//                             FSSAIExpiryDate: FSSAIExpiryDate,
+//                             MaximumCakesPerDay: MaximumCakesPerDay,
+//                             MaximumCakesPerWeek: MaximumCakesPerWeek,
+//                             JobType: JobType,
+//                             SpecializedIn: SpecializedIn,
+//                             BankName: BankName,
+//                             Branch: Branch,
+//                             AccountNumber: AccountNumber,
+//                             IFSCCode: IFSCCode,
+//                             UPIId: UPIId,
+//                             Modified_On: Modified_On
+//                         }
+//                     }, function (err, result) {
+//                         if (err) {
+//                             res.send({ statusCode: 400, message: "Failed" });
+//                         } else {
+//                             res.send({ statusCode: 200, message: "Updated Successfully" });
+//                         }
+//                     });
+//                 } else {
+//                     adminModel.findOne({ Email: Email }, function (err, result) {
+//                         if (result === null) {
+//                             vendorModel.findOne({ Email: Email }, function (err, result) {
+//                                 if (result === null) {
+//                                     vendorModel.findOneAndUpdate({ _id: id }, {
+//                                         $set: {
+//                                             Email: Email,
+//                                             Password: Password,
+//                                             VendorName: VendorName,
+//                                             PhoneNumber1: PhoneNumber1,
+//                                             PhoneNumber2: PhoneNumber2,
+//                                             Address: {
+//                                                 FullAddress: FullAddress,
+//                                                 Street: Street,
+//                                                 City: City,
+//                                                 State: State,
+//                                                 Pincode: Pincode
+//                                             },
+//                                             Description: Description,
+//                                             EggOrEggless: EggOrEggless,
+//                                             PreferredVendorName: PreferredVendorName,
+//                                             DateOfBirth: DateOfBirth,
+//                                             Gender: Gender,
+//                                             YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+//                                             AadhaarNumber: AadhaarNumber,
+//                                             PANNumber: PANNumber,
+//                                             GSTNumber: GSTNumber,
+//                                             FSSAINumber: FSSAINumber,
+//                                             FSSAIExpiryDate: FSSAIExpiryDate,
+//                                             MaximumCakesPerDay: MaximumCakesPerDay,
+//                                             MaximumCakesPerWeek: MaximumCakesPerWeek,
+//                                             JobType: JobType,
+//                                             SpecializedIn: SpecializedIn,
+//                                             BankName: BankName,
+//                                             Branch: Branch,
+//                                             AccountNumber: AccountNumber,
+//                                             IFSCCode: IFSCCode,
+//                                             UPIId: UPIId,
+//                                             Modified_On: Modified_On
+//                                         }
+//                                     }, function (err, result) {
+//                                         if (err) {
+//                                             res.send({ statusCode: 400, message: "Failed" });
+//                                         } else {
+//                                             res.send({ statusCode: 200, message: "Updated Successfully" });
+//                                         }
+//                                     });
+//                                 } else {
+//                                     res.send({ statusCode: 400, message: "Email already Exist" });
+//                                 }
+//                             });
+//                         } else {
+//                             res.send({ statusCode: 400, message: "Email already Exist" });
+//                         }
+//                     });
+//                 }
+//             });
+//         } else {
+//             const imagesUrl = await cloudinary.uploader.upload(req.file.path);
+//             vendorModel.findById({ _id: id }, function (err, result) {
+//                 if (err) {
+//                     res.send({ statusCode: 400, message: "Failed" });
+//                 } else if (result.Email === Email) {
+//                     vendorModel.findOneAndUpdate({ _id: id }, {
+//                         $set: {
+//                             Email: Email,
+//                             Password: Password,
+//                             VendorName: VendorName,
+//                             PhoneNumber1: PhoneNumber1,
+//                             PhoneNumber2: PhoneNumber2,
+//                             Address: {
+//                                 FullAddress: FullAddress,
+//                                 Street: Street,
+//                                 City: City,
+//                                 State: State,
+//                                 Pincode: Pincode
+//                             },
+//                             Description: Description,
+//                             EggOrEggless: EggOrEggless,
+//                             PreferredVendorName: PreferredVendorName,
+//                             DateOfBirth: DateOfBirth,
+//                             Gender: Gender,
+//                             YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+//                             AadhaarNumber: AadhaarNumber,
+//                             PANNumber: PANNumber,
+//                             GSTNumber: GSTNumber,
+//                             FSSAINumber: FSSAINumber,
+//                             FSSAIExpiryDate: FSSAIExpiryDate,
+//                             MaximumCakesPerDay: MaximumCakesPerDay,
+//                             MaximumCakesPerWeek: MaximumCakesPerWeek,
+//                             JobType: JobType,
+//                             SpecializedIn: SpecializedIn,
+//                             BankName: BankName,
+//                             Branch: Branch,
+//                             AccountNumber: AccountNumber,
+//                             IFSCCode: IFSCCode,
+//                             UPIId: UPIId,
+//                             ProfileImage: imagesUrl.secure_url,
+//                             Modified_On: Modified_On
+//                         }
+//                     }, function (err, result) {
+//                         if (err) {
+//                             res.send({ statusCode: 400, message: "Failed" });
+//                         } else {
+//                             res.send({ statusCode: 200, message: "Updated Successfully" });
+//                         }
+//                     });
+//                 } else {
+//                     adminModel.findOne({ Email: Email }, function (err, result) {
+//                         if (result === null) {
+//                             vendorModel.findOne({ Email: Email }, function (err, result) {
+//                                 if (result === null) {
+//                                     vendorModel.findOneAndUpdate({ _id: id }, {
+//                                         $set: {
+//                                             Email: Email,
+//                                             Password: Password,
+//                                             VendorName: VendorName,
+//                                             PhoneNumber1: PhoneNumber1,
+//                                             PhoneNumber2: PhoneNumber2,
+//                                             Address: {
+//                                                 FullAddress: FullAddress,
+//                                                 Street: Street,
+//                                                 City: City,
+//                                                 State: State,
+//                                                 Pincode: Pincode
+//                                             },
+//                                             Description: Description,
+//                                             EggOrEggless: EggOrEggless,
+//                                             PreferredVendorName: PreferredVendorName,
+//                                             DateOfBirth: DateOfBirth,
+//                                             Gender: Gender,
+//                                             YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+//                                             AadhaarNumber: AadhaarNumber,
+//                                             PANNumber: PANNumber,
+//                                             GSTNumber: GSTNumber,
+//                                             FSSAINumber: FSSAINumber,
+//                                             FSSAIExpiryDate: FSSAIExpiryDate,
+//                                             MaximumCakesPerDay: MaximumCakesPerDay,
+//                                             MaximumCakesPerWeek: MaximumCakesPerWeek,
+//                                             JobType: JobType,
+//                                             SpecializedIn: SpecializedIn,
+//                                             BankName: BankName,
+//                                             Branch: Branch,
+//                                             AccountNumber: AccountNumber,
+//                                             IFSCCode: IFSCCode,
+//                                             UPIId: UPIId,
+//                                             ProfileImage: imagesUrl.secure_url,
+//                                             Modified_On: Modified_On
+//                                         }
+//                                     }, function (err, result) {
+//                                         if (err) {
+//                                             res.send({ statusCode: 400, message: "Failed" });
+//                                         } else {
+//                                             res.send({ statusCode: 200, message: "Updated Successfully" });
+//                                         }
+//                                     });
+//                                 } else {
+//                                     res.send({ statusCode: 400, message: "Email already Exist" });
+//                                 }
+//                             });
+//                         } else {
+//                             res.send({ statusCode: 400, message: "Email already Exist" });
+//                         }
+//                     });
+//                 }
+//             });
+//         }
+//     } catch (err) {
+//         res.send({ statusCode: 400, message: "Failed" });
+//     };
+// };
 
 //delete vendors
 const deleteVendors = (req, res) => {
@@ -821,8 +821,8 @@ module.exports = {
     forgotPassword,
     getVendors,
     getVendorsbyEmail,
-    addVendors,
-    putVendors,
+    // addVendors,
+    // putVendors,
     deleteVendors,
     getAllUsersCount,
     NewAdmin,

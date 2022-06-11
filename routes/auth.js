@@ -32,7 +32,6 @@ const {
     getAdminbyEmail, putAdmin,
     loginValidate, forgotPassword, 
     getVendors, getVendorsbyEmail, 
-    addVendors, putVendors,
     deleteVendors, verifyToken,
     getAllUsersCount, NewAdmin,
     GetNotificationCount,
@@ -66,7 +65,8 @@ const {
 } = require('../controllers/categoryController');
 
 const {
-    RegisterVendors, GetNewVendorList
+    RegisterVendors, GetNewVendorList,
+    putVendors
 } = require('../controllers/VendorRegisterController');
 
 const {
@@ -161,10 +161,10 @@ router.get("/vendors/listbyemail/:email", Authorization, getVendorsbyEmail);
 router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 1},{name:'CanYouMakeARegularCakeWithFondantAsToppersImage', maxCount: 3}]), RegisterVendors);
 
 //Create new vendor
-router.put("/vendors/new/:id", addVendors);
+// router.put("/vendors/new/:id", addVendors);
 
 //Update vendor's details
-router.put("/vendors/update/:id",upload.single("file"), putVendors);
+router.put("/vendors/update/:id",upload.fields([{name: 'ProfileImage', maxCount: 1},{name:'CanYouMakeARegularCakeWithFondantAsToppersImage', maxCount: 3}]), putVendors);
 
 //Delete vendor
 router.put("/vendors/delete/:id", deleteVendors);
