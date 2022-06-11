@@ -488,56 +488,56 @@ const putVendors = async (req, res) => {
         var imagesUrl, FinalEmail;
         var FoundantTopperImage = [];
         //for profile image validation
-        // if (req.files['ProfileImage'] === undefined) {
-        //     const ProfileImagePromise = new Promise((resolve, reject) => {
-        //         vendorModel.findOne({ _id: id }, function (err, result) {
-        //             if (err) {
-        //                 reject(err);
-        //             } else {
-        //                 if (result.ProfileImage === undefined) {
-        //                     resolve('');
-        //                 } else {
-        //                     resolve(result.ProfileImage);
-        //                 }
-        //             }
-        //         })
-        //     });
-        //     imagesUrl = await ProfileImagePromise;
-        // } else {
-        //     var uploadedProfile = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
-        //     imagesUrl = uploadedProfile.url
-        // };
+        if (req.files['ProfileImage'] === undefined) {
+            const ProfileImagePromise = new Promise((resolve, reject) => {
+                vendorModel.findOne({ _id: id }, function (err, result) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        if (result.ProfileImage === undefined) {
+                            resolve('');
+                        } else {
+                            resolve(result.ProfileImage);
+                        }
+                    }
+                })
+            });
+            imagesUrl = await ProfileImagePromise;
+        } else {
+            var uploadedProfile = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
+            imagesUrl = uploadedProfile.url
+        };
 
         //for email validation
-        // const EmailPromise = new Promise((resolve, reject) => {
-        //     vendorModel.findOne({ _id: id }, function (err, result) {
-        //         if (err) {
-        //             reject(err);
-        //         } else {
-        //             if (result.Email === Email) {
-        //                 resolve(Email);
-        //             } else {
-        //                 adminModel.findOne({ Email: Email }, function (err, result) {
-        //                     if(err){
-        //                         reject(err);
-        //                     }
-        //                     if (result === null) {
-        //                         vendorModel.findOne({ Email: Email }, function (err, result) {
-        //                             if (result === null) {
-        //                                 resolve(Email);
-        //                             } else {
-        //                                 resolve('already exist');
-        //                             }
-        //                         })
-        //                     }else{
-        //                         resolve('already exist');
-        //                     }
-        //                 })
-        //             }
-        //         }
-        //     })
-        // });
-        // FinalEmail = await EmailPromise;
+        const EmailPromise = new Promise((resolve, reject) => {
+            vendorModel.findOne({ _id: id }, function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    if (result.Email === Email) {
+                        resolve(Email);
+                    } else {
+                        adminModel.findOne({ Email: Email }, function (err, result) {
+                            if(err){
+                                reject(err);
+                            }
+                            if (result === null) {
+                                vendorModel.findOne({ Email: Email }, function (err, result) {
+                                    if (result === null) {
+                                        resolve(Email);
+                                    } else {
+                                        resolve('already exist');
+                                    }
+                                })
+                            }else{
+                                resolve('already exist');
+                            }
+                        })
+                    }
+                }
+            })
+        });
+        FinalEmail = await EmailPromise;
 
         //for foundant image validation
         console.log(FoundantToppersImage)
@@ -558,64 +558,64 @@ const putVendors = async (req, res) => {
             }
         };
         console.log(FoundantTopperImage)
-        // if(FinalEmail === 'already exist'){
-        //     res.send({ statusCode: 400, message: "Email already Exist" });
-        // }else{
-        //     vendorModel.findOneAndUpdate({_id: id},{
-        //         $set : {
-        //             ProfileImage: imagesUrl,
-        //             Email: FinalEmail,
-        //             VendorName: VendorName,
-        //             PreferredNameOnTheApp: PreferredNameOnTheApp,
-        //             PhoneNumber1: PhoneNumber1,
-        //             PhoneNumber2: PhoneNumber2,
-        //             Address: {
-        //                 FullAddress: FullAddress,
-        //                 Street: Street,
-        //                 City: City,
-        //                 State: State,
-        //                 Pincode: Pincode
-        //             },
-        //             Description: Description,
-        //             EggOrEggless: EggOrEggless,
-        //             DateOfBirth: DateOfBirth,
-        //             Gender: Gender,
-        //             YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-        //             AadhaarNumber: AadhaarNumber,
-        //             PANNumber: PANNumber,
-        //             GSTNumber: GSTNumber,
-        //             FSSAINumber: FSSAINumber,
-        //             FSSAIExpiryDate: FSSAIExpiryDate,
-        //             JobType: JobType,
-        //             BankName: BankName,
-        //             Branch: Branch,
-        //             AccountNumber: AccountNumber,
-        //             IFSCCode: IFSCCode,
-        //             UPIId: UPIId,
-        //             Ratings: Ratings,
-        //             AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
-        //             LearningType: LearningType,
-        //             TotalDurationOfLearning: TotalDurationOfLearning,
-        //             InstitutionName: InstitutionName,
-        //             CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
-        //             HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
-        //             HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
-        //             YourSpecialityCakes: YourSpecialityCakes,
-        //             CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
-        //             CanYouMakeTierCakes: CanYouMakeTierCakes,
-        //             CakeTypesYouBake: CakeTypesYouBake,
-        //             CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
-        //             CanYouMakeARegularCakeWithFondantAsToppersImage: FoundantTopperImage,
-        //             Modified_On: Modified_On
-        //         }
-        //     }, function(err, result){
-        //         if(err){
-        //             res.send({ statusCode: 400, message: 'Failed', error : err});
-        //         }else{
-        //             res.send({ statusCode: 200, message: 'Updated Successfully'});
-        //         }
-        //     })
-        // };
+        if(FinalEmail === 'already exist'){
+            res.send({ statusCode: 400, message: "Email already Exist" });
+        }else{
+            vendorModel.findOneAndUpdate({_id: id},{
+                $set : {
+                    ProfileImage: imagesUrl,
+                    Email: FinalEmail,
+                    VendorName: VendorName,
+                    PreferredNameOnTheApp: PreferredNameOnTheApp,
+                    PhoneNumber1: PhoneNumber1,
+                    PhoneNumber2: PhoneNumber2,
+                    Address: {
+                        FullAddress: FullAddress,
+                        Street: Street,
+                        City: City,
+                        State: State,
+                        Pincode: Pincode
+                    },
+                    Description: Description,
+                    EggOrEggless: EggOrEggless,
+                    DateOfBirth: DateOfBirth,
+                    Gender: Gender,
+                    YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+                    AadhaarNumber: AadhaarNumber,
+                    PANNumber: PANNumber,
+                    GSTNumber: GSTNumber,
+                    FSSAINumber: FSSAINumber,
+                    FSSAIExpiryDate: FSSAIExpiryDate,
+                    JobType: JobType,
+                    BankName: BankName,
+                    Branch: Branch,
+                    AccountNumber: AccountNumber,
+                    IFSCCode: IFSCCode,
+                    UPIId: UPIId,
+                    Ratings: Ratings,
+                    AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
+                    LearningType: LearningType,
+                    TotalDurationOfLearning: TotalDurationOfLearning,
+                    InstitutionName: InstitutionName,
+                    CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
+                    HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
+                    HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
+                    YourSpecialityCakes: YourSpecialityCakes,
+                    CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
+                    CanYouMakeTierCakes: CanYouMakeTierCakes,
+                    CakeTypesYouBake: CakeTypesYouBake,
+                    CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
+                    CanYouMakeARegularCakeWithFondantAsToppersImage: FoundantTopperImage,
+                    Modified_On: Modified_On
+                }
+            }, function(err, result){
+                if(err){
+                    res.send({ statusCode: 400, message: 'Failed', error : err});
+                }else{
+                    res.send({ statusCode: 200, message: 'Updated Successfully'});
+                }
+            })
+        };
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed", error: err });
     };
