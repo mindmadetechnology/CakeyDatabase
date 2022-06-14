@@ -3,38 +3,150 @@ const { increment } = require('../config/db');
 
 const CakeSchema = new mongoose.Schema({
 
-    Title: {
+    CakeName: {
         type: String
+    },
+    CakeCommonName: {
+        type: String
+    },
+    BasicFlavour: {
+        Name: {
+            type: String,
+        },
+        Price: {
+            type : String,
+        },
+    },
+    BasicShape: {
+        Name: {
+            type: String,
+        },
+        Price: {
+            type : String,
+        },
+    },
+    MinWeight: {
+        Weight: {
+            type: String,
+        },
+        Price: {
+            type : String,
+        },
+    },
+    DefaultCakeEggOrEggless: {
+        type: String
+    },
+    IsEgglessOptionAvailable: {
+        type: String,
+        default: 'n'
+    },
+    BasicEgglessCostPerKg: {
+        type: String,
+    },
+    CustomFlavourList: [{
+        Name: {
+            type: String
+        },
+        Price: {
+            type: String
+        }
+    }],
+    CustomShapeList: {
+        Info: [{
+            Name: {
+                type: String
+            },
+            Price: {
+                type: String
+            },
+        }],
+        SampleImages: [{
+            type: String,
+        }],
+    },
+    MinWeightList: [{
+        Weight: {
+            type: String
+        },
+    }],
+    IsTierCakePossible: {
+        type: String,
+        default:'n',
+    },
+    TierCakeMinWeightAndPrice: [{
+        Tier: {
+            type: String
+        },
+        Weight: {
+            type: String
+        },
+        Price: {
+            type: String
+        }
+    }],
+    ThemeCakePossible: {
+        type: String,
+        default:'n',
+    },
+    ToppersPossible: {
+        type: String,
+        default:'n',
+    },
+    MinTimeForDeliveryOfDefaultCake: {
+        type: String,
+    },
+    MinTimeForDeliveryOfA3KgCake: {
+        type: String,
+    },
+    MinTimeForDeliveryOfA5KgCake: {
+        type: String,
+    },
+    MinTimeForDeliveryFortierCake: [{
+        Tier: {
+            type: String,
+        },
+        MinTime: {
+            type: String,
+        },
+    }],
+    BasicCustomisationPossible: {
+        type: String,
+    },
+    FullCustomisationPossible: {
+        type: String,
+    },
+    CakeBase: {
+        type: String,
+    },
+    CakeCream: {
+        type: String,
+    },
+    BestUsedBefore: {
+        type: String,
+    },
+    ToBeStoredIn: {
+        type: String,
+    },
+    KeepTheCakeInRoomTemperature: {
+        type: String,
+    },
+    OtherInstructions: {
+        type: String,
     },
     Description: {
         type: String
     },
-    TypeOfCake: {
+    MainCakeImage: {
         type: String
     },
-    Images: [{
+    AdditionalCakeImages: [{
         type: String
     }],
-
-    EggOrEggless: {
+    HowGoodAreYouWithTheCake: {
         type: String
     },
-    Price: {
+    HowManyTimesHaveYouBakedThisParticularCake: {
         type: String
-    },
-    Category: {
-        type: String
-    },
-    SubCategory: {
-        type: String
-    },
-    Discount: {
-        type: Number,
-        default: 0,
-    },
-    Ratings: {
-        type: Number,
-        default: 0
     },
     VendorID: {
         type: String
@@ -45,7 +157,10 @@ const CakeSchema = new mongoose.Schema({
     VendorName: {
         type: String
     },
-    VendorPhoneNumber: {
+    VendorPhoneNumber1: {
+        type: String
+    },
+    VendorPhoneNumber2: {
         type: String
     },
     VendorAddress: {
@@ -62,41 +177,23 @@ const CakeSchema = new mongoose.Schema({
             type: Number
         }
     },
+    Discount: {
+        type: Number,
+        default: 0,
+    },
+    Tax: {
+        type: Number,
+        default: '0'
+    },
+    Stock: {
+        type: String,
+        default: 'InStock'
+    },
     Created_On: {
         type: String
     },
     Modified_On: {
         type: String
-    },
-    FlavourList: [{
-        Name: {
-            type: String
-        },
-        Price: {
-            type: String
-        }
-    }],
-    ShapeList: [{
-        type: String
-    }],
-    ArticleList: [{
-        Name: {
-            type: String
-        },
-        Price: {
-            type: String
-        }
-    }],
-    WeightList: [{
-        type: String
-    }],
-    Stock: {
-        type: String,
-        default: 'InStock'
-    },
-    Tax: {
-        type: Number,
-        default: '0'
     },
     Status: {
         type: String,
@@ -109,6 +206,33 @@ const CakeSchema = new mongoose.Schema({
         type: String,
         default: 'n'
     },
+    Ratings: {
+        type: Number,
+        default: 0
+    },
+    CakeType: {
+        type: String,
+    },
+    CakeSubType: {
+        type: String,
+    },
+    CakeCategory: {
+        type: String,
+    },
+    // Category: {
+    //     type: String
+    // },
+    // SubCategory: {
+    //     type: String
+    // },
+    // ArticleList: [{
+    //     Name: {
+    //         type: String
+    //     },
+    //     Price: {
+    //         type: String
+    //     }
+    // }],
 
 });
 

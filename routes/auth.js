@@ -54,8 +54,7 @@ const {
     getOrdersStatusCount, getVendorOrdersStatusCount,
     OrderandCustomizecakeNotification, GetAbove5kgOrdersList,
     Above5KGOrderAssign, Above5KGOrderPriceInvoice,
-    UpdateOrderResponse, UpdateOrderResponsebyVendor,
-    GetNotRespondOrders
+    UpdateOrderResponsebyVendor, GetNotRespondOrders
 } = require('../controllers/orderListController');
 
 const { 
@@ -202,7 +201,7 @@ router.get("/cake/listbyName/:VendorName", Authorization, getcakelistByVendorNam
 router.get("/cake/listbyId/:VendorId", Authorization, getcakelistByVendorId);
 
 //Create new vendor
-router.post("/cake/new",upload.array("files"), addCake);
+router.post("/cake/new",upload.fields([{name: 'MainCakeImage', maxCount: 1},{name:'AdditionalCakeImages', maxCount: 5},{name:'SampleImages', maxCount: 10}]), addCake);
 
 //cake approval
 router.put('/cake/approve/:id', ApproveCake);
@@ -266,9 +265,6 @@ router.put('/order/assign/:id', Above5KGOrderAssign);
 
 //update order response
 router.put('/order/response/update/:id/:response', UpdateOrderResponsebyVendor);
-
-//no response orders automatically send to helpdesk
-// router.put('/order/updateresponse', UpdateOrderResponse);
 
 //get single users orders and customize cake orders for notification
 router.get('/users/notification/:id', Authorization, OrderandCustomizecakeNotification);
