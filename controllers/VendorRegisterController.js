@@ -540,7 +540,6 @@ const putVendors = async (req, res) => {
         FinalEmail = await EmailPromise;
 
         //for foundant image validation
-        console.log(FoundantToppersImage)
         if(FoundantToppersImage === undefined || FoundantToppersImage === [] || FoundantToppersImage === null){
             FoundantTopperImage = [];
         }else{
@@ -557,7 +556,6 @@ const putVendors = async (req, res) => {
                 FoundantTopperImage.push(NewImages.url);
             }
         };
-        console.log(FoundantTopperImage)
         if(FinalEmail === 'already exist'){
             res.send({ statusCode: 400, message: "Email already Exist" });
         }else{
