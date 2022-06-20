@@ -237,7 +237,7 @@ const addCake = async (req, res) => {
                 VendorName: VendorName,
                 VendorPhoneNumber1: VendorPhoneNumber1,
                 VendorPhoneNumber2: VendorPhoneNumber2,
-                Address: {
+                VendorAddress: {
                     Street: Street,
                     City: City,
                     State: State,
