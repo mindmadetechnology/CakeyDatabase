@@ -186,7 +186,7 @@ const addCake = async (req, res) => {
             } else {
                 FinalMinTimeForDeliveryFortierCake = [];
             };
-            if(req.files['MainCakeImage'] !== undefined){
+            if (req.files['MainCakeImage'] !== undefined) {
                 var result = await cloudinary.uploader.upload(req.files['MainCakeImage'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 MainCakeImage = result.url;
             };
@@ -199,53 +199,55 @@ const addCake = async (req, res) => {
                 FinalAdditionalCakeImages = [];
             };
             const vendorValidate = new cakeModel({
-                CakeName : CakeName,
-                CakeCommonName : CakeCommonName,
-                BasicFlavour : FinalBasicFlavour,
-                BasicShape : FinalBasicShape,
-                MinWeight : FinalMinWeight,
-                DefaultCakeEggOrEggless : DefaultCakeEggOrEggless,
-                IsEgglessOptionAvailable : IsEgglessOptionAvailable,
-                BasicEgglessCostPerKg : BasicEgglessCostPerKg,
-                CustomFlavourList : FinalCustomFlavourList,
-                CustomShapeList : {
+                CakeName: CakeName,
+                CakeCommonName: CakeCommonName,
+                BasicFlavour: FinalBasicFlavour,
+                BasicShape: FinalBasicShape,
+                MinWeight: FinalMinWeight,
+                DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
+                IsEgglessOptionAvailable: IsEgglessOptionAvailable,
+                BasicEgglessCostPerKg: BasicEgglessCostPerKg,
+                CustomFlavourList: FinalCustomFlavourList,
+                CustomShapeList: {
                     Info: FinalCustomShapeList,
                     SampleImages: SampleImages
                 },
-                MinWeightList : FinalMinWeightList,
-                IsTierCakePossible : IsTierCakePossible,
-                TierCakeMinWeightAndPrice : FinalTierCakeMinWeightAndPrice, //optional
-                ThemeCakePossible : ThemeCakePossible,
-                ToppersPossible : ToppersPossible,
-                MinTimeForDeliveryOfDefaultCake : MinTimeForDeliveryOfDefaultCake,
-                MinTimeForDeliveryOfA3KgCake : MinTimeForDeliveryOfA3KgCake, //optional
-                MinTimeForDeliveryOfA5KgCake : MinTimeForDeliveryOfA5KgCake, //optional
-                MinTimeForDeliveryFortierCake : FinalMinTimeForDeliveryFortierCake, //optional
-                BasicCustomisationPossible : BasicCustomisationPossible,
-                FullCustomisationPossible : FullCustomisationPossible,
-                CakeBase : CakeBase,
-                CakeCream : CakeCream,
-                BestUsedBefore : BestUsedBefore,
-                ToBeStoredIn : ToBeStoredIn,
-                KeepTheCakeInRoomTemperature : KeepTheCakeInRoomTemperature,
-                OtherInstructions : OtherInstructions, //optional
-                Description : Description,
-                HowGoodAreYouWithTheCake : HowGoodAreYouWithTheCake,
-                HowManyTimesHaveYouBakedThisParticularCake : HowManyTimesHaveYouBakedThisParticularCake,
-                VendorID : VendorID,
-                Vendor_ID : Vendor_ID,
-                VendorName : VendorName,
-                VendorPhoneNumber1 : VendorPhoneNumber1,
-                VendorPhoneNumber2 : VendorPhoneNumber2,
-                Street : Street,
-                City : City,
-                State : State,
-                Pincode : Pincode,
-                Discount : Discount,
-                Tax : Tax,
+                MinWeightList: FinalMinWeightList,
+                IsTierCakePossible: IsTierCakePossible,
+                TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
+                ThemeCakePossible: ThemeCakePossible,
+                ToppersPossible: ToppersPossible,
+                MinTimeForDeliveryOfDefaultCake: MinTimeForDeliveryOfDefaultCake,
+                MinTimeForDeliveryOfA3KgCake: MinTimeForDeliveryOfA3KgCake, //optional
+                MinTimeForDeliveryOfA5KgCake: MinTimeForDeliveryOfA5KgCake, //optional
+                MinTimeForDeliveryFortierCake: FinalMinTimeForDeliveryFortierCake, //optional
+                BasicCustomisationPossible: BasicCustomisationPossible,
+                FullCustomisationPossible: FullCustomisationPossible,
+                CakeBase: CakeBase,
+                CakeCream: CakeCream,
+                BestUsedBefore: BestUsedBefore,
+                ToBeStoredIn: ToBeStoredIn,
+                KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
+                OtherInstructions: OtherInstructions, //optional
+                Description: Description,
+                HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
+                HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
+                VendorID: VendorID,
+                Vendor_ID: Vendor_ID,
+                VendorName: VendorName,
+                VendorPhoneNumber1: VendorPhoneNumber1,
+                VendorPhoneNumber2: VendorPhoneNumber2,
+                Address: {
+                    Street: Street,
+                    City: City,
+                    State: State,
+                    Pincode: Pincode,
+                },
+                Discount: Discount,
+                Tax: Tax,
                 MainCakeImage: MainCakeImage,
                 AdditionalCakeImages: FinalAdditionalCakeImages,
-                Created_On : Created_On,
+                Created_On: Created_On,
             });
             vendorValidate.save(function (err, result) {
                 if (err) {
