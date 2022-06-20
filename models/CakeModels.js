@@ -204,6 +204,9 @@ const CakeSchema = new mongoose.Schema({
         type: String,
         default: 'n'
     },
+    RatingsForVendor: {
+        type: String,
+    },
     Ratings: {
         type: Number,
         default: 0
