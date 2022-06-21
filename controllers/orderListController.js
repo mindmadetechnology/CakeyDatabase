@@ -1,6 +1,7 @@
 const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const moment = require('moment-timezone');
+const cloudinary = require("../middleware/cloudnary");
 
 //get all orders
 const getOrdersList = (req, res) => {
@@ -82,25 +83,30 @@ const getOrdersListByVendorId = (req, res) => {
 };
 
 //Place new order
-const newOrder = (req, res) => {
+const newOrder = async (req, res) => {
 
     const CakeID = req.body.CakeID;
     const Cake_ID = req.body.Cake_ID;
-    const Title = req.body.Title;
-    const Description = req.body.Description;
-    const TypeOfCake = req.body.TypeOfCake;
-    const Images = req.body.Images;
+    const CakeName = req.body.CakeName;
+    const CakeCommonName = req.body.CakeCommonName;
+    const CakeType = req.body.CakeType;
+    const CakeSubType = req.body.CakeSubType;
+    const Image = req.body.Image;
     const EggOrEggless = req.body.EggOrEggless;
-    const Price = req.body.Price;
     const Flavour = req.body.Flavour; //Array
-    const Shape = req.body.Shape;
-    const Theme = req.body.Theme; //Optional //Array
-    const Article = req.body.Article; //Optional
+    const Shape = req.body.Shape; //Array
     const Weight = req.body.Weight;
+    const Theme = req.body.Theme; //Optional  
+    // const Article = req.body.Article; //Optional
+    const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
+    const SpecialRequest = req.body.SpecialRequest; //Optional
+    const Description = req.body.Description;
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
-    const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
+    const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
+    const VendorAddress = req.body.VendorAddress;
     const UserID = req.body.UserID;
     const User_ID = req.body.User_ID;
     const UserName = req.body.UserName;
@@ -108,136 +114,100 @@ const newOrder = (req, res) => {
     const DeliveryAddress = req.body.DeliveryAddress;
     const DeliveryDate = req.body.DeliveryDate;
     const DeliverySession = req.body.DeliverySession;
-    const VendorAddress = req.body.VendorAddress;
-    const ItemCount = req.body.ItemCount;
-    const Total = req.body.Total;
-    const DeliveryCharge = req.body.DeliveryCharge;
-    const PaymentType = req.body.PaymentType;
-    const PaymentStatus = req.body.PaymentStatus;
-    const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
-    const SpecialRequest = req.body.SpecialRequest; //Optional
-    const Discount = req.body.Discount;
     const DeliveryInformation = req.body.DeliveryInformation;
+    const Price = req.body.Price;
+    const ItemCount = req.body.ItemCount;
+    const Discount = req.body.Discount;
+    const ExtraCharges = req.body.ExtraCharges;
+    const DeliveryCharge = req.body.DeliveryCharge;
     const Gst = req.body.Gst;
     const Sgst = req.body.Sgst;
-    const ExtraCharges = req.body.ExtraCharges;
+    const Total = req.body.Total;
+    const PaymentType = req.body.PaymentType;
+    const PaymentStatus = req.body.PaymentStatus;
+    const PremiumVendor = req.body.PremiumVendor;
+    // const Above5KG = req.body.Above5KG; 
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    //file for ThemeSampleImage
+
     try {
-        const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
-        //for check weight above 5kg or not
-        if (JSON.parse(parseInt(weight[0])) >= 5) {
-            if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
-                EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
-                Weight === undefined || UserID === undefined || UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || ItemCount === undefined ||
-                Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
-                Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined || User_ID === undefined) {
-                res.send({ statusCode: 400, message: "*required" });
-            } else {
-                const OrderList = new OrdersListModel({
-                    CakeID: CakeID,
-                    Cake_ID: Cake_ID,
-                    Title: Title,
-                    Description: Description,
-                    TypeOfCake: TypeOfCake,
-                    Images: Images,
-                    EggOrEggless: EggOrEggless,
-                    Price: Price,
-                    Flavour: Flavour, //array
-                    Shape: Shape,
-                    Theme: Theme,
-                    Article: Article, //Object
-                    MessageOnTheCake: MessageOnTheCake,
-                    SpecialRequest: SpecialRequest,
-                    Weight: Weight,
-                    UserID: UserID,
-                    User_ID: User_ID,
-                    UserName: UserName,
-                    UserPhoneNumber: UserPhoneNumber,
-                    DeliveryAddress: DeliveryAddress,
-                    DeliveryDate: DeliveryDate,
-                    DeliverySession: DeliverySession,
-                    ItemCount: ItemCount,
-                    Total: Total,
-                    DeliveryCharge: DeliveryCharge,
-                    PaymentType: PaymentType,
-                    PaymentStatus: PaymentStatus,
-                    Discount: Discount,
-                    DeliveryInformation: DeliveryInformation,
-                    Gst: Gst,
-                    Sgst: Sgst,
-                    ExtraCharges: ExtraCharges,
-                    Above5KG: 'y',
-                    Created_On: Created_On
-                });
-                OrderList.save(function (err, result) {
-                    if (err) {
-                        res.send({ statusCode: 400, message: "Failed", error: err });
-                    } else {
-                        res.send({ statusCode: 200, message: "Added Successfully" })
-                    }
-                });
-            }
+
+        if (!CakeID || !Cake_ID || !CakeName || !CakeCommonName || !CakeType || !CakeSubType || !Image ||
+            !EggOrEggless || !Flavour || !Shape || !Weight || !Description || !User_ID || !UserID ||
+            !UserName || !UserPhoneNumber || !DeliveryAddress || !DeliveryDate || !DeliverySession ||
+            !DeliveryInformation || !Price || !ItemCount || !Discount || !DeliveryCharge || !ExtraCharges ||
+            !Gst || !Sgst || !Total || !PaymentType || !PaymentStatus) {
+            res.send({ statusCode: 400, message: "*required" });
         } else {
-            if (CakeID === undefined || Cake_ID === undefined || Images === undefined || Title === undefined || Description === undefined || TypeOfCake === undefined ||
-                EggOrEggless === undefined || Price === undefined || Flavour === undefined || Shape === undefined || DeliveryDate === undefined ||
-                Weight === undefined || VendorID === undefined || VendorName === undefined || VendorPhoneNumber === undefined || UserID === undefined ||
-                UserName === undefined || UserPhoneNumber === undefined || DeliveryAddress === undefined || VendorAddress === undefined || ItemCount === undefined ||
-                Total === undefined || DeliveryCharge === undefined || PaymentType === undefined || PaymentStatus === undefined || DeliverySession === undefined ||
-                Discount === undefined || DeliveryInformation === undefined || Gst === undefined || Sgst === undefined || ExtraCharges === undefined ||
-                Vendor_ID === undefined || User_ID === undefined) {
-                res.send({ statusCode: 400, message: "*required" });
+            const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
+            var Above5KG, ThemeSampleImage;
+            if (JSON.parse(parseInt(weight[0])) >= 5) {
+                Above5KG = 'y'
             } else {
-                const OrderList = new OrdersListModel({
-                    CakeID: CakeID,
-                    Cake_ID: Cake_ID,
-                    Title: Title,
-                    Description: Description,
-                    TypeOfCake: TypeOfCake,
-                    Images: Images,
-                    EggOrEggless: EggOrEggless,
-                    Price: Price,
-                    Flavour: Flavour, //array
-                    Shape: Shape,
-                    Theme: Theme,
-                    Article: Article, //Object
-                    MessageOnTheCake: MessageOnTheCake,
-                    SpecialRequest: SpecialRequest,
-                    Weight: Weight,
-                    VendorID: VendorID,
-                    Vendor_ID: Vendor_ID,
-                    VendorName: VendorName,
-                    VendorPhoneNumber: VendorPhoneNumber,
-                    UserID: UserID,
-                    User_ID: User_ID,
-                    UserName: UserName,
-                    UserPhoneNumber: UserPhoneNumber,
-                    DeliveryAddress: DeliveryAddress,
-                    DeliveryDate: DeliveryDate,
-                    DeliverySession: DeliverySession,
-                    VendorAddress: VendorAddress,
-                    ItemCount: ItemCount,
-                    Total: Total,
-                    DeliveryCharge: DeliveryCharge,
-                    PaymentType: PaymentType,
-                    PaymentStatus: PaymentStatus,
-                    Discount: Discount,
-                    DeliveryInformation: DeliveryInformation,
-                    Gst: Gst,
-                    Sgst: Sgst,
-                    ExtraCharges: ExtraCharges,
-                    Created_On: Created_On
-                });
-                OrderList.save(function (err, result) {
-                    if (err) {
-                        res.send({ statusCode: 400, message: "Failed" });
-                    } else {
-                        res.send({ statusCode: 200, message: "Added Successfully" })
-                    }
-                });
+                Above5KG = 'n'
             }
-        };
+            if (req.file !== undefined) {
+                var result = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                ThemeSampleImage = result.url;
+            };
+            var FinalFlavour = JSON.parse(Flavour);
+            var FinalShape = JSON.parse(Shape);
+
+            const OrderList = new OrdersListModel({
+                CakeID: CakeID,
+                Cake_ID: Cake_ID,
+                CakeName: CakeName,
+                CakeCommonName: CakeCommonName,
+                CakeType: CakeType,
+                CakeSubType: CakeSubType,
+                Image: Image,
+                EggOrEggless: EggOrEggless,
+                Flavour: FinalFlavour,
+                Shape: FinalShape,
+                Weight: Weight,
+                Theme: Theme,
+                ThemeSampleImage: ThemeSampleImage,
+                MessageOnTheCake: MessageOnTheCake,
+                SpecialRequest: SpecialRequest,
+                Description: Description,
+                VendorID: VendorID,
+                Vendor_ID: Vendor_ID,
+                VendorName: VendorName,
+                VendorPhoneNumber1: VendorPhoneNumber1,
+                VendorPhoneNumber2: VendorPhoneNumber2,
+                VendorAddress: VendorAddress,
+                UserID: UserID,
+                User_ID: User_ID,
+                UserName: UserName,
+                UserPhoneNumber: UserPhoneNumber,
+                DeliveryAddress: DeliveryAddress,
+                DeliveryDate: DeliveryDate,
+                DeliverySession: DeliverySession,
+                DeliveryInformation: DeliveryInformation,
+                Price: Price,
+                ItemCount: ItemCount,
+                Discount: Discount,
+                ExtraCharges: ExtraCharges,
+                DeliveryCharge: DeliveryCharge,
+                Gst: Gst,
+                Sgst: Sgst,
+                Total: Total,
+                PaymentType: PaymentType,
+                PaymentStatus: PaymentStatus,
+                PremiumVendor: PremiumVendor,
+                Above5KG: Above5KG,
+                Created_On: Created_On
+            });
+            OrderList.save(function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed", error: err });
+                } else {
+                    res.send({ statusCode: 200, message: "Added Successfully" })
+                }
+            });
+        }
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" });
+        res.send({ statusCode: 400, message: "Failed", error: err });
     };
 };
 

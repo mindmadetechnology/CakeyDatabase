@@ -207,7 +207,7 @@ router.post("/cake/new",upload.fields([{name: 'MainCakeImage', maxCount: 1},{nam
 router.put('/cake/approve/:id', ApproveCake);
 
 //Update vendor's details
-router.put("/cake/update/:id",upload.fields([{name: 'MainCakeImage', maxCount: 1},{name:'AdditionalCakeImages', maxCount: 5},{name:'SampleImages', maxCount: 10}]), updateCake);
+router.put("/cake/update/:id",upload.fields([{name:'SampleImages', maxCount: 10}]), updateCake);
 
 //Delete vendor
 router.put("/cake/delete/:id", deleteCake);
@@ -228,7 +228,7 @@ router.get('/order/listbyuserid/:userid', Authorization, getOrdersListByUserID);
 router.get('/order/listbyvendorid/:vendorid', Authorization, getOrdersListByVendorId); 
 
 //Add new order
-router.post('/order/new',newOrder);
+router.post('/order/new', upload.single("file"), newOrder);
 
 //update order details
 router.put('/order/update/:id',updateOrder);

@@ -9,35 +9,24 @@ const OrderSchema = new mongoose.Schema({
     Cake_ID: {
         type: String
     },
-    Title: {
+    CakeName: {
         type: String,
     },
-    TypeOfCake: {
+    CakeCommonName: {
+        type: String
+    },
+    CakeType: {
         type: String,
     },
-    Description: {
+    CakeSubType: {
         type: String,
     },
-    Images: {
-        type: String,
+    Image: {
+        type: String, //main cake image
     },
     EggOrEggless: {
         type: String,
     },
-    Price: {
-        type: String,
-    },
-    Discount: {
-        type: Number,
-        default: 0,
-    },
-    ExtraCharges: {
-        type: String,
-        default: '0',
-    },
-    Theme: [{
-        type: String,
-    }],
     Flavour: [{
         Name: {
             type: String
@@ -47,9 +36,6 @@ const OrderSchema = new mongoose.Schema({
         }
     }],
     Shape: {
-        type: String,
-    },
-    Article: {
         Name: {
             type: String
         },
@@ -60,10 +46,27 @@ const OrderSchema = new mongoose.Schema({
     Weight: {
         type: String,
     },
+    Theme: {
+        type: String,
+    },
+    ThemeSampleImage: {
+        type: String,
+    },
+    // Article: {
+    //     Name: {
+    //         type: String
+    //     },
+    //     Price: {
+    //         type: String
+    //     }
+    // },
     MessageOnTheCake: {
         type: String,
     },
     SpecialRequest: {
+        type: String,
+    },
+    Description: {
         type: String,
     },
     VendorID: {
@@ -75,7 +78,13 @@ const OrderSchema = new mongoose.Schema({
     VendorName: {
         type: String,
     },
-    VendorPhoneNumber: {
+    VendorPhoneNumber1: {
+        type: String,
+    },
+    VendorPhoneNumber2: {
+        type: String,
+    },
+    VendorAddress: {
         type: String,
     },
     UserID: {
@@ -102,26 +111,21 @@ const OrderSchema = new mongoose.Schema({
     DeliveryInformation: {
         type: String
     },
-    VendorAddress: {
+    Price: {
         type: String,
     },
     ItemCount: {
         type: Number,
     },
-    Total: {
+    Discount: {
+        type: Number,
+        default: 0,
+    },
+    ExtraCharges: {
         type: String,
+        default: '0',
     },
     DeliveryCharge: {
-        type: String,
-    },
-    Status: {
-        type: String,
-        default: 'New'
-    },
-    PaymentType: {
-        type: String,
-    },
-    PaymentStatus: {
         type: String,
     },
     Gst: {
@@ -130,12 +134,29 @@ const OrderSchema = new mongoose.Schema({
     Sgst: {
         type: String,
     },
+    Total: {
+        type: String,
+    },
+    PaymentType: {
+        type: String,
+    },
+    PaymentStatus: {
+        type: String,
+    },
+    Created_On: {
+        type: String
+    },
+    Status: {
+        type: String,
+        default: 'New'
+    },
     Above5KG: {
         type: String,
         default: 'n'
     },
-    Created_On: {
-        type: String
+    PremiumVendor: {
+        type: String,
+        default: 'n'
     },
     Modified_On: {
         type: String
