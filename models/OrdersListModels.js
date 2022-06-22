@@ -52,6 +52,9 @@ const OrderSchema = new mongoose.Schema({
     ThemeSampleImage: {
         type: String,
     },
+    Tier: {
+        type: String,
+    },
     // Article: {
     //     Name: {
     //         type: String

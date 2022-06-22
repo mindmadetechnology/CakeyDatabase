@@ -97,6 +97,7 @@ const newOrder = async (req, res) => {
     const Shape = req.body.Shape; //Array
     const Weight = req.body.Weight;
     const Theme = req.body.Theme; //Optional  
+    const Tier = req.body.Tier; //Optional  
     // const Article = req.body.Article; //Optional
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
@@ -166,6 +167,7 @@ const newOrder = async (req, res) => {
                 Shape: FinalShape,
                 Weight: Weight,
                 Theme: Theme,
+                Tier: Tier,
                 ThemeSampleImage: ThemeSampleImage,
                 MessageOnTheCake: MessageOnTheCake,
                 SpecialRequest: SpecialRequest,
