@@ -138,6 +138,7 @@ const AddNewCustomizeCake = async (req, res) => {
     try {
         const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
         const NewFlavour = JSON.parse(Flavour);
+        const NewWeight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0] + "kg"
         var Above5KG, imageUrlList = [];
         //for check weight above 5kg or not
         if (JSON.parse(parseInt(weight[0])) >= 5) {
@@ -166,7 +167,7 @@ const AddNewCustomizeCake = async (req, res) => {
                 EggOrEggless: EggOrEggless,
                 Flavour: NewFlavour,
                 Shape: Shape,
-                Weight: Weight,
+                Weight: NewWeight,
                 Images: imageUrlList,
                 MessageOnTheCake: MessageOnTheCake,
                 SpecialRequest: SpecialRequest,
