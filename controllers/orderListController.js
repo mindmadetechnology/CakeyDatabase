@@ -133,7 +133,7 @@ const newOrder = async (req, res) => {
 
     try {
 
-        if (!CakeID || !Cake_ID || !CakeName || !CakeCommonName || !CakeType || !CakeSubType || !Image ||
+        if (!CakeID || !Cake_ID || !CakeName || !CakeCommonName || !CakeType || !Image ||
             !EggOrEggless || !Flavour || !Shape || !Weight || !Description || !User_ID || !UserID ||
             !UserName || !UserPhoneNumber || !DeliveryAddress || !DeliveryDate || !DeliverySession ||
             !DeliveryInformation || !Price || !ItemCount || !Discount || !DeliveryCharge || !ExtraCharges ||

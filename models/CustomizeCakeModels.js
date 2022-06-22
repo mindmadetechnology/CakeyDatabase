@@ -3,7 +3,7 @@ const { increment } = require('../config/db');
 
 const OrderSchema = new mongoose.Schema({
 
-    TypeOfCake: {
+    CakeType: {
         type: String,
     },
     EggOrEggless: {
@@ -21,7 +21,7 @@ const OrderSchema = new mongoose.Schema({
         }
     }],
     Shape: {
-        type: String,
+        type: String
     },
     Article: {
         Name: {
@@ -53,7 +53,10 @@ const OrderSchema = new mongoose.Schema({
     VendorName: {
         type: String,
     },
-    VendorPhoneNumber: {
+    VendorPhoneNumber1: {
+        type: String,
+    },
+    VendorPhoneNumber2: {
         type: String,
     },
     VendorAddress: {
@@ -99,36 +102,36 @@ const OrderSchema = new mongoose.Schema({
     Status_Updated_By: {
         type: String,
     },
-    Notification : {
-        type : String,
-        default:'New'
+    Notification: {
+        type: String,
+        default: 'New'
     },
-    Notification_Updated_On : {
-        type : String,
-    },
-    Price : {
-        type : String,
-    },
-    Discount : {
-        type : Number
-    },
-    Gst : {
+    Notification_Updated_On: {
         type: String,
     },
-    Sgst : {
+    Price: {
         type: String,
     },
-    Total : {
+    Discount: {
+        type: Number
+    },
+    Gst: {
         type: String,
     },
-    ExtraCharges : {
-        type : String
+    Sgst: {
+        type: String,
     },
-    Invoice_Sent_On : {
-        type : String,
+    Total: {
+        type: String,
     },
-    Invoice_Sent_By : {
-        type : String
+    ExtraCharges: {
+        type: String
+    },
+    Invoice_Sent_On: {
+        type: String,
+    },
+    Invoice_Sent_By: {
+        type: String
     }
 
 });

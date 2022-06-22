@@ -111,11 +111,11 @@ const GetCustomizeCakeListByUserId = (req, res) => {
 //add new customized cake
 const AddNewCustomizeCake = async (req, res) => {
 
-    const TypeOfCake = req.body.TypeOfCake;
+    const CakeType = req.body.CakeType;
     const EggOrEggless = req.body.EggOrEggless;
     const Flavour = req.body.Flavour; //multiple
     const Shape = req.body.Shape;
-    const Article = req.body.Article; //Optional
+    // const Article = req.body.Article; //Optional
     const Weight = req.body.Weight;
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
@@ -126,7 +126,8 @@ const AddNewCustomizeCake = async (req, res) => {
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
-    const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
+    const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
     const VendorAddress = req.body.VendorAddress;
     const UserID = req.body.UserID;
     const User_ID = req.body.User_ID;
@@ -137,165 +138,63 @@ const AddNewCustomizeCake = async (req, res) => {
     try {
         const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
         const NewFlavour = JSON.parse(Flavour);
-        const NewArticle = JSON.parse(Article);
+        var Above5KG, imageUrlList = [];
         //for check weight above 5kg or not
         if (JSON.parse(parseInt(weight[0])) >= 5) {
-            if (TypeOfCake === undefined || EggOrEggless === undefined || Flavour === undefined || User_ID === undefined ||
-                Shape === undefined || Weight === undefined || DeliveryAddress === undefined || DeliveryDate === undefined ||
-                DeliverySession === undefined || DeliveryInformation === undefined || UserID === undefined ||
-                UserName === undefined || UserPhoneNumber === undefined) {
-                res.send({ statusCode: 400, message: "*required" });
-            } else {
-                //for check file selected or not
-                if (req.files === undefined) {
-                    const CustomizeCake = new CustomizeCakeModel({
-                        TypeOfCake: TypeOfCake,
-                        EggOrEggless: EggOrEggless,
-                        Flavour: NewFlavour,
-                        Shape: Shape,
-                        Weight: Weight,
-                        Article: NewArticle,
-                        MessageOnTheCake: MessageOnTheCake,
-                        SpecialRequest: SpecialRequest,
-                        DeliveryAddress: DeliveryAddress,
-                        DeliveryDate: DeliveryDate,
-                        DeliverySession: DeliverySession,
-                        DeliveryInformation: DeliveryInformation,
-                        Above5KG: 'y',
-                        UserID: UserID,
-                        User_ID: User_ID,
-                        UserName: UserName,
-                        UserPhoneNumber: UserPhoneNumber,
-                        Created_On: Created_On
-                    });
-                    CustomizeCake.save(function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Added Successfully" });
-                        }
-                    });
-                } else {
-                    var imageUrlList = [];
-                    for (let i = 0; i < req.files.length; i++) {
-                        var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
-                        imageUrlList.push(result.url);
-                    };
-                    const CustomizeCake = new CustomizeCakeModel({
-                        TypeOfCake: TypeOfCake,
-                        Images: imageUrlList,
-                        EggOrEggless: EggOrEggless,
-                        Flavour: NewFlavour,
-                        Shape: Shape,
-                        Weight: Weight,
-                        Article: NewArticle,
-                        MessageOnTheCake: MessageOnTheCake,
-                        SpecialRequest: SpecialRequest,
-                        DeliveryAddress: DeliveryAddress,
-                        DeliveryDate: DeliveryDate,
-                        DeliverySession: DeliverySession,
-                        DeliveryInformation: DeliveryInformation,
-                        Above5KG: 'y',
-                        UserID: UserID,
-                        User_ID: User_ID,
-                        UserName: UserName,
-                        UserPhoneNumber: UserPhoneNumber,
-                        Created_On: Created_On
-                    });
+            Above5KG = 'y';
+        } else {
+            Above5KG = 'n';
+        };
+        //for check file selected or not
+        if (req.files !== undefined) {
+            for (let i = 0; i < req.files.length; i++) {
+                var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                imageUrlList.push(result.url);
+            };
+        }else{
+            imageUrlList = [];
+        };
 
-                    CustomizeCake.save(function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Added Successfully" });
-                        }
-                    });
-                }
-            }
-        }
-        else {
-            if (TypeOfCake === undefined || EggOrEggless === undefined || Flavour === undefined || Vendor_ID === undefined ||
-                Shape === undefined || Weight === undefined || DeliveryAddress === undefined || DeliveryDate === undefined ||
-                DeliverySession === undefined || DeliveryInformation === undefined || VendorID === undefined || User_ID === undefined ||
-                VendorName === undefined || VendorPhoneNumber === undefined || VendorAddress === undefined || UserID === undefined ||
-                UserName === undefined || UserPhoneNumber === undefined) {
-                res.send({ statusCode: 400, message: "*required" });
-            } else {
-                //for check file selected or not
-                if (req.files === undefined) {
-                    console.log(NewFlavour)
-                    const CustomizeCake = new CustomizeCakeModel({
-                        TypeOfCake: TypeOfCake,
-                        EggOrEggless: EggOrEggless,
-                        Flavour: NewFlavour,
-                        Shape: Shape,
-                        Weight: Weight,
-                        Article: NewArticle,
-                        MessageOnTheCake: MessageOnTheCake,
-                        SpecialRequest: SpecialRequest,
-                        DeliveryAddress: DeliveryAddress,
-                        DeliveryDate: DeliveryDate,
-                        DeliverySession: DeliverySession,
-                        DeliveryInformation: DeliveryInformation,
-                        VendorID: VendorID,
-                        Vendor_ID: Vendor_ID,
-                        VendorName: VendorName,
-                        VendorPhoneNumber: VendorPhoneNumber,
-                        VendorAddress: VendorAddress,
-                        UserID: UserID,
-                        User_ID: User_ID,
-                        UserName: UserName,
-                        UserPhoneNumber: UserPhoneNumber,
-                        Created_On: Created_On
-                    });
-                    CustomizeCake.save(function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Added Successfully" });
-                        }
-                    });
+        if (CakeType === undefined || EggOrEggless === undefined || Flavour === undefined || User_ID === undefined ||
+            Shape === undefined || Weight === undefined || DeliveryAddress === undefined || DeliveryDate === undefined ||
+            DeliverySession === undefined || DeliveryInformation === undefined || UserID === undefined ||
+            UserName === undefined || UserPhoneNumber === undefined) {
+            res.send({ statusCode: 400, message: "*required" });
+        } else {
+            const CustomizeCake = new CustomizeCakeModel({
+                CakeType: CakeType,
+                EggOrEggless: EggOrEggless,
+                Flavour: NewFlavour,
+                Shape: Shape,
+                Weight: Weight,
+                Images: imageUrlList,
+                MessageOnTheCake: MessageOnTheCake,
+                SpecialRequest: SpecialRequest,
+                DeliveryAddress: DeliveryAddress,
+                DeliveryDate: DeliveryDate,
+                DeliverySession: DeliverySession,
+                DeliveryInformation: DeliveryInformation,
+                Above5KG: Above5KG,
+                UserID: UserID,
+                User_ID: User_ID,
+                UserName: UserName,
+                UserPhoneNumber: UserPhoneNumber,
+                VendorID: VendorID,
+                Vendor_ID: Vendor_ID,
+                VendorName: VendorName,
+                VendorPhoneNumber1: VendorPhoneNumber1,
+                VendorPhoneNumber2: VendorPhoneNumber2,
+                VendorAddress: VendorAddress,
+                Created_On: Created_On
+            });
+            CustomizeCake.save(function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
                 } else {
-                    var imageUrlList = [];
-                    for (let i = 0; i < req.files.length; i++) {
-                        var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
-                        imageUrlList.push(result.url);
-                    };
-                    const CustomizeCake = new CustomizeCakeModel({
-                        TypeOfCake: TypeOfCake,
-                        Images: imageUrlList,
-                        EggOrEggless: EggOrEggless,
-                        Flavour: NewFlavour,
-                        Shape: Shape,
-                        Weight: Weight,
-                        Article: NewArticle,
-                        MessageOnTheCake: MessageOnTheCake,
-                        SpecialRequest: SpecialRequest,
-                        DeliveryAddress: DeliveryAddress,
-                        DeliveryDate: DeliveryDate,
-                        DeliverySession: DeliverySession,
-                        DeliveryInformation: DeliveryInformation,
-                        VendorID: VendorID,
-                        Vendor_ID: Vendor_ID,
-                        VendorName: VendorName,
-                        VendorPhoneNumber: VendorPhoneNumber,
-                        VendorAddress: VendorAddress,
-                        UserID: UserID,
-                        User_ID: User_ID,
-                        UserName: UserName,
-                        UserPhoneNumber: UserPhoneNumber,
-                        Created_On: Created_On
-                    });
-                    CustomizeCake.save(function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: "Added Successfully" });
-                        }
-                    });
+                    res.send({ statusCode: 200, message: "Added Successfully" });
                 }
-            }
-        }
+            });
+        };
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     };
@@ -308,7 +207,8 @@ const AssignCustomizecake = (req, res) => {
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
-    const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
+    const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
     const VendorAddress = req.body.VendorAddress;
     const Status = req.body.Status;
     const Status_Updated_By = req.body.Status_Updated_By;
@@ -322,7 +222,8 @@ const AssignCustomizecake = (req, res) => {
                     VendorID: VendorID,
                     Vendor_ID: Vendor_ID,
                     VendorName: VendorName,
-                    VendorPhoneNumber: VendorPhoneNumber,
+                    VendorPhoneNumber1: VendorPhoneNumber1,
+                    VendorPhoneNumber2: VendorPhoneNumber2,
                     VendorAddress: VendorAddress,
                     Status: Status,
                     Status_Updated_By: Status_Updated_By,
@@ -345,11 +246,11 @@ const AssignCustomizecake = (req, res) => {
 const CustomizeCakePriceInvoice = (req, res) => {
 
     const Id = req.params.id;
-    const TypeOfCake = req.body.TypeOfCake;
+    const CakeType = req.body.CakeType;
     const EggOrEggless = req.body.EggOrEggless;
     const Flavour = req.body.Flavour; //multiple //array of object
     const Shape = req.body.Shape;
-    const Article = req.body.Article; //Optional //object
+    // const Article = req.body.Article; //Optional //object
     const Weight = req.body.Weight;
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
@@ -360,7 +261,8 @@ const CustomizeCakePriceInvoice = (req, res) => {
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
-    const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
+    const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
     const VendorAddress = req.body.VendorAddress;
     const UserID = req.body.UserID;
     const User_ID = req.body.User_ID;
@@ -379,7 +281,7 @@ const CustomizeCakePriceInvoice = (req, res) => {
     try {
         CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
             $set: {
-                TypeOfCake: TypeOfCake,
+                CakeType: CakeType,
                 EggOrEggless: EggOrEggless,
                 Flavour: Flavour,
                 Shape: Shape,
@@ -394,7 +296,8 @@ const CustomizeCakePriceInvoice = (req, res) => {
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
-                VendorPhoneNumber: VendorPhoneNumber,
+                VendorPhoneNumber1: VendorPhoneNumber1,
+                VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
                 UserID: UserID,
                 User_ID: User_ID,
