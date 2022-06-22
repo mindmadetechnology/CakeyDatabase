@@ -620,30 +620,30 @@ const putVendors = async (req, res) => {
 };
 
 //get new vendors list
-// const GetNewVendorList = (req, res) => {
+const GetNewVendorList = (req, res) => {
 
-//     const Status = req.params.Status;
-//     try {
-//         vendorModel.find({ Status: Status, IsDeleted: 'n' }, function (err, result) {
-//             if (err) {
-//                 res.send({ statusCode: 400, message: "Failed" });
-//             } else {
-//                 if (result.length === 0) {
-//                     res.send({ message: 'No Records Found' });
-//                 } else {
-//                     res.send(result);
-//                 }
-//             }
-//         });
-//     } catch (err) {
-//         res.send({ statusCode: 400, message: "Failed" });
-//     };
-// };
+    const Status = req.params.Status;
+    try {
+        vendorModel.find({ Status: Status, IsDeleted: 'n' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: 'No Records Found' });
+                } else {
+                    res.send(result);
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
 
 module.exports = {
 
     RegisterVendors,
     putVendors,
-    // GetNewVendorList
+    GetNewVendorList
 
 };

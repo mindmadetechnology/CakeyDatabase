@@ -149,7 +149,7 @@ router.put('/password/change/:id',ChangePassword);
 router.get("/vendors/list", Authorization, getVendors);
 
 //Get registered vendors
-// router.get("/vendors/list/:Status", Authorization, GetNewVendorList);
+router.get("/vendors/listbystatus/:Status", Authorization, GetNewVendorList);
 
 //Get vendor's details based on email
 router.get("/vendors/listbyemail/:email", Authorization, getVendorsbyEmail);
