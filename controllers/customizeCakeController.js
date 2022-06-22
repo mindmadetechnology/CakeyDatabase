@@ -287,7 +287,6 @@ const CustomizeCakePriceInvoice = (req, res) => {
                 Flavour: Flavour,
                 Shape: Shape,
                 Weight: Weight,
-                Article: Article,
                 MessageOnTheCake: MessageOnTheCake,
                 SpecialRequest: SpecialRequest,
                 DeliveryAddress: DeliveryAddress,
