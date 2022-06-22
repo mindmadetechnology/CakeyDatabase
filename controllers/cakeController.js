@@ -307,12 +307,14 @@ const ApproveCake = (req, res) => {
 const updateCake = async (req, res) => {
     
     const id = req.params.id;
-    const BasicFlavour = req.body.BasicFlavour;
-    const BasicShape = req.body.BasicShape;
-    const MinWeight = req.body.MinWeight;
+    // const BasicFlavour = req.body.BasicFlavour;
+    // const BasicShape = req.body.BasicShape;
+    // const MinWeight = req.body.MinWeight;
     const CustomFlavourList = req.body.CustomFlavourList;
     const CustomShapeList = req.body.CustomShapeList;
     const MinWeightList = req.body.MinWeightList;
+    const BasicCakePrice = req.body.BasicCakePrice;
+    const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
     const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
     const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
     const VendorID = req.body.VendorID;
@@ -330,15 +332,21 @@ const updateCake = async (req, res) => {
     //SampleImages
 
     try {
-        var FinalSampleImages = [];
+        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
 
-        const FinalBasicFlavour = JSON.parse(BasicFlavour);
-        const FinalBasicShape = JSON.parse(BasicShape);
-        const FinalMinWeight = JSON.parse(MinWeight);
-        const FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
-        const FinalMinWeightList = JSON.parse(MinWeightList);
-        const FinalCustomShapeList = (JSON.parse(CustomShapeList));
-
+        // const FinalBasicFlavour = JSON.parse(BasicFlavour);
+        // const FinalBasicShape = JSON.parse(BasicShape);
+        // const FinalMinWeight = JSON.parse(MinWeight);
+        if(CustomFlavourList.length > 0 || CustomFlavourList !== undefined){
+            FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
+        };
+        if(MinWeightList.length > 0 || MinWeightList !== undefined){
+            FinalMinWeightList = JSON.parse(MinWeightList);
+        };
+        if(CustomShapeList.length > 0 || CustomShapeList !== undefined){
+            FinalCustomShapeList = (JSON.parse(CustomShapeList));
+        };
+        
         //for sample shape images
         if (OldSampleImages === undefined || OldSampleImages === [] || OldSampleImages === null) {
             FinalSampleImages = [];
@@ -365,15 +373,17 @@ const updateCake = async (req, res) => {
             } else {
                 cakeModel.findOneAndUpdate({ _id: id }, {
                     $set: {
-                        BasicFlavour: FinalBasicFlavour,
-                        BasicShape: FinalBasicShape,
-                        MinWeight: FinalMinWeight,
+                        // BasicFlavour: BasicFlavour,
+                        // BasicShape: BasicShape,
+                        // MinWeight: MinWeight,
                         CustomFlavourList: FinalCustomFlavourList,
                         CustomShapeList: {
                             Info: FinalCustomShapeList,
                             SampleImages: FinalSampleImages
                         },
                         MinWeightList: FinalMinWeightList,
+                        BasicCakePrice: BasicCakePrice,
+                        BasicCustomisationPossible: BasicCustomisationPossible,
                         MinTimeForDeliveryOfA3KgCake: MinTimeForDeliveryOfA3KgCake, //optional
                         MinTimeForDeliveryOfA5KgCake: MinTimeForDeliveryOfA5KgCake, //optional
                         VendorID: VendorID,
