@@ -215,7 +215,7 @@ const AssignCustomizecake = (req, res) => {
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber || !VendorAddress || !Status || !Status_Updated_By) {
+        if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber1 || !VendorPhoneNumber2 || !VendorAddress || !Status || !Status_Updated_By) {
             res.send({ statusCode: 400, message: '*required' });
         } else {
             CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
