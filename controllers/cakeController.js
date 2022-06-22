@@ -110,6 +110,7 @@ const addCake = async (req, res) => {
     const BasicFlavour = req.body.BasicFlavour;
     const BasicShape = req.body.BasicShape;
     const MinWeight = req.body.MinWeight;
+    const BasicCakePrice = req.body.BasicCakePrice;
     const DefaultCakeEggOrEggless = req.body.DefaultCakeEggOrEggless;
     const IsEgglessOptionAvailable = req.body.IsEgglessOptionAvailable;
     const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
@@ -153,23 +154,28 @@ const addCake = async (req, res) => {
     //SampleImages
     try {
         if (!CakeName || !CakeCommonName || !BasicFlavour || !BasicShape || !MinWeight || !DefaultCakeEggOrEggless ||
-            !IsEgglessOptionAvailable || !CustomFlavourList || !CustomShapeList || !MinWeightList || !IsTierCakePossible ||
-            !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake || !BasicCustomisationPossible ||
-            !FullCustomisationPossible || !CakeBase || !CakeCream || !BestUsedBefore || !ToBeStoredIn ||
+            !IsEgglessOptionAvailable || !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake || 
+            !BasicCustomisationPossible || !FullCustomisationPossible || !CakeBase || !CakeCream || !BestUsedBefore || !ToBeStoredIn ||
             !KeepTheCakeInRoomTemperature || !Description || !HowGoodAreYouWithTheCake || !Tax || !Discount ||
-            !HowManyTimesHaveYouBakedThisParticularCake || !VendorID || !Vendor_ID || !VendorName ||
+            !HowManyTimesHaveYouBakedThisParticularCake || !VendorID || !Vendor_ID || !VendorName || !BasicCakePrice ||
             !VendorPhoneNumber1 || !VendorPhoneNumber2 || !Street || !City || !State || !Pincode) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
-            var SampleImages = [];
-            var FinalAdditionalCakeImages = [];
+            var SampleImages = [], FinalAdditionalCakeImages = [];
+            var FinalCustomFlavourList, FinalMinWeightList, FinalCustomShapeList;
             var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake, MainCakeImage;
-            const FinalBasicFlavour = JSON.parse(BasicFlavour);
-            const FinalBasicShape = JSON.parse(BasicShape);
-            const FinalMinWeight = JSON.parse(MinWeight);
-            const FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
-            const FinalMinWeightList = JSON.parse(MinWeightList);
-            const FinalCustomShapeList = (JSON.parse(CustomShapeList));
+            // const FinalBasicFlavour = JSON.parse(BasicFlavour);
+            // const FinalBasicShape = JSON.parse(BasicShape);
+            // const FinalMinWeight = JSON.parse(MinWeight);
+            if(CustomFlavourList !== undefined){
+                FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
+            };
+            if(MinWeightList !== undefined){
+                FinalMinWeightList = JSON.parse(MinWeightList);
+            };
+            if(CustomShapeList !== undefined){
+                FinalCustomShapeList = (JSON.parse(CustomShapeList));
+            }
             if (req.files['SampleImages'] !== undefined) {
                 for (let i = 0; i < req.files['SampleImages'].length; i++) {
                     var result = await cloudinary.uploader.upload(req.files['SampleImages'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
@@ -201,9 +207,10 @@ const addCake = async (req, res) => {
             const vendorValidate = new cakeModel({
                 CakeName: CakeName,
                 CakeCommonName: CakeCommonName,
-                BasicFlavour: FinalBasicFlavour,
-                BasicShape: FinalBasicShape,
-                MinWeight: FinalMinWeight,
+                BasicFlavour: BasicFlavour,
+                BasicShape: BasicShape,
+                MinWeight: MinWeight,
+                BasicCakePrice: BasicCakePrice,
                 DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
                 IsEgglessOptionAvailable: IsEgglessOptionAvailable,
                 BasicEgglessCostPerKg: BasicEgglessCostPerKg,

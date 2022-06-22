@@ -10,28 +10,16 @@ const CakeSchema = new mongoose.Schema({
         type: String
     },
     BasicFlavour: {
-        Name: {
             type: String,
-        },
-        Price: {
-            type : String,
-        },
     },
     BasicShape: {
-        Name: {
-            type: String,
-        },
-        Price: {
             type : String,
-        },
     },
     MinWeight: {
-        Weight: {
-            type: String,
-        },
-        Price: {
             type : String,
-        },
+    },
+    BasicCakePrice: {
+        type: String,
     },
     DefaultCakeEggOrEggless: {
         type: String

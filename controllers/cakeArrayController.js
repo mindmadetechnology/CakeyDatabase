@@ -16,7 +16,7 @@ const AddNewFlavours = (req, res) => {
                 res.send(err);
             } else {
                 const NewFlavour = result.filter(val => {
-                    return Flavour === val.Name
+                    return Flavour.toLowerCase() === val.Name.toLowerCase()
                 });
                 if (NewFlavour.length === 0) {
                     const Flavour_List = new CakeFlavoursModel({
@@ -71,7 +71,7 @@ const AddNewShapes = (req, res) => {
                 res.send(err);
             } else {
                 const NewShape = result.filter(val => {
-                    return Shape === val.Name
+                    return Shape.toLowerCase() === val.Name.toLowerCase()
                 });
                 if (NewShape.length === 0) {
                     const Shape_List = new CakeShapesModel({
