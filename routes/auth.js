@@ -64,7 +64,8 @@ const {
 } = require('../controllers/categoryController');
 
 const {
-    RegisterVendors, putVendors
+    RegisterVendors, putVendors,
+    GetNewVendorList
 } = require('../controllers/VendorRegisterController');
 
 const {
