@@ -38,6 +38,10 @@ const OrderSchema = new mongoose.Schema({
         type: String,
         default: 'n'
     },
+    PremiumVendor: {
+        type: String,
+        default: 'n'
+    },
     MessageOnTheCake: {
         type: String,
     },

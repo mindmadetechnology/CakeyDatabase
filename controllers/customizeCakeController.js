@@ -133,6 +133,7 @@ const AddNewCustomizeCake = async (req, res) => {
     const User_ID = req.body.User_ID;
     const UserName = req.body.UserName;
     const UserPhoneNumber = req.body.UserPhoneNumber;
+    const PremiumVendor = req.body.PremiumVendor;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //files (Optional)
     try {
@@ -186,6 +187,7 @@ const AddNewCustomizeCake = async (req, res) => {
                 VendorPhoneNumber1: VendorPhoneNumber1,
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
+                PremiumVendor: PremiumVendor,
                 Created_On: Created_On
             });
             CustomizeCake.save(function (err, result) {
