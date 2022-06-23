@@ -54,7 +54,7 @@ const {
     getOrdersStatusCount, getVendorOrdersStatusCount,
     OrderandCustomizecakeNotification, GetAbove5kgOrdersList,
     Above5KGOrderAssign, Above5KGOrderPriceInvoice,
-    UpdateOrderResponsebyVendor, GetNotRespondOrders
+    UpdateOrderResponsebyVendor, GetNotRespondOrders,
 } = require('../controllers/orderListController');
 
 const { 
@@ -64,8 +64,7 @@ const {
 } = require('../controllers/categoryController');
 
 const {
-    RegisterVendors, putVendors,
-    GetNewVendorList
+    RegisterVendors, putVendors
 } = require('../controllers/VendorRegisterController');
 
 const {
@@ -150,7 +149,7 @@ router.put('/password/change/:id',ChangePassword);
 router.get("/vendors/list", Authorization, getVendors);
 
 //Get registered vendors
-router.get("/vendors/listbystatus/:Status", Authorization, GetNewVendorList);
+// router.get("/vendors/listbystatus/:Status", Authorization, GetNewVendorList);
 
 //Get vendor's details based on email
 router.get("/vendors/listbyemail/:email", Authorization, getVendorsbyEmail);

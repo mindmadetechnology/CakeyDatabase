@@ -307,17 +307,31 @@ const getOrdersListByStatusAndAbove5Kg = (req, res) => {
 
     const Above5KG = req.params.above;
     try {
-        OrdersListModel.find({ Above5KG: Above5KG }, function (err, result) {
-            if (err) {
-                res.send({ statusCode: 400, message: "Failed" });
-            } else {
-                if (result.length === 0) {
-                    res.send({ message: "No Orders" });
+        if(Above5KG === 'y'){
+            OrdersListModel.find({$or:[{PremiumVendor: 'y'},{Above5KG: 'y'}]}, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
                 } else {
-                    res.send(result);
+                    if (result.length === 0) {
+                        res.send({ message: "No Orders" });
+                    } else {
+                        res.send(result);
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            OrdersListModel.find({ Above5KG: Above5KG, PremiumVendor: 'n' }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    if (result.length === 0) {
+                        res.send({ message: "No Orders" });
+                    } else {
+                        res.send(result);
+                    }
+                }
+            });
+        }
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     };
