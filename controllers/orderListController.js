@@ -511,7 +511,8 @@ const Above5KGOrderAssign = (req, res) => {
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
-    const VendorPhoneNumber = req.body.VendorPhoneNumber;
+    const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
+    const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
     const VendorAddress = req.body.VendorAddress;
     const Status = req.body.Status;
     const Status_Updated_By = req.body.Status_Updated_By;
@@ -525,7 +526,8 @@ const Above5KGOrderAssign = (req, res) => {
                     VendorID: VendorID,
                     Vendor_ID: Vendor_ID,
                     VendorName: VendorName,
-                    VendorPhoneNumber: VendorPhoneNumber,
+                    VendorPhoneNumber1: VendorPhoneNumber1,
+                    VendorPhoneNumber2: VendorPhoneNumber2,
                     VendorAddress: VendorAddress,
                     Status: Status,
                     Status_Updated_By: Status_Updated_By,
