@@ -95,6 +95,12 @@ const {
     VendorRatings, CakeRatings
 } = require('../controllers/RatingsController');
 
+const {
+    AddNewTopper, UpdateTopper,
+    GetAllToppers, GetToppersByVendorID,
+    GetToppersByVendorIDandStock
+} = require ('../controllers/ToppersController');
+
 //Admin API
 
 //add new admin
@@ -376,6 +382,24 @@ router.put('/vendor/ratings/:id', VendorRatings);
 
 //cake Ratings
 router.put('/cake/ratings/:id', CakeRatings);
+
+
+//Toppers
+
+//get all toppers
+router.get('/toppers/list', Authorization, GetAllToppers);
+
+//get toppers by vendor id
+router.get('/toppers/listbyvendor/:id', Authorization, GetToppersByVendorID);
+
+//get toppers by vendor id and stock
+router.get('/toppers/listbyvendorandstock/:id', Authorization, GetToppersByVendorIDandStock);
+
+//Add new topper
+router.post('/toppers/new', upload.single('file'), AddNewTopper);
+
+//update topper
+router.put('/toppers/update/:id', upload.single('file'), UpdateTopper);
 
 
 module.exports = router;
