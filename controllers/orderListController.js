@@ -530,6 +530,7 @@ const Above5KGOrderAssign = (req, res) => {
                     VendorPhoneNumber2: VendorPhoneNumber2,
                     VendorAddress: VendorAddress,
                     Status: Status,
+                    Vendor_Response_Status : 'unseen',
                     Status_Updated_By: Status_Updated_By,
                     Status_Updated_On: Status_Updated_On
                 }
