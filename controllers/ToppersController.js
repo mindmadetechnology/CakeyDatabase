@@ -45,7 +45,7 @@ const GetToppersByVendorIDandStock = (req, res) => {
 
     const Id = req.params.id;
     try {
-        ToppersModel.find({ VendorID: Id, Stock: 'In Stock', IsDeleted : 'n' }, function (err, result) {
+        ToppersModel.find({ VendorID: Id, Stock: 'InStock', IsDeleted : 'n' }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -62,6 +62,7 @@ const GetToppersByVendorIDandStock = (req, res) => {
 };
 
 const AddNewTopper = (req, res) => {
+    
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
