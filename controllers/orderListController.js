@@ -274,6 +274,7 @@ const updateOrderStatus = (req, res) => {
                 OrdersListModel.findOneAndUpdate({ _id: Id }, {
                     $set: {
                         Status: Status,
+                        Vendor_Response_Status: Vendor_Response_Status,
                         Status_Updated_On: Status_Updated_On,
                         Status_Updated_By: Status_Updated_By
                     }
