@@ -55,6 +55,20 @@ const OrderSchema = new mongoose.Schema({
     Tier: {
         type: String,
     },
+    Toppers : {
+        TopperId: {
+            type: String,
+        },
+        TopperName: {
+            type: String
+        },
+        TopperImage: {
+            type: String,
+        },
+        TopperPrice: {
+            type: String,
+        },
+    },
     // Article: {
     //     Name: {
     //         type: String

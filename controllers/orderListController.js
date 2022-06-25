@@ -127,6 +127,10 @@ const newOrder = async (req, res) => {
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
     const PremiumVendor = req.body.PremiumVendor;
+    const TopperId = req.body.TopperId;
+    const TopperName = req.body.TopperName;
+    const TopperImage = req.body.TopperImage;
+    const TopperPrice = req.body.TopperPrice;
     // const Above5KG = req.body.Above5KG; 
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //file for ThemeSampleImage
@@ -168,6 +172,12 @@ const newOrder = async (req, res) => {
                 Weight: Weight,
                 Theme: Theme,
                 Tier: Tier,
+                Toppers: {
+                    TopperId: TopperId,
+                    TopperName: TopperName,
+                    TopperImage: TopperImage,
+                    TopperPrice: TopperPrice,
+                },
                 ThemeSampleImage: ThemeSampleImage,
                 MessageOnTheCake: MessageOnTheCake,
                 SpecialRequest: SpecialRequest,
