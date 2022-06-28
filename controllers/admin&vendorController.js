@@ -210,6 +210,7 @@ const loginValidate = (req, res) => {
 
     const Email = req.body.Email;
     const Password = req.body.Password;
+    const LastLogin_At = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         adminModel.findOne({ Email: Email, Password: Password }, function (err, result) {
             if (result === null) {
@@ -231,11 +232,27 @@ const loginValidate = (req, res) => {
                     } else if (err) {
                         res.send({ statusCode: 400, message: "error" });
                     } else {
-                        const token = JWT.sign({
-                            id: result._id,
-                            Email: result.Email
-                        }, process.env.JWT_SECRET, { expiresIn: '7d' });
-                        res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
+                        LastLoginSessionModel.find({ Id: result._id }, function (err, results) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "error" });
+                            } else if (results === null) {
+                                const LastLogin = new LastLoginSessionModel({
+                                    Id: result._id,
+                                    LastLogin_At: LastLogin_At
+                                });
+                                LastLogin.save(function (err, result2) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "error" });
+                                    } else {
+                                        const token = JWT.sign({
+                                            id: result._id,
+                                            Email: result.Email
+                                        }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                                        res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             } else if (err) {
@@ -287,17 +304,7 @@ const verifyToken = (req, res) => {
                         if (decodeToken.exp < Date.now() / 1000) {
                             res.send({ statusCode: 400, message: "Invalid token" });
                         } else {
-                            const LastLogin = new LastLoginSessionModel({
-                                Id: decodeToken.id,
-                                LastLogin: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
-                            });
-                            LastLogin.save(function (err, results) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: 'Failed' });
-                                } else {
-                                    res.send({ statusCode: 200, result: result, type: 'vendor' });
-                                }
-                            });
+                            res.send({ statusCode: 200, result: result, type: 'vendor' });
                         }
                     }
                 });

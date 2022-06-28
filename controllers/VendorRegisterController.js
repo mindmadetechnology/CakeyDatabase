@@ -1,8 +1,10 @@
 const vendorModel = require("../models/vendorModels");
 const adminModel = require("../models/adminModels");
+const LastLoginSessionModel = require('../models/LastLoginSessionModel');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 const { transporter } = require('../middleware/nodemailer');
+const JWT = require('jsonwebtoken');
 
 //register vendor
 const RegisterVendors = (req, res) => {
@@ -615,8 +617,38 @@ const putVendors = async (req, res) => {
             })
         };
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed", error: err });
+        res.send({ statusCode: 400, message: "Failed" });
     };
+};
+
+//get last seen 
+const SetLastSeen = (req, res) => {
+    const token = req.body.token;
+    const LastLogout_At = req.body.LastLogout_At;
+
+    const decodeToken = JWT.decode(token);
+
+    try{
+        LastLoginSessionModel.find({Id : decodeToken.id}, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                LastLoginSessionModel.findOneAndUpdate({Id: decodeToken.id},{
+                    $set: {
+                        LastLogout_At: LastLogout_At
+                    }
+                }, function(err, result){
+                    if(err){
+                        res.send({ statusCode: 400, message: "Failed" });
+                    }else{
+                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                    }
+                });
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 //get new vendors list
@@ -644,6 +676,7 @@ module.exports = {
 
     RegisterVendors,
     putVendors,
+    SetLastSeen,
     // GetNewVendorList
 
 };

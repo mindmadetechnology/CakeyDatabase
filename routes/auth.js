@@ -64,7 +64,8 @@ const {
 } = require('../controllers/categoryController');
 
 const {
-    RegisterVendors, putVendors
+    RegisterVendors, putVendors,
+    SetLastSeen
 } = require('../controllers/VendorRegisterController');
 
 const {
@@ -400,6 +401,10 @@ router.post('/toppers/new', upload.single('file'), AddNewTopper);
 
 //update topper
 router.put('/toppers/update/:id', upload.single('file'), UpdateTopper);
+
+
+//last seen
+router.put('/lastseen', SetLastSeen);
 
 
 module.exports = router;

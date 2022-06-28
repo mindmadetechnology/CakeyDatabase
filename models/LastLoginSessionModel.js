@@ -4,7 +4,10 @@ const LastLoginSessionSchema = new mongoose.Schema({
     Id: {
         type: String,
     },
-    LastLogin: {
+    LastLogin_At: {
+        type: String,
+    },
+    LastLogout_At: {
         type: String,
     },
 });
