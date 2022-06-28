@@ -232,15 +232,15 @@ const loginValidate = (req, res) => {
                     } else if (err) {
                         res.send({ statusCode: 400, message: "error" });
                     } else {
-                        LastLoginSessionModel.findOne({ Id: result._id }, function (err, result) {
+                        LastLoginSessionModel.findById({ Id: result._id }, function (err, result2) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "error" });
-                            } else if (result === null) {
+                            } else if (result2 === null) {
                                 const LastLogin = new LastLoginSessionModel({
                                     Id: result._id,
                                     LastLogin_At: LastLogin_At
                                 });
-                                LastLogin.save(function (err, result) {
+                                LastLogin.save(function (err, result3) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "error" });
                                     } else {

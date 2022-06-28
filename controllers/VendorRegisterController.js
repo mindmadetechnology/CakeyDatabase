@@ -629,7 +629,7 @@ const SetLastSeen = (req, res) => {
     const decodeToken = JWT.decode(token);
 
     try{
-        LastLoginSessionModel.findOne({Id : decodeToken.id}, function(err, result){
+        LastLoginSessionModel.findById({Id : decodeToken.id}, function(err, result){
             if(err){
                 res.send({ statusCode: 400, message: "Failed" });
             }else{
