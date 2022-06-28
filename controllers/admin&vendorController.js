@@ -230,11 +230,11 @@ const loginValidate = (req, res) => {
                             }
                         })
                     } else if (err) {
-                        res.send({ statusCode: 400, message: "error" });
+                        res.send({ statusCode: 400, message: "Failed1", error: err });
                     } else {
                         LastLoginSessionModel.findById({ Id: result._id }, function (err, result2) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "error" });
+                                res.send({ statusCode: 400, message: "Failed2", error:err });
                             } else if (result2 === null) {
                                 const LastLogin = new LastLoginSessionModel({
                                     Id: result._id,
@@ -242,7 +242,7 @@ const loginValidate = (req, res) => {
                                 });
                                 LastLogin.save(function (err, result3) {
                                     if (err) {
-                                        res.send({ statusCode: 400, message: "error" });
+                                        res.send({ statusCode: 400, message: "Failed3", error: err });
                                     } else {
                                         const token = JWT.sign({
                                             id: result._id,
