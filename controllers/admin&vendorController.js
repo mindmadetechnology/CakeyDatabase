@@ -252,11 +252,11 @@ const loginValidate = (req, res) => {
                                     }
                                 });
                             } else {
-                                LastLoginSessionModel.findOneAndUpdate({ Id: decodeToken.id }, {
+                                LastLoginSessionModel.findOneAndUpdate({ Id: result._id.toString() }, {
                                     $set: {
                                         LastLogin_At: LastLogin_At
                                     }
-                                }, function (err, result) {
+                                }, function (err, result4) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
