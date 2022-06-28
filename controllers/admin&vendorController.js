@@ -232,7 +232,7 @@ const loginValidate = (req, res) => {
                     } else if (err) {
                         res.send({ statusCode: 400, message: "Failed1", error: err });
                     } else {
-                        LastLoginSessionModel.findById({ Id: result._id.toString() }, function (err, result2) {
+                        LastLoginSessionModel.findOne({ Id: result._id.toString() }, function (err, result2) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed2", error:err });
                             } else if (result2 === null) {
