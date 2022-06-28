@@ -5,6 +5,7 @@ const userModel = require("../models/userModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const OrdersListModel = require("../models/OrdersListModels");
 const helpDeskModel = require('../models/helpDeskModels');
+const LastLoginSessionModel = require('../models/LastLoginSessionModel');
 const JWT = require('jsonwebtoken');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
@@ -286,7 +287,17 @@ const verifyToken = (req, res) => {
                         if (decodeToken.exp < Date.now() / 1000) {
                             res.send({ statusCode: 400, message: "Invalid token" });
                         } else {
-                            res.send({ statusCode: 200, result: result, type: 'vendor' });
+                            const LastLogin = new LastLoginSessionModel({
+                                Id: decodeToken.id,
+                                LastLogin: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A")
+                            });
+                            LastLogin.save(function (err, results) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: 'Failed' });
+                                } else {
+                                    res.send({ statusCode: 200, result: result, type: 'vendor' });
+                                }
+                            });
                         }
                     }
                 });
