@@ -214,7 +214,7 @@ const loginValidate = (req, res) => {
     try {
         adminModel.findOne({ Email: Email, Password: Password }, function (err, result) {
             if (result === null) {
-                vendorModel.findOne({ Email: Email, Password: Password, Status: 'Approved' }, function (err, result) {
+                vendorModel.findOne({ Email: Email, Password: Password }, function (err, result) {
                     if (result === null) {
                         helpDeskModel.findOne({ Email: Email, Password: Password }, function (err, result) {
                             if (err) {
@@ -232,7 +232,7 @@ const loginValidate = (req, res) => {
                     } else if (err) {
                         res.send({ statusCode: 400, message: "error" });
                     } else {
-                        LastLoginSessionModel.find({ Id: result._id }, function (err, result) {
+                        LastLoginSessionModel.findOne({ Id: result._id }, function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "error" });
                             } else if (result === null) {
