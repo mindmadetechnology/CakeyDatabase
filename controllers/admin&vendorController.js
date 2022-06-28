@@ -232,17 +232,33 @@ const loginValidate = (req, res) => {
                     } else if (err) {
                         res.send({ statusCode: 400, message: "error" });
                     } else {
-                        LastLoginSessionModel.find({ Id: result._id }, function (err, results) {
+                        LastLoginSessionModel.find({ Id: result._id }, function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "error" });
-                            } else if (results === null) {
+                            } else if (result === null) {
                                 const LastLogin = new LastLoginSessionModel({
                                     Id: result._id,
                                     LastLogin_At: LastLogin_At
                                 });
-                                LastLogin.save(function (err, result2) {
+                                LastLogin.save(function (err, result) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "error" });
+                                    } else {
+                                        const token = JWT.sign({
+                                            id: result._id,
+                                            Email: result.Email
+                                        }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                                        res.send({ statusCode: 200, message: "Login Succeed", type: 'vendor', token: token });
+                                    }
+                                });
+                            } else {
+                                LastLoginSessionModel.findOneAndUpdate({ Id: decodeToken.id }, {
+                                    $set: {
+                                        LastLogin_At: LastLogin_At
+                                    }
+                                }, function (err, result) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
                                     } else {
                                         const token = JWT.sign({
                                             id: result._id,
