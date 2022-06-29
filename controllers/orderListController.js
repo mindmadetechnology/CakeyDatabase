@@ -265,6 +265,12 @@ const updateOrderStatus = (req, res) => {
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
+        var PaymentStatus;
+        if(Status === 'Delivered'){
+            PaymentStatus = 'Paid'
+        }else{
+            PaymentStatus = 'Cash on delivery'
+        };
         OrdersListModel.findById({ _id: Id }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
@@ -274,6 +280,7 @@ const updateOrderStatus = (req, res) => {
                 OrdersListModel.findOneAndUpdate({ _id: Id }, {
                     $set: {
                         Status: Status,
+                        PaymentStatus: PaymentStatus,
                         Vendor_Response_Status: Vendor_Response_Status,
                         Status_Updated_On: Status_Updated_On,
                         Status_Updated_By: Status_Updated_By
