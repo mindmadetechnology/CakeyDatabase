@@ -102,6 +102,11 @@ const {
     GetToppersByVendorIDandStock
 } = require ('../controllers/ToppersController');
 
+const {
+    // SessionOrders,
+    GetSessionOrders
+} = require('../controllers/SessionOrdersListController');
+
 //Admin API
 
 //add new admin
@@ -405,6 +410,12 @@ router.put('/toppers/update/:id', upload.single('file'), UpdateTopper);
 
 //last seen
 router.put('/lastseen', SetLastSeen);
+
+//get orders by session
+// router.get('/order/session', SessionOrders);
+
+//get session orders
+router.get('/order/session', Authorization, GetSessionOrders);
 
 
 module.exports = router;

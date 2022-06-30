@@ -192,6 +192,9 @@ const OrderSchema = new mongoose.Schema({
         type: String,
         default: 'unseen'
     },
+    Cancelled_By: {
+        type: String,
+    },
 
 });
 
