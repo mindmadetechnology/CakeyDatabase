@@ -55,6 +55,7 @@ const {
     OrderandCustomizecakeNotification, GetAbove5kgOrdersList,
     Above5KGOrderAssign, Above5KGOrderPriceInvoice,
     UpdateOrderResponsebyVendor, GetNotRespondOrders,
+    CancelOrder
 } = require('../controllers/orderListController');
 
 const { 
@@ -283,6 +284,9 @@ router.get('/users/notification/:id', Authorization, OrderandCustomizecakeNotifi
 
 //change notification status for customize  cake
 router.put('/customize/cake/update/notification/:id', ChangeNotificationStatus);
+
+//cancel order
+router.put('/order/cancel/:id', CancelOrder);
 
 
 //Category API

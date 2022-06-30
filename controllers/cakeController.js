@@ -643,6 +643,6 @@ module.exports = {
     getcakelistByVendorName,
     getcakelistByVendorId,
     getCakeListByStatus,
-    ApproveCake
+    ApproveCake,
 
 };

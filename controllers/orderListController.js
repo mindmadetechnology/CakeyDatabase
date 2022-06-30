@@ -607,6 +607,34 @@ const GetNotRespondOrders = (req, res) => {
     };
 };
 
+
+const CancelOrder = (req, res) => {
+    const id = req.params.id;
+    const Cancelled_By = req.body.Cancelled_By;
+    const Status_Updated_By = req.body.Status_Updated_By;
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    try{
+        OrdersListModel.findOneAndUpdate({_id:id}, {
+            $set:{
+                Status: 'Cancelled',
+                Cancelled_By: Cancelled_By,
+                Status_Updated_By: Status_Updated_By,
+                Status_Updated_On: Status_Updated_On
+            }
+        }, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: 'Failed' });   
+            }else{
+                res.send({ statusCode: 200, message: 'Order Cancelled' });   
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: 'Failed' }); 
+    }
+
+};
+
 const Above5KGOrderPriceInvoice = (req, res) => {
     // const CakeID = req.body.CakeID;
     // const Cake_ID = req.body.Cake_ID;
@@ -668,6 +696,7 @@ module.exports = {
     Above5KGOrderAssign,
     Above5KGOrderPriceInvoice,
     UpdateOrderResponsebyVendor,
-    GetNotRespondOrders
+    GetNotRespondOrders,
+    CancelOrder
 
 };
