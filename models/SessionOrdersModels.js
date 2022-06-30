@@ -5,6 +5,9 @@ const SessionOrderSchema = new mongoose.Schema({
     Vendor_ID: {
         type: String,
     },
+    VendorID: {
+        type: String,
+    },
     Login_At: {
         type: String,
     },
