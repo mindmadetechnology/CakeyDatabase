@@ -42,29 +42,21 @@ const GetBanner = (req, res) => {
 const UpdateBanner = async (req, res) => {
     const id = req.params.id;
     const Slogan = req.body.Slogan;
+    const Image = req.body.Image;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        var Image;
+        var FinalImage;
         if (req.file === undefined) {
-            const ImagePromise = new Promise((resolve, reject) => {
-                BannerModel.findOne({ _id: id }, function (err, result) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result.Image);
-                    }
-                })
-            });
-            Image = await ImagePromise;
+            FinalImage = Image
         } else {
             var uploadedImage = await cloudinary.uploader.upload(req.file.path);
-            Image = uploadedImage.url;
+            FinalImage = uploadedImage.url;
         };
 
         BannerModel.findOneAndUpdate({ _id: id }, {
             $set: {
-                Image: Image.url,
+                Image: FinalImage,
                 Slogan: Slogan,
                 Modified_On: Modified_On
             }
