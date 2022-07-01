@@ -108,6 +108,11 @@ const {
     GetSessionOrders
 } = require('../controllers/SessionOrdersListController');
 
+const {
+    AddNewBanner, GetBanner,
+    UpdateBanner, DeleteBanner
+} = require('../controllers/BannerController');
+
 //Admin API
 
 //add new admin
@@ -420,6 +425,21 @@ router.put('/lastseen', SetLastSeen);
 
 //get session orders
 router.get('/order/session', Authorization, GetSessionOrders);
+
+
+//banner
+
+//add new banner
+router.post('/banner/new', upload.single('file'), AddNewBanner);
+
+//get all banner
+router.get('/banner/list', GetBanner);
+
+//update banner details
+router.put('/banner/update/:id', upload.single('file'), UpdateBanner);
+
+//delete banner
+router.delete('/banner/delete/:id', DeleteBanner);
 
 
 module.exports = router;
