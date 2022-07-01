@@ -146,7 +146,7 @@ const newOrder = async (req, res) => {
         } else {
             const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
             var Above5KG, ThemeSampleImage;
-            if (JSON.parse(parseInt(weight[0])) >= 5) {
+            if (JSON.parse(parseInt(weight[0])) >= 5 && Tier === undefined) {
                 Above5KG = 'y'
             } else {
                 Above5KG = 'n'
