@@ -433,7 +433,7 @@ router.get('/order/session', Authorization, GetSessionOrders);
 router.post('/banner/new', upload.single('file'), AddNewBanner);
 
 //get all banner
-router.get('/banner/list', GetBanner);
+router.get('/banner/list', Authorization, GetBanner);
 
 //update banner details
 router.put('/banner/update/:id', upload.single('file'), UpdateBanner);
