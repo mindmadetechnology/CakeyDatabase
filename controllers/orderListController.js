@@ -281,7 +281,7 @@ const updateOrderStatus = (req, res) => {
                     $set: {
                         Status: Status,
                         PaymentStatus: PaymentStatus,
-                        Vendor_Response_Status: Vendor_Response_Status,
+                        Vendor_Response_Status: 'seen',
                         Status_Updated_On: Status_Updated_On,
                         Status_Updated_By: Status_Updated_By
                     }
