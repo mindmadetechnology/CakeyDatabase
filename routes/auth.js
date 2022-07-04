@@ -141,7 +141,7 @@ router.get("/users/list", Authorization, getUsers);
 router.get("/users/list/:pn", Authorization, getUsersbyPhoneNumber);
 
 //Get user's details by id
-router.get("/users/list/:id", Authorization, GetUsersbyId);
+router.get("/users/listbyid/:id", Authorization, GetUsersbyId);
 
 //Update user's details
 router.put("/users/update/:userId",upload.single("file"),putUsers);
