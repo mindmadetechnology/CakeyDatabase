@@ -25,7 +25,8 @@ app.options('*', cors());
 
 const { 
     getUsers, putUsers,
-    validateUsers, getUsersbyPhoneNumber 
+    validateUsers, getUsersbyPhoneNumber,
+    GetUsersbyId 
 } = require('../controllers/userController');
 
 const { 
@@ -138,6 +139,9 @@ router.get("/users/list", Authorization, getUsers);
 
 //Get user's details by phone number
 router.get("/users/list/:pn", Authorization, getUsersbyPhoneNumber);
+
+//Get user's details by id
+router.get("/users/list/:id", Authorization, GetUsersbyId);
 
 //Update user's details
 router.put("/users/update/:userId",upload.single("file"),putUsers);

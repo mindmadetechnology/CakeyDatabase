@@ -41,6 +41,21 @@ const getUsersbyPhoneNumber = (req, res) => {
     };
 };
 
+const GetUsersbyId = (req, res) => {
+    const Id = req.params.id;
+    try{
+        userModel.findById({ _id: Id}, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: 'Failed' });
+            }else{
+                res.send(result);
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
 //Update user's details
 const putUsers = async (req, res) => {
 
@@ -218,6 +233,7 @@ module.exports = {
     getUsers,
     putUsers,
     validateUsers,
-    getUsersbyPhoneNumber
+    getUsersbyPhoneNumber,
+    GetUsersbyId
 
 };
