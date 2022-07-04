@@ -21,7 +21,14 @@ const UserSchema = new mongoose.Schema({
     },
     Modified_On: {
         type: String,
-    }
+    },
+    Notification: {
+        type: String,
+        default: 'n',
+    },
+    Notification_Id: {
+        type: String,
+    },
 
 });
 

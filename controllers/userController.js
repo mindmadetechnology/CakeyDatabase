@@ -47,6 +47,8 @@ const putUsers = async (req, res) => {
     const UserName = req.body.UserName;
     const Address = req.body.Address;
     const userId = req.params.userId;
+    const Notification = req.body.Notification;
+    const Notification_Id = req.body.Notification_Id;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         if (req.file === undefined) {
@@ -63,6 +65,8 @@ const putUsers = async (req, res) => {
                                     $set: {
                                         UserName: UserName,
                                         Address: Address,
+                                        Notification: Notification,
+                                        Notification_Id: Notification_Id,
                                         Modified_On: Modified_On
                                     }
                                 }, function (err, result) {
@@ -82,6 +86,8 @@ const putUsers = async (req, res) => {
                                 $set: {
                                     UserName: UserName,
                                     Address: Address,
+                                    Notification: Notification,
+                                    Notification_Id: Notification_Id,
                                     Modified_On: Modified_On
                                 }
                             }, function (err, result) {
@@ -113,6 +119,8 @@ const putUsers = async (req, res) => {
                                         ProfileImage: imagesUrl.secure_url,
                                         UserName: UserName,
                                         Address: Address,
+                                        Notification: Notification,
+                                        Notification_Id: Notification_Id,
                                         Modified_On: Modified_On
                                     }
                                 }, function (err, result) {
@@ -133,6 +141,8 @@ const putUsers = async (req, res) => {
                                     ProfileImage: imagesUrl.secure_url,
                                     UserName: UserName,
                                     Address: Address,
+                                    Notification: Notification,
+                                    Notification_Id: Notification_Id,
                                     Modified_On: Modified_On
                                 }
                             }, function (err, result) {
