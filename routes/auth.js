@@ -114,6 +114,10 @@ const {
     UpdateBanner, DeleteBanner
 } = require('../controllers/BannerController');
 
+const {
+    ChangeDeliveryCharge, GetDeliveryCharge
+} = require('../controllers/DeliveryChargeController');
+
 //Admin API
 
 //add new admin
@@ -444,6 +448,15 @@ router.put('/banner/update/:id', upload.single('file'), UpdateBanner);
 
 //delete banner
 router.delete('/banner/delete/:id', DeleteBanner);
+
+
+//Delivery charges
+
+//create and update delivery charges
+router.post('/deliverycharge', ChangeDeliveryCharge);
+
+//get delivery charge
+router.get('/deliverycharge/list', Authorization, GetDeliveryCharge);
 
 
 module.exports = router;
