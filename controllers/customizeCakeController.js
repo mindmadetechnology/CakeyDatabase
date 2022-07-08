@@ -342,16 +342,22 @@ const CustomizeCakeConfirmOrder = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
+                var CakeImage, FinalShape;
+                if(result.Images.length !== 0){
+                    CakeImage = result.Images[0]
+                };
+                FinalShape = {
+                    Name: result.Shape, Price: "0"
+                };
                 const OrderList = new OrdersListModel({
                     CakeID: result._id.toString(),
                     Cake_ID: result.Id,
                     TypeOfCake: result.TypeOfCake,
-                    Images: result.Images[0],
+                    Images: CakeImage,
                     EggOrEggless: result.EggOrEggless,
                     Price: result.Price,
                     Flavour: result.Flavour, //array
-                    Shape: result.Shape,
-                    Article: result.Article, //Object
+                    Shape: FinalShape,
                     MessageOnTheCake: result.MessageOnTheCake,
                     SpecialRequest: result.SpecialRequest,
                     Weight: result.Weight,
