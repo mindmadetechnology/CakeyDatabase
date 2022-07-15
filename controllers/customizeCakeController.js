@@ -27,7 +27,7 @@ const GetCustomizeCakeList = (req, res) => {
 
 const NewCustomizedCakeList = (req, res) => {
     try {
-        CustomizeCakeModel.find({ $or: [{ Status : 'New'}, {Status : 'Assigned'}] }, function (err, result) {
+        CustomizeCakeModel.find({ $or: [{ Status: 'New' }, { Status: 'Assigned' }] }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -434,7 +434,11 @@ const CustomizeCakeConfirmOrder = (req, res) => {
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
     const DeliveryCharge = req.body.DeliveryCharge;
+    const Discount = req.body.Discount;
+    const Gst = req.body.Gst;
+    const Sgst = req.body.Sgst;
     const Total = req.body.Total;
+    const ExtraCharges = req.body.ExtraCharges;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         CustomizeCakeModel.findOne({ _id: Id }, function (err, result) {
@@ -477,11 +481,11 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                     DeliveryCharge: DeliveryCharge,
                     PaymentType: PaymentType,
                     PaymentStatus: PaymentStatus,
-                    Discount: result.Discount,
+                    Discount: Discount,
                     DeliveryInformation: result.DeliveryInformation,
-                    Gst: result.Gst,
-                    Sgst: result.Sgst,
-                    ExtraCharges: result.ExtraCharges,
+                    Gst: Gst,
+                    Sgst: Sgst,
+                    ExtraCharges: ExtraCharges,
                     CustomizeCake: 'y',
                     Created_On: Created_On
                 });
