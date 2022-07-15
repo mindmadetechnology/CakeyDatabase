@@ -3,6 +3,9 @@ const { increment } = require('../config/db');
 
 const OrderSchema = new mongoose.Schema({
 
+    CakeName: {
+        type: String,
+    },
     CakeType: {
         type: String,
     },

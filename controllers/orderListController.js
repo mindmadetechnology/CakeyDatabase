@@ -1,5 +1,6 @@
 const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
+const UserNotificationModel = require("../models/UserNotification");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -212,9 +213,26 @@ const newOrder = async (req, res) => {
             });
             OrderList.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed", error: err });
+                    res.send({ statusCode: 400, message: "Failed" });
                 } else {
-                    res.send({ statusCode: 200, message: "Added Successfully" })
+                    const Notification = new UserNotificationModel({
+                        OrderID: result._id,
+                        Order_ID: result.Id,
+                        Image: result.Image,
+                        CakeName: result.CakeName,
+                        Status: result.Status,
+                        Status_Updated_On: result.Created_On,
+                        UserID: result.UserID,
+                        User_ID: result.User_ID,
+                        UserName: result.UserName,
+                    });
+                    Notification.save(function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: "Added Successfully" });
+                        }
+                    })
                 }
             });
         }
@@ -285,11 +303,29 @@ const updateOrderStatus = (req, res) => {
                         Status_Updated_On: Status_Updated_On,
                         Status_Updated_By: Status_Updated_By
                     }
-                }, function (err, result) {
+                }, function (err) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                        const Notification = new UserNotificationModel({
+                            OrderID: result._id,
+                            Order_ID: result.Id,
+                            Image: result.Image,
+                            CakeName: result.CakeName,
+                            Status: Status,
+                            Status_Updated_On: Status_Updated_On,
+                            UserID: result.UserID,
+                            User_ID: result.User_ID,
+                            UserName: result.UserName,
+                        });
+                        Notification.save(function(err){
+                            if(err){
+                                res.send({ statusCode: 400, message: "Failed" });
+                            }else{
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        })
+                        
                     }
                 });
             }

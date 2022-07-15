@@ -26,7 +26,7 @@ app.options('*', cors());
 const { 
     getUsers, putUsers,
     validateUsers, getUsersbyPhoneNumber,
-    GetUsersbyId 
+    GetUsersbyId, UserNotificationOrderList 
 } = require('../controllers/userController');
 
 const { 
@@ -152,6 +152,8 @@ router.put("/users/update/:userId",upload.single("file"),putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
+
+router.get("/users/notification/:id", UserNotificationOrderList);
 
 
 //Login & Forgot password API
