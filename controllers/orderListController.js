@@ -75,7 +75,7 @@ const getOrdersListByVendorId = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: "No Orders" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
@@ -426,7 +426,7 @@ const getVendorOrdersListByStatus = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: "No Orders" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });

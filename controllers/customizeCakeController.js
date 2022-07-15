@@ -76,7 +76,7 @@ const GetCustomizeCakeListByVendorId = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: "No Records Found" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
@@ -98,7 +98,7 @@ const GetNewCustomizeCakeListByVendorId = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: "No Records Found" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
