@@ -25,6 +25,24 @@ const GetCustomizeCakeList = (req, res) => {
     };
 };
 
+const NewCustomizedCakeList = (req, res) => {
+    try {
+        CustomizeCakeModel.find({ $or: [{ Status : 'New'}, {Status : 'Assigned'}] }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 //get customized cakes list by above5kg
 const GetAbove5kgCustomizeCakeList = (req, res) => {
 
@@ -37,7 +55,7 @@ const GetAbove5kgCustomizeCakeList = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: "No Records Found" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
@@ -556,6 +574,7 @@ module.exports = {
 
     AddNewCustomizeCake,
     GetCustomizeCakeList,
+    NewCustomizedCakeList,
     GetAbove5kgCustomizeCakeList,
     GetCustomizeCakeListByVendorId,
     GetCustomizeCakeListByUserId,

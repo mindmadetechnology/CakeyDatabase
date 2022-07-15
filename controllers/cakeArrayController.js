@@ -51,7 +51,7 @@ const GetFlavoursList = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: 'No Records Found' });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
@@ -106,7 +106,7 @@ const GetShapesList = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: 'No Records Found' });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
@@ -163,7 +163,7 @@ const GetWeightList = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: 'No Records Found' });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });

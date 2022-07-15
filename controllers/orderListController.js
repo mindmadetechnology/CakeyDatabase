@@ -16,7 +16,7 @@ const getOrdersList = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: "No Orders" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
@@ -369,7 +369,7 @@ const getOrdersListByStatus = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: "No Orders" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });
@@ -391,7 +391,7 @@ const getOrdersListByStatusAndAbove5Kg = (req, res) => {
                     if (result.length === 0) {
                         res.send({ message: "No Orders" });
                     } else {
-                        res.send(result);
+                        res.send(result.reverse());
                     }
                 }
             });
@@ -666,14 +666,14 @@ const UpdateOrderResponsebyVendor = (req, res) => {
 const GetNotRespondOrders = (req, res) => {
 
     try {
-        OrdersListModel.find({ Vendor_Response_Status: 'no response' }, function (err, result) {
+        OrdersListModel.find({ Vendor_Response_Status: 'no response', Status: 'New' }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
                 if (result.length === 0) {
                     res.send({ message: "No Orders" });
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
             }
         });

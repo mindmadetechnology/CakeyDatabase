@@ -89,6 +89,7 @@ const {
 
 const {
     AddNewCustomizeCake, GetCustomizeCakeList,
+    NewCustomizedCakeList,
     GetAbove5kgCustomizeCakeList, GetCustomizeCakeListByVendorId, 
     GetCustomizeCakeListByUserId, GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake, CustomizeCakePriceInvoice,
@@ -389,6 +390,9 @@ router.post('/customize/cake/order/new/:id', CustomizeCakeConfirmOrder);
 
 //get all Customize cake
 router.get('/customize/cake/list', Authorization, GetCustomizeCakeList);
+
+//get new customized cake 
+router.get('/customize/cake/newlist', Authorization, NewCustomizedCakeList);
 
 //get customize cake based on above 5kg yes or no
 router.get('/customize/cake/list/:above', Authorization, GetAbove5kgCustomizeCakeList);
