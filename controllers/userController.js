@@ -1,6 +1,7 @@
 require('dotenv').config();
 const userModel = require("../models/userModels");
 const UserNotificationModel = require("../models/UserNotification");
+const VendorNotificationModel = require("../models/VendorNotification");
 const moment = require('moment-timezone');
 const JWT = require('jsonwebtoken');
 const cloudinary = require("../middleware/cloudnary");
@@ -237,6 +238,26 @@ const UserNotificationOrderList = (req, res) => {
     }
 };
 
+const VendorNotificationOrderList = (req, res) => {
+    const Id = req.params.id;
+
+    try{
+        VendorNotificationModel.find({VendorID: Id}, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                if(result.length === 0){
+                    res.send({ message: "No Records Found"});
+                }else{
+                    res.send(result.reverse());
+                }
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed"});
+    }
+};
+
 // var fs = require('fs');
 
 // const viewImg = function (req, res) {
@@ -256,6 +277,7 @@ module.exports = {
     validateUsers,
     getUsersbyPhoneNumber,
     GetUsersbyId,
-    UserNotificationOrderList
+    UserNotificationOrderList,
+    VendorNotificationOrderList
 
 };

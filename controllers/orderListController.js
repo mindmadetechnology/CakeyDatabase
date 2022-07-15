@@ -1,6 +1,7 @@
 const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const UserNotificationModel = require("../models/UserNotification");
+const VendorNotificationModel = require("../models/VendorNotification");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -230,9 +231,30 @@ const newOrder = async (req, res) => {
                         if(err){
                             res.send({ statusCode: 400, message: "Failed" });
                         }else{
-                            res.send({ statusCode: 200, message: "Added Successfully" });
+                            if(result.VendorID){
+                                const VendorNotification = new VendorNotificationModel({
+                                    OrderID: result._id,
+                                    Order_ID: result.Id,
+                                    Image: result.Image,
+                                    CakeName: result.CakeName,
+                                    Status: result.Status,
+                                    Status_Updated_On: result.Created_On,
+                                    VendorID: result.VendorID,
+                                    Vendor_ID: result.Vendor_ID,
+                                    UserName: result.UserName,
+                                });
+                                VendorNotification.save(function(err){
+                                    if(err){
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    }else{
+                                        res.send({ statusCode: 200, message: "Added Successfully" });
+                                    }
+                                });
+                            }else{
+                                res.send({ statusCode: 200, message: "Added Successfully" });
+                            }
                         }
-                    })
+                    });
                 }
             });
         }
@@ -592,7 +614,24 @@ const Above5KGOrderAssign = (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: 'Failed' });
                 } else {
-                    res.send({ statusCode: 200, message: 'Assigned successfully' });
+                    const VendorNotification = new VendorNotificationModel({
+                        OrderID: result._id,
+                        Order_ID: result.Id,
+                        Image: result.Image,
+                        CakeName: result.CakeName,
+                        Status: Status,
+                        Status_Updated_On: Status_Updated_On,
+                        VendorID: VendorID,
+                        Vendor_ID: Vendor_ID,
+                        UserName: result.UserName,
+                    });
+                    VendorNotification.save(function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: 'Assigned successfully' });
+                        }
+                    });
                 }
             });
         }

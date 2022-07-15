@@ -1,6 +1,7 @@
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const OrdersListModel = require("../models/OrdersListModels");
 const UserNotificationModel = require("../models/UserNotification");
+const VendorNotificationModel = require("../models/VendorNotification");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -155,7 +156,7 @@ const AddNewCustomizeCake = async (req, res) => {
                 var result = await cloudinary.uploader.upload(req.files[i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 imageUrlList.push(result.url);
             };
-        }else{
+        } else {
             imageUrlList = [];
         };
 
@@ -200,7 +201,7 @@ const AddNewCustomizeCake = async (req, res) => {
                     const Notification = new UserNotificationModel({
                         CustomizedCakeID: result._id,
                         CustomizedCake_ID: result.Id,
-                        Image: result.Image,
+                        Image: result.Images[0],
                         CakeName: result.CakeName,
                         Status: result.Status,
                         Status_Updated_On: result.Created_On,
@@ -209,11 +210,33 @@ const AddNewCustomizeCake = async (req, res) => {
                         UserName: result.UserName,
                         CustomizedCake: 'y'
                     });
-                    Notification.save(function(err){
-                        if(err){
+                    Notification.save(function (err) {
+                        if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
-                        }else{
-                            res.send({ statusCode: 200, message: "Added Successfully" });
+                        } else {
+                            if (result.VendorID) {
+                                const VendorNotification = new VendorNotificationModel({
+                                    CustomizedCakeID: result._id,
+                                    CustomizedCake_ID: result.Id,
+                                    Image: result.Images[0],
+                                    CakeName: result.CakeName,
+                                    Status: result.Status,
+                                    Status_Updated_On: result.Created_On,
+                                    VendorID: result.VendorID,
+                                    Vendor_ID: result.Vendor_ID,
+                                    UserName: result.UserName,
+                                    CustomizedCake: 'y'
+                                });
+                                VendorNotification.save(function (err) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        res.send({ statusCode: 200, message: "Added Successfully" });
+                                    }
+                                });
+                            } else {
+                                res.send({ statusCode: 200, message: "Added Successfully" });
+                            }
                         }
                     });
                 }
@@ -257,7 +280,25 @@ const AssignCustomizecake = (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: 'Failed' });
                 } else {
-                    res.send({ statusCode: 200, message: 'Assigned successfully' });
+                    const VendorNotification = new VendorNotificationModel({
+                        CustomizedCakeID: result._id,
+                        CustomizedCake_ID: result.Id,
+                        Image: result.Images[0],
+                        CakeName: result.CakeName,
+                        Status: Status,
+                        Status_Updated_On: Status_Updated_On,
+                        VendorID: VendorID,
+                        Vendor_ID: Vendor_ID,
+                        UserName: result.UserName,
+                        CustomizedCake: 'y'
+                    });
+                    VendorNotification.save(function (err) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            res.send({ statusCode: 200, message: 'Assigned successfully' });
+                        }
+                    });
                 }
             });
         }
@@ -353,14 +394,14 @@ const CustomizeCakePriceInvoice = (req, res) => {
                     UserName: result.UserName,
                     CustomizedCake: 'y'
                 });
-                Notification.save(function(err){
-                    if(err){
+                Notification.save(function (err) {
+                    if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
-                    }else{
+                    } else {
                         res.send({ statusCode: 200, message: 'Invoice Sent Successfully' });
                     }
                 });
-                
+
             }
         });
     } catch (err) {
@@ -383,7 +424,7 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
                 var CakeImage, FinalShape;
-                if(result.Images.length !== 0){
+                if (result.Images.length !== 0) {
                     CakeImage = result.Images[0]
                 };
                 FinalShape = {
@@ -451,11 +492,30 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                                     UserName: result.UserName,
                                     CustomizedCake: 'y'
                                 });
-                                Notification.save(function(err){
-                                    if(err){
+                                Notification.save(function (err) {
+                                    if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
-                                    }else{
-                                        res.send({ statusCode: 200, message: 'Order Placed Successfully' });
+                                    } else {
+                                        const VendorNotification = new VendorNotificationModel({
+                                            OrderID: result._id,
+                                            Order_ID: result.Id,
+                                            Image: result.Image,
+                                            CakeName: result.CakeName,
+                                            Status: result.Status,
+                                            Status_Updated_On: result.Created_On,
+                                            VendorID: result.VendorID,
+                                            Vendor_ID: result.Vendor_ID,
+                                            UserName: result.UserName,
+                                            CustomizedCake: 'y'
+                                        });
+                                        VendorNotification.save(function (err) {
+                                            if (err) {
+                                                res.send({ statusCode: 400, message: "Failed" });
+                                            } else {
+                                                res.send({ statusCode: 200, message: 'Assigned successfully' });
+                                            }
+                                        });
+                                        // res.send({ statusCode: 200, message: 'Order Placed Successfully' });
                                     }
                                 });
                             }

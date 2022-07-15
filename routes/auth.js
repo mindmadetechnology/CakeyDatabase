@@ -26,7 +26,8 @@ app.options('*', cors());
 const { 
     getUsers, putUsers,
     validateUsers, getUsersbyPhoneNumber,
-    GetUsersbyId, UserNotificationOrderList 
+    GetUsersbyId, UserNotificationOrderList,
+    VendorNotificationOrderList 
 } = require('../controllers/userController');
 
 const { 
@@ -194,6 +195,8 @@ router.put("/vendors/update/:id",upload.fields([{name: 'ProfileImage', maxCount:
 
 //Delete vendor
 router.put("/vendors/delete/:id", deleteVendors);
+
+router.get("/vendors/notification/:id", Authorization, VendorNotificationOrderList);
 
 
 //Help Desk API
