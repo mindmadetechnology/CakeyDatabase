@@ -426,12 +426,13 @@ const putVendors = async (req, res) => {
     // const Password = req.body.Password;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2;
-    const FullAddress = req.body.FullAddress;
-    const Street = req.body.Street;
-    const City = req.body.City;
-    const State = req.body.State;
-    const Pincode = req.body.Pincode;
-    // const GoogleLocation = req.body.GoogleLocation;
+    const Address = req.body.Address;
+    const GoogleLocation = req.body.GoogleLocation;
+    // const FullAddress = req.body.FullAddress;
+    // const Street = req.body.Street;
+    // const City = req.body.City;
+    // const State = req.body.State;
+    // const Pincode = req.body.Pincode;
     const Description = req.body.Description;
     const EggOrEggless = req.body.EggOrEggless;
     const DateOfBirth = req.body.DateOfBirth;
@@ -500,7 +501,7 @@ const putVendors = async (req, res) => {
                         resolve(Email);
                     } else {
                         adminModel.findOne({ Email: Email }, function (err, result) {
-                            if(err){
+                            if (err) {
                                 reject(err);
                             }
                             if (result === null) {
@@ -511,7 +512,7 @@ const putVendors = async (req, res) => {
                                         resolve('already exist');
                                     }
                                 })
-                            }else{
+                            } else {
                                 resolve('already exist');
                             }
                         })
@@ -522,10 +523,10 @@ const putVendors = async (req, res) => {
         FinalEmail = await EmailPromise;
 
         //for foundant image validation
-        if(FoundantToppersImage === undefined || FoundantToppersImage === [] || FoundantToppersImage === null){
+        if (FoundantToppersImage === undefined || FoundantToppersImage === [] || FoundantToppersImage === null) {
             FoundantTopperImage = [];
-        }else{
-            FoundantTopperImage = FoundantToppersImage;   
+        } else {
+            FoundantTopperImage = FoundantToppersImage;
         }
         if (req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'] !== undefined) {
             if (Array.isArray(FoundantToppersImage) === false && FoundantToppersImage !== undefined) {
@@ -538,24 +539,21 @@ const putVendors = async (req, res) => {
                 FoundantTopperImage.push(NewImages.url);
             }
         };
-        if(FinalEmail === 'already exist'){
+        const FinalLocation = JSON.parse(GoogleLocation);
+
+        if (FinalEmail === 'already exist') {
             res.send({ statusCode: 400, message: "Email already Exist" });
-        }else{
-            vendorModel.findOneAndUpdate({_id: id},{
-                $set : {
+        } else {
+            vendorModel.findOneAndUpdate({ _id: id }, {
+                $set: {
                     ProfileImage: imagesUrl,
                     Email: FinalEmail,
                     VendorName: VendorName,
                     PreferredNameOnTheApp: PreferredNameOnTheApp,
                     PhoneNumber1: PhoneNumber1,
                     PhoneNumber2: PhoneNumber2,
-                    Address: {
-                        FullAddress: FullAddress,
-                        Street: Street,
-                        City: City,
-                        State: State,
-                        Pincode: Pincode
-                    },
+                    Address: Address,
+                    GoogleLocation: FinalLocation,
                     Description: Description,
                     EggOrEggless: EggOrEggless,
                     DateOfBirth: DateOfBirth,
@@ -588,11 +586,11 @@ const putVendors = async (req, res) => {
                     CanYouMakeARegularCakeWithFondantAsToppersImage: FoundantTopperImage,
                     Modified_On: Modified_On
                 }
-            }, function(err, result){
-                if(err){
-                    res.send({ statusCode: 400, message: 'Failed', error : err});
-                }else{
-                    res.send({ statusCode: 200, message: 'Updated Successfully'});
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: 'Failed', error: err });
+                } else {
+                    res.send({ statusCode: 200, message: 'Updated Successfully' });
                 }
             })
         };
@@ -608,25 +606,25 @@ const SetLastSeen = (req, res) => {
 
     const decodeToken = JWT.decode(token);
 
-    try{
-        LastLoginSessionModel.findOne({Id : decodeToken.id}, function(err, result){
-            if(err){
+    try {
+        LastLoginSessionModel.findOne({ Id: decodeToken.id }, function (err, result) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
-                LastLoginSessionModel.findOneAndUpdate({Id: decodeToken.id},{
+            } else {
+                LastLoginSessionModel.findOneAndUpdate({ Id: decodeToken.id }, {
                     $set: {
                         LastLogout_At: LastLogout_At
                     }
-                }, function(err, result){
-                    if(err){
+                }, function (err, result) {
+                    if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
-                    }else{
+                    } else {
                         res.send({ statusCode: 200, message: "Updated Successfully" });
                     }
                 });
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 };
