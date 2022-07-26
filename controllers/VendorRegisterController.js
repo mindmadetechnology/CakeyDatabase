@@ -15,12 +15,12 @@ const RegisterVendors = (req, res) => {
     const Password = req.body.Password;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2;
-    const FullAddress = req.body.FullAddress;
-    const Street = req.body.Street;
-    const City = req.body.City;
-    const State = req.body.State;
-    const Pincode = req.body.Pincode;
-    // const GoogleLocation = req.body.GoogleLocation;
+    const Address = req.body.Address;
+    const GoogleLocation = req.body.GoogleLocation;
+    // const Street = req.body.Street;
+    // const City = req.body.City;
+    // const State = req.body.State;
+    // const Pincode = req.body.Pincode;
     const Description = req.body.Description;
     const EggOrEggless = req.body.EggOrEggless;
     const DateOfBirth = req.body.DateOfBirth;
@@ -72,8 +72,7 @@ const RegisterVendors = (req, res) => {
     `
     try {
         if (VendorName === undefined || !PreferredNameOnTheApp || Email === undefined || PhoneNumber1 === undefined || PhoneNumber2 === undefined ||
-            FullAddress === undefined || Street === undefined || City === undefined || State === undefined ||
-            Pincode === undefined || EggOrEggless === undefined || Description === undefined ||
+            Address === undefined || GoogleLocation === undefined || EggOrEggless === undefined || Description === undefined ||
             DateOfBirth === undefined || Gender === undefined || YearsOfExperienceAsBaker === undefined ||
             AadhaarNumber === undefined || PANNumber === undefined || FSSAINumber === undefined || FSSAIExpiryDate === undefined ||
             JobType === undefined || BankName === undefined || Branch === undefined || AccountNumber === undefined || IFSCCode === undefined ||
@@ -82,6 +81,7 @@ const RegisterVendors = (req, res) => {
             !CanYouMakeTierCakes || !CakeTypesYouBake || !CanYouMakeARegularCakeWithFondantAsToppers || !Password) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
+            const FinalLocation = JSON.parse(GoogleLocation);
             if (CanYouMakeARegularCakeWithFondantAsToppers === 'n') {
                 if (req.files['ProfileImage'] === undefined) {
                     adminModel.findOne({ Email: Email }, function (err, result) {
@@ -99,13 +99,8 @@ const RegisterVendors = (req, res) => {
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
                                         PhoneNumber2: PhoneNumber2,
-                                        Address: {
-                                            FullAddress: FullAddress,
-                                            Street: Street,
-                                            City: City,
-                                            State: State,
-                                            Pincode: Pincode
-                                        },
+                                        Address: Address,
+                                        GoogleLocation: FinalLocation,
                                         Description: Description,
                                         EggOrEggless: EggOrEggless,
                                         DateOfBirth: DateOfBirth,
@@ -183,13 +178,8 @@ const RegisterVendors = (req, res) => {
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
                                         PhoneNumber2: PhoneNumber2,
-                                        Address: {
-                                            FullAddress: FullAddress,
-                                            Street: Street,
-                                            City: City,
-                                            State: State,
-                                            Pincode: Pincode
-                                        },
+                                        Address: Address,
+                                        GoogleLocation: FinalLocation,
                                         Description: Description,
                                         EggOrEggless: EggOrEggless,
                                         DateOfBirth: DateOfBirth,
@@ -272,13 +262,8 @@ const RegisterVendors = (req, res) => {
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
                                         PhoneNumber2: PhoneNumber2,
-                                        Address: {
-                                            FullAddress: FullAddress,
-                                            Street: Street,
-                                            City: City,
-                                            State: State,
-                                            Pincode: Pincode
-                                        },
+                                        Address: Address,
+                                        GoogleLocation: FinalLocation,
                                         Description: Description,
                                         EggOrEggless: EggOrEggless,
                                         DateOfBirth: DateOfBirth,
@@ -362,13 +347,8 @@ const RegisterVendors = (req, res) => {
                                         PreferredNameOnTheApp: PreferredNameOnTheApp,
                                         PhoneNumber1: PhoneNumber1,
                                         PhoneNumber2: PhoneNumber2,
-                                        Address: {
-                                            FullAddress: FullAddress,
-                                            Street: Street,
-                                            City: City,
-                                            State: State,
-                                            Pincode: Pincode
-                                        },
+                                        Address: Address,
+                                        GoogleLocation: FinalLocation,
                                         Description: Description,
                                         EggOrEggless: EggOrEggless,
                                         DateOfBirth: DateOfBirth,

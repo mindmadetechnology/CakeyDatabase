@@ -16,24 +16,30 @@ const VendorSchema = new mongoose.Schema({
         type: String
     },
     Address: {
-        FullAddress: {
-            type: String
-        },
-        Street: {
-            type: String
-        },
-        City: {
-            type: String
-        },
-        State: {
-            type: String
-        },
-        Pincode: {
-            type: Number
-        }
+        type: String
+        // FullAddress: {
+        //     type: String
+        // },
+        // Street: {
+        //     type: String
+        // },
+        // City: {
+        //     type: String
+        // },
+        // State: {
+        //     type: String
+        // },
+        // Pincode: {
+        //     type: Number
+        // }
     },
     GoogleLocation: {
-        type: String,
+        Latitude: {
+            type: Number
+        },
+        Longitude: {
+            type: Number
+        }
     },
     PhoneNumber1: {
         type: String,
@@ -126,7 +132,7 @@ const VendorSchema = new mongoose.Schema({
         default: 0
     },
     AreYouFamiliarOnWorkingWithApps: {
-        type : String,
+        type: String,
         default: 'n'
     },
     LearningType: {
@@ -136,7 +142,7 @@ const VendorSchema = new mongoose.Schema({
         type: String,
     },
     InstitutionName: [{
-            type: String,
+        type: String,
     }],
     CurrentAverageSalePerMonth: {
         type: String
@@ -148,7 +154,7 @@ const VendorSchema = new mongoose.Schema({
         type: String
     },
     YourSpecialityCakes: [{
-            type: String
+        type: String
     }],
     CanYouMakeSingleCakeAbove5Kgs: {
         type: String,
@@ -159,13 +165,13 @@ const VendorSchema = new mongoose.Schema({
         default: 'n'
     },
     CakeTypesYouBake: [{
-            type: String,
+        type: String,
     }],
     CanYouMakeARegularCakeWithFondantAsToppers: {
         type: String,
         default: 'n',
     },
-    CanYouMakeARegularCakeWithFondantAsToppersImage:[{
+    CanYouMakeARegularCakeWithFondantAsToppersImage: [{
         type: String
     }],
 });
