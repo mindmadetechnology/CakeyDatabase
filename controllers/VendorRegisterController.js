@@ -477,9 +477,9 @@ const putVendors = async (req, res) => {
                     if (err) {
                         reject(err);
                     } else {
-                        if (result.ProfileImage !== undefined) {
-                        //     resolve('');
-                        // } else {
+                        if (result.ProfileImage === undefined) {
+                            resolve();
+                        } else {
                             resolve(result.ProfileImage);
                         }
                     }
