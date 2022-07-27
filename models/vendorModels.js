@@ -174,6 +174,9 @@ const VendorSchema = new mongoose.Schema({
     CanYouMakeARegularCakeWithFondantAsToppersImage: [{
         type: String
     }],
+    Notification_Id: {
+        type: String,
+    },
 });
 
 VendorSchema.plugin(increment, {

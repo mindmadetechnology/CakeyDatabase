@@ -518,6 +518,27 @@ const GetNotificationCount = (req, res) => {
     };
 };
 
+const UpdateVendorNotificationId = (req, res) => {
+    const Email = req.params.email;
+    const Notification_Id = req.body.Notification_Id;
+
+    try{
+        vendorModel.findOneAndUpdate({ Email: Email },{
+            $set: {
+                Notification_Id: Notification_Id
+            }
+        }, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                res.send({ statusCode: 200, message: "Updated Successfully" });
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
 module.exports = {
 
     getAdminbyEmail,
@@ -533,5 +554,6 @@ module.exports = {
     getAllUsersCount,
     NewAdmin,
     GetNotificationCount,
+    UpdateVendorNotificationId
 
 };

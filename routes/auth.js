@@ -36,7 +36,7 @@ const {
     getVendors, getVendorsbyEmail, 
     deleteVendors, verifyToken,
     getAllUsersCount, NewAdmin,
-    GetNotificationCount,
+    GetNotificationCount, UpdateVendorNotificationId
 } = require('../controllers/admin&vendorController');
 
 const { 
@@ -199,6 +199,8 @@ router.put("/vendors/update/:id",upload.fields([{name: 'ProfileImage', maxCount:
 router.put("/vendors/delete/:id", deleteVendors);
 
 router.get("/vendors/notification/:id", Authorization, VendorNotificationOrderList);
+
+router.put("/vendors/updatenotificationid/:email",UpdateVendorNotificationId);
 
 
 //Help Desk API
