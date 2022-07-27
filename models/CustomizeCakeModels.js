@@ -147,7 +147,10 @@ const OrderSchema = new mongoose.Schema({
     },
     Invoice_Sent_By: {
         type: String
-    }
+    },
+    Cancelled_By: {
+        type: String,
+    },
 
 });
 

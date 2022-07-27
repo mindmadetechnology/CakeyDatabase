@@ -93,7 +93,8 @@ const {
     GetAbove5kgCustomizeCakeList, GetCustomizeCakeListByVendorId, 
     GetCustomizeCakeListByUserId, GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake, CustomizeCakePriceInvoice,
-    CustomizeCakeConfirmOrder, ChangeNotificationStatus
+    CustomizeCakeConfirmOrder, ChangeNotificationStatus,
+    CancelCustomizedCakeOrder
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -405,6 +406,9 @@ router.get('/customize/cake/listbystatus/:id/:status', Authorization, GetNewCust
 
 //get customize cake based on user id
 router.get('/customize/cake/listbyuserid/:id', Authorization, GetCustomizeCakeListByUserId);
+
+//cancel customized cake order
+router.put('/customize/cake/cancel/:id', CancelCustomizedCakeOrder);
 
 
 //Ratings
