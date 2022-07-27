@@ -150,6 +150,7 @@ const AddNewCustomizeCake = async (req, res) => {
     const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
     const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
     const VendorAddress = req.body.VendorAddress;
+    const GoogleLocation = req.body.GoogleLocation;
     const UserID = req.body.UserID;
     const User_ID = req.body.User_ID;
     const UserName = req.body.UserName;
@@ -160,6 +161,7 @@ const AddNewCustomizeCake = async (req, res) => {
     try {
         const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
         const NewFlavour = JSON.parse(Flavour);
+        const FinalLocation = JSON.parse(GoogleLocation);
         const NewWeight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0] + "kg"
         var Above5KG, imageUrlList = [];
         //for check weight above 5kg or not
@@ -209,6 +211,7 @@ const AddNewCustomizeCake = async (req, res) => {
                 VendorPhoneNumber1: VendorPhoneNumber1,
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
+                GoogleLocation: FinalLocation,
                 PremiumVendor: PremiumVendor,
                 Created_On: Created_On
             });
@@ -275,11 +278,12 @@ const AssignCustomizecake = (req, res) => {
     const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
     const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
     const VendorAddress = req.body.VendorAddress;
+    const GoogleLocation = req.body.GoogleLocation;
     const Status = req.body.Status;
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber1 || !VendorPhoneNumber2 || !VendorAddress || !Status || !Status_Updated_By) {
+        if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber1 || !VendorPhoneNumber2 || !VendorAddress || !Status || !Status_Updated_By || !GoogleLocation) {
             res.send({ statusCode: 400, message: '*required' });
         } else {
             CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
@@ -290,6 +294,7 @@ const AssignCustomizecake = (req, res) => {
                     VendorPhoneNumber1: VendorPhoneNumber1,
                     VendorPhoneNumber2: VendorPhoneNumber2,
                     VendorAddress: VendorAddress,
+                    GoogleLocation: GoogleLocation,
                     Status: Status,
                     Status_Updated_By: Status_Updated_By,
                     Status_Updated_On: Status_Updated_On
@@ -347,6 +352,7 @@ const CustomizeCakePriceInvoice = (req, res) => {
     const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
     const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
     const VendorAddress = req.body.VendorAddress;
+    const GoogleLocation = req.body.GoogleLocation;
     const UserID = req.body.UserID;
     const User_ID = req.body.User_ID;
     const UserName = req.body.UserName;
@@ -381,6 +387,7 @@ const CustomizeCakePriceInvoice = (req, res) => {
                 VendorPhoneNumber1: VendorPhoneNumber1,
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
+                GoogleLocation: GoogleLocation,
                 UserID: UserID,
                 User_ID: User_ID,
                 UserName: UserName,
@@ -473,6 +480,7 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                     VendorName: result.VendorName,
                     VendorPhoneNumber: result.VendorPhoneNumber,
                     VendorAddress: result.VendorAddress,
+                    GoogleLocation: result.GoogleLocation,
                     DeliveryAddress: result.DeliveryAddress,
                     DeliveryDate: result.DeliveryDate,
                     DeliverySession: result.DeliverySession,

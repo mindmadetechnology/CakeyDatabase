@@ -69,6 +69,14 @@ const OrderSchema = new mongoose.Schema({
     VendorAddress: {
         type: String,
     },
+    GoogleLocation: {
+        Latitude: {
+            type: Number
+        },
+        Longitude: {
+            type: Number
+        }
+    },
     UserID: {
         type: String,
     },
