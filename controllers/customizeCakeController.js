@@ -136,7 +136,6 @@ const AddNewCustomizeCake = async (req, res) => {
     const EggOrEggless = req.body.EggOrEggless;
     const Flavour = req.body.Flavour; //multiple
     const Shape = req.body.Shape;
-    // const Article = req.body.Article; //Optional
     const Weight = req.body.Weight;
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
@@ -161,15 +160,16 @@ const AddNewCustomizeCake = async (req, res) => {
     try {
         const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
         const NewFlavour = JSON.parse(Flavour);
-        const FinalLocation = JSON.parse(GoogleLocation);
         const NewWeight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0] + "kg"
-        var Above5KG, imageUrlList = [];
+        var Above5KG, imageUrlList = [], FinalLocation;
         //for check weight above 5kg or not
         if (JSON.parse(parseInt(weight[0])) >= 5) {
             Above5KG = 'y';
         } else {
             Above5KG = 'n';
+            FinalLocation = JSON.parse(GoogleLocation);
         };
+
         //for check file selected or not
         if (req.files !== undefined) {
             for (let i = 0; i < req.files.length; i++) {
@@ -217,7 +217,7 @@ const AddNewCustomizeCake = async (req, res) => {
             });
             CustomizeCake.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed" });
+                    res.send({ statusCode: 400, message: "Failed1" });
                 } else {
                     const Notification = new UserNotificationModel({
                         CustomizedCakeID: result._id,
@@ -264,7 +264,7 @@ const AddNewCustomizeCake = async (req, res) => {
             });
         };
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" });
+        res.send({ statusCode: 400, message: "Failed2", error:err });
     };
 };
 
