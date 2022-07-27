@@ -141,24 +141,25 @@ const addCake = async (req, res) => {
     const VendorName = req.body.VendorName;
     const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
     const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
-    const Street = req.body.Street;
-    const City = req.body.City;
-    const State = req.body.State;
-    const Pincode = req.body.Pincode;
+    const VendorAddress = req.body.VendorAddress;
+    const GoogleLocation = req.body.GoogleLocation;
+    // const Street = req.body.Street;
+    // const City = req.body.City;
+    // const State = req.body.State;
+    // const Pincode = req.body.Pincode;
     const Discount = req.body.Discount;
     const Tax = req.body.Tax;
-    // const Stock = req.body.Stock;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //MainCakeImage
     //AdditionalCakeImages
     //SampleImages
     try {
         if (!CakeName || !CakeCommonName || !BasicFlavour || !BasicShape || !MinWeight || !DefaultCakeEggOrEggless ||
-            !IsEgglessOptionAvailable || !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake || 
+            !IsEgglessOptionAvailable || !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake ||
             !BasicCustomisationPossible || !FullCustomisationPossible || !CakeBase || !CakeCream || !BestUsedBefore || !ToBeStoredIn ||
             !KeepTheCakeInRoomTemperature || !Description || !HowGoodAreYouWithTheCake || !Tax || !Discount ||
             !HowManyTimesHaveYouBakedThisParticularCake || !VendorID || !Vendor_ID || !VendorName || !BasicCakePrice ||
-            !VendorPhoneNumber1 || !VendorPhoneNumber2 || !Street || !City || !State || !Pincode) {
+            !VendorPhoneNumber1 || !VendorPhoneNumber2 || !VendorAddress || !GoogleLocation) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var SampleImages = [], FinalAdditionalCakeImages = [];
@@ -167,13 +168,14 @@ const addCake = async (req, res) => {
             // const FinalBasicFlavour = JSON.parse(BasicFlavour);
             // const FinalBasicShape = JSON.parse(BasicShape);
             // const FinalMinWeight = JSON.parse(MinWeight);
-            if(CustomFlavourList !== undefined){
+            const FinalLocation = JSON.parse(GoogleLocation);
+            if (CustomFlavourList !== undefined) {
                 FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
             };
-            if(MinWeightList !== undefined){
+            if (MinWeightList !== undefined) {
                 FinalMinWeightList = JSON.parse(MinWeightList);
             };
-            if(CustomShapeList !== undefined){
+            if (CustomShapeList !== undefined) {
                 FinalCustomShapeList = (JSON.parse(CustomShapeList));
             }
             if (req.files['SampleImages'] !== undefined) {
@@ -244,12 +246,8 @@ const addCake = async (req, res) => {
                 VendorName: VendorName,
                 VendorPhoneNumber1: VendorPhoneNumber1,
                 VendorPhoneNumber2: VendorPhoneNumber2,
-                VendorAddress: {
-                    Street: Street,
-                    City: City,
-                    State: State,
-                    Pincode: Pincode,
-                },
+                VendorAddress: VendorAddress,
+                GoogleLocation: FinalLocation,
                 Discount: Discount,
                 Tax: Tax,
                 MainCakeImage: MainCakeImage,
@@ -305,7 +303,7 @@ const ApproveCake = (req, res) => {
 
 //Update cake's details
 const updateCake = async (req, res) => {
-    
+
     const id = req.params.id;
     // const BasicFlavour = req.body.BasicFlavour;
     // const BasicShape = req.body.BasicShape;
@@ -322,10 +320,12 @@ const updateCake = async (req, res) => {
     const VendorName = req.body.VendorName;
     const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
     const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
-    const Street = req.body.Street;
-    const City = req.body.City;
-    const State = req.body.State;
-    const Pincode = req.body.Pincode;
+    const VendorAddress = req.body.VendorAddress;
+    const GoogleLocation = req.body.GoogleLocation;
+    // const Street = req.body.Street;
+    // const City = req.body.City;
+    // const State = req.body.State;
+    // const Pincode = req.body.Pincode;
     const Stock = req.body.Stock;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     const OldSampleImages = req.body.OldSampleImages;
@@ -337,16 +337,17 @@ const updateCake = async (req, res) => {
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
-        if(CustomFlavourList.length > 0 || CustomFlavourList !== undefined){
+        const FinalLocation = JSON.parse(GoogleLocation);
+        if (CustomFlavourList.length > 0 || CustomFlavourList !== undefined) {
             FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
         };
-        if(MinWeightList.length > 0 || MinWeightList !== undefined){
+        if (MinWeightList.length > 0 || MinWeightList !== undefined) {
             FinalMinWeightList = JSON.parse(MinWeightList);
         };
-        if(CustomShapeList.length > 0 || CustomShapeList !== undefined){
+        if (CustomShapeList.length > 0 || CustomShapeList !== undefined) {
             FinalCustomShapeList = (JSON.parse(CustomShapeList));
         };
-        
+
         //for sample shape images
         if (OldSampleImages === undefined || OldSampleImages === [] || OldSampleImages === null) {
             FinalSampleImages = [];
@@ -391,12 +392,8 @@ const updateCake = async (req, res) => {
                         VendorName: VendorName,
                         VendorPhoneNumber1: VendorPhoneNumber1,
                         VendorPhoneNumber2: VendorPhoneNumber2,
-                        VendorAddress: {
-                            Street: Street,
-                            City: City,
-                            State: State,
-                            Pincode: Pincode,
-                        },
+                        VendorAddress: VendorAddress,
+                        GoogleLocation: FinalLocation,
                         Stock: Stock,
                         Modified_On: Modified_On,
                     }
@@ -412,201 +409,6 @@ const updateCake = async (req, res) => {
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed5" });
     };
-    // const id = req.params.id;
-    // const CakeName = req.body.CakeName;
-    // const CakeCommonName = req.body.CakeCommonName;
-    // const BasicFlavour = req.body.BasicFlavour;
-    // const BasicShape = req.body.BasicShape;
-    // const MinWeight = req.body.MinWeight;
-    // const DefaultCakeEggOrEggless = req.body.DefaultCakeEggOrEggless;
-    // const IsEgglessOptionAvailable = req.body.IsEgglessOptionAvailable;
-    // const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
-    // const CustomFlavourList = req.body.CustomFlavourList;
-    // const CustomShapeList = req.body.CustomShapeList;
-    // const MinWeightList = req.body.MinWeightList;
-    // const IsTierCakePossible = req.body.IsTierCakePossible;
-    // const TierCakeMinWeightAndPrice = req.body.TierCakeMinWeightAndPrice; //optional
-    // const ThemeCakePossible = req.body.ThemeCakePossible;
-    // const ToppersPossible = req.body.ToppersPossible;
-    // const MinTimeForDeliveryOfDefaultCake = req.body.MinTimeForDeliveryOfDefaultCake;
-    // const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
-    // const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
-    // const MinTimeForDeliveryFortierCake = req.body.MinTimeForDeliveryFortierCake; //optional
-    // const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
-    // const FullCustomisationPossible = req.body.FullCustomisationPossible;
-    // const CakeBase = req.body.CakeBase;
-    // const CakeCream = req.body.CakeCream;
-    // const BestUsedBefore = req.body.BestUsedBefore;
-    // const ToBeStoredIn = req.body.ToBeStoredIn;
-    // const KeepTheCakeInRoomTemperature = req.body.KeepTheCakeInRoomTemperature;
-    // const OtherInstructions = req.body.OtherInstructions; //optional
-    // const Description = req.body.Description;
-    // const HowGoodAreYouWithTheCake = req.body.HowGoodAreYouWithTheCake;
-    // const HowManyTimesHaveYouBakedThisParticularCake = req.body.HowManyTimesHaveYouBakedThisParticularCake;
-    // const VendorID = req.body.VendorID;
-    // const Vendor_ID = req.body.Vendor_ID;
-    // const VendorName = req.body.VendorName;
-    // const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
-    // const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
-    // const Street = req.body.Street;
-    // const City = req.body.City;
-    // const State = req.body.State;
-    // const Pincode = req.body.Pincode;
-    // const Discount = req.body.Discount;
-    // const Tax = req.body.Tax;
-    // const Stock = req.body.Stock;
-    // const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    // const OldAdditionalCakeImages = req.body.OldAdditionalCakeImages;
-    // const OldSampleImages = req.body.OldSampleImages;
-    // //MainCakeImage
-    // //AdditionalCakeImages
-    // //SampleImages
-
-    // try {
-    //     var FinalMainCakeImage, FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake;
-    //     var FinalAdditionalCakeImages = [];
-    //     var FinalSampleImages = [];
-
-    //     const FinalBasicFlavour = JSON.parse(BasicFlavour);
-    //     const FinalBasicShape = JSON.parse(BasicShape);
-    //     const FinalMinWeight = JSON.parse(MinWeight);
-    //     const FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
-    //     const FinalMinWeightList = JSON.parse(MinWeightList);
-    //     const FinalCustomShapeList = (JSON.parse(CustomShapeList));
-
-    //     if (TierCakeMinWeightAndPrice !== undefined) {
-    //         FinalTierCakeMinWeightAndPrice = JSON.parse(TierCakeMinWeightAndPrice);
-    //     } else {
-    //         FinalTierCakeMinWeightAndPrice = [];
-    //     };
-    //     if (MinTimeForDeliveryFortierCake !== undefined) {
-    //         FinalMinTimeForDeliveryFortierCake = JSON.parse(MinTimeForDeliveryFortierCake);
-    //     } else {
-    //         FinalMinTimeForDeliveryFortierCake = [];
-    //     };
-
-    //     //for main cake image
-    //     if (req.files['MainCakeImage'] === undefined) {
-    //         const MainCakeImagePromise = new Promise((resolve, reject) => {
-    //             cakeModel.findOne({ _id: id }, function (err, result) {
-    //                 if (err) {
-    //                     reject(err);
-    //                 } else {
-    //                     resolve(result.MainCakeImage);
-    //                 }
-    //             })
-    //         });
-    //         FinalMainCakeImage = await MainCakeImagePromise;
-    //     } else {
-    //         var uploadedProfile = await cloudinary.uploader.upload(req.files['MainCakeImage'][0].path);
-    //         FinalMainCakeImage = uploadedProfile.url
-    //     };
-    //     //for additional cake images
-    //     if (OldAdditionalCakeImages === undefined || OldAdditionalCakeImages === [] || OldAdditionalCakeImages === null) {
-    //         FinalAdditionalCakeImages = [];
-    //     } else {
-    //         FinalAdditionalCakeImages = OldAdditionalCakeImages;
-    //     }
-    //     if (req.files['AdditionalCakeImages'] !== undefined) {
-    //         if (Array.isArray(OldAdditionalCakeImages) === false && OldAdditionalCakeImages !== undefined) {
-    //             var FinalAdditionalCakeImages = [OldAdditionalCakeImages]
-    //         } else if (Array.isArray(OldAdditionalCakeImages) === false && OldAdditionalCakeImages === undefined) {
-    //             var FinalAdditionalCakeImages = [];
-    //         };
-    //         for (let i = 0; i < req.files['AdditionalCakeImages'].length; i++) {
-    //             var NewImages = await cloudinary.uploader.upload(req.files['AdditionalCakeImages'][i].path);
-    //             FinalAdditionalCakeImages.push(NewImages.url);
-    //         }
-    //     };
-    //     //for sample shape images
-    //     if (OldSampleImages === undefined || OldSampleImages === [] || OldSampleImages === null) {
-    //         FinalSampleImages = [];
-    //     } else {
-    //         FinalSampleImages = OldSampleImages;
-    //     }
-    //     if (req.files['SampleImages'] !== undefined) {
-    //         if (Array.isArray(OldSampleImages) === false && OldSampleImages !== undefined) {
-    //             var FinalSampleImages = [OldSampleImages]
-    //         } else if (Array.isArray(OldSampleImages) === false && OldSampleImages === undefined) {
-    //             var FinalSampleImages = [];
-    //         };
-    //         for (let i = 0; i < req.files['SampleImages'].length; i++) {
-    //             var NewImages = await cloudinary.uploader.upload(req.files['SampleImages'][i].path);
-    //             FinalSampleImages.push(NewImages.url);
-    //         }
-    //     };
-
-    //     cakeModel.findById({ _id: id }, async function (err, result) {
-    //         if (err) {
-    //             res.send({ statusCode: 400, message: "Failed" });
-    //         } else if (result === null) {
-    //             res.send({ statusCode: 400, message: "Failed" });
-    //         } else {
-    //             cakeModel.findOneAndUpdate({ _id: id }, {
-    //                 $set: {
-    //                     CakeName: CakeName,
-    //                     CakeCommonName: CakeCommonName,
-    //                     BasicFlavour: FinalBasicFlavour,
-    //                     BasicShape: FinalBasicShape,
-    //                     MinWeight: FinalMinWeight,
-    //                     DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
-    //                     IsEgglessOptionAvailable: IsEgglessOptionAvailable,
-    //                     BasicEgglessCostPerKg: BasicEgglessCostPerKg,
-    //                     CustomFlavourList: FinalCustomFlavourList,
-    //                     CustomShapeList: {
-    //                         Info: FinalCustomShapeList,
-    //                         SampleImages: FinalSampleImages
-    //                     },
-    //                     MinWeightList: FinalMinWeightList,
-    //                     IsTierCakePossible: IsTierCakePossible,
-    //                     TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
-    //                     ThemeCakePossible: ThemeCakePossible,
-    //                     ToppersPossible: ToppersPossible,
-    //                     MinTimeForDeliveryOfDefaultCake: MinTimeForDeliveryOfDefaultCake,
-    //                     MinTimeForDeliveryOfA3KgCake: MinTimeForDeliveryOfA3KgCake, //optional
-    //                     MinTimeForDeliveryOfA5KgCake: MinTimeForDeliveryOfA5KgCake, //optional
-    //                     MinTimeForDeliveryFortierCake: FinalMinTimeForDeliveryFortierCake, //optional
-    //                     BasicCustomisationPossible: BasicCustomisationPossible,
-    //                     FullCustomisationPossible: FullCustomisationPossible,
-    //                     CakeBase: CakeBase,
-    //                     CakeCream: CakeCream,
-    //                     BestUsedBefore: BestUsedBefore,
-    //                     ToBeStoredIn: ToBeStoredIn,
-    //                     KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
-    //                     OtherInstructions: OtherInstructions, //optional
-    //                     Description: Description,
-    //                     HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
-    //                     HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
-    //                     VendorID: VendorID,
-    //                     Vendor_ID: Vendor_ID,
-    //                     VendorName: VendorName,
-    //                     VendorPhoneNumber1: VendorPhoneNumber1,
-    //                     VendorPhoneNumber2: VendorPhoneNumber2,
-    //                     VendorAddress: {
-    //                         Street: Street,
-    //                         City: City,
-    //                         State: State,
-    //                         Pincode: Pincode,
-    //                     },
-    //                     Discount: Discount,
-    //                     Tax: Tax,
-    //                     Stock: Stock,
-    //                     MainCakeImage: FinalMainCakeImage,
-    //                     AdditionalCakeImages: FinalAdditionalCakeImages,
-    //                     Modified_On: Modified_On,
-    //                 }
-    //             }, function (err, result) {
-    //                 if (err) {
-    //                     res.send({ statusCode: 400, message: "Failed" });
-    //                 } else {
-    //                     res.send({ statusCode: 200, message: "Updated Successfully" });
-    //                 }
-    //             });
-    //         }
-    //     });
-    // } catch (err) {
-    //     res.send({ statusCode: 400, message: "Failed5" });
-    // };
 };
 
 //delete cake

@@ -150,16 +150,25 @@ const CakeSchema = new mongoose.Schema({
         type: String
     },
     VendorAddress: {
-        Street: {
-            type: String
+        type: String
+        // Street: {
+        //     type: String
+        // },
+        // City: {
+        //     type: String
+        // },
+        // State: {
+        //     type: String
+        // },
+        // Pincode: {
+        //     type: Number
+        // }
+    },
+    GoogleLocation: {
+        Latitude: {
+            type: Number
         },
-        City: {
-            type: String
-        },
-        State: {
-            type: String
-        },
-        Pincode: {
+        Longitude: {
             type: Number
         }
     },
