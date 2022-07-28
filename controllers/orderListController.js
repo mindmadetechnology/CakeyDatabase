@@ -148,11 +148,12 @@ const newOrder = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
-            var Above5KG, ThemeSampleImage;
+            var Above5KG, ThemeSampleImage, FinalLocation;
             if (JSON.parse(parseInt(weight[0])) >= 5 && Tier === undefined) {
                 Above5KG = 'y'
             } else {
                 Above5KG = 'n'
+                FinalLocation = JSON.parse(GoogleLocation);
             }
             if (req.file !== undefined) {
                 var result = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
@@ -160,7 +161,6 @@ const newOrder = async (req, res) => {
             };
             var FinalFlavour = JSON.parse(Flavour);
             var FinalShape = JSON.parse(Shape);
-            var FinalLocation = JSON.parse(GoogleLocation);
 
             const OrderList = new OrdersListModel({
                 CakeID: CakeID,
