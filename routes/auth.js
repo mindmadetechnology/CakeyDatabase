@@ -44,7 +44,7 @@ const {
     deleteCake, getcakelist,
     getCakeDetails, getcakelistByVendorName,
     getcakelistByVendorId, getCakeListByStatus,
-    ApproveCake
+    ApproveCake, getcakelistByVendorIdAndStatus
 } = require('../controllers/cakeController');
 
 const { 
@@ -238,6 +238,9 @@ router.get("/cake/listbyName/:VendorName", Authorization, getcakelistByVendorNam
 
 //get cake details based on vendorId
 router.get("/cake/listbyId/:VendorId", Authorization, getcakelistByVendorId);
+
+//get cake details based on vendorId and status
+router.get("/cake/listbyIdandstatus/:VendorId", Authorization, getcakelistByVendorIdAndStatus);
 
 //Create new vendor
 router.post("/cake/new",upload.fields([{name: 'MainCakeImage', maxCount: 1},{name:'AdditionalCakeImages', maxCount: 5},{name:'SampleImages', maxCount: 10}]), addCake);

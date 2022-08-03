@@ -85,6 +85,27 @@ const getcakelistByVendorId = (req, res) => {
     };
 };
 
+//get cakes list by vendor id and status
+const getcakelistByVendorIdAndStatus = (req, res) => {
+
+    const VendorId = req.params.VendorId;
+    try {
+        cakeModel.find({ VendorID: VendorId, IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
 // get single cake's detail using id
 const getCakeDetails = (req, res) => {
 
@@ -446,5 +467,6 @@ module.exports = {
     getcakelistByVendorId,
     getCakeListByStatus,
     ApproveCake,
+    getcakelistByVendorIdAndStatus
 
 };
