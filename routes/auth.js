@@ -479,7 +479,7 @@ router.get('/deliverycharge/list', Authorization, GetDeliveryCharge);
 
 
 //statement of accounts
-router.get('/admin/statementofaccounts/:Month/:Year', GetAdminStatementOfAccounts);
+router.get('/admin/statementofaccounts/:Month/:Year', Authorization, GetAdminStatementOfAccounts);
 
 
 module.exports = router;
