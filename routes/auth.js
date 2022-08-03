@@ -121,6 +121,10 @@ const {
     ChangeDeliveryCharge, GetDeliveryCharge
 } = require('../controllers/DeliveryChargeController');
 
+const {
+    GetAdminStatementOfAccounts,
+} = require("../controllers/StatementOfAccountsController");
+
 //Admin API
 
 //add new admin
@@ -472,6 +476,10 @@ router.post('/deliverycharge', ChangeDeliveryCharge);
 
 //get delivery charge
 router.get('/deliverycharge/list', Authorization, GetDeliveryCharge);
+
+
+//statement of accounts
+router.get('/admin/statementofaccounts/:Month/:Year', GetAdminStatementOfAccounts);
 
 
 module.exports = router;
