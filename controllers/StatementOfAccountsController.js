@@ -210,26 +210,27 @@ const GetVendorStatementOfAccountsDetails = (req, res) => {
                                 if (val.Status !== 'Cancelled') { OpeningArray.push(val) }
                             }
                         });
+                        // console.log(OpeningArray)
                         result.filter(val => {
                             if (moment('01' + '-' + val.Created_On.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) <= 0) {
                                 if (val.Status !== 'Cancelled') { ClosingArray.push(val) }
                             }
                         });
-                        if (OpeningArray.length === 0) {
-                            OpeningBalance = 0
-                        } else {
-                            OpeningArray.filter(val => {
-                                OpeningBalanceArray.push(JSON.parse(val.Total));
-                            });
-                            if (OpeningBalanceArray.length === 0) {
-                                OpeningBalance = 0
-                            } else if (OpeningBalanceArray.length === 1) {
-                                OpeningBalance = OpeningBalanceArray[0];
-                            } else {
-                                OpeningBalance = OpeningBalanceArray.reduce((a, b) => a + b, 0);
-                            };
-                        };
                         if (result2.length === 0) {
+                            if (OpeningArray.length === 0) {
+                                OpeningBalance = 0
+                            } else {
+                                OpeningArray.filter(val => {
+                                    OpeningBalanceArray.push(JSON.parse(val.Total));
+                                });
+                                if (OpeningBalanceArray.length === 0) {
+                                    OpeningBalance = 0
+                                } else if (OpeningBalanceArray.length === 1) {
+                                    OpeningBalance = OpeningBalanceArray[0];
+                                } else {
+                                    OpeningBalance = OpeningBalanceArray.reduce((a, b) => a + b, 0);
+                                };
+                            };
                             if (ClosingArray.length === 0) {
                                 ClosingBalance = 0
                             } else {
@@ -281,21 +282,50 @@ const GetVendorStatementOfAccountsDetails = (req, res) => {
                                     }
                                 }
                             });
-                            var CurrentMonthPayments = [], CurrentMonthTotalPayment;
+                            var AllPayments = [], TotalPayment;
+                            var OpeningPayments = [], TotalOpeningPayment, ClosingPayments = [], TotalClosingPayment;
                             result2.filter(val => {
-                                const NewData = {
-                                    VendorID: val.VendorID, Type: 'Payment',
-                                    Total: val.Payment, Date: val.Payment_Date
-                                };
-                                OrderList.push(NewData);
-                                CurrentMonthPayments.push(val.Payment);
+                                if (moment('01' + '-' + val.Payment_Date.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) === 0) {
+                                    const NewData = {
+                                        VendorID: val.VendorID, Type: 'Payment',
+                                        Total: val.Payment, Date: val.Payment_Date
+                                    };
+                                    OrderList.push(NewData);
+                                    AllPayments.push(val.Payment);
+                                }
                             });
-                            if (CurrentMonthPayments.length === 0) {
-                                CurrentMonthTotalPayment = 0;
-                            } else if (CurrentMonthPayments.length === 1) {
-                                CurrentMonthTotalPayment = JSON.parse(CurrentMonthPayments[0])
+                            result2.filter(val => {
+                                if (moment('01' + '-' + val.Payment_Date.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) < 0) {
+                                    OpeningPayments.push(val.Payment);
+                                }
+                            });
+                            if (OpeningPayments.length === 0) {
+                                TotalOpeningPayment = 0;
+                            } else if (OpeningPayments.length === 1) {
+                                TotalOpeningPayment = JSON.parse(OpeningPayments[0]);
                             } else {
-                                CurrentMonthTotalPayment = CurrentMonthPayments.reduce((a, b) => { return JSON.parse(a) + JSON.parse(b) })
+                                TotalOpeningPayment = OpeningPayments.reduce((a, b) => { return JSON.parse(a) + JSON.parse(b) })
+                            };
+
+                            result2.filter(val => {
+                                if (moment('01' + '-' + val.Payment_Date.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) <= 0) {
+                                    ClosingPayments.push(val.Payment);
+                                }
+                            });
+                            if (ClosingPayments.length === 0) {
+                                TotalClosingPayment = 0;
+                            } else if (ClosingPayments.length === 1) {
+                                TotalClosingPayment = JSON.parse(ClosingPayments[0]);
+                            } else {
+                                TotalClosingPayment = ClosingPayments.reduce((a, b) => { return JSON.parse(a) + JSON.parse(b) })
+                            };
+
+                            if (AllPayments.length === 0) {
+                                TotalPayment = 0;
+                            } else if (AllPayments.length === 1) {
+                                TotalPayment = JSON.parse(AllPayments[0])
+                            } else {
+                                TotalPayment = AllPayments.reduce((a, b) => { return JSON.parse(a) + JSON.parse(b) })
                             };
                             if (ClosingArray.length === 0) {
                                 ClosingBalance = 0
@@ -311,14 +341,28 @@ const GetVendorStatementOfAccountsDetails = (req, res) => {
                                     ClosingBalance = ClosingBalanceArray.reduce((a, b) => a + b, 0);
                                 };
                             };
+                            if (OpeningArray.length === 0) {
+                                OpeningBalance = 0
+                            } else {
+                                OpeningArray.filter(val => {
+                                    OpeningBalanceArray.push(JSON.parse(val.Total));
+                                });
+                                if (OpeningBalanceArray.length === 0) {
+                                    OpeningBalance = 0
+                                } else if (OpeningBalanceArray.length === 1) {
+                                    OpeningBalance = OpeningBalanceArray[0];
+                                } else {
+                                    OpeningBalance = OpeningBalanceArray.reduce((a, b) => a + b, 0);
+                                };
+                            };
                             const NewArray = OrderList.map(val => {
                                 return { value: val, date: moment(val.Date, 'DD-MM-YYYY hh:mm A').diff(moment(new Date(), 'DD-MM-YYYY hh:mm A')) };
                             });
                             const Statement = NewArray.sort((a, b) => { return a.date - b.date });
                             Statement.filter(val => VendorStatement.push(val.value));
                             res.send({
-                                OpeningBalance: Math.round(OpeningBalance),
-                                ClosingBalance: Math.abs(Math.round(ClosingBalance - CurrentMonthTotalPayment)),
+                                OpeningBalance: Math.abs(Math.round(OpeningBalance - TotalOpeningPayment)),
+                                ClosingBalance: Math.abs(Math.round(ClosingBalance - TotalClosingPayment)),
                                 result: VendorStatement
                             });
                         }
