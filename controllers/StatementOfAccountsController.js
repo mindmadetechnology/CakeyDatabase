@@ -187,6 +187,8 @@ const GetVendorStatementOfAccountsList = (req, res) => {
 
 const GetVendorStatementOfAccountsDetails = (req, res) => {
     const VendorID = req.params.VendorID;
+    const Month = req.params.Month;
+    const Year = req.params.Year;
 
     try {
         OrdersListModel.find({ VendorID: VendorID }, function (err, result) {
@@ -200,20 +202,59 @@ const GetVendorStatementOfAccountsDetails = (req, res) => {
                         res.send({ statusCode: 400, message: 'Failed' });
                     } else {
                         var OrderList = [], VendorStatement = [];
+                        var OpeningArray = [], OpeningBalanceArray = [], OpeningBalance,
+                            ClosingArray = [], ClosingBalanceArray = [], ClosingBalance;
+                        //opening balance
+                        result.filter(val => {
+                            if (moment('01' + '-' + val.Created_On.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) < 0) {
+                                if (val.Status !== 'Cancelled') { OpeningArray.push(val) }
+                            }
+                        });
+                        result.filter(val => {
+                            if (moment('01' + '-' + val.Created_On.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) <= 0) {
+                                if (val.Status !== 'Cancelled') { ClosingArray.push(val) }
+                            }
+                        });
+                        if (OpeningArray.length === 0) {
+                            OpeningBalance = 0
+                        } else {
+                            OpeningArray.filter(val => {
+                                OpeningBalanceArray.push(JSON.parse(val.Total));
+                            });
+                            if (OpeningBalanceArray.length === 0) {
+                                OpeningBalance = 0
+                            } else if (OpeningBalanceArray.length === 1) {
+                                OpeningBalance = OpeningBalanceArray[0];
+                            } else {
+                                OpeningBalance = OpeningBalanceArray.reduce((a, b) => a + b, 0);
+                            };
+                        };
                         if (result2.length === 0) {
+                            if (ClosingArray.length === 0) {
+                                ClosingBalance = 0
+                            } else {
+                                ClosingArray.filter(val => {
+                                    ClosingBalanceArray.push(JSON.parse(val.Total));
+                                });
+                                if (ClosingBalanceArray.length === 0) {
+                                    ClosingBalance = 0
+                                } else if (ClosingBalanceArray.length === 1) {
+                                    ClosingBalance = ClosingBalanceArray[0];
+                                } else {
+                                    ClosingBalance = ClosingBalanceArray.reduce((a, b) => a + b, 0);
+                                };
+                            };
                             result.filter(val => {
-                                if (val.Status !== 'Cancelled') {
-                                    const NewData = {
-                                        OrderID: val._id,
-                                        Order_ID: val.Id,
-                                        VendorID: val.VendorID,
-                                        Vendor_ID: val.Vendor_ID,
-                                        VendorName: val.VendorName,
-                                        Type: 'Sales',
-                                        Total: val.Total,
-                                        Date: val.Created_On.slice(0, 10)
-                                    };
-                                    OrderList.push(NewData);
+                                if (moment('01' + '-' + val.Created_On.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) === 0) {
+                                    if (val.Status !== 'Cancelled') {
+                                        const NewData = {
+                                            OrderID: val._id, Order_ID: val.Id,
+                                            VendorID: val.VendorID, Vendor_ID: val.Vendor_ID,
+                                            VendorName: val.VendorName, Type: 'Sales',
+                                            Total: val.Total, Date: val.Created_On.slice(0, 10)
+                                        };
+                                        OrderList.push(NewData);
+                                    }
                                 }
                             });
                             const NewArray = OrderList.map(val => {
@@ -221,38 +262,65 @@ const GetVendorStatementOfAccountsDetails = (req, res) => {
                             });
                             const Statement = NewArray.sort((a, b) => { return a.date - b.date });
                             Statement.filter(val => VendorStatement.push(val.value));
-                            res.send(VendorStatement);
+                            res.send({
+                                OpeningBalance: OpeningBalance,
+                                ClosingBalance: ClosingBalance,
+                                result: VendorStatement
+                            });
                         } else {
                             result.filter(val => {
-                                if (val.Status !== 'Cancelled') {
-                                    const NewData = {
-                                        OrderID: val._id,
-                                        Order_ID: val.Id,
-                                        VendorID: val.VendorID,
-                                        Vendor_ID: val.Vendor_ID,
-                                        VendorName: val.VendorName,
-                                        Type: 'Sales',
-                                        Total: val.Total,
-                                        Date: val.Created_On.slice(0, 10)
-                                    };
-                                    OrderList.push(NewData);
+                                if (moment('01' + '-' + val.Created_On.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) === 0) {
+                                    if (val.Status !== 'Cancelled') {
+                                        const NewData = {
+                                            OrderID: val._id, Order_ID: val.Id,
+                                            VendorID: val.VendorID, Vendor_ID: val.Vendor_ID,
+                                            VendorName: val.VendorName, Type: 'Sales',
+                                            Total: val.Total, Date: val.Created_On.slice(0, 10)
+                                        };
+                                        OrderList.push(NewData);
+                                    }
                                 }
                             });
+                            var CurrentMonthPayments = [], CurrentMonthTotalPayment;
                             result2.filter(val => {
                                 const NewData = {
-                                    VendorID: val.VendorID,
-                                    Type: 'Payment',
-                                    Total: val.Payment,
-                                    Date: val.Payment_Date
+                                    VendorID: val.VendorID, Type: 'Payment',
+                                    Total: val.Payment, Date: val.Payment_Date
                                 };
                                 OrderList.push(NewData);
+                                CurrentMonthPayments.push(val.Payment);
                             });
+                            if (CurrentMonthPayments.length === 0) {
+                                CurrentMonthTotalPayment = 0;
+                            } else if (CurrentMonthPayments.length === 1) {
+                                CurrentMonthTotalPayment = JSON.parse(CurrentMonthPayments[0])
+                            } else {
+                                CurrentMonthTotalPayment = CurrentMonthPayments.reduce((a, b) => { return JSON.parse(a) + JSON.parse(b) })
+                            };
+                            if (ClosingArray.length === 0) {
+                                ClosingBalance = 0
+                            } else {
+                                ClosingArray.filter(val => {
+                                    ClosingBalanceArray.push(JSON.parse(val.Total));
+                                });
+                                if (ClosingBalanceArray.length === 0) {
+                                    ClosingBalance = 0
+                                } else if (ClosingBalanceArray.length === 1) {
+                                    ClosingBalance = ClosingBalanceArray[0];
+                                } else {
+                                    ClosingBalance = ClosingBalanceArray.reduce((a, b) => a + b, 0);
+                                };
+                            };
                             const NewArray = OrderList.map(val => {
                                 return { value: val, date: moment(val.Date, 'DD-MM-YYYY hh:mm A').diff(moment(new Date(), 'DD-MM-YYYY hh:mm A')) };
                             });
                             const Statement = NewArray.sort((a, b) => { return a.date - b.date });
                             Statement.filter(val => VendorStatement.push(val.value));
-                            res.send(VendorStatement);
+                            res.send({
+                                OpeningBalance: Math.round(OpeningBalance),
+                                ClosingBalance: Math.abs(Math.round(ClosingBalance - CurrentMonthTotalPayment)),
+                                result: VendorStatement
+                            });
                         }
                     }
                 });

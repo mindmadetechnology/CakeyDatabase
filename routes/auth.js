@@ -492,7 +492,7 @@ router.post('/statementofaccounts/new', CreateStatementOfAccountsByVendorID);
 router.get('/vendor/statementofaccountslist', GetVendorStatementOfAccountsList);
 
 //get vendor statement of accounts details
-router.get('/vendor/statementofaccountsdetails/:VendorID', GetVendorStatementOfAccountsDetails);
+router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', GetVendorStatementOfAccountsDetails);
 
 
 module.exports = router;
