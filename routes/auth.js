@@ -122,7 +122,8 @@ const {
 } = require('../controllers/DeliveryChargeController');
 
 const {
-    GetAdminStatementOfAccounts,
+    GetAdminStatementOfAccounts, CreateStatementOfAccountsByVendorID,
+    GetVendorStatementOfAccountsList, GetVendorStatementOfAccountsDetails
 } = require("../controllers/StatementOfAccountsController");
 
 //Admin API
@@ -483,6 +484,15 @@ router.get('/deliverycharge/list', Authorization, GetDeliveryCharge);
 
 //statement of accounts
 router.get('/admin/statementofaccounts/:Month/:Year', Authorization, GetAdminStatementOfAccounts);
+
+//create statement
+router.post('/statementofaccounts/new', CreateStatementOfAccountsByVendorID);
+
+//get vendor statement of accounts
+router.get('/vendor/statementofaccountslist', GetVendorStatementOfAccountsList);
+
+//get vendor statement of accounts details
+router.get('/vendor/statementofaccountsdetails/:VendorID', GetVendorStatementOfAccountsDetails);
 
 
 module.exports = router;
