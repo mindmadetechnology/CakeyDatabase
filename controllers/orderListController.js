@@ -126,6 +126,7 @@ const newOrder = async (req, res) => {
     const DeliveryCharge = req.body.DeliveryCharge;
     const Gst = req.body.Gst;
     const Sgst = req.body.Sgst;
+    const Tax = req.body.Tax;
     const Total = req.body.Total;
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
@@ -144,7 +145,7 @@ const newOrder = async (req, res) => {
             !EggOrEggless || !Flavour || !Shape || !Weight || !Description || !User_ID || !UserID ||
             !UserName || !UserPhoneNumber || !DeliveryAddress || !DeliveryDate || !DeliverySession ||
             !DeliveryInformation || !Price || !ItemCount || !Discount || !DeliveryCharge || !ExtraCharges ||
-            !Gst || !Sgst || !Total || !PaymentType || !PaymentStatus) {
+            !Gst || !Sgst || !Total || !PaymentType || !PaymentStatus || !Tax) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
@@ -208,6 +209,7 @@ const newOrder = async (req, res) => {
                 DeliveryCharge: DeliveryCharge,
                 Gst: Gst,
                 Sgst: Sgst,
+                Tax: Tax,
                 Total: Total,
                 PaymentType: PaymentType,
                 PaymentStatus: PaymentStatus,

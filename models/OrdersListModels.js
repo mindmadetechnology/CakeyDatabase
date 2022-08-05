@@ -159,6 +159,9 @@ const OrderSchema = new mongoose.Schema({
     Sgst: {
         type: String,
     },
+    Tax: {
+        type: String, 
+    },
     Total: {
         type: String,
     },
