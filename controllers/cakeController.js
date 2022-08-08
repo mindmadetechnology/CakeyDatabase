@@ -6,7 +6,7 @@ const cloudinary = require("../middleware/cloudnary");
 const getcakelist = (req, res) => {
 
     try {
-        cakeModel.find({ IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
+        cakeModel.find({ IsDeleted: 'n', Status: 'Approved', Stock: 'InStock' }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -28,6 +28,24 @@ const getCakeListByStatus = (req, res) => {
     const Status = req.params.status;
     try {
         cakeModel.find({ Status: Status }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+const GetCakeListOfNewAndUpdated = (req,res) => {
+    try {
+        cakeModel.find({$or: [{ Status: 'New'}, {Status: 'Updated' }] }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -354,18 +372,18 @@ const updateCake = async (req, res) => {
 
     try {
         var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
-
+        console.log(CustomShapeList)
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
         const FinalLocation = JSON.parse(GoogleLocation);
-        if (CustomFlavourList.length > 0 || CustomFlavourList !== undefined) {
+        if (CustomFlavourList !== undefined) {
             FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
         };
-        if (MinWeightList.length > 0 || MinWeightList !== undefined) {
+        if (MinWeightList !== undefined) {
             FinalMinWeightList = JSON.parse(MinWeightList);
         };
-        if (CustomShapeList.length > 0 || CustomShapeList !== undefined) {
+        if (CustomShapeList !== undefined) {
             FinalCustomShapeList = (JSON.parse(CustomShapeList));
         };
 
@@ -416,6 +434,7 @@ const updateCake = async (req, res) => {
                         VendorAddress: VendorAddress,
                         GoogleLocation: FinalLocation,
                         Stock: Stock,
+                        Status: 'Updated',
                         Modified_On: Modified_On,
                     }
                 }, function (err, result) {
@@ -467,6 +486,7 @@ module.exports = {
     getcakelistByVendorId,
     getCakeListByStatus,
     ApproveCake,
-    getcakelistByVendorIdAndStatus
+    getcakelistByVendorIdAndStatus,
+    GetCakeListOfNewAndUpdated
 
 };
