@@ -139,7 +139,7 @@ const AddNewCustomizeCake = async (req, res) => {
     const Weight = req.body.Weight;
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
-    const DeliveryAddress = req.body.DeliveryAddress;
+    const DeliveryAddress = req.body.DeliveryAddress; //optional
     const DeliveryDate = req.body.DeliveryDate;
     const DeliverySession = req.body.DeliverySession;
     const DeliveryInformation = req.body.DeliveryInformation;
@@ -181,7 +181,7 @@ const AddNewCustomizeCake = async (req, res) => {
         };
 
         if (CakeType === undefined || EggOrEggless === undefined || Flavour === undefined || User_ID === undefined ||
-            Shape === undefined || Weight === undefined || DeliveryAddress === undefined || DeliveryDate === undefined ||
+            Shape === undefined || Weight === undefined || DeliveryDate === undefined ||
             DeliverySession === undefined || DeliveryInformation === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined) {
             res.send({ statusCode: 400, message: "*required" });
