@@ -46,7 +46,7 @@ const {
     getCakeDetails, getcakelistByVendorName,
     getcakelistByVendorId, getCakeListByStatus,
     ApproveCake, getcakelistByVendorIdAndStatus,
-    GetCakeListOfNewAndUpdated
+    GetCakeListOfNewAndUpdated, ApproveUpdatedCake
 } = require('../controllers/cakeController');
 
 const { 
@@ -261,6 +261,8 @@ router.put("/cake/update/:id",upload.fields([{name:'SampleImages', maxCount: 10}
 router.put("/cake/delete/:id", deleteCake);
 
 router.get('/cake/newandupdatedcake', Authorization, GetCakeListOfNewAndUpdated);
+
+router.put('/cake/approveupdatedcake/:id', ApproveUpdatedCake);
 
 
 //Cake order API

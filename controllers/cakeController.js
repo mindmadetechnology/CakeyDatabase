@@ -340,6 +340,28 @@ const ApproveCake = (req, res) => {
     };
 };
 
+const ApproveUpdatedCake = (req, res) => {
+    const Id = req.params.id;
+    const Status = req.body.Status;
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    try {
+        cakeModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                Status: Status,
+                Status_Updated_On: Status_Updated_On
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                res.send({ statusCode: 200, message: "Updated Successfully" });
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+}
+
 //Update cake's details
 const updateCake = async (req, res) => {
 
@@ -487,6 +509,7 @@ module.exports = {
     getCakeListByStatus,
     ApproveCake,
     getcakelistByVendorIdAndStatus,
-    GetCakeListOfNewAndUpdated
+    GetCakeListOfNewAndUpdated,
+    ApproveUpdatedCake
 
 };
