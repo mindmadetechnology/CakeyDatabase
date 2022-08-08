@@ -258,6 +258,38 @@ const VendorNotificationOrderList = (req, res) => {
     }
 };
 
+const RemoveUserNotification = (req, res) => {
+    const Id = req.params.id;
+
+    try{
+        UserNotificationModel.findOneAndRemove({_id: Id}, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed"});
+            }else{
+                res.send({ statusCode: 200, message: "Notification removed successfully" });
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed"});
+    }
+};
+
+const RemoveVendorNotification = (req, res) => {
+    const Id = req.params.id;
+
+    try{
+        VendorNotificationModel.findOneAndRemove({_id: Id}, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed"});
+            }else{
+                res.send({ statusCode: 200, message: "Notification removed successfully" });
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed"});
+    }
+};
+
 // var fs = require('fs');
 
 // const viewImg = function (req, res) {
@@ -278,6 +310,8 @@ module.exports = {
     getUsersbyPhoneNumber,
     GetUsersbyId,
     UserNotificationOrderList,
-    VendorNotificationOrderList
+    VendorNotificationOrderList,
+    RemoveUserNotification,
+    RemoveVendorNotification
 
 };

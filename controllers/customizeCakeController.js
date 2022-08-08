@@ -158,12 +158,19 @@ const AddNewCustomizeCake = async (req, res) => {
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //files (Optional)
     try {
-        const weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
+        var weight, NewWeight;
+        if (Weight !== '500g') {
+            weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
+            NewWeight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0] + "kg";
+        };
         const NewFlavour = JSON.parse(Flavour);
-        const NewWeight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0] + "kg"
         var Above5KG, imageUrlList = [], FinalLocation;
         //for check weight above 5kg or not
-        if (JSON.parse(parseInt(weight[0])) >= 5) {
+        if(Weight === '500g'){
+            Above5KG = 'n';
+            NewWeight = Weight;
+            FinalLocation = JSON.parse(GoogleLocation);
+        }else if (JSON.parse(parseInt(weight[0])) >= 5) {
             Above5KG = 'y';
         } else {
             Above5KG = 'n';
@@ -264,7 +271,7 @@ const AddNewCustomizeCake = async (req, res) => {
             });
         };
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed2", error:err });
+        res.send({ statusCode: 400, message: "Failed2", error: err });
     };
 };
 
@@ -591,23 +598,23 @@ const CancelCustomizedCakeOrder = (req, res) => {
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    try{
-        CustomizeCakeModel.findOneAndUpdate({_id:id}, {
-            $set:{
+    try {
+        CustomizeCakeModel.findOneAndUpdate({ _id: id }, {
+            $set: {
                 Status: 'Cancelled',
                 Cancelled_By: Cancelled_By,
                 Status_Updated_By: Status_Updated_By,
                 Status_Updated_On: Status_Updated_On
             }
-        }, function(err, result){
-            if(err){
-                res.send({ statusCode: 400, message: 'Failed' });   
-            }else{
-                res.send({ statusCode: 200, message: 'Order Cancelled' });   
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Order Cancelled' });
             }
         })
-    }catch(err){
-        res.send({ statusCode: 400, message: 'Failed' }); 
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
     }
 
 };

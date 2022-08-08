@@ -27,7 +27,8 @@ const {
     getUsers, putUsers,
     validateUsers, getUsersbyPhoneNumber,
     GetUsersbyId, UserNotificationOrderList,
-    VendorNotificationOrderList 
+    VendorNotificationOrderList, RemoveUserNotification,
+    RemoveVendorNotification
 } = require('../controllers/userController');
 
 const { 
@@ -163,6 +164,8 @@ router.post("/userslogin/validate", validateUsers);
 
 router.get("/users/notification/:id", Authorization, UserNotificationOrderList);
 
+router.delete("/users/deletenotification/:id", RemoveUserNotification);
+
 
 //Login & Forgot password API
 
@@ -207,6 +210,7 @@ router.get("/vendors/notification/:id", Authorization, VendorNotificationOrderLi
 
 router.put("/vendors/updatenotificationid/:email",UpdateVendorNotificationId);
 
+router.delete("/vendors/deletenotification/:id", RemoveUserNotification);
 
 //Help Desk API
 
