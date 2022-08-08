@@ -210,7 +210,7 @@ router.get("/vendors/notification/:id", Authorization, VendorNotificationOrderLi
 
 router.put("/vendors/updatenotificationid/:email",UpdateVendorNotificationId);
 
-router.delete("/vendors/deletenotification/:id", RemoveUserNotification);
+router.delete("/vendors/deletenotification/:id", RemoveVendorNotification);
 
 //Help Desk API
 

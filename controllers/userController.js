@@ -45,15 +45,15 @@ const getUsersbyPhoneNumber = (req, res) => {
 
 const GetUsersbyId = (req, res) => {
     const Id = req.params.id;
-    try{
-        userModel.findById({ _id: Id}, function(err, result){
-            if(err){
+    try {
+        userModel.findById({ _id: Id }, function (err, result) {
+            if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
-            }else{
+            } else {
                 res.send(result);
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     };
 };
@@ -221,72 +221,96 @@ const validateUsers = (req, res) => {
 const UserNotificationOrderList = (req, res) => {
     const Id = req.params.id;
 
-    try{
-        UserNotificationModel.find({UserID: Id}, function(err, result){
-            if(err){
+    try {
+        UserNotificationModel.find({ UserID: Id }, function (err, result) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
-                if(result.length === 0){
-                    res.send({ message: "No Records Found"});
-                }else{
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
                     res.send(result.reverse());
                 }
             }
         });
-    }catch(err){
-        res.send({ statusCode: 400, message: "Failed"});
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
     }
 };
 
 const VendorNotificationOrderList = (req, res) => {
     const Id = req.params.id;
 
-    try{
-        VendorNotificationModel.find({VendorID: Id}, function(err, result){
-            if(err){
+    try {
+        VendorNotificationModel.find({ VendorID: Id }, function (err, result) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
-                if(result.length === 0){
-                    res.send({ message: "No Records Found"});
-                }else{
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
                     res.send(result.reverse());
                 }
             }
         });
-    }catch(err){
-        res.send({ statusCode: 400, message: "Failed"});
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
     }
 };
 
 const RemoveUserNotification = (req, res) => {
     const Id = req.params.id;
 
-    try{
-        UserNotificationModel.findOneAndRemove({_id: Id}, function(err){
-            if(err){
-                res.send({ statusCode: 400, message: "Failed"});
-            }else{
-                res.send({ statusCode: 200, message: "Notification removed successfully" });
+    try {
+        UserNotificationModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else if (result.length === 0) {
+                res.send({ message: "No Records Found" });
+            } else {
+                var Ids = [];
+                result.filter(val => {
+                    Ids.push(val._id);
+                });
+                UserNotificationModel.deleteMany({  _id: { $in: Ids } }, function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: "Notification removed successfully" });
+                    }
+                })
             }
-        })
-    }catch(err){
-        res.send({ statusCode: 400, message: "Failed"});
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
     }
 };
 
 const RemoveVendorNotification = (req, res) => {
     const Id = req.params.id;
 
-    try{
-        VendorNotificationModel.findOneAndRemove({_id: Id}, function(err){
-            if(err){
-                res.send({ statusCode: 400, message: "Failed"});
-            }else{
-                res.send({ statusCode: 200, message: "Notification removed successfully" });
+    try {
+        VendorNotificationModel.find({ VendorID: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else if (result.length === 0) {
+                res.send({ message: "No Records Found" });
+            } else {
+                var Ids = [];
+                result.filter(val => {
+                    Ids.push(val._id);
+                });
+                VendorNotificationModel.deleteMany({ _id: { $in: Ids } }, function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: "Notification removed successfully" });
+                    }
+                })
             }
-        })
-    }catch(err){
-        res.send({ statusCode: 400, message: "Failed"});
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
     }
 };
 
