@@ -115,7 +115,7 @@ const newOrder = async (req, res) => {
     const User_ID = req.body.User_ID;
     const UserName = req.body.UserName;
     const UserPhoneNumber = req.body.UserPhoneNumber;
-    const DeliveryAddress = req.body.DeliveryAddress;
+    const DeliveryAddress = req.body.DeliveryAddress; //optional
     const DeliveryDate = req.body.DeliveryDate;
     const DeliverySession = req.body.DeliverySession;
     const DeliveryInformation = req.body.DeliveryInformation;
@@ -143,7 +143,7 @@ const newOrder = async (req, res) => {
 
         if (!CakeID || !Cake_ID || !CakeName || !CakeCommonName || !CakeType || !Image ||
             !EggOrEggless || !Flavour || !Shape || !Weight || !Description || !User_ID || !UserID ||
-            !UserName || !UserPhoneNumber || !DeliveryAddress || !DeliveryDate || !DeliverySession ||
+            !UserName || !UserPhoneNumber || !DeliveryDate || !DeliverySession ||
             !DeliveryInformation || !Price || !ItemCount || !Discount || !DeliveryCharge || !ExtraCharges ||
             !Gst || !Sgst || !Total || !PaymentType || !PaymentStatus || !Tax) {
             res.send({ statusCode: 400, message: "*required" });
