@@ -317,6 +317,7 @@ const RemoveVendorNotification = (req, res) => {
 
 const GetLoginTimeWithDateRange = (req, res) => {
     const Id = req.params.id;
+    const date = req.params.date;
     try{
         SessionOrdersModel.find({Vendor_ID: Id}, function(err, result){
             if(err){
@@ -324,9 +325,19 @@ const GetLoginTimeWithDateRange = (req, res) => {
             }else if(result.length === 0){
                 res.send({ message: "No Records Found" });
             }else{
-                res.send(result.reverse());
+                var List = [];
+                result.filter(val => {
+                    if(val.Login_At.slice(0,10) === date){
+                        List.push(val);
+                    }
+                });
+                if(List.length === 0){
+                    res.send({ message: "No Records Found" });
+                }else{
+                    res.send(List);
+                }
             }
-        })
+        });
     }catch(err){
         res.send({ statusCode: 400, message: "Failed" });
     };
