@@ -221,7 +221,8 @@ const newOrder = async (req, res) => {
                 PaymentStatus: PaymentStatus,
                 PremiumVendor: PremiumVendor,
                 Above5KG: Above5KG,
-                Created_On: Created_On
+                Created_On: Created_On,
+                Status_Updated_On: Created_On
             });
             OrderList.save(function (err, result) {
                 if (err) {
