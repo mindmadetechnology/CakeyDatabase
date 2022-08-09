@@ -253,11 +253,11 @@ const AddNewCakeToppings = (req, res) => {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
-                            res.send({ statusCode: 200, message: "Flavour Added Successfully" });
+                            res.send({ statusCode: 200, message: "Cake Toppings Added Successfully" });
                         }
                     });
                 } else {
-                    res.send({ statusCode: 400, message: 'Flavour Already Exist' });
+                    res.send({ statusCode: 400, message: 'Cake Toppings Already Exist' });
                 }
             }
         });

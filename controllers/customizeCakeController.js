@@ -552,7 +552,7 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                                             if (err) {
                                                 res.send({ statusCode: 400, message: "Failed" });
                                             } else {
-                                                res.send({ statusCode: 200, message: 'Assigned successfully' });
+                                                res.send({ statusCode: 200, message: 'Order Placed successfully' });
                                             }
                                         });
                                         // res.send({ statusCode: 200, message: 'Order Placed Successfully' });
