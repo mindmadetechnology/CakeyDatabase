@@ -28,7 +28,7 @@ const {
     validateUsers, getUsersbyPhoneNumber,
     GetUsersbyId, UserNotificationOrderList,
     VendorNotificationOrderList, RemoveUserNotification,
-    RemoveVendorNotification
+    RemoveVendorNotification, GetLoginTimeWithDateRange
 } = require('../controllers/userController');
 
 const { 
@@ -502,6 +502,8 @@ router.get('/vendor/statementofaccountslist', GetVendorStatementOfAccountsList);
 
 //get vendor statement of accounts details
 router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', GetVendorStatementOfAccountsDetails);
+
+router.get('/vendor/loginsession/:id', Authorization, GetLoginTimeWithDateRange);
 
 
 module.exports = router;

@@ -2,6 +2,7 @@ require('dotenv').config();
 const userModel = require("../models/userModels");
 const UserNotificationModel = require("../models/UserNotification");
 const VendorNotificationModel = require("../models/VendorNotification");
+const SessionOrdersModel = require("../models/SessionOrdersModels");
 const moment = require('moment-timezone');
 const JWT = require('jsonwebtoken');
 const cloudinary = require("../middleware/cloudnary");
@@ -314,6 +315,23 @@ const RemoveVendorNotification = (req, res) => {
     }
 };
 
+const GetLoginTimeWithDateRange = (req, res) => {
+    const Id = req.params.id;
+    try{
+        SessionOrdersModel.find({Vendor_ID: Id}, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else if(result.length === 0){
+                res.send({ message: "No Records Found" });
+            }else{
+                res.send(result.reverse());
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 // var fs = require('fs');
 
 // const viewImg = function (req, res) {
@@ -336,6 +354,7 @@ module.exports = {
     UserNotificationOrderList,
     VendorNotificationOrderList,
     RemoveUserNotification,
-    RemoveVendorNotification
+    RemoveVendorNotification,
+    GetLoginTimeWithDateRange
 
 };
