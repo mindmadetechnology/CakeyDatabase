@@ -247,6 +247,13 @@ const putVendors = async (req, res) => {
         FinalEmail = await EmailPromise;
 
         const FinalLocation = JSON.parse(GoogleLocation);
+        const FinalInstitutionName = []
+        if(InstitutionName){
+            FinalInstitutionName = JSON.parse(InstitutionName);
+        };
+        const FinalYourSpecialityCakes = JSON.parse(YourSpecialityCakes);
+        const FinalCakeTypesYouBake = JSON.parse(CakeTypesYouBake);
+        
 
         if (FinalEmail === 'already exist') {
             res.send({ statusCode: 400, message: "Email already Exist" });
@@ -280,14 +287,14 @@ const putVendors = async (req, res) => {
                     AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
                     LearningType: LearningType,
                     TotalDurationOfLearning: TotalDurationOfLearning,
-                    InstitutionName: InstitutionName,
+                    InstitutionName: FinalInstitutionName,
                     CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
                     HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
                     HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
-                    YourSpecialityCakes: YourSpecialityCakes,
+                    YourSpecialityCakes: FinalYourSpecialityCakes,
                     CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
                     CanYouMakeTierCakes: CanYouMakeTierCakes,
-                    CakeTypesYouBake: CakeTypesYouBake,
+                    CakeTypesYouBake: FinalCakeTypesYouBake,
                     CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
                     Modified_On: Modified_On
                 }
