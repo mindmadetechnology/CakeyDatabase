@@ -14,7 +14,7 @@ const RegisterVendors = (req, res) => {
     const Email = req.body.Email;
     const Password = req.body.Password;
     const PhoneNumber1 = req.body.PhoneNumber1;
-    const PhoneNumber2 = req.body.PhoneNumber2;
+    const PhoneNumber2 = req.body.PhoneNumber2; //optional
     const Address = req.body.Address;
     const GoogleLocation = req.body.GoogleLocation;
     // const Street = req.body.Street;
@@ -52,7 +52,6 @@ const RegisterVendors = (req, res) => {
     const CanYouMakeARegularCakeWithFondantAsToppers = req.body.CanYouMakeARegularCakeWithFondantAsToppers;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //profile image (optional)   ProfileImage
-    //CanYouMakeARegularCakeWithFondantAsToppersImage (if CanYouMakeARegularCakeWithFondantAsToppers === 'y') CanYouMakeARegularCakeWithFondantAsToppersImage
     const mailBody = `
     <h3>Hello ${VendorName},</h3>
       <br />
@@ -71,89 +70,91 @@ const RegisterVendors = (req, res) => {
       <h5>MindMade Team</h5>
     `
     try {
-        if (VendorName === undefined || !PreferredNameOnTheApp || Email === undefined || PhoneNumber1 === undefined || PhoneNumber2 === undefined ||
-            Address === undefined || GoogleLocation === undefined || EggOrEggless === undefined || Description === undefined ||
-            DateOfBirth === undefined || Gender === undefined || YearsOfExperienceAsBaker === undefined ||
-            AadhaarNumber === undefined || PANNumber === undefined || FSSAINumber === undefined || FSSAIExpiryDate === undefined ||
-            JobType === undefined || BankName === undefined || Branch === undefined || AccountNumber === undefined || IFSCCode === undefined ||
-            !Ratings || !AreYouFamiliarOnWorkingWithApps || !LearningType || !TotalDurationOfLearning || !CurrentAverageSalePerMonth ||
-            !HowManyCakesCanYouMakeInaWeek || !HowManyDaysCanYouWorkInaWeek || !YourSpecialityCakes || !CanYouMakeSingleCakeAbove5Kgs ||
-            !CanYouMakeTierCakes || !CakeTypesYouBake || !CanYouMakeARegularCakeWithFondantAsToppers || !Password) {
+        if (!VendorName || !PreferredNameOnTheApp || !Email || !Password || !PhoneNumber1
+            || !Address|| !GoogleLocation || !Description || !EggOrEggless || !DateOfBirth ||
+            !Gender || !YearsOfExperienceAsBaker || !AadhaarNumber || !PANNumber || 
+            !FSSAINumber || !FSSAIExpiryDate || !JobType || !BankName || !Branch ||
+            !AccountNumber || !IFSCCode || !Ratings || !AreYouFamiliarOnWorkingWithApps ||
+            !LearningType || !TotalDurationOfLearning || !CurrentAverageSalePerMonth ||
+            !HowManyCakesCanYouMakeInaWeek || !HowManyDaysCanYouWorkInaWeek || !YourSpecialityCakes ||
+            !CanYouMakeSingleCakeAbove5Kgs || !CanYouMakeTierCakes || !CakeTypesYouBake || !CanYouMakeARegularCakeWithFondantAsToppers ) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             const FinalLocation = JSON.parse(GoogleLocation);
-            if (CanYouMakeARegularCakeWithFondantAsToppers === 'n') {
-                if (req.files['ProfileImage'] === undefined) {
-                    adminModel.findOne({ Email: Email }, function (err, result) {
+            // const FinalYourSpecialityCakes = JSON.parse(YourSpecialityCakes);
+            // const FinalCakeTypesYouBake = JSON.parse(CakeTypesYouBake);
+            // const FinalInstitutionName = [];
+            // if(InstitutionName){
+            //     FinalInstitutionName = InstitutionName;
+            // };
+            adminModel.findOne({ Email: Email }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else if (result === null) {
+                    vendorModel.findOne({ Email: Email }, async function (err, result) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else if (result === null) {
-                            vendorModel.findOne({ Email: Email }, async function (err, result) {
+                            const imagesUrl = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
+                            const vendorValidate = new vendorModel({
+                                ProfileImage: imagesUrl.url,
+                                Email: Email,
+                                Password: Password,
+                                VendorName: VendorName,
+                                PreferredNameOnTheApp: PreferredNameOnTheApp,
+                                PhoneNumber1: PhoneNumber1,
+                                PhoneNumber2: PhoneNumber2,
+                                Address: Address,
+                                GoogleLocation: FinalLocation,
+                                Description: Description,
+                                EggOrEggless: EggOrEggless,
+                                DateOfBirth: DateOfBirth,
+                                Gender: Gender,
+                                YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
+                                AadhaarNumber: AadhaarNumber,
+                                PANNumber: PANNumber,
+                                GSTNumber: GSTNumber,
+                                FSSAINumber: FSSAINumber,
+                                FSSAIExpiryDate: FSSAIExpiryDate,
+                                JobType: JobType,
+                                BankName: BankName,
+                                Branch: Branch,
+                                AccountNumber: AccountNumber,
+                                IFSCCode: IFSCCode,
+                                UPIId: UPIId,
+                                Ratings: Ratings,
+                                AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
+                                LearningType: LearningType,
+                                TotalDurationOfLearning: TotalDurationOfLearning,
+                                InstitutionName: InstitutionName,
+                                CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
+                                HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
+                                HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
+                                YourSpecialityCakes: YourSpecialityCakes,
+                                CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
+                                CanYouMakeTierCakes: CanYouMakeTierCakes,
+                                CakeTypesYouBake: CakeTypesYouBake,
+                                CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
+                                Created_On: Created_On
+                            });
+                            vendorValidate.save(function (err, result) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
-                                } else if (result === null) {
-                                    const vendorValidate = new vendorModel({
-                                        Email: Email,
-                                        Password: Password,
-                                        VendorName: VendorName,
-                                        PreferredNameOnTheApp: PreferredNameOnTheApp,
-                                        PhoneNumber1: PhoneNumber1,
-                                        PhoneNumber2: PhoneNumber2,
-                                        Address: Address,
-                                        GoogleLocation: FinalLocation,
-                                        Description: Description,
-                                        EggOrEggless: EggOrEggless,
-                                        DateOfBirth: DateOfBirth,
-                                        Gender: Gender,
-                                        YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                                        AadhaarNumber: AadhaarNumber,
-                                        PANNumber: PANNumber,
-                                        GSTNumber: GSTNumber,
-                                        FSSAINumber: FSSAINumber,
-                                        FSSAIExpiryDate: FSSAIExpiryDate,
-                                        JobType: JobType,
-                                        BankName: BankName,
-                                        Branch: Branch,
-                                        AccountNumber: AccountNumber,
-                                        IFSCCode: IFSCCode,
-                                        UPIId: UPIId,
-                                        Ratings: Ratings,
-                                        AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
-                                        LearningType: LearningType,
-                                        TotalDurationOfLearning: TotalDurationOfLearning,
-                                        InstitutionName: InstitutionName,
-                                        CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
-                                        HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
-                                        HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
-                                        YourSpecialityCakes: YourSpecialityCakes,
-                                        CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
-                                        CanYouMakeTierCakes: CanYouMakeTierCakes,
-                                        CakeTypesYouBake: CakeTypesYouBake,
-                                        CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
-                                        Created_On: Created_On
-                                    });
-                                    vendorValidate.save(function (err, result) {
+                                } else {
+                                    let mailOptions = {
+                                        from: 'support@mindmade.in',
+                                        to: Email,
+                                        subject: 'Cakey Credentials - reg',
+                                        html: mailBody
+                                    };
+                                    transporter.sendMail(mailOptions, (err, info) => {
                                         if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
+                                            return err;
                                         } else {
-                                            let mailOptions = {
-                                                from: 'support@mindmade.in',
-                                                to: Email,
-                                                subject: 'Cakey Credentials - reg',
-                                                html: mailBody
-                                            };
-                                            transporter.sendMail(mailOptions, (err, info) => {
-                                                if (err) {
-                                                    return err;
-                                                } else {
-                                                    return info;
-                                                }
-                                            });
-                                            res.send({ statusCode: 200, message: "Registered Successfully" });
+                                            return info;
                                         }
                                     });
-                                } else {
-                                    res.send({ statusCode: 400, message: "Email already exist!" });
+                                    res.send({ statusCode: 200, message: "Registered Successfully" });
                                 }
                             });
                         } else {
@@ -161,256 +162,9 @@ const RegisterVendors = (req, res) => {
                         }
                     });
                 } else {
-                    adminModel.findOne({ Email: Email }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else if (result === null) {
-                            vendorModel.findOne({ Email: Email }, async function (err, result) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else if (result === null) {
-                                    const imagesUrl = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
-                                    const vendorValidate = new vendorModel({
-                                        ProfileImage: imagesUrl.url,
-                                        Email: Email,
-                                        Password: Password,
-                                        VendorName: VendorName,
-                                        PreferredNameOnTheApp: PreferredNameOnTheApp,
-                                        PhoneNumber1: PhoneNumber1,
-                                        PhoneNumber2: PhoneNumber2,
-                                        Address: Address,
-                                        GoogleLocation: FinalLocation,
-                                        Description: Description,
-                                        EggOrEggless: EggOrEggless,
-                                        DateOfBirth: DateOfBirth,
-                                        Gender: Gender,
-                                        YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                                        AadhaarNumber: AadhaarNumber,
-                                        PANNumber: PANNumber,
-                                        GSTNumber: GSTNumber,
-                                        FSSAINumber: FSSAINumber,
-                                        FSSAIExpiryDate: FSSAIExpiryDate,
-                                        JobType: JobType,
-                                        BankName: BankName,
-                                        Branch: Branch,
-                                        AccountNumber: AccountNumber,
-                                        IFSCCode: IFSCCode,
-                                        UPIId: UPIId,
-                                        Ratings: Ratings,
-                                        AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
-                                        LearningType: LearningType,
-                                        TotalDurationOfLearning: TotalDurationOfLearning,
-                                        InstitutionName: InstitutionName,
-                                        CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
-                                        HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
-                                        HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
-                                        YourSpecialityCakes: YourSpecialityCakes,
-                                        CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
-                                        CanYouMakeTierCakes: CanYouMakeTierCakes,
-                                        CakeTypesYouBake: CakeTypesYouBake,
-                                        CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
-                                        Created_On: Created_On
-                                    });
-                                    vendorValidate.save(function (err, result) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
-                                        } else {
-                                            let mailOptions = {
-                                                from: 'support@mindmade.in',
-                                                to: Email,
-                                                subject: 'Cakey Credentials - reg',
-                                                html: mailBody
-                                            };
-                                            transporter.sendMail(mailOptions, (err, info) => {
-                                                if (err) {
-                                                    return err;
-                                                } else {
-                                                    return info;
-                                                }
-                                            });
-                                            res.send({ statusCode: 200, message: "Registered Successfully" });
-                                        }
-                                    });
-                                } else {
-                                    res.send({ statusCode: 400, message: "Email already exist!" });
-                                }
-                            });
-                        } else {
-                            res.send({ statusCode: 400, message: "Email already exist!" });
-                        }
-                    });
+                    res.send({ statusCode: 400, message: "Email already exist!" });
                 }
-            } else {
-                if (req.files['ProfileImage'] === undefined) {
-                    adminModel.findOne({ Email: Email }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else if (result === null) {
-                            vendorModel.findOne({ Email: Email }, async function (err, result) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else if (result === null) {
-                                    var TopperImages = [];
-                                    for (let i = 0; i < req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'].length; i++) {
-                                        var result = await cloudinary.uploader.upload(req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
-                                        TopperImages.push(result.url);
-                                    };
-                                    const vendorValidate = new vendorModel({
-                                        Email: Email,
-                                        Password: Password,
-                                        VendorName: VendorName,
-                                        PreferredNameOnTheApp: PreferredNameOnTheApp,
-                                        PhoneNumber1: PhoneNumber1,
-                                        PhoneNumber2: PhoneNumber2,
-                                        Address: Address,
-                                        GoogleLocation: FinalLocation,
-                                        Description: Description,
-                                        EggOrEggless: EggOrEggless,
-                                        DateOfBirth: DateOfBirth,
-                                        Gender: Gender,
-                                        YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                                        AadhaarNumber: AadhaarNumber,
-                                        PANNumber: PANNumber,
-                                        GSTNumber: GSTNumber,
-                                        FSSAINumber: FSSAINumber,
-                                        FSSAIExpiryDate: FSSAIExpiryDate,
-                                        JobType: JobType,
-                                        BankName: BankName,
-                                        Branch: Branch,
-                                        AccountNumber: AccountNumber,
-                                        IFSCCode: IFSCCode,
-                                        UPIId: UPIId,
-                                        Ratings: Ratings,
-                                        AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
-                                        LearningType: LearningType,
-                                        TotalDurationOfLearning: TotalDurationOfLearning,
-                                        InstitutionName: InstitutionName,
-                                        CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
-                                        HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
-                                        HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
-                                        YourSpecialityCakes: YourSpecialityCakes,
-                                        CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
-                                        CanYouMakeTierCakes: CanYouMakeTierCakes,
-                                        CakeTypesYouBake: CakeTypesYouBake,
-                                        CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
-                                        CanYouMakeARegularCakeWithFondantAsToppersImage: TopperImages,
-                                        Created_On: Created_On
-                                    });
-                                    vendorValidate.save(function (err, result) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed", error: err });
-                                        } else {
-                                            let mailOptions = {
-                                                from: 'support@mindmade.in',
-                                                to: Email,
-                                                subject: 'Cakey Credentials - reg',
-                                                html: mailBody
-                                            };
-                                            transporter.sendMail(mailOptions, (err, info) => {
-                                                if (err) {
-                                                    return err;
-                                                } else {
-                                                    return info;
-                                                }
-                                            });
-                                            res.send({ statusCode: 200, message: "Registered Successfully" });
-                                        }
-                                    });
-                                } else {
-                                    res.send({ statusCode: 400, message: "Email already exist!" });
-                                }
-                            });
-                        } else {
-                            res.send({ statusCode: 400, message: "Email already exist!" });
-                        }
-                    });
-                } else {
-                    adminModel.findOne({ Email: Email }, function (err, result) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else if (result === null) {
-                            vendorModel.findOne({ Email: Email }, async function (err, result) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else if (result === null) {
-                                    const imagesUrl = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
-                                    var TopperImages = [];
-                                    for (let i = 0; i < req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'].length; i++) {
-                                        var result = await cloudinary.uploader.upload(req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
-                                        TopperImages.push(result.url);
-                                    };
-                                    const vendorValidate = new vendorModel({
-                                        ProfileImage: imagesUrl.url,
-                                        Email: Email,
-                                        Password: Password,
-                                        VendorName: VendorName,
-                                        PreferredNameOnTheApp: PreferredNameOnTheApp,
-                                        PhoneNumber1: PhoneNumber1,
-                                        PhoneNumber2: PhoneNumber2,
-                                        Address: Address,
-                                        GoogleLocation: FinalLocation,
-                                        Description: Description,
-                                        EggOrEggless: EggOrEggless,
-                                        DateOfBirth: DateOfBirth,
-                                        Gender: Gender,
-                                        YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
-                                        AadhaarNumber: AadhaarNumber,
-                                        PANNumber: PANNumber,
-                                        GSTNumber: GSTNumber,
-                                        FSSAINumber: FSSAINumber,
-                                        FSSAIExpiryDate: FSSAIExpiryDate,
-                                        JobType: JobType,
-                                        BankName: BankName,
-                                        Branch: Branch,
-                                        AccountNumber: AccountNumber,
-                                        IFSCCode: IFSCCode,
-                                        UPIId: UPIId,
-                                        Ratings: Ratings,
-                                        AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
-                                        LearningType: LearningType,
-                                        TotalDurationOfLearning: TotalDurationOfLearning,
-                                        InstitutionName: InstitutionName,
-                                        CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
-                                        HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
-                                        HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
-                                        YourSpecialityCakes: YourSpecialityCakes,
-                                        CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
-                                        CanYouMakeTierCakes: CanYouMakeTierCakes,
-                                        CakeTypesYouBake: CakeTypesYouBake,
-                                        CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
-                                        CanYouMakeARegularCakeWithFondantAsToppersImage: TopperImages,
-                                        Created_On: Created_On
-                                    });
-                                    vendorValidate.save(function (err, result) {
-                                        if (err) {
-                                            res.send({ statusCode: 400, message: "Failed" });
-                                        } else {
-                                            let mailOptions = {
-                                                from: 'support@mindmade.in',
-                                                to: Email,
-                                                subject: 'Cakey Credentials - reg',
-                                                html: mailBody
-                                            };
-                                            transporter.sendMail(mailOptions, (err, info) => {
-                                                if (err) {
-                                                    return err;
-                                                } else {
-                                                    return info;
-                                                }
-                                            });
-                                            res.send({ statusCode: 200, message: "Registered Successfully" });
-                                        }
-                                    });
-                                } else {
-                                    res.send({ statusCode: 400, message: "Email already exist!" });
-                                }
-                            });
-                        } else {
-                            res.send({ statusCode: 400, message: "Email already exist!" });
-                        }
-                    });
-                }
-            }
+            });
         }
     } catch (err) {
         res.send({ statusCode: 400, message: "Failed", error: err });

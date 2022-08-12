@@ -195,8 +195,8 @@ router.get("/vendors/list", Authorization, getVendors);
 router.get("/vendors/listbyemail/:email", Authorization, getVendorsbyEmail);
 
 //Register vendor
-// router.post("/vendors/register",upload.single("file"), RegisterVendors);
-router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 1},{name:'CanYouMakeARegularCakeWithFondantAsToppersImage', maxCount: 3}]), RegisterVendors);
+// router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 1},{name:'CanYouMakeARegularCakeWithFondantAsToppersImage', maxCount: 3}]), RegisterVendors);
+router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 1}]), RegisterVendors);
 
 //Create new vendor
 // router.put("/vendors/new/:id", addVendors);

@@ -171,9 +171,9 @@ const VendorSchema = new mongoose.Schema({
         type: String,
         default: 'n',
     },
-    CanYouMakeARegularCakeWithFondantAsToppersImage: [{
-        type: String
-    }],
+    // CanYouMakeARegularCakeWithFondantAsToppersImage: [{
+    //     type: String
+    // }],
     Notification_Id: {
         type: String,
     },
