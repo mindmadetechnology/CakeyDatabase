@@ -311,20 +311,20 @@ const ApproveCake = (req, res) => {
 
     const Id = req.params.id;
     const Status = req.body.Status;
-    const ToppersPossible = req.body.ToppersPossible;
+    // const ToppersPossible = req.body.ToppersPossible;
     const RatingsForVendor = req.body.RatingsForVendor;
-    const CakeType = req.body.CakeType;
-    const CakeSubType = req.body.CakeSubType;
+    // const CakeType = req.body.CakeType;
+    // const CakeSubType = req.body.CakeSubType;
     const CakeCategory = req.body.CakeCategory;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         cakeModel.findOneAndUpdate({ _id: Id }, {
             $set: {
                 Status: Status,
-                ToppersPossible: ToppersPossible,
+                // ToppersPossible: ToppersPossible,
                 RatingsForVendor: RatingsForVendor,
-                CakeType: CakeType,
-                CakeSubType: CakeSubType,
+                // CakeType: CakeType,
+                // CakeSubType: CakeSubType,
                 CakeCategory: CakeCategory,
                 Status_Updated_On: Status_Updated_On
             }
