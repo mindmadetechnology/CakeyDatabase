@@ -70,7 +70,7 @@ const {
 
 const {
     RegisterVendors, putVendors,
-    SetLastSeen
+    SetLastSeen, UploadProfileImage
 } = require('../controllers/VendorRegisterController');
 
 const {
@@ -201,8 +201,11 @@ router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 
 //Create new vendor
 // router.put("/vendors/new/:id", addVendors);
 
+//upload profile image
+router.put("/vendors/profileimage/upload/:id", upload.fields([{name: 'ProfileImage', maxCount: 1}]), UploadProfileImage)
+
 //Update vendor's details
-router.put("/vendors/update/:id",upload.fields([{name: 'ProfileImage', maxCount: 1},{name:'CanYouMakeARegularCakeWithFondantAsToppersImage', maxCount: 3}]), putVendors);
+router.put("/vendors/update/:id", putVendors);
 
 //Delete vendor
 router.put("/vendors/delete/:id", deleteVendors);

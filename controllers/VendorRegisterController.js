@@ -177,16 +177,10 @@ const putVendors = async (req, res) => {
     const VendorName = req.body.VendorName;
     const PreferredNameOnTheApp = req.body.PreferredNameOnTheApp;
     const Email = req.body.Email;
-    // const Password = req.body.Password;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2;
     const Address = req.body.Address;
     const GoogleLocation = req.body.GoogleLocation;
-    // const FullAddress = req.body.FullAddress;
-    // const Street = req.body.Street;
-    // const City = req.body.City;
-    // const State = req.body.State;
-    // const Pincode = req.body.Pincode;
     const Description = req.body.Description;
     const EggOrEggless = req.body.EggOrEggless;
     const DateOfBirth = req.body.DateOfBirth;
@@ -216,34 +210,10 @@ const putVendors = async (req, res) => {
     const CanYouMakeTierCakes = req.body.CanYouMakeTierCakes;
     const CakeTypesYouBake = req.body.CakeTypesYouBake;
     const CanYouMakeARegularCakeWithFondantAsToppers = req.body.CanYouMakeARegularCakeWithFondantAsToppers;
-    const FoundantToppersImage = req.body.FoundantToppersImage;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    //profile image (optional)   ProfileImage
-    //CanYouMakeARegularCakeWithFondantAsToppersImage (if CanYouMakeARegularCakeWithFondantAsToppers === 'y') CanYouMakeARegularCakeWithFondantAsToppersImage
 
     try {
-        var imagesUrl, FinalEmail;
-        var FoundantTopperImage = [];
-        //for profile image validation
-        if (req.files['ProfileImage'] === undefined) {
-            const ProfileImagePromise = new Promise((resolve, reject) => {
-                vendorModel.findOne({ _id: id }, function (err, result) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        if (result.ProfileImage === undefined) {
-                            resolve();
-                        } else {
-                            resolve(result.ProfileImage);
-                        }
-                    }
-                })
-            });
-            imagesUrl = await ProfileImagePromise;
-        } else {
-            var uploadedProfile = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
-            imagesUrl = uploadedProfile.url
-        };
+        var FinalEmail;
 
         //for email validation
         const EmailPromise = new Promise((resolve, reject) => {
@@ -276,23 +246,6 @@ const putVendors = async (req, res) => {
         });
         FinalEmail = await EmailPromise;
 
-        //for foundant image validation
-        if (FoundantToppersImage === undefined || FoundantToppersImage === [] || FoundantToppersImage === null) {
-            FoundantTopperImage = [];
-        } else {
-            FoundantTopperImage = FoundantToppersImage;
-        }
-        if (req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'] !== undefined) {
-            if (Array.isArray(FoundantToppersImage) === false && FoundantToppersImage !== undefined) {
-                var FoundantTopperImage = [FoundantToppersImage]
-            } else if (Array.isArray(FoundantToppersImage) === false && FoundantToppersImage === undefined) {
-                var FoundantTopperImage = [];
-            };
-            for (let i = 0; i < req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'].length; i++) {
-                var NewImages = await cloudinary.uploader.upload(req.files['CanYouMakeARegularCakeWithFondantAsToppersImage'][i].path);
-                FoundantTopperImage.push(NewImages.url);
-            }
-        };
         const FinalLocation = JSON.parse(GoogleLocation);
 
         if (FinalEmail === 'already exist') {
@@ -300,7 +253,6 @@ const putVendors = async (req, res) => {
         } else {
             vendorModel.findOneAndUpdate({ _id: id }, {
                 $set: {
-                    ProfileImage: imagesUrl,
                     Email: FinalEmail,
                     VendorName: VendorName,
                     PreferredNameOnTheApp: PreferredNameOnTheApp,
@@ -337,7 +289,6 @@ const putVendors = async (req, res) => {
                     CanYouMakeTierCakes: CanYouMakeTierCakes,
                     CakeTypesYouBake: CakeTypesYouBake,
                     CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
-                    CanYouMakeARegularCakeWithFondantAsToppersImage: FoundantTopperImage,
                     Modified_On: Modified_On
                 }
             }, function (err, result) {
@@ -383,6 +334,32 @@ const SetLastSeen = (req, res) => {
     }
 };
 
+const UploadProfileImage = async (req, res) => {
+    const Id = req.params.id;
+    // ProfileImage
+    try{
+        if(req.files['ProfileImage'] === undefined){
+            res.send({ statusCode: 400, message: "required" });
+        }else{
+            const uploadedProfile = await cloudinary.uploader.upload(req.files['ProfileImage'][0].path);
+            const ImagesUrl = uploadedProfile.url
+            vendorModel.findOneAndUpdate({_id:Id},{
+                $set: {
+                    ProfileImage: ImagesUrl
+                }
+            }, function(err){
+                if(err){
+                    res.send({ statusCode: 400, message: "Failed" });
+                }else{
+                    res.send({ statusCode: 200, message: "Updated Successfully" });
+                }
+            });
+        }
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
 //get new vendors list
 // const GetNewVendorList = (req, res) => {
 
@@ -409,6 +386,7 @@ module.exports = {
     RegisterVendors,
     putVendors,
     SetLastSeen,
+    UploadProfileImage
     // GetNewVendorList
 
 };
