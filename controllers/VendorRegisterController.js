@@ -214,7 +214,6 @@ const putVendors = async (req, res) => {
 
     try {
         var FinalEmail;
-
         //for email validation
         const EmailPromise = new Promise((resolve, reject) => {
             vendorModel.findOne({ _id: id }, function (err, result) {
@@ -246,13 +245,13 @@ const putVendors = async (req, res) => {
         });
         FinalEmail = await EmailPromise;
 
-        const FinalLocation = JSON.parse(GoogleLocation);
-        const FinalInstitutionName = []
-        if(InstitutionName){
-            FinalInstitutionName = JSON.parse(InstitutionName);
-        };
-        const FinalYourSpecialityCakes = JSON.parse(YourSpecialityCakes);
-        const FinalCakeTypesYouBake = JSON.parse(CakeTypesYouBake);
+        // const FinalLocation = JSON.parse(GoogleLocation);
+        // var FinalInstitutionName;
+        // if(InstitutionName){
+        //     FinalInstitutionName = JSON.parse(InstitutionName);
+        // };
+        // const FinalYourSpecialityCakes = JSON.parse(YourSpecialityCakes);
+        // const FinalCakeTypesYouBake = JSON.parse(CakeTypesYouBake);
         
 
         if (FinalEmail === 'already exist') {
@@ -266,7 +265,7 @@ const putVendors = async (req, res) => {
                     PhoneNumber1: PhoneNumber1,
                     PhoneNumber2: PhoneNumber2,
                     Address: Address,
-                    GoogleLocation: FinalLocation,
+                    GoogleLocation: GoogleLocation,
                     Description: Description,
                     EggOrEggless: EggOrEggless,
                     DateOfBirth: DateOfBirth,
@@ -287,14 +286,14 @@ const putVendors = async (req, res) => {
                     AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
                     LearningType: LearningType,
                     TotalDurationOfLearning: TotalDurationOfLearning,
-                    InstitutionName: FinalInstitutionName,
+                    InstitutionName: InstitutionName,
                     CurrentAverageSalePerMonth: CurrentAverageSalePerMonth,
                     HowManyCakesCanYouMakeInaWeek: HowManyCakesCanYouMakeInaWeek,
                     HowManyDaysCanYouWorkInaWeek: HowManyDaysCanYouWorkInaWeek,
-                    YourSpecialityCakes: FinalYourSpecialityCakes,
+                    YourSpecialityCakes: YourSpecialityCakes,
                     CanYouMakeSingleCakeAbove5Kgs: CanYouMakeSingleCakeAbove5Kgs,
                     CanYouMakeTierCakes: CanYouMakeTierCakes,
-                    CakeTypesYouBake: FinalCakeTypesYouBake,
+                    CakeTypesYouBake: CakeTypesYouBake,
                     CanYouMakeARegularCakeWithFondantAsToppers: CanYouMakeARegularCakeWithFondantAsToppers,
                     Modified_On: Modified_On
                 }
@@ -307,7 +306,7 @@ const putVendors = async (req, res) => {
             })
         };
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" });
+        res.send({ statusCode: 400, message: "Failed", err });
     };
 };
 
