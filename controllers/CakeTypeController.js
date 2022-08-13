@@ -101,7 +101,53 @@ const GetCakeTypeList = (req, res) => {
     }
 };
 
+const DeleteCakeTypeOrCakeSubType = (req, res) => {
+    const TypeStatus = req.body.TypeStatus;
+    const Type = req.body.Type;
+    const SubType = req.body.SubType;
+    try{
+        if(TypeStatus === 'Type'){
+            CakeTypeModel.findOneAndDelete({ Type: Type }, function (err) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    res.send({ statusCode: 200, message: "Deleted Successfully" });
+                }
+            });
+        }else{
+            CakeTypeModel.findOne({ Type: Type }, function(err, result){
+                if(err){
+                    res.send({ statusCode: 400, message: "Failed" });
+                }else if(result.length === 0){
+                    res.send({ message: 'No Records Found' });
+                }else{
+                    var Final = []
+                    result.SubType.filter(val => {
+                        if (val !== SubType) {
+                            Final.push(val);
+                        }
+                    });
+                    CakeTypeModel.findOneAndUpdate({ Type: Type },{
+                        $set: {
+                            SubType: Final 
+                        }
+                    }, function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: "Deleted Successfully" });
+                        }
+                    });
+                }
+            });
+        };
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
 module.exports = {
     AddNewCakeType,
-    GetCakeTypeList
+    GetCakeTypeList,
+    DeleteCakeTypeOrCakeSubType
 }
