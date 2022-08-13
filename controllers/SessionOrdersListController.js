@@ -1,5 +1,6 @@
 const SessionOrdersModel = require('../models/SessionOrdersModels');
 const LastLoginSessionModel = require('../models/LastLoginSessionModel');
+const VendorModel = require('../models/vendorModels');
 const moment = require('moment-timezone');
 
 
@@ -151,26 +152,42 @@ const GetActiveVendors = (req, res) => {
             } else if (result.length === 0) {
                 res.send({ message: 'No Records Found' });
             } else {
-                var NewArray = [], FinalArray = [];
-                result.filter(val => {
-                    let today = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-                    let ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.LastLogout_At, "DD-MM-YYYY HH:mm A"));
-                    let d = moment.duration(ms);
-                    let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-                    let a = s.split(':');
-                    let seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-                    NewArray.push({ seconds: seconds, Array: val });
-                });
-                NewArray.filter(val => {
-                    if (val.seconds <= 120) {
-                        FinalArray.push(val.Array);
+                VendorModel.find({}, function (err, result2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    } else {
+                        var NewArray = [], FinalArray = [];
+                        result.filter(val => {
+                            let today = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+                            let ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.LastLogout_At, "DD-MM-YYYY HH:mm A"));
+                            let d = moment.duration(ms);
+                            let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+                            let a = s.split(':');
+                            let seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+                            NewArray.push({ seconds: seconds, Array: val });
+                        });
+                        NewArray.filter(val => {
+                            result2.filter(v=> {
+                                if (val.seconds <= 120) {
+                                    if(val.Array.Vendor_ID === v.Id){
+                                        var data = {
+                                            vendor_ID: val.Array.Vendor_ID,
+                                            Login_At: val.Array.LastLogin_At,
+                                            VendorName: v.VendorName,
+                                            VendorEmail: v.Email
+                                        }
+                                        FinalArray.push(data);
+                                    }
+                                }
+                            });
+                        });
+                        if (FinalArray.length === 0) {
+                            res.send({ message: "No Records Found" });
+                        } else {
+                            res.send(FinalArray);
+                        };
                     }
                 });
-                if (FinalArray.length === 0) {
-                    res.send({ message: "No Records Found" });
-                } else {
-                    res.send(FinalArray);
-                };
             }
         });
     } catch (err) {
