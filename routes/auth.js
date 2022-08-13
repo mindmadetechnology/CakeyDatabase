@@ -111,7 +111,7 @@ const {
 
 const {
     // SessionOrders,
-    GetSessionOrders
+    GetSessionOrders, GetActiveVendors
 } = require('../controllers/SessionOrdersListController');
 
 const {
@@ -507,6 +507,8 @@ router.get('/vendor/statementofaccountslist', GetVendorStatementOfAccountsList);
 router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', GetVendorStatementOfAccountsDetails);
 
 router.get('/vendor/loginsession/:id/:date', Authorization, GetLoginTimeWithDateRange);
+
+router.get('/vendor/activelist', Authorization, GetActiveVendors);
 
 
 module.exports = router;

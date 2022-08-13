@@ -1,4 +1,6 @@
 const SessionOrdersModel = require('../models/SessionOrdersModels');
+const LastLoginSessionModel = require('../models/LastLoginSessionModel');
+const moment = require('moment-timezone');
 
 
 const GetSessionOrders = (req, res) => {
@@ -141,7 +143,43 @@ const GetSessionOrders = (req, res) => {
 //     })
 // };
 
+const GetActiveVendors = (req, res) => {
+    try {
+        LastLoginSessionModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else if (result.length === 0) {
+                res.send({ message: 'No Records Found' });
+            } else {
+                var NewArray = [], FinalArray = [];
+                result.filter(val => {
+                    let today = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+                    let ms = moment(today, "DD-MM-YYYY HH:mm A").diff(moment(val.LastLogout_At, "DD-MM-YYYY HH:mm A"));
+                    let d = moment.duration(ms);
+                    let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+                    let a = s.split(':');
+                    let seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+                    NewArray.push({ seconds: seconds, Array: val });
+                });
+                NewArray.filter(val => {
+                    if (val.seconds <= 120) {
+                        FinalArray.push(val.Array);
+                    }
+                });
+                if (FinalArray.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(FinalArray);
+                };
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
 module.exports = {
     // SessionOrders,
     GetSessionOrders,
+    GetActiveVendors
 };
