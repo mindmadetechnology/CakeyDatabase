@@ -106,7 +106,8 @@ const {
 const {
     AddNewTopper, UpdateTopper,
     GetAllToppers, GetToppersByVendorID,
-    GetToppersByVendorIDandStock
+    GetToppersByVendorIDandStock,
+    removeToppers
 } = require ('../controllers/ToppersController');
 
 const {
@@ -458,6 +459,10 @@ router.post('/toppers/new', upload.single('file'), AddNewTopper);
 
 //update topper
 router.put('/toppers/update/:id', upload.single('file'), UpdateTopper);
+
+//Remove Topper
+router.delete('/toppers/delete/:id',removeToppers);
+
 
 
 //last seen

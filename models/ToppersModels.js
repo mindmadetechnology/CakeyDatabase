@@ -23,6 +23,9 @@ const CakeToppersSchema = new mongoose.Schema({
     Stock: {
         type: String,
     },
+    AvailableCount:{
+        type:String
+    },
     Created_On: {
         type: String,
     },

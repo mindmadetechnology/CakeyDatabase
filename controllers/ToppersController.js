@@ -69,6 +69,7 @@ const AddNewTopper = (req, res) => {
     const TopperName = req.body.TopperName;
     const Price = req.body.Price;
     const Stock = req.body.Stock;
+    const AvailableCount=req.body.AvailableCount;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //file - TopperImage
 
@@ -94,6 +95,7 @@ const AddNewTopper = (req, res) => {
                             TopperImage: TopperImage,
                             Price: Price,
                             Stock: Stock,
+                            AvailableCount:AvailableCount,
                             Created_On: Created_On,
                         });
 
@@ -120,6 +122,7 @@ const UpdateTopper = async (req, res) => {
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
     const TopperName = req.body.TopperName;
+    const AvailableCount = req.body.AvailableCount;
     const Price = req.body.Price;
     const Stock = req.body.Stock;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
@@ -149,6 +152,7 @@ const UpdateTopper = async (req, res) => {
                 VendorName: VendorName,
                 TopperName: TopperName,
                 TopperImage: TopperImage,
+                AvailableCount:AvailableCount,
                 Price: Price,
                 Stock: Stock,
                 Modified_On: Modified_On,
@@ -162,7 +166,34 @@ const UpdateTopper = async (req, res) => {
         });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
+
     }
+
+}
+
+const removeToppers=(req,res)=>{
+    const Id = req.params.id;
+    try{
+        ToppersModel.findOne({_id:Id},function(err,result){
+            if(err){
+                res.send({statusCode:400,message:"Failed"})
+            }else if(result === null){
+                res.send({statusCode:400, message:"ToppersId Doesn't Exist"})
+            }else{
+                ToppersModel.findOneAndDelete({_id:Id},function(err,result){
+                    if(err){
+                        res.send({statusCode:400,message:"Failed"})
+                    }else{
+                        res.send({statusCode:200,message:"Selected Topper is Removed Successfully"})
+                    }
+                })
+            }
+        })
+
+    }catch(err){
+        res.send({statusCode:400,message:"Catch Error"})
+    }
+
 
 }
 
@@ -171,5 +202,6 @@ module.exports = {
     UpdateTopper,
     GetAllToppers,
     GetToppersByVendorID,
-    GetToppersByVendorIDandStock
+    GetToppersByVendorIDandStock,
+    removeToppers
 };
