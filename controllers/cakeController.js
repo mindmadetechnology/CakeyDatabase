@@ -43,9 +43,9 @@ const getCakeListByStatus = (req, res) => {
     };
 };
 
-const GetCakeListOfNewAndUpdated = (req,res) => {
+const GetCakeListOfNewAndUpdated = (req, res) => {
     try {
-        cakeModel.find({$or: [{ Status: 'New'}, {Status: 'Updated' }] }, function (err, result) {
+        cakeModel.find({ $or: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -473,6 +473,54 @@ const updateCake = async (req, res) => {
     };
 };
 
+//Admin send Information to Vendor
+const SendInformationToVendor = (req, res) => {
+    const CakeId = req.params.CakeId;
+    const Information = req.body.Information;
+    const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    const Created_By = req.body.Created_By;
+
+    try {
+
+        cakeModel.findOne({ _id: CakeId }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" })
+            } else if (result === null) {
+                res.send({ statusCode: 400, message: "No Records Found" })
+            } else {
+                var InformationArray = [];
+                var data = {
+                    Information: Information,
+                    Created_On: Created_On,
+                    Created_By: Created_By
+                }
+                if (result.SendInformation.length === 0) {
+                    InformationArray.push(data)
+                } else {
+                    const Result = result.SendInformation;
+                    InformationArray = Result.concat(data);
+                }
+
+                cakeModel.findOneAndUpdate({ _id: CakeId }, {
+                    $set: {
+                        SendInformation: InformationArray
+                    }
+                }, function (err, result) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" })
+                    } else {
+                        res.send({ statusCode: 200, message: "Information sent Successfully" })
+                    }
+                })
+            }
+        })
+
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Catch Err" })
+    }
+
+}
+
 //delete cake
 const deleteCake = (req, res) => {
 
@@ -510,6 +558,7 @@ module.exports = {
     ApproveCake,
     getcakelistByVendorIdAndStatus,
     GetCakeListOfNewAndUpdated,
-    ApproveUpdatedCake
+    ApproveUpdatedCake,
+    SendInformationToVendor
 
 };

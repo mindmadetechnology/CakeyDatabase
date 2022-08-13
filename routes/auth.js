@@ -46,7 +46,7 @@ const {
     getCakeDetails, getcakelistByVendorName,
     getcakelistByVendorId, getCakeListByStatus,
     ApproveCake, getcakelistByVendorIdAndStatus,
-    GetCakeListOfNewAndUpdated, ApproveUpdatedCake
+    GetCakeListOfNewAndUpdated, ApproveUpdatedCake, SendInformationToVendor
 } = require('../controllers/cakeController');
 
 const { 
@@ -267,6 +267,10 @@ router.put("/cake/delete/:id", deleteCake);
 router.get('/cake/newandupdatedcake', Authorization, GetCakeListOfNewAndUpdated);
 
 router.put('/cake/approveupdatedcake/:id', ApproveUpdatedCake);
+
+//admin send Information to vendor
+router.put('/cake/sendInformation/:CakeId',SendInformationToVendor);
+
 
 
 //Cake order API

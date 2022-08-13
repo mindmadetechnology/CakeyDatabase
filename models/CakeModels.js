@@ -217,6 +217,17 @@ const CakeSchema = new mongoose.Schema({
     CakeCategory: {
         type: String,
     },
+    SendInformation:[{
+        Information:{
+            type:String
+        },
+        Created_On:{
+            type:String
+        },
+        Created_By:{
+            type:String
+        }
+    }],
     // Category: {
     //     type: String
     // },
