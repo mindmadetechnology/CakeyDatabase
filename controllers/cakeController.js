@@ -1,4 +1,5 @@
 const cakeModel = require("../models/CakeModels");
+const AdminNotificationModel = require("../models/AdminNotificationModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -144,6 +145,8 @@ const getCakeDetails = (req, res) => {
 //Add new cake
 const addCake = async (req, res) => {
 
+    const CakeType = req.body.CakeType;
+    const CakeSubType = req.body.CakeSubType;
     const CakeName = req.body.CakeName;
     const CakeCommonName = req.body.CakeCommonName;
     const BasicFlavour = req.body.BasicFlavour;
@@ -168,6 +171,7 @@ const addCake = async (req, res) => {
     const FullCustomisationPossible = req.body.FullCustomisationPossible;
     const CakeBase = req.body.CakeBase;
     const CakeCream = req.body.CakeCream;
+    const CakeCreamType = req.body.CakeCreamType;
     const BestUsedBefore = req.body.BestUsedBefore;
     const ToBeStoredIn = req.body.ToBeStoredIn;
     const KeepTheCakeInRoomTemperature = req.body.KeepTheCakeInRoomTemperature;
@@ -193,42 +197,48 @@ const addCake = async (req, res) => {
     //AdditionalCakeImages
     //SampleImages
     try {
-        if (!CakeName || !CakeCommonName || !BasicFlavour || !BasicShape || !MinWeight || !DefaultCakeEggOrEggless ||
-            !IsEgglessOptionAvailable || !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake ||
+        if (!CakeType || !CakeName || !CakeCommonName || !BasicFlavour || !BasicShape || !MinWeight || !DefaultCakeEggOrEggless ||
+            !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake ||
             !BasicCustomisationPossible || !FullCustomisationPossible || !CakeBase || !CakeCream || !BestUsedBefore || !ToBeStoredIn ||
             !KeepTheCakeInRoomTemperature || !Description || !HowGoodAreYouWithTheCake || !Tax || !Discount ||
             !HowManyTimesHaveYouBakedThisParticularCake || !VendorID || !Vendor_ID || !VendorName || !BasicCakePrice ||
-            !VendorPhoneNumber1 || !VendorPhoneNumber2 || !VendorAddress || !GoogleLocation) {
+            !VendorPhoneNumber1 || !VendorAddress || !GoogleLocation) {
             res.send({ statusCode: 400, message: "*required" });
         } else {
-            var SampleImages = [], FinalAdditionalCakeImages = [];
-            var FinalCustomFlavourList, FinalMinWeightList, FinalCustomShapeList;
+            var SampleShapeImages = [], FinalAdditionalCakeImages = [];
+            var FinalCustomFlavourList, FinalMinWeightList, FinalCustomShapeList, FinalCakeSubType;
             var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake, MainCakeImage;
             // const FinalBasicFlavour = JSON.parse(BasicFlavour);
             // const FinalBasicShape = JSON.parse(BasicShape);
             // const FinalMinWeight = JSON.parse(MinWeight);
             const FinalLocation = JSON.parse(GoogleLocation);
-            if (CustomFlavourList !== undefined) {
-                FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
+            const FinalCakeType = JSON.parse(CakeType);
+            if(CakeSubType){
+                FinalCakeSubType = JSON.parse(CakeSubType);
             };
-            if (MinWeightList !== undefined) {
+            if (CustomFlavourList) {
+                FinalCustomFlavourList = JSON.parse(CustomFlavourList);
+            };
+            if (MinWeightList) {
                 FinalMinWeightList = JSON.parse(MinWeightList);
             };
-            if (CustomShapeList !== undefined) {
-                FinalCustomShapeList = (JSON.parse(CustomShapeList));
+            if (CustomShapeList) {
+                FinalCustomShapeList = JSON.parse(CustomShapeList);
             }
             if (req.files['SampleImages'] !== undefined) {
                 for (let i = 0; i < req.files['SampleImages'].length; i++) {
                     var result = await cloudinary.uploader.upload(req.files['SampleImages'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
-                    SampleImages.push(result.url);
+                    SampleShapeImages.push(result.url);
                 }
-            };
-            if (TierCakeMinWeightAndPrice !== undefined) {
+            }else{
+                SampleShapeImages = [];
+            }
+            if (TierCakeMinWeightAndPrice) {
                 FinalTierCakeMinWeightAndPrice = JSON.parse(TierCakeMinWeightAndPrice);
             } else {
                 FinalTierCakeMinWeightAndPrice = [];
             };
-            if (MinTimeForDeliveryFortierCake !== undefined) {
+            if (MinTimeForDeliveryFortierCake) {
                 FinalMinTimeForDeliveryFortierCake = JSON.parse(MinTimeForDeliveryFortierCake);
             } else {
                 FinalMinTimeForDeliveryFortierCake = [];
@@ -247,6 +257,8 @@ const addCake = async (req, res) => {
             };
             const vendorValidate = new cakeModel({
                 CakeName: CakeName,
+                CakeType: FinalCakeType,
+                CakeSubType: FinalCakeSubType,
                 CakeCommonName: CakeCommonName,
                 BasicFlavour: BasicFlavour,
                 BasicShape: BasicShape,
@@ -258,7 +270,7 @@ const addCake = async (req, res) => {
                 CustomFlavourList: FinalCustomFlavourList,
                 CustomShapeList: {
                     Info: FinalCustomShapeList,
-                    SampleImages: SampleImages
+                    SampleImages: SampleShapeImages
                 },
                 MinWeightList: FinalMinWeightList,
                 IsTierCakePossible: IsTierCakePossible,
@@ -273,6 +285,7 @@ const addCake = async (req, res) => {
                 FullCustomisationPossible: FullCustomisationPossible,
                 CakeBase: CakeBase,
                 CakeCream: CakeCream,
+                CakeCreamType: CakeCreamType,
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
                 KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
@@ -297,12 +310,25 @@ const addCake = async (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed", error: err });
                 } else {
-                    res.send({ statusCode: 200, message: "Added Successfully" });
+                    const AddNotification = AdminNotificationModel({
+                        NotificationType: 'New Cake',
+                        VendorID: result.VendorID,
+                        Vendor_ID: result.Vendor_ID,
+                        VendorName: result.VendorName,
+                        Id: result._id
+                    });
+                    AddNotification.save(function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: "Added Successfully" });
+                        }
+                    });
                 }
             });
         };
     } catch (err) {
-        return err;
+        res.send({ statusCode: 400, message: "Failed" });
     };
 };
 

@@ -1,4 +1,5 @@
 const CakeTypeModel = require('../models/CakeTypeModels');
+const AdminNotificationModel = require("../models/AdminNotificationModels");
 
 const AddNewCakeType = (req, res) => {
     const Type = req.body.Type;
@@ -146,8 +147,25 @@ const DeleteCakeTypeOrCakeSubType = (req, res) => {
     }
 };
 
+const RemoveAdminNotification = (req, res) => {
+    const Id = req.params.id;
+
+    try{
+        AdminNotificationModel.findOneAndDelete({ _id: Id}, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                res.send({ statusCode: 201, message: "Removed Successfully" });
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
 module.exports = {
     AddNewCakeType,
     GetCakeTypeList,
-    DeleteCakeTypeOrCakeSubType
+    DeleteCakeTypeOrCakeSubType,
+    RemoveAdminNotification
 }

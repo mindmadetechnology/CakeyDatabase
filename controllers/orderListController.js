@@ -2,6 +2,7 @@ const OrdersListModel = require("../models/OrdersListModels");
 const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const UserNotificationModel = require("../models/UserNotification");
 const VendorNotificationModel = require("../models/VendorNotification");
+const AdminNotificationModel = require("../models/AdminNotificationModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -149,14 +150,14 @@ const newOrder = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var weight;
-            if(Weight !== '500g'){
+            if (Weight !== '500g') {
                 weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
             };
             var Above5KG, ThemeSampleImage, FinalLocation;
-            if(Weight === '500g'){
+            if (Weight === '500g') {
                 Above5KG = 'n'
                 FinalLocation = JSON.parse(GoogleLocation);
-            }else if (JSON.parse(parseInt(weight[0])) >= 5 && Tier === undefined) {
+            } else if (JSON.parse(parseInt(weight[0])) >= 5 && Tier === undefined) {
                 Above5KG = 'y'
             } else {
                 Above5KG = 'n'
@@ -228,43 +229,56 @@ const newOrder = async (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
                 } else {
-                    const Notification = new UserNotificationModel({
-                        OrderID: result._id,
-                        Order_ID: result.Id,
-                        Image: result.Image,
-                        CakeName: result.CakeName,
-                        Status: result.Status,
-                        Status_Updated_On: result.Created_On,
-                        UserID: result.UserID,
-                        User_ID: result.User_ID,
-                        UserName: result.UserName,
+                    const AddNotification = AdminNotificationModel({
+                        NotificationType: 'New Order',
+                        VendorID: result.VendorID,
+                        Vendor_ID: result.Vendor_ID,
+                        VendorName: result.VendorName,
+                        Id: result._id
                     });
-                    Notification.save(function(err){
-                        if(err){
+                    AddNotification.save(function (err) {
+                        if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
-                        }else{
-                            if(result.VendorID){
-                                const VendorNotification = new VendorNotificationModel({
-                                    OrderID: result._id,
-                                    Order_ID: result.Id,
-                                    Image: result.Image,
-                                    CakeName: result.CakeName,
-                                    Status: result.Status,
-                                    Status_Updated_On: result.Created_On,
-                                    VendorID: result.VendorID,
-                                    Vendor_ID: result.Vendor_ID,
-                                    UserName: result.UserName,
-                                });
-                                VendorNotification.save(function(err){
-                                    if(err){
-                                        res.send({ statusCode: 400, message: "Failed" });
-                                    }else{
+                        } else {
+                            const Notification = new UserNotificationModel({
+                                OrderID: result._id,
+                                Order_ID: result.Id,
+                                Image: result.Image,
+                                CakeName: result.CakeName,
+                                Status: result.Status,
+                                Status_Updated_On: result.Created_On,
+                                UserID: result.UserID,
+                                User_ID: result.User_ID,
+                                UserName: result.UserName,
+                            });
+                            Notification.save(function (err) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    if (result.VendorID) {
+                                        const VendorNotification = new VendorNotificationModel({
+                                            OrderID: result._id,
+                                            Order_ID: result.Id,
+                                            Image: result.Image,
+                                            CakeName: result.CakeName,
+                                            Status: result.Status,
+                                            Status_Updated_On: result.Created_On,
+                                            VendorID: result.VendorID,
+                                            Vendor_ID: result.Vendor_ID,
+                                            UserName: result.UserName,
+                                        });
+                                        VendorNotification.save(function (err) {
+                                            if (err) {
+                                                res.send({ statusCode: 400, message: "Failed" });
+                                            } else {
+                                                res.send({ statusCode: 200, message: "Order Placed Successfully" });
+                                            }
+                                        });
+                                    } else {
                                         res.send({ statusCode: 200, message: "Order Placed Successfully" });
                                     }
-                                });
-                            }else{
-                                res.send({ statusCode: 200, message: "Order Placed Successfully" });
-                            }
+                                }
+                            });
                         }
                     });
                 }
@@ -318,9 +332,9 @@ const updateOrderStatus = (req, res) => {
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         var PaymentStatus;
-        if(Status === 'Delivered'){
+        if (Status === 'Delivered') {
             PaymentStatus = 'Paid'
-        }else{
+        } else {
             PaymentStatus = 'Cash on delivery'
         };
         OrdersListModel.findById({ _id: Id }, function (err, result) {
@@ -352,14 +366,14 @@ const updateOrderStatus = (req, res) => {
                             User_ID: result.User_ID,
                             UserName: result.UserName,
                         });
-                        Notification.save(function(err){
-                            if(err){
+                        Notification.save(function (err) {
+                            if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
-                            }else{
+                            } else {
                                 res.send({ statusCode: 200, message: "Updated Successfully" });
                             }
                         })
-                        
+
                     }
                 });
             }
@@ -395,8 +409,8 @@ const getOrdersListByStatusAndAbove5Kg = (req, res) => {
 
     const Above5KG = req.params.above;
     try {
-        if(Above5KG === 'y'){
-            OrdersListModel.find({$or:[{PremiumVendor: 'y'},{Above5KG: 'y'}]}, function (err, result) {
+        if (Above5KG === 'y') {
+            OrdersListModel.find({ $or: [{ PremiumVendor: 'y' }, { Above5KG: 'y' }] }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
                 } else {
@@ -407,7 +421,7 @@ const getOrdersListByStatusAndAbove5Kg = (req, res) => {
                     }
                 }
             });
-        }else{
+        } else {
             OrdersListModel.find({ Above5KG: Above5KG, PremiumVendor: 'n' }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
@@ -620,7 +634,7 @@ const Above5KGOrderAssign = (req, res) => {
                     VendorAddress: VendorAddress,
                     GoogleLocation: GoogleLocation,
                     Status: Status,
-                    Vendor_Response_Status : 'unseen',
+                    Vendor_Response_Status: 'unseen',
                     Status_Updated_By: Status_Updated_By,
                     Status_Updated_On: Status_Updated_On
                 }
@@ -639,10 +653,10 @@ const Above5KGOrderAssign = (req, res) => {
                         Vendor_ID: Vendor_ID,
                         UserName: result.UserName,
                     });
-                    VendorNotification.save(function(err){
-                        if(err){
+                    VendorNotification.save(function (err) {
+                        if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
-                        }else{
+                        } else {
                             res.send({ statusCode: 200, message: 'Assigned successfully' });
                         }
                     });
@@ -703,23 +717,23 @@ const CancelOrder = (req, res) => {
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
-    try{
-        OrdersListModel.findOneAndUpdate({_id:id}, {
-            $set:{
+    try {
+        OrdersListModel.findOneAndUpdate({ _id: id }, {
+            $set: {
                 Status: 'Cancelled',
                 Cancelled_By: Cancelled_By,
                 Status_Updated_By: Status_Updated_By,
                 Status_Updated_On: Status_Updated_On
             }
-        }, function(err, result){
-            if(err){
-                res.send({ statusCode: 400, message: 'Failed' });   
-            }else{
-                res.send({ statusCode: 200, message: 'Order Cancelled' });   
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send({ statusCode: 200, message: 'Order Cancelled' });
             }
         })
-    }catch(err){
-        res.send({ statusCode: 400, message: 'Failed' }); 
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
     }
 
 };

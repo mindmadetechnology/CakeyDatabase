@@ -2,7 +2,12 @@ const mongoose = require("mongoose");
 const { increment } = require('../config/db');
 
 const CakeSchema = new mongoose.Schema({
-
+    CakeType: [{
+        type: String,
+    }],
+    CakeSubType: [{
+        type: String,
+    }],
     CakeName: {
         type: String
     },
@@ -107,6 +112,9 @@ const CakeSchema = new mongoose.Schema({
     CakeCream: {
         type: String,
     },
+    CakeCreamType: {
+        type: String,
+    },
     BestUsedBefore: {
         type: String,
     },
@@ -207,12 +215,6 @@ const CakeSchema = new mongoose.Schema({
     Ratings: {
         type: Number,
         default: 0
-    },
-    CakeType: {
-        type: String,
-    },
-    CakeSubType: {
-        type: String,
     },
     CakeCategory: {
         type: String,

@@ -2,6 +2,7 @@ const CustomizeCakeModel = require('../models/CustomizeCakeModels');
 const OrdersListModel = require("../models/OrdersListModels");
 const UserNotificationModel = require("../models/UserNotification");
 const VendorNotificationModel = require("../models/VendorNotification");
+const AdminNotificationModel = require("../models/AdminNotificationModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -166,11 +167,11 @@ const AddNewCustomizeCake = async (req, res) => {
         const NewFlavour = JSON.parse(Flavour);
         var Above5KG, imageUrlList = [], FinalLocation;
         //for check weight above 5kg or not
-        if(Weight === '500g'){
+        if (Weight === '500g') {
             Above5KG = 'n';
             NewWeight = Weight;
             FinalLocation = JSON.parse(GoogleLocation);
-        }else if (JSON.parse(parseInt(weight[0])) >= 5) {
+        } else if (JSON.parse(parseInt(weight[0])) >= 5) {
             Above5KG = 'y';
         } else {
             Above5KG = 'n';
@@ -226,45 +227,58 @@ const AddNewCustomizeCake = async (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed1" });
                 } else {
-                    const Notification = new UserNotificationModel({
-                        CustomizedCakeID: result._id,
-                        CustomizedCake_ID: result.Id,
-                        Image: result.Images[0],
-                        CakeName: result.CakeName,
-                        Status: result.Status,
-                        Status_Updated_On: result.Created_On,
-                        UserID: result.UserID,
-                        User_ID: result.User_ID,
-                        UserName: result.UserName,
-                        CustomizedCake: 'y'
+                    const AddNotification = AdminNotificationModel({
+                        NotificationType: 'New Customized Cake',
+                        VendorID: result.VendorID,
+                        Vendor_ID: result.Vendor_ID,
+                        VendorName: result.VendorName,
+                        Id: result._id
                     });
-                    Notification.save(function (err) {
+                    AddNotification.save(function (err) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
-                            if (result.VendorID) {
-                                const VendorNotification = new VendorNotificationModel({
-                                    CustomizedCakeID: result._id,
-                                    CustomizedCake_ID: result.Id,
-                                    Image: result.Images[0],
-                                    CakeName: result.CakeName,
-                                    Status: result.Status,
-                                    Status_Updated_On: result.Created_On,
-                                    VendorID: result.VendorID,
-                                    Vendor_ID: result.Vendor_ID,
-                                    UserName: result.UserName,
-                                    CustomizedCake: 'y'
-                                });
-                                VendorNotification.save(function (err) {
-                                    if (err) {
-                                        res.send({ statusCode: 400, message: "Failed" });
+                            const Notification = new UserNotificationModel({
+                                CustomizedCakeID: result._id,
+                                CustomizedCake_ID: result.Id,
+                                Image: result.Images[0],
+                                CakeName: result.CakeName,
+                                Status: result.Status,
+                                Status_Updated_On: result.Created_On,
+                                UserID: result.UserID,
+                                User_ID: result.User_ID,
+                                UserName: result.UserName,
+                                CustomizedCake: 'y'
+                            });
+                            Notification.save(function (err) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    if (result.VendorID) {
+                                        const VendorNotification = new VendorNotificationModel({
+                                            CustomizedCakeID: result._id,
+                                            CustomizedCake_ID: result.Id,
+                                            Image: result.Images[0],
+                                            CakeName: result.CakeName,
+                                            Status: result.Status,
+                                            Status_Updated_On: result.Created_On,
+                                            VendorID: result.VendorID,
+                                            Vendor_ID: result.Vendor_ID,
+                                            UserName: result.UserName,
+                                            CustomizedCake: 'y'
+                                        });
+                                        VendorNotification.save(function (err) {
+                                            if (err) {
+                                                res.send({ statusCode: 400, message: "Failed" });
+                                            } else {
+                                                res.send({ statusCode: 200, message: "Added Successfully" });
+                                            }
+                                        });
                                     } else {
                                         res.send({ statusCode: 200, message: "Added Successfully" });
                                     }
-                                });
-                            } else {
-                                res.send({ statusCode: 200, message: "Added Successfully" });
-                            }
+                                }
+                            });
                         }
                     });
                 }
