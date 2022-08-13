@@ -171,7 +171,7 @@ const addCake = async (req, res) => {
     const FullCustomisationPossible = req.body.FullCustomisationPossible;
     const CakeBase = req.body.CakeBase;
     const CakeCream = req.body.CakeCream;
-    const CakeCreamType = req.body.CakeCreamType;
+    const ButterCreamType = req.body.ButterCreamType;
     const BestUsedBefore = req.body.BestUsedBefore;
     const ToBeStoredIn = req.body.ToBeStoredIn;
     const KeepTheCakeInRoomTemperature = req.body.KeepTheCakeInRoomTemperature;
@@ -285,7 +285,7 @@ const addCake = async (req, res) => {
                 FullCustomisationPossible: FullCustomisationPossible,
                 CakeBase: CakeBase,
                 CakeCream: CakeCream,
-                CakeCreamType: CakeCreamType,
+                ButterCreamType: ButterCreamType,
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
                 KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,

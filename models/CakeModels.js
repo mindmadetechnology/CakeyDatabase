@@ -112,7 +112,7 @@ const CakeSchema = new mongoose.Schema({
     CakeCream: {
         type: String,
     },
-    CakeCreamType: {
+    ButterCreamType: {
         type: String,
     },
     BestUsedBefore: {
