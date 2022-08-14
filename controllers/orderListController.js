@@ -99,8 +99,8 @@ const newOrder = async (req, res) => {
     const Flavour = req.body.Flavour; //Array
     const Shape = req.body.Shape; //Array
     const Weight = req.body.Weight;
-    const Theme = req.body.Theme; //Optional  
-    const Tier = req.body.Tier; //Optional  
+    // const Theme = req.body.Theme; //Optional  
+    // const Tier = req.body.Tier; //Optional  
     // const Article = req.body.Article; //Optional
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
@@ -150,11 +150,11 @@ const newOrder = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var weight;
-            if (Weight !== '500g') {
+            if (Weight !== '0.5kg') {
                 weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
             };
-            var Above5KG, ThemeSampleImage, FinalLocation;
-            if (Weight === '500g') {
+            var Above5KG, FinalLocation;
+            if (Weight === '0.5kg') {
                 Above5KG = 'n'
                 FinalLocation = JSON.parse(GoogleLocation);
             } else if (JSON.parse(parseInt(weight[0])) >= 5 && Tier === undefined) {
@@ -163,10 +163,10 @@ const newOrder = async (req, res) => {
                 Above5KG = 'n'
                 FinalLocation = JSON.parse(GoogleLocation);
             }
-            if (req.file !== undefined) {
-                var result = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
-                ThemeSampleImage = result.url;
-            };
+            // if (req.file !== undefined) {
+            //     var result = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+            //     ThemeSampleImage = result.url;
+            // };
             var FinalFlavour = JSON.parse(Flavour);
             var FinalShape = JSON.parse(Shape);
 
@@ -182,15 +182,15 @@ const newOrder = async (req, res) => {
                 Flavour: FinalFlavour,
                 Shape: FinalShape,
                 Weight: Weight,
-                Theme: Theme,
-                Tier: Tier,
+                // Theme: Theme,
+                // Tier: Tier,
                 Toppers: {
                     TopperId: TopperId,
                     TopperName: TopperName,
                     TopperImage: TopperImage,
                     TopperPrice: TopperPrice,
                 },
-                ThemeSampleImage: ThemeSampleImage,
+                // ThemeSampleImage: ThemeSampleImage,
                 MessageOnTheCake: MessageOnTheCake,
                 SpecialRequest: SpecialRequest,
                 Description: Description,

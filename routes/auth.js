@@ -288,7 +288,7 @@ router.get('/order/listbyuserid/:userid', Authorization, getOrdersListByUserID);
 router.get('/order/listbyvendorid/:vendorid', Authorization, getOrdersListByVendorId); 
 
 //Add new order
-router.post('/order/new', upload.single("file"), newOrder);
+router.post('/order/new', newOrder);
 
 //update order details
 router.put('/order/update/:id',updateOrder);
