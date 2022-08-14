@@ -1,5 +1,6 @@
 const cakeModel = require("../models/CakeModels");
 const AdminNotificationModel = require("../models/AdminNotificationModels");
+const VendorNotificationModel = require('../models/VendorNotification');
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -358,7 +359,24 @@ const ApproveCake = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Updated Successfully" });
+                const Notification = VendorNotificationModel({
+                    CakeID: result._id,
+                    Cake_ID: result.Id,
+                    CakeNotificationType: 'New Cake Approve',
+                    Image: result.MainCakeImage,
+                    CakeName: result.CakeName,
+                    Status: Status,
+                    Status_Updated_On: Status_Updated_On,
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                });
+                Notification.save(function(err){
+                    if(err){
+                        res.send({ statusCode: 400, message: "Failed" });
+                    }else{
+                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                    }
+                });
             }
         });
     } catch (err) {
@@ -380,7 +398,24 @@ const ApproveUpdatedCake = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Updated Successfully" });
+                const Notification = VendorNotificationModel({
+                    CakeID: result._id,
+                    Cake_ID: result.Id,
+                    CakeNotificationType: 'Updated Cake Approve',
+                    Image: result.MainCakeImage,
+                    CakeName: result.CakeName,
+                    Status: Status,
+                    Status_Updated_On: Status_Updated_On,
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                });
+                Notification.save(function(err){
+                    if(err){
+                        res.send({ statusCode: 400, message: "Failed" });
+                    }else{
+                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                    }
+                });
             }
         });
     } catch (err) {
@@ -535,7 +570,24 @@ const SendInformationToVendor = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" })
                     } else {
-                        res.send({ statusCode: 200, message: "Information sent Successfully" })
+                        const Notification = VendorNotificationModel({
+                            CakeID: result._id,
+                            Cake_ID: result.Id,
+                            CakeNotificationType: 'Information',
+                            Image: result.MainCakeImage,
+                            CakeName: result.CakeName,
+                            Status: result.Status,
+                            Status_Updated_On: Created_On,
+                            VendorID: result.VendorID,
+                            Vendor_ID: result.Vendor_ID,
+                        });
+                        Notification.save(function(err){
+                            if(err){
+                                res.send({ statusCode: 400, message: "Failed" });
+                            }else{
+                                res.send({ statusCode: 200, message: "Information sent Successfully" })
+                            }
+                        });
                     }
                 })
             }

@@ -5,13 +5,22 @@ const VendorNotificationSchema = new mongoose.Schema({
     OrderID: {
         type: String,
     },
-    Order_ID:{
+    Order_ID: {
         type: String,
     },
     CustomizedCakeID: {
         type: String,
     },
     CustomizedCake_ID: {
+        type: String,
+    },
+    Cake_ID: {
+        type: String,
+    },
+    CakeID: {
+        type: String,
+    },
+    CakeNotificationType: {
         type: String,
     },
     Image: {
@@ -23,7 +32,7 @@ const VendorNotificationSchema = new mongoose.Schema({
     Status: {
         type: String,
     },
-    Status_Updated_On : {
+    Status_Updated_On: {
         type: String,
     },
     VendorID: {
