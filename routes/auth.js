@@ -96,7 +96,7 @@ const {
     GetCustomizeCakeListByUserId, GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake, CustomizeCakePriceInvoice,
     CustomizeCakeConfirmOrder, ChangeNotificationStatus,
-    CancelCustomizedCakeOrder
+    CancelCustomizedCakeOrder, GetCustomizeCakeDetails
 } = require('../controllers/customizeCakeController');
 
 const {
@@ -418,6 +418,8 @@ router.post('/customize/cake/order/new/:id', CustomizeCakeConfirmOrder);
 
 //get all Customize cake
 router.get('/customize/cake/list', Authorization, GetCustomizeCakeList);
+
+router.get('/customize/cake/details/:id', Authorization, GetCustomizeCakeDetails);
 
 //get new customized cake 
 router.get('/customize/cake/newlist', Authorization, NewCustomizedCakeList);

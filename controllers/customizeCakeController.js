@@ -26,6 +26,26 @@ const GetCustomizeCakeList = (req, res) => {
     };
 };
 
+const GetCustomizeCakeDetails = (req, res) => {
+    const Id = req.params.id;
+
+    try {
+        CustomizeCakeModel.findOne({_id: Id}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result === null) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result);
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 const NewCustomizedCakeList = (req, res) => {
     try {
         CustomizeCakeModel.find({ $or: [{ Status: 'New' }, { Status: 'Assigned' }] }, function (err, result) {
@@ -646,6 +666,7 @@ module.exports = {
     CustomizeCakePriceInvoice,
     CustomizeCakeConfirmOrder,
     ChangeNotificationStatus,
-    CancelCustomizedCakeOrder
+    CancelCustomizedCakeOrder,
+    GetCustomizeCakeDetails
 
 }
