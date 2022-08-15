@@ -315,6 +315,21 @@ const RemoveVendorNotification = (req, res) => {
     }
 };
 
+const RemoveVendorNotificationById = (req, res) => {
+    const Id = req.params.id;
+    try{
+        VendorNotificationModel.findOneAndDelete({_id: Id}, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                res.send({ statusCode: 200, message: "Removed Successfully" });
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
 const GetLoginTimeWithDateRange = (req, res) => {
     const Id = req.params.id;
     const date = req.params.date;
@@ -366,6 +381,7 @@ module.exports = {
     VendorNotificationOrderList,
     RemoveUserNotification,
     RemoveVendorNotification,
-    GetLoginTimeWithDateRange
+    GetLoginTimeWithDateRange,
+    RemoveVendorNotificationById
 
 };

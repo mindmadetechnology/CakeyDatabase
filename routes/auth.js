@@ -28,7 +28,8 @@ const {
     validateUsers, getUsersbyPhoneNumber,
     GetUsersbyId, UserNotificationOrderList,
     VendorNotificationOrderList, RemoveUserNotification,
-    RemoveVendorNotification, GetLoginTimeWithDateRange
+    RemoveVendorNotification, GetLoginTimeWithDateRange,
+    RemoveVendorNotificationById
 } = require('../controllers/userController');
 
 const { 
@@ -216,6 +217,8 @@ router.get("/vendors/notification/:id", Authorization, VendorNotificationOrderLi
 router.put("/vendors/updatenotificationid/:email",UpdateVendorNotificationId);
 
 router.delete("/vendors/deletenotification/:id", RemoveVendorNotification);
+
+router.delete("/vendors/deletenotificationbyId/:id", RemoveVendorNotificationById);
 
 //Help Desk API
 
