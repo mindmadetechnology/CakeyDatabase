@@ -60,7 +60,7 @@ const {
     OrderandCustomizecakeNotification, GetAbove5kgOrdersList,
     Above5KGOrderAssign, Above5KGOrderPriceInvoice,
     UpdateOrderResponsebyVendor, GetNotRespondOrders,
-    CancelOrder
+    CancelOrder, AcceptOrder
 } = require('../controllers/orderListController');
 
 const { 
@@ -300,7 +300,7 @@ router.put('/order/update/:id',updateOrder);
 router.put('/order/price/:id', Above5KGOrderPriceInvoice); //not used
 
 //update order status
-router.put('/order/updatestatus/:id',updateOrderStatus);
+router.put('/order/updatestatus/:id', upload.single("file"), updateOrderStatus);
 
 //get orders list by status
 router.get('/order/listby/status/:status', Authorization, getOrdersListByStatus)
@@ -337,6 +337,8 @@ router.put('/customize/cake/update/notification/:id', ChangeNotificationStatus);
 
 //cancel order
 router.put('/order/cancel/:id', CancelOrder);
+
+router.put('/order/accept/:id', AcceptOrder);
 
 
 //Category API

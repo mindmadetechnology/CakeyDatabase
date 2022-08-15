@@ -182,24 +182,25 @@ const AddNewCustomizeCake = async (req, res) => {
     //files (Optional)
     try {
         var weight, NewWeight;
-        if (Weight !== '500g') {
+        if (Weight !== '0.5kg') {
             weight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi);
             NewWeight = Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0] + "kg";
         };
         const NewFlavour = JSON.parse(Flavour);
         var Above5KG, imageUrlList = [], FinalLocation;
         //for check weight above 5kg or not
-        if (Weight === '500g') {
+        if (Weight === '0.5kg') {
             Above5KG = 'n';
             NewWeight = Weight;
-            FinalLocation = JSON.parse(GoogleLocation);
         } else if (JSON.parse(parseInt(weight[0])) >= 5) {
             Above5KG = 'y';
         } else {
             Above5KG = 'n';
-            FinalLocation = JSON.parse(GoogleLocation);
         };
-
+        if(GoogleLocation){
+            FinalLocation = JSON.parse(GoogleLocation);
+        }
+        
         //for check file selected or not
         if (req.files !== undefined) {
             for (let i = 0; i < req.files.length; i++) {
@@ -251,17 +252,6 @@ const AddNewCustomizeCake = async (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed1" });
                 } else {
-                    const AddNotification = AdminNotificationModel({
-                        NotificationType: 'New Customized Cake',
-                        VendorID: result.VendorID,
-                        Vendor_ID: result.Vendor_ID,
-                        VendorName: result.VendorName,
-                        Id: result._id
-                    });
-                    AddNotification.save(function (err) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
                             const Notification = new UserNotificationModel({
                                 CustomizedCakeID: result._id,
                                 CustomizedCake_ID: result.Id,
@@ -296,7 +286,20 @@ const AddNewCustomizeCake = async (req, res) => {
                                             if (err) {
                                                 res.send({ statusCode: 400, message: "Failed" });
                                             } else {
-                                                res.send({ statusCode: 200, message: "Added Successfully" });
+                                                const AddNotification = AdminNotificationModel({
+                                                    NotificationType: 'New Customized Cake',
+                                                    VendorID: result.VendorID,
+                                                    Vendor_ID: result.Vendor_ID,
+                                                    VendorName: result.VendorName,
+                                                    Id: result._id
+                                                });
+                                                AddNotification.save(function (err) {
+                                                    if (err) {
+                                                        res.send({ statusCode: 400, message: "Failed" });
+                                                    } else {
+                                                        res.send({ statusCode: 200, message: "Added Successfully" });
+                                                    }
+                                                }); 
                                             }
                                         });
                                     } else {
@@ -304,8 +307,6 @@ const AddNewCustomizeCake = async (req, res) => {
                                     }
                                 }
                             });
-                        }
-                    });
                 }
             });
         };
@@ -329,7 +330,7 @@ const AssignCustomizecake = (req, res) => {
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber1 || !VendorPhoneNumber2 || !VendorAddress || !Status || !Status_Updated_By || !GoogleLocation) {
+        if (!VendorID || !Vendor_ID || !VendorName || !VendorPhoneNumber1 || !VendorAddress || !Status || !Status_Updated_By || !GoogleLocation) {
             res.send({ statusCode: 400, message: '*required' });
         } else {
             CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
@@ -571,7 +572,6 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                                     User_ID: result.User_ID,
                                     UserName: result.UserName,
                                     CustomizedCake: 'y',
-                                    For_Display: "You Got a New Order"
                                 });
                                 Notification.save(function (err) {
                                     if (err) {
@@ -587,7 +587,8 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                                             VendorID: result.VendorID,
                                             Vendor_ID: result.Vendor_ID,
                                             UserName: result.UserName,
-                                            CustomizedCake: 'y'
+                                            CustomizedCake: 'y',
+                                            For_Display: "You Got a New Order"
                                         });
                                         VendorNotification.save(function (err) {
                                             if (err) {
@@ -657,10 +658,10 @@ const CancelCustomizedCakeOrder = (req, res) => {
                         CustomizedCake_ID: result.Id,
                         Image: result.Images[0],
                         CakeName: result.CakeName,
-                        Status: Status,
+                        Status: 'Cancelled',
                         Status_Updated_On: Status_Updated_On,
-                        VendorID: VendorID,
-                        Vendor_ID: Vendor_ID,
+                        VendorID: result.VendorID,
+                        Vendor_ID: result.Vendor_ID,
                         UserName: result.UserName,
                         CustomizedCake: 'y',
                         For_Display: "Yuor Customized Cake Order is Cancelled"
@@ -678,7 +679,7 @@ const CancelCustomizedCakeOrder = (req, res) => {
                         CustomizedCake_ID: result.Id,
                         Image: result.Images[0],
                         CakeName: result.CakeName,
-                        Status: Status,
+                        Status: 'Cancelled',
                         Status_Updated_On: Status_Updated_On,
                         UserID: result.UserID,
                         User_ID: result.User_ID,

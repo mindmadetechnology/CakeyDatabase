@@ -24,6 +24,9 @@ const OrderSchema = new mongoose.Schema({
     Image: {
         type: String, //main cake image
     },
+    FinalCakeImage: {
+        type: String,
+    },
     EggOrEggless: {
         type: String,
     },
