@@ -44,6 +44,9 @@ const VendorNotificationSchema = new mongoose.Schema({
     UserName: {
         type: String,
     },
+    For_Display: {
+        type: String,
+    },
     CustomizedCake: {
         type: String,
         default: 'n',

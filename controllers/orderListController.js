@@ -265,6 +265,7 @@ const newOrder = (req, res) => {
                                             VendorID: result.VendorID,
                                             Vendor_ID: result.Vendor_ID,
                                             UserName: result.UserName,
+                                            For_Display: "You Got a New Order"
                                         });
                                         VendorNotification.save(function (err) {
                                             if (err) {
@@ -651,6 +652,7 @@ const Above5KGOrderAssign = (req, res) => {
                         VendorID: VendorID,
                         Vendor_ID: Vendor_ID,
                         UserName: result.UserName,
+                        For_Display: "You Got a New Order"
                     });
                     VendorNotification.save(function (err) {
                         if (err) {
@@ -728,7 +730,46 @@ const CancelOrder = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Order Cancelled' });
+                if(Cancelled_By === 'User'){
+                    const Notification = VendorNotificationModel({
+                        OrderID: result._id,
+                        Order_ID: result.Id,
+                        Image: result.Image,
+                        CakeName: result.CakeName,
+                        Status: Status,
+                        Status_Updated_On: Status_Updated_On,
+                        VendorID: VendorID,
+                        Vendor_ID: Vendor_ID,
+                        UserName: result.UserName,
+                        For_Display: "Yuor Customized Cake Order is Cancelled"
+                    });
+                    Notification.save(function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: 'Order Cancelled' });
+                        }
+                    });
+                }else{
+                    const UserNotification = new UserNotificationModel({
+                        OrderID: result._id,
+                            Order_ID: result.Id,
+                            Image: result.Image,
+                            CakeName: result.CakeName,
+                            Status: Status,
+                            Status_Updated_On: Status_Updated_On,
+                            UserID: result.UserID,
+                            User_ID: result.User_ID,
+                            UserName: result.UserName,
+                    });
+                    UserNotification.save(function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: 'Order Cancelled' });
+                        }
+                    });
+                }  
             }
         })
     } catch (err) {

@@ -12,6 +12,12 @@ const OrderSchema = new mongoose.Schema({
     EggOrEggless: {
         type: String,
     },
+    Theme: {
+        type: String,
+    },
+    Tier: {
+        type: String,
+    },
     Images: [{
         type: String
     }],

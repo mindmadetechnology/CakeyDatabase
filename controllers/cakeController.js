@@ -369,6 +369,7 @@ const ApproveCake = (req, res) => {
                     Status_Updated_On: Status_Updated_On,
                     VendorID: result.VendorID,
                     Vendor_ID: result.Vendor_ID,
+                    For_Display: 'Your Cake is Approved'
                 });
                 Notification.save(function(err){
                     if(err){
@@ -408,6 +409,7 @@ const ApproveUpdatedCake = (req, res) => {
                     Status_Updated_On: Status_Updated_On,
                     VendorID: result.VendorID,
                     Vendor_ID: result.Vendor_ID,
+                    For_Display: "Your Cake's Updates are Approved"
                 });
                 Notification.save(function(err){
                     if(err){
@@ -580,6 +582,7 @@ const SendInformationToVendor = (req, res) => {
                             Status_Updated_On: Created_On,
                             VendorID: result.VendorID,
                             Vendor_ID: result.Vendor_ID,
+                            For_Display: "Information from Admin"
                         });
                         Notification.save(function(err){
                             if(err){

@@ -158,6 +158,8 @@ const AddNewCustomizeCake = async (req, res) => {
     const Flavour = req.body.Flavour; //multiple
     const Shape = req.body.Shape;
     const Weight = req.body.Weight;
+    const Theme = req.body.Theme;//Optional
+    const Tier = req.body.Tier;//Optional
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
     const DeliveryAddress = req.body.DeliveryAddress; //optional
@@ -221,6 +223,8 @@ const AddNewCustomizeCake = async (req, res) => {
                 Flavour: NewFlavour,
                 Shape: Shape,
                 Weight: NewWeight,
+                Theme: Theme,
+                Tier: Tier,
                 Images: imageUrlList,
                 MessageOnTheCake: MessageOnTheCake,
                 SpecialRequest: SpecialRequest,
@@ -285,7 +289,8 @@ const AddNewCustomizeCake = async (req, res) => {
                                             VendorID: result.VendorID,
                                             Vendor_ID: result.Vendor_ID,
                                             UserName: result.UserName,
-                                            CustomizedCake: 'y'
+                                            CustomizedCake: 'y',
+                                            For_Display: "You Got a New Customized Cake Order"
                                         });
                                         VendorNotification.save(function (err) {
                                             if (err) {
@@ -354,7 +359,8 @@ const AssignCustomizecake = (req, res) => {
                         VendorID: VendorID,
                         Vendor_ID: Vendor_ID,
                         UserName: result.UserName,
-                        CustomizedCake: 'y'
+                        CustomizedCake: 'y',
+                        For_Display: "You Got a New Customized Cake Order"
                     });
                     VendorNotification.save(function (err) {
                         if (err) {
@@ -564,7 +570,8 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                                     UserID: result.UserID,
                                     User_ID: result.User_ID,
                                     UserName: result.UserName,
-                                    CustomizedCake: 'y'
+                                    CustomizedCake: 'y',
+                                    For_Display: "You Got a New Order"
                                 });
                                 Notification.save(function (err) {
                                     if (err) {
@@ -644,7 +651,48 @@ const CancelCustomizedCakeOrder = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Order Cancelled' });
+                if(Cancelled_By === 'User'){
+                    const Notification = VendorNotificationModel({
+                        CustomizedCakeID: result._id,
+                        CustomizedCake_ID: result.Id,
+                        Image: result.Images[0],
+                        CakeName: result.CakeName,
+                        Status: Status,
+                        Status_Updated_On: Status_Updated_On,
+                        VendorID: VendorID,
+                        Vendor_ID: Vendor_ID,
+                        UserName: result.UserName,
+                        CustomizedCake: 'y',
+                        For_Display: "Yuor Customized Cake Order is Cancelled"
+                    });
+                    Notification.save(function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: 'Order Cancelled' });
+                        }
+                    });
+                }else{
+                    const UserNotification = new UserNotificationModel({
+                        CustomizedCakeID: result._id,
+                        CustomizedCake_ID: result.Id,
+                        Image: result.Images[0],
+                        CakeName: result.CakeName,
+                        Status: Status,
+                        Status_Updated_On: Status_Updated_On,
+                        UserID: result.UserID,
+                        User_ID: result.User_ID,
+                        UserName: result.UserName,
+                        CustomizedCake: 'y'
+                    });
+                    UserNotification.save(function(err){
+                        if(err){
+                            res.send({ statusCode: 400, message: "Failed" });
+                        }else{
+                            res.send({ statusCode: 200, message: 'Order Cancelled' });
+                        }
+                    });
+                }  
             }
         })
     } catch (err) {
