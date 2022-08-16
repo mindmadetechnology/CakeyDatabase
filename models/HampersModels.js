@@ -33,21 +33,16 @@ const HampersSchema = new mongoose.Schema({
         type: String,
     },
     Product_Contains: [{
-        Name: {
-            type: String,
-        },
-        Quantity: {
-            type: String,
-        }
+        type: String,
     }],
     HamperImage: {
-        type:String,
+        type: String,
     },
     Price: {
-        type:String,
+        type: String,
     },
     Description: {
-        type:String,
+        type: String,
     },
     // DeliveryCharge: {
     //     type: String,
