@@ -2,6 +2,7 @@ require('dotenv').config();
 const userModel = require("../models/userModels");
 const UserNotificationModel = require("../models/UserNotification");
 const VendorNotificationModel = require("../models/VendorNotification");
+const AdminNotificationModel = require("../models/AdminNotificationModels");
 const SessionOrdersModel = require("../models/SessionOrdersModels");
 const moment = require('moment-timezone');
 const JWT = require('jsonwebtoken');
@@ -259,6 +260,68 @@ const VendorNotificationOrderList = (req, res) => {
     }
 };
 
+const AdminNotificationOrderList = (req, res) => {
+
+    try {
+        AdminNotificationModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
+const RemoveAdminNotificationById = (req, res) => {
+    const Id = req.params.id;
+    try{
+        AdminNotificationModel.findOneAndDelete({_id: Id}, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                res.send({ statusCode: 200, message: "Removed Successfully" });
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
+const RemoveAdminNotification = (req, res) => {
+    const Id = req.params.id;
+
+    try {
+        AdminNotificationModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else if (result.length === 0) {
+                res.send({ message: "No Records Found" });
+            } else {
+                var Ids = [];
+                result.filter(val => {
+                    Ids.push(val._id);
+                });
+                AdminNotificationModel.deleteMany({ _id: { $in: Ids } }, function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: "Notification removed successfully" });
+                    }
+                })
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
 const RemoveUserNotification = (req, res) => {
     const Id = req.params.id;
 
@@ -382,6 +445,9 @@ module.exports = {
     RemoveUserNotification,
     RemoveVendorNotification,
     GetLoginTimeWithDateRange,
-    RemoveVendorNotificationById
+    RemoveVendorNotificationById,
+    AdminNotificationOrderList,
+    RemoveAdminNotificationById,
+    RemoveAdminNotification
 
 };

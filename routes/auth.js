@@ -29,7 +29,8 @@ const {
     GetUsersbyId, UserNotificationOrderList,
     VendorNotificationOrderList, RemoveUserNotification,
     RemoveVendorNotification, GetLoginTimeWithDateRange,
-    RemoveVendorNotificationById
+    RemoveVendorNotificationById, AdminNotificationOrderList,
+    RemoveAdminNotificationById, RemoveAdminNotification
 } = require('../controllers/userController');
 
 const { 
@@ -146,6 +147,12 @@ router.get('/admin/userscount', Authorization, getAllUsersCount);
 
 //get Notification Count
 router.get('/notification/count', Authorization, GetNotificationCount);
+
+router.get('/admin/notificationlist', Authorization, AdminNotificationOrderList);
+
+router.delete('/admin/removenotificationbyid/:id', RemoveAdminNotificationById);
+
+router.delete('/admin/removeallnotification', RemoveAdminNotification);
 
 
 //Users API
