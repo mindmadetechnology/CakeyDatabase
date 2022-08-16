@@ -20,7 +20,7 @@ const CreateHampers = async (req, res) => {
 
     try {
         if (VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation || HampersName
-            || Price || req.file || Description) {
+            || Price || req.file !== undefined || Description) {
             const Image = await cloudinary.uploader.upload(req.file.path);
             const FinalLocation = JSON.parse(GoogleLocation);
             const FinalProduct_Contains = JSON.parse(Product_Contains);
@@ -49,7 +49,9 @@ const CreateHampers = async (req, res) => {
                         VendorID: result.VendorID,
                         Vendor_ID: result.Vendor_ID,
                         VendorName: result.VendorName,
-                        Id: result._id
+                        Id: result._id,
+                        Image: result.HamperImage,
+                        Created_On: result.Created_On
                     });
                     AddNotification.save(function (err) {
                         if (err) {
