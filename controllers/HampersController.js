@@ -71,7 +71,7 @@ const CreateHampers = async (req, res) => {
     }
 };
 
-const UpdateHampers = (req, res) => {
+const UpdateHampers = async(req, res) => {
     const Id = req.params.id;
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
@@ -87,15 +87,14 @@ const UpdateHampers = (req, res) => {
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //file - HamperImage
     try {
-        HampersModel.findOne({_id:Id}, async function(err, result){
-            if(err){
-                res.send({ statusCode: 400, message: 'Failed' });
-            }else{
+        // HampersModel.findOne({_id:Id}, async function(err, result){
+        //     if(err){
+        //         res.send({ statusCode: 400, message: 'Failed' });
+        //     }else{
                 var Image;
                 if (req.file) {
-                    Image = await cloudinary.uploader.upload(req.file.path);
-                }else{
-                    Image = result.HamperImage;
+                    var ImageURL = await cloudinary.uploader.upload(req.file.path);
+                    Image = ImageURL.url
                 }
                 const FinalLocation = JSON.parse(GoogleLocation);
                 const FinalProduct_Contains = JSON.parse(Product_Contains);
@@ -112,13 +111,19 @@ const UpdateHampers = (req, res) => {
                         HampersName: HampersName,
                         Price: Price,
                         Product_Contains: FinalProduct_Contains,
-                        HamperImage: Image.url,
+                        HamperImage: Image,
                         Description: Description,
                         Modified_On: Modified_On,
                     }
+                }, function(err){
+                    if(err){
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    }else{
+                        res.send({ statusCode: 200, message: 'Updated Successfully' });
+                    }
                 });
-            }
-        });
+            // }
+        // });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     }
