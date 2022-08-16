@@ -92,8 +92,8 @@ const newOrder = (req, res) => {
     const Cake_ID = req.body.Cake_ID;
     const CakeName = req.body.CakeName;
     const CakeCommonName = req.body.CakeCommonName;
-    const CakeType = req.body.CakeType;
-    const CakeSubType = req.body.CakeSubType;
+    // const CakeType = req.body.CakeType;
+    // const CakeSubType = req.body.CakeSubType;
     const Image = req.body.Image;
     const EggOrEggless = req.body.EggOrEggless;
     const Flavour = req.body.Flavour; //Array
@@ -142,7 +142,7 @@ const newOrder = (req, res) => {
 
     try {
 
-        if (!CakeID || !Cake_ID || !CakeName || !CakeCommonName || !CakeType || !Image ||
+        if (!CakeID || !Cake_ID || !CakeName || !CakeCommonName || !Image ||
             !EggOrEggless || !Flavour || !Shape || !Weight || !Description || !UserID || !User_ID ||
             !UserName || !UserPhoneNumber || !DeliveryDate || !DeliverySession ||
             !DeliveryInformation || !Price || !ItemCount || !JSON.stringify(Discount) || !DeliveryCharge || !ExtraCharges ||
@@ -174,8 +174,8 @@ const newOrder = (req, res) => {
                 Cake_ID: Cake_ID,
                 CakeName: CakeName,
                 CakeCommonName: CakeCommonName,
-                CakeType: CakeType,
-                CakeSubType: CakeSubType,
+                // CakeType: CakeType,
+                // CakeSubType: CakeSubType,
                 Image: Image,
                 EggOrEggless: EggOrEggless,
                 Flavour: Flavour,
