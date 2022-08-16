@@ -313,10 +313,12 @@ const addCake = async (req, res) => {
                 } else {
                     const AddNotification = AdminNotificationModel({
                         NotificationType: 'New Cake',
+                        Image: result.MainCakeImage,
                         VendorID: result.VendorID,
                         Vendor_ID: result.Vendor_ID,
                         VendorName: result.VendorName,
-                        Id: result._id
+                        Id: result._id,
+                        Created_On: result.Created_On
                     });
                     AddNotification.save(function(err){
                         if(err){

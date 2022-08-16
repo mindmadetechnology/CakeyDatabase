@@ -228,59 +228,63 @@ const newOrder = (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
                 } else {
-                    const AddNotification = AdminNotificationModel({
-                        NotificationType: 'New Order',
-                        VendorID: result.VendorID,
-                        Vendor_ID: result.Vendor_ID,
-                        VendorName: result.VendorName,
-                        Id: result._id
+                    const Notification = new UserNotificationModel({
+                        OrderID: result._id,
+                        Order_ID: result.Id,
+                        Image: result.Image,
+                        CakeName: result.CakeName,
+                        Status: result.Status,
+                        Status_Updated_On: result.Created_On,
+                        UserID: result.UserID,
+                        User_ID: result.User_ID,
+                        UserName: result.UserName,
                     });
-                    AddNotification.save(function (err) {
+                    Notification.save(function (err) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
-                            const Notification = new UserNotificationModel({
-                                OrderID: result._id,
-                                Order_ID: result.Id,
-                                Image: result.Image,
-                                CakeName: result.CakeName,
-                                Status: result.Status,
-                                Status_Updated_On: result.Created_On,
-                                UserID: result.UserID,
-                                User_ID: result.User_ID,
-                                UserName: result.UserName,
-                            });
-                            Notification.save(function (err) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else {
-                                    if (result.VendorID) {
-                                        const VendorNotification = new VendorNotificationModel({
-                                            OrderID: result._id,
-                                            Order_ID: result.Id,
-                                            Image: result.Image,
-                                            CakeName: result.CakeName,
-                                            Status: result.Status,
-                                            Status_Updated_On: result.Created_On,
+                            if (result.VendorID) {
+                                const VendorNotification = new VendorNotificationModel({
+                                    OrderID: result._id,
+                                    Order_ID: result.Id,
+                                    Image: result.Image,
+                                    CakeName: result.CakeName,
+                                    Status: result.Status,
+                                    Status_Updated_On: result.Created_On,
+                                    VendorID: result.VendorID,
+                                    Vendor_ID: result.Vendor_ID,
+                                    UserName: result.UserName,
+                                    For_Display: "You Got a New Order"
+                                });
+                                VendorNotification.save(function (err) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        const AddNotification = AdminNotificationModel({
+                                            NotificationType: 'New Order',
                                             VendorID: result.VendorID,
                                             Vendor_ID: result.Vendor_ID,
-                                            UserName: result.UserName,
-                                            For_Display: "You Got a New Order"
+                                            VendorName: result.VendorName,
+                                            Id: result._id,
+                                            Image: result.Image,
+                                            Created_On: result.Created_On
                                         });
-                                        VendorNotification.save(function (err) {
+                                        AddNotification.save(function (err) {
                                             if (err) {
                                                 res.send({ statusCode: 400, message: "Failed" });
                                             } else {
                                                 res.send({ statusCode: 200, message: "Order Placed Successfully" });
                                             }
                                         });
-                                    } else {
-                                        res.send({ statusCode: 200, message: "Order Placed Successfully" });
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                res.send({ statusCode: 200, message: "Order Placed Successfully" });
+                            }
                         }
                     });
+                    // }
+                    // });
                 }
             });
         }

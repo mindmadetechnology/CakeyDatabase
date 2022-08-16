@@ -5,6 +5,9 @@ const AdminNotificationSchema = new mongoose.Schema({
     NotificationType: {
         type: String,
     },
+    Image:{
+        type: String,
+    },
     VendorID: {
         type: String,
     },
@@ -17,6 +20,9 @@ const AdminNotificationSchema = new mongoose.Schema({
     Id: {
         type: String,
     },
+    Created_On: {
+        type: String,
+    }
 
 });
 
