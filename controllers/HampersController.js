@@ -1,5 +1,6 @@
 const HampersModel = require("../models/HampersModels");
 const AdminNotificationModel = require('../models/AdminNotificationModels');
+const VendorNotificationModel = require("../models/VendorNotification");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -168,7 +169,24 @@ const ApproveHampers = (req, res) => {
             if(err){
                 res.send({ statusCode: 400, message: 'Failed' });
             }else{
-                res.send({ statusCode: 200, message: 'Approved Successfully' });
+                const Notification = VendorNotificationModel({
+                    HamperID: result._id,
+                    Hamper_ID: result.Id,
+                    Image: result.HamperImage,
+                    CakeName: result.HampersName,
+                    Status: Status,
+                    Status_Updated_On: Status_Updated_On,
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                    For_Display: 'Your Hamper is Approved'
+                });
+                Notification.save(function(err){
+                    if(err){
+                        res.send({ statusCode: 400, message: "Failed" });
+                    }else{
+                        res.send({ statusCode: 200, message: 'Approved Successfully' });
+                    }
+                });
             }
         });
     }catch(err){

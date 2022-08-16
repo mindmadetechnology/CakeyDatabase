@@ -20,6 +20,12 @@ const VendorNotificationSchema = new mongoose.Schema({
     CakeID: {
         type: String,
     },
+    HamperID:{
+        type: String,
+    },
+    Hamper_ID:{
+        type: String,
+    },
     CakeNotificationType: {
         type: String,
     },
