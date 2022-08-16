@@ -295,7 +295,6 @@ const RemoveAdminNotificationById = (req, res) => {
 };
 
 const RemoveAdminNotification = (req, res) => {
-    const Id = req.params.id;
 
     try {
         AdminNotificationModel.find({}, function (err, result) {

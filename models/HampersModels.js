@@ -32,7 +32,7 @@ const HampersSchema = new mongoose.Schema({
     HampersName: {
         type: String,
     },
-    Includes: [{
+    Product_Contains: [{
         Name: {
             type: String,
         },

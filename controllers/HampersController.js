@@ -13,7 +13,7 @@ const CreateHampers = async (req, res) => {
     const GoogleLocation = req.body.GoogleLocation;
     const HampersName = req.body.HampersName;
     const Price = req.body.Price;
-    const Includes = req.body.Includes;
+    const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //file - HamperImage
@@ -23,7 +23,7 @@ const CreateHampers = async (req, res) => {
             || Price || req.file || Description) {
             const Image = await cloudinary.uploader.upload(req.file.path);
             const FinalLocation = JSON.parse(GoogleLocation);
-            const FinalIncludes = JSON.parse(Includes);
+            const FinalProduct_Contains = JSON.parse(Product_Contains);
 
             const NewHampers = HampersModel({
                 VendorID: VendorID,
@@ -35,7 +35,7 @@ const CreateHampers = async (req, res) => {
                 GoogleLocation: FinalLocation,
                 HampersName: HampersName,
                 Price: Price,
-                Includes: FinalIncludes,
+                Product_Contains: FinalProduct_Contains,
                 HamperImage: Image.url,
                 Description: Description,
                 Created_On: Created_On,
@@ -79,7 +79,7 @@ const UpdateHampers = (req, res) => {
     const GoogleLocation = req.body.GoogleLocation;
     const HampersName = req.body.HampersName;
     const Price = req.body.Price;
-    const Includes = req.body.Includes;
+    const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //file - HamperImage
@@ -95,7 +95,7 @@ const UpdateHampers = (req, res) => {
                     Image = result.HamperImage;
                 }
                 const FinalLocation = JSON.parse(GoogleLocation);
-                const FinalIncludes = JSON.parse(Includes);
+                const FinalProduct_Contains = JSON.parse(Product_Contains);
         
                 HampersModel.findOneAndUpdate({ _id: Id }, {
                     $set: {
@@ -108,7 +108,7 @@ const UpdateHampers = (req, res) => {
                         GoogleLocation: FinalLocation,
                         HampersName: HampersName,
                         Price: Price,
-                        Includes: FinalIncludes,
+                        Product_Contains: FinalProduct_Contains,
                         HamperImage: Image.url,
                         Description: Description,
                         Modified_On: Modified_On,
