@@ -166,6 +166,24 @@ const GetVendorsHampersList = (req, res) => {
     }
 };
 
+const GetApprovedHampersList = (req, res) => {
+    try{
+        HampersModel.find({Status: 'Approved'}, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: 'Failed' });
+            }else{
+                if(result.length === 0){
+                    res.send({ message: 'No Records Found' });
+                }else{
+                    res.send(result.reverse());
+                }
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
 const GetHamperDetailsById = (req, res) => {
     const Id = req.params.id;
     try{
@@ -254,6 +272,7 @@ module.exports = {
     ApproveHampers,
     RemoveHampers,
     OrderHampers,
-    UpdateHamperOrderStatus
+    UpdateHamperOrderStatus,
+    GetApprovedHampersList
 
 };

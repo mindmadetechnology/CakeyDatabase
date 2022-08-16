@@ -13,7 +13,7 @@ const {
     CreateHampers, UpdateHampers,
     GetHampersList, GetVendorsHampersList,
     ApproveHampers, RemoveHampers,
-    GetHamperDetailsById
+    GetHamperDetailsById, GetApprovedHampersList
     // OrderHampers, UpdateHamperOrderStatus
 } = require('../controllers/HampersController');
 
@@ -31,9 +31,11 @@ router.post('/hamper/new', upload.single('file'), CreateHampers);
 
 router.put('/hamper/update/:id', upload.single('file'), UpdateHampers);
 
-router.get('/hamper/list', GetHampersList);
+router.get('/hamper/list',Authorization, GetHampersList);
 
-router.get('/hamper/listbyvendor/:id', GetVendorsHampersList);
+router.get('/hamper/listbyvendor/:id',Authorization, GetVendorsHampersList);
+
+router.get('/hamper/approvedlist',Authorization, GetApprovedHampersList);
 
 router.get('/hamper/details/:id', GetHamperDetailsById);
 
