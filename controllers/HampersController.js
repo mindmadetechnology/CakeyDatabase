@@ -130,7 +130,11 @@ const GetHampersList = (req, res) => {
             if(err){
                 res.send({ statusCode: 400, message: 'Failed' });
             }else{
-                res.send(result.reverse());
+                if(result.length === 0){
+                    res.send({ message: 'No Records Found' });
+                }else{
+                    res.send(result.reverse());
+                }
             }
         });
     }catch(err){
@@ -145,7 +149,26 @@ const GetVendorsHampersList = (req, res) => {
             if(err){
                 res.send({ statusCode: 400, message: 'Failed' });
             }else{
-                res.send(result.reverse());
+                if(result.length === 0){
+                    res.send({ message: 'No Records Found' });
+                }else{
+                    res.send(result.reverse());
+                }
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
+const GetHamperDetailsById = (req, res) => {
+    const Id = req.params.id;
+    try{
+        HampersModel.findOne({_id: Id}, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: 'Failed' });
+            }else{
+                res.send(result);
             }
         });
     }catch(err){
@@ -221,6 +244,7 @@ module.exports = {
     CreateHampers,
     UpdateHampers,
     GetHampersList,
+    GetHamperDetailsById,
     GetVendorsHampersList,
     ApproveHampers,
     RemoveHampers,
