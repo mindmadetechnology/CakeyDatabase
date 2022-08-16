@@ -193,7 +193,7 @@ const ApproveHampers = (req, res) => {
                 Status_Updated_By:Status_Updated_By,
                 Status_Updated_On:Status_Updated_On,
             }
-        }, function(err){
+        }, function(err, result){
             if(err){
                 res.send({ statusCode: 400, message: 'Failed' });
             }else{
