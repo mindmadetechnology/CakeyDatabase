@@ -1,4 +1,5 @@
 const cakeModel = require("../models/CakeModels");
+const vendorModel = require("../models/vendorModels");
 const AdminNotificationModel = require("../models/AdminNotificationModels");
 const VendorNotificationModel = require('../models/VendorNotification');
 const moment = require('moment-timezone');
@@ -8,15 +9,30 @@ const cloudinary = require("../middleware/cloudnary");
 const getcakelist = (req, res) => {
 
     try {
-        cakeModel.find({ IsDeleted: 'n', Status: 'Approved', Stock: 'InStock' }, function (err, result) {
+        cakeModel.find({ IsDeleted: 'n', Status: 'Approved', Stock: 'InStock' }, function (err, result1) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                if (result.length === 0) {
-                    res.send({ message: "No Records Found" });
-                } else {
-                    res.send(result);
-                }
+                vendorModel.find({ Status: 'Approved' }, function (err, result2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        var NewResult = [];
+                        result1.filter(val1 => {
+                            result2.filter(val2 => {
+                                console.log(val1.VendorID === val2._id.toString())
+                                if(val1.VendorID === val2._id.toString()){
+                                    NewResult.push(val1);
+                                }
+                            });
+                        });
+                        if (NewResult.length === 0) {
+                            res.send({ message: "No Records Found" });
+                        } else {
+                            res.send(NewResult);
+                        }
+                    }
+                });
             }
         });
     } catch (err) {
@@ -110,15 +126,23 @@ const getcakelistByVendorIdAndStatus = (req, res) => {
 
     const VendorId = req.params.VendorId;
     try {
-        cakeModel.find({ VendorID: VendorId, IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
-            if (err) {
+        vendorModel.findOne({_id: VendorId}, function(err, result2){
+            if(err){
                 res.send({ statusCode: 400, message: "Failed" });
-            } else {
-                if (result.length === 0) {
-                    res.send({ message: "No Records Found" });
-                } else {
-                    res.send(result.reverse());
-                }
+            }else if(result2.Status === 'Approved'){
+                cakeModel.find({ VendorID: VendorId, IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        if (result.length === 0) {
+                            res.send({ message: "No Records Found" });
+                        } else {
+                            res.send(result.reverse());
+                        }
+                    }
+                });
+            }else{
+                res.send({ message: 'No Records Found'});
             }
         });
     } catch (err) {
@@ -214,7 +238,7 @@ const addCake = async (req, res) => {
             // const FinalMinWeight = JSON.parse(MinWeight);
             const FinalLocation = JSON.parse(GoogleLocation);
             const FinalCakeType = JSON.parse(CakeType);
-            if(CakeSubType){
+            if (CakeSubType) {
                 FinalCakeSubType = JSON.parse(CakeSubType);
             };
             if (CustomFlavourList) {
@@ -231,7 +255,7 @@ const addCake = async (req, res) => {
                     var result = await cloudinary.uploader.upload(req.files['SampleImages'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                     SampleShapeImages.push(result.url);
                 }
-            }else{
+            } else {
                 SampleShapeImages = [];
             }
             if (TierCakeMinWeightAndPrice) {
@@ -320,10 +344,10 @@ const addCake = async (req, res) => {
                         Id: result._id,
                         Created_On: result.Created_On
                     });
-                    AddNotification.save(function(err){
-                        if(err){
+                    AddNotification.save(function (err) {
+                        if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
-                        }else{
+                        } else {
                             res.send({ statusCode: 200, message: "Added Successfully" });
                         }
                     });
@@ -373,10 +397,10 @@ const ApproveCake = (req, res) => {
                     Vendor_ID: result.Vendor_ID,
                     For_Display: 'Your Cake is Approved'
                 });
-                Notification.save(function(err){
-                    if(err){
+                Notification.save(function (err) {
+                    if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
-                    }else{
+                    } else {
                         res.send({ statusCode: 200, message: "Updated Successfully" });
                     }
                 });
@@ -413,10 +437,10 @@ const ApproveUpdatedCake = (req, res) => {
                     Vendor_ID: result.Vendor_ID,
                     For_Display: "Your Cake's Updates are Approved"
                 });
-                Notification.save(function(err){
-                    if(err){
+                Notification.save(function (err) {
+                    if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
-                    }else{
+                    } else {
                         res.send({ statusCode: 200, message: "Updated Successfully" });
                     }
                 });
@@ -586,10 +610,10 @@ const SendInformationToVendor = (req, res) => {
                             Vendor_ID: result.Vendor_ID,
                             For_Display: "Information from Admin"
                         });
-                        Notification.save(function(err){
-                            if(err){
+                        Notification.save(function (err) {
+                            if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
-                            }else{
+                            } else {
                                 res.send({ statusCode: 200, message: "Information sent Successfully" })
                             }
                         });

@@ -172,7 +172,25 @@ const putAdmin = async (req, res) => {
 const getVendors = (req, res) => {
 
     try {
-        vendorModel.find({ IsDeleted: 'n' }, function (err, result) {
+        vendorModel.find({ IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
+const GetAllVendorsList = (req, res) => {
+    try {
+        vendorModel.find({}, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -214,7 +232,7 @@ const loginValidate = (req, res) => {
     try {
         adminModel.findOne({ Email: Email, Password: Password }, function (err, result) {
             if (result === null) {
-                vendorModel.findOne({ Email: Email, Password: Password }, function (err, result) {
+                vendorModel.findOne({ Email: Email, Password: Password, Status: 'Approved' }, function (err, result) {
                     if (result === null) {
                         helpDeskModel.findOne({ Email: Email, Password: Password }, function (err, result) {
                             if (err) {
@@ -389,7 +407,7 @@ const forgotPassword = (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
                 } else if (result === null) {
-                    vendorModel.findOne({ Email: Email }, function (err, result) {
+                    vendorModel.findOne({ Email: Email, Status: 'Approved' }, function (err, result) {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         }
@@ -554,6 +572,7 @@ module.exports = {
     getAllUsersCount,
     NewAdmin,
     GetNotificationCount,
-    UpdateVendorNotificationId
+    UpdateVendorNotificationId,
+    GetAllVendorsList
 
 };

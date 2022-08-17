@@ -39,7 +39,8 @@ const {
     getVendors, getVendorsbyEmail, 
     deleteVendors, verifyToken,
     getAllUsersCount, NewAdmin,
-    GetNotificationCount, UpdateVendorNotificationId
+    GetNotificationCount, UpdateVendorNotificationId,
+    GetAllVendorsList
 } = require('../controllers/admin&vendorController');
 
 const { 
@@ -197,6 +198,8 @@ router.put('/password/change/:id',ChangePassword);
 
 //Get all vendors
 router.get("/vendors/list", Authorization, getVendors);
+
+router.get("/vendors/alllist", Authorization, GetAllVendorsList);
 
 //Get registered vendors
 // router.get("/vendors/listbystatus/:Status", Authorization, GetNewVendorList);
