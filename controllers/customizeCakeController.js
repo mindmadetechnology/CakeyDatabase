@@ -153,7 +153,6 @@ const GetCustomizeCakeListByUserId = (req, res) => {
 const AddNewCustomizeCake = async (req, res) => {
 
     const CakeName = req.body.CakeName;
-    const CakeType = req.body.CakeType;
     const EggOrEggless = req.body.EggOrEggless;
     const Flavour = req.body.Flavour; //multiple
     const Shape = req.body.Shape;
@@ -211,7 +210,7 @@ const AddNewCustomizeCake = async (req, res) => {
             imageUrlList = [];
         };
 
-        if (CakeType === undefined || EggOrEggless === undefined || Flavour === undefined || User_ID === undefined ||
+        if (EggOrEggless === undefined || Flavour === undefined || User_ID === undefined ||
             Shape === undefined || Weight === undefined || DeliveryDate === undefined ||
             DeliverySession === undefined || DeliveryInformation === undefined || UserID === undefined ||
             UserName === undefined || UserPhoneNumber === undefined) {
@@ -219,7 +218,6 @@ const AddNewCustomizeCake = async (req, res) => {
         } else {
             const CustomizeCake = new CustomizeCakeModel({
                 CakeName: CakeName,
-                CakeType: CakeType,
                 EggOrEggless: EggOrEggless,
                 Flavour: NewFlavour,
                 Shape: Shape,
