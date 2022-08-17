@@ -9,20 +9,21 @@ const HamperOrderSchema = new mongoose.Schema({
     Hamper_ID: {
         type: String
     },
-    HamperName: {
+    HampersName: {
         type: String,
     },
-    Image: {
-        type: String, //main cake image
-    },
-    Includes: [{
-        Name: {
-            type: String
-        },
-        Price: {
-            type: String
-        }
+    Product_Contains: [{
+        type: String,
     }],
+    HamperImage: {
+        type: String,
+    },
+    FinalHamperImage: {
+        type: String,
+    },
+    Price: {
+        type: String,
+    },
     Description: {
         type: String,
     },
@@ -76,9 +77,6 @@ const HamperOrderSchema = new mongoose.Schema({
     DeliveryInformation: {
         type: String
     },
-    Price: {
-        type: String,
-    },
     ItemCount: {
         type: Number,
     },
@@ -104,14 +102,17 @@ const HamperOrderSchema = new mongoose.Schema({
     Status_Updated_On: {
         type: String,
     },
+    Cancelled_By: {
+        type: String,   
+    },
 
 });
 
 HamperOrderSchema.plugin(increment, {
     type: String,
-    modelName: 'OrdersList',
+    modelName: 'HamperOrdersList',
     fieldName: 'Id',
-    prefix: 'CKYORD-',
+    prefix: 'CKYHORD-',
 });
 
 const collectionName = 'HamperOrdersList';

@@ -8,6 +8,12 @@ const UserNotificationSchema = new mongoose.Schema({
     Order_ID:{
         type: String,
     },
+    HamperID:{
+        type: String,
+    },
+    Hamper_ID:{
+        type: String,
+    },
     CustomizedCakeID: {
         type: String,
     },

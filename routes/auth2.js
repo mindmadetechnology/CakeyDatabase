@@ -13,8 +13,11 @@ const {
     CreateHampers, UpdateHampers,
     GetHampersList, GetVendorsHampersList,
     ApproveHampers, RemoveHampers,
-    GetHamperDetailsById, GetApprovedHampersList
-    // OrderHampers, UpdateHamperOrderStatus
+    GetHamperDetailsById, GetApprovedHampersList,
+    OrderHampers, UpdateHamperOrderStatus,
+    AcceptHamperOrder, CancelHamperOrder,
+    GetHamperOrdersList, GetVendorHamperOrdersList,
+    GetHamperOrderDetailsById, GetUserHamperOrdersList
 } = require('../controllers/HampersController');
 
 router.post('/caketype/new', AddNewCakeType);
@@ -42,5 +45,21 @@ router.get('/hamper/details/:id', GetHamperDetailsById);
 router.put('/hamper/approve/:id', ApproveHampers);
 
 router.delete('/hamper/delete/:id', RemoveHampers);
+
+router.post('/hamperorder/new', OrderHampers);
+
+router.put('/hamperorder/updatestatus/:id', upload.single('file'), UpdateHamperOrderStatus);
+
+router.put('/hamperorder/accepted/:id', AcceptHamperOrder);
+
+router.put('/hamperorder/canceled/:id', CancelHamperOrder);
+
+router.get('/hamperorder/list',Authorization, GetHamperOrdersList);
+
+router.get('/hamperorder/listbyvendor/:id',Authorization, GetVendorHamperOrdersList);
+
+router.get('/hamperorder/listbyuser/:id',Authorization, GetUserHamperOrdersList);
+
+router.get('/hamperorder/details/:id', GetHamperOrderDetailsById);
 
 module.exports = router;
