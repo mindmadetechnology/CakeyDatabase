@@ -119,10 +119,10 @@ const VendorSchema = new mongoose.Schema({
     Modified_On: {
         type: String,
     },
-    // Status: {
-    //     type: String,
-    //     default: 'New'
-    // },
+    Status: {
+        type: String,
+        default: 'Approved'
+    },
     IsDeleted: {
         type: String,
         default: 'n'

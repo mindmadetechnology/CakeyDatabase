@@ -3,6 +3,7 @@ const AdminNotificationModel = require('../models/AdminNotificationModels');
 const VendorNotificationModel = require("../models/VendorNotification");
 const UserNotificationModel = require("../models/UserNotification");
 const HamperOrderModel = require('../models/HamperOrdersListModels');
+const OrdersListModel = require("../models/OrdersListModels");
 const moment = require('moment-timezone');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -661,6 +662,45 @@ const GetUserHamperOrdersList = (req, res) => {
     }
 };
 
+const GetUserOrderAndHamperOrder = (req, res) => {
+    const Id = req.params.id;
+    try {
+        OrdersListModel.find({ UserID: Id }, function (err, result1) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                HamperOrderModel.find({ UserID: Id }, function (err, result2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        const Result1 = result1;
+                        var FinalList = [];
+                        const ConcatResult = Result1.concat(result2);
+                        if (ConcatResult.length === 0) {
+                            FinalList = [];
+                        } else if (ConcatResult.length === 1) {
+                            FinalList = ConcatResult;
+                        } else {
+                            const Array2 = ConcatResult.map(val => {
+                                return { ...val, date: moment(val.Created_On, 'DD-MM-YYYY hh:mm A').diff(moment(new Date(), 'DD-MM-YYYY hh:mm A')) };
+                            });
+                            const NewList = Array2.sort((a, b) => { return a.date - b.date });
+                            NewList.filter(val => { FinalList.push(val._doc) });
+                        }
+                        if(FinalList.length === 0){
+                            res.send({ message: "No Records Found"})
+                        }else{
+                            res.send(FinalList.reverse());
+                        }
+                    }
+                });
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 module.exports = {
     CreateHampers,
     UpdateHampers,
@@ -677,6 +717,7 @@ module.exports = {
     GetHamperOrdersList,
     GetVendorHamperOrdersList,
     GetHamperOrderDetailsById,
-    GetUserHamperOrdersList
+    GetUserHamperOrdersList,
+    GetUserOrderAndHamperOrder
 
 };

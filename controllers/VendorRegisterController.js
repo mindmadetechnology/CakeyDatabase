@@ -366,6 +366,26 @@ const UploadProfileImage = async (req, res) => {
     }
 };
 
+const BlockVendor= (req, res) => {
+    const Id = req.params.id;
+
+    try{
+        vendorModel.findOneAndUpdate({_id: Id},{
+            $set:{
+                Status: 'Blocked'
+            }
+        }, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });   
+            }else{
+                res.send({ statusCode: 200, message: "Blocked Successfully" });
+            }
+        });
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 //get new vendors list
 // const GetNewVendorList = (req, res) => {
 
@@ -392,7 +412,8 @@ module.exports = {
     RegisterVendors,
     putVendors,
     SetLastSeen,
-    UploadProfileImage
+    UploadProfileImage,
+    BlockVendor
     // GetNewVendorList
 
 };

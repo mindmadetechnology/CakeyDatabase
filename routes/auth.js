@@ -72,7 +72,8 @@ const {
 
 const {
     RegisterVendors, putVendors,
-    SetLastSeen, UploadProfileImage
+    SetLastSeen, UploadProfileImage,
+    BlockVendor
 } = require('../controllers/VendorRegisterController');
 
 const {
@@ -211,7 +212,9 @@ router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 
 // router.put("/vendors/new/:id", addVendors);
 
 //upload profile image
-router.put("/vendors/profileimage/upload/:id", upload.fields([{name: 'ProfileImage', maxCount: 1}]), UploadProfileImage)
+router.put("/vendors/profileimage/upload/:id", upload.fields([{name: 'ProfileImage', maxCount: 1}]), UploadProfileImage);
+
+router.put("/vendors/block/:id", BlockVendor);
 
 //Update vendor's details
 router.put("/vendors/update/:id", putVendors);

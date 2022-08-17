@@ -17,7 +17,8 @@ const {
     OrderHampers, UpdateHamperOrderStatus,
     AcceptHamperOrder, CancelHamperOrder,
     GetHamperOrdersList, GetVendorHamperOrdersList,
-    GetHamperOrderDetailsById, GetUserHamperOrdersList
+    GetHamperOrderDetailsById, GetUserHamperOrdersList,
+    GetUserOrderAndHamperOrder
 } = require('../controllers/HampersController');
 
 router.post('/caketype/new', AddNewCakeType);
@@ -61,5 +62,7 @@ router.get('/hamperorder/listbyvendor/:id',Authorization, GetVendorHamperOrdersL
 router.get('/hamperorder/listbyuser/:id',Authorization, GetUserHamperOrdersList);
 
 router.get('/hamperorder/details/:id', GetHamperOrderDetailsById);
+
+router.get('/ordersandhamperorders/listbyuser/:id', GetUserOrderAndHamperOrder);
 
 module.exports = router;
