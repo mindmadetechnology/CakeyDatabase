@@ -368,11 +368,12 @@ const UploadProfileImage = async (req, res) => {
 
 const BlockVendor= (req, res) => {
     const Id = req.params.id;
+    const Status = req.body.Status;
 
     try{
         vendorModel.findOneAndUpdate({_id: Id},{
             $set:{
-                Status: 'Blocked'
+                Status: Status
             }
         }, function(err){
             if(err){
