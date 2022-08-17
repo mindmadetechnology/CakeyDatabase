@@ -45,6 +45,9 @@ const UserNotificationSchema = new mongoose.Schema({
         type: String,
         default: 'n',
     },
+    For_Display: {
+        type: String,
+    },
 });
 
 const collectionName = 'UserNotification';

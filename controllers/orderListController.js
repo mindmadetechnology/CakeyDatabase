@@ -238,6 +238,7 @@ const newOrder = (req, res) => {
                         UserID: result.UserID,
                         User_ID: result.User_ID,
                         UserName: result.UserName,
+                        For_Display: 'New Cake Order Placed'
                     });
                     Notification.save(function (err) {
                         if (err) {
@@ -371,6 +372,7 @@ const updateOrderStatus = async (req, res) => {
                                 UserID: result.UserID,
                                 User_ID: result.User_ID,
                                 UserName: result.UserName,
+                                For_Display: `Your order status changed into ${Status}`
                             });
                             Notification.save(function (err) {
                                 if (err) {
@@ -411,6 +413,7 @@ const updateOrderStatus = async (req, res) => {
                             UserID: result.UserID,
                             User_ID: result.User_ID,
                             UserName: result.UserName,
+                            For_Display: `Your order status changed into ${Status}`
                         });
                         Notification.save(function (err) {
                             if (err) {
@@ -783,6 +786,7 @@ const AcceptOrder = (req, res) => {
                     UserID: result.UserID,
                     User_ID: result.User_ID,
                     UserName: result.UserName,
+                    For_Display: 'Your Order is Accepted'
                 });
                 UserNotification.save(function (err) {
                     if (err) {
@@ -847,6 +851,7 @@ const CancelOrder = (req, res) => {
                         UserID: result.UserID,
                         User_ID: result.User_ID,
                         UserName: result.UserName,
+                        For_Display: 'Your Order is Cancelled'
                     });
                     UserNotification.save(function (err) {
                         if (err) {

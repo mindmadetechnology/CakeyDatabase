@@ -337,6 +337,7 @@ const OrderHampers = (req, res) => {
                         UserID: result.UserID,
                         User_ID: result.User_ID,
                         UserName: result.UserName,
+                        For_Display: 'New Hamper Order Placed'
                     });
                     Notification.save(function (err) {
                         if (err) {
@@ -416,6 +417,7 @@ const AcceptHamperOrder = (req, res) => {
                     UserID: result.UserID,
                     User_ID: result.User_ID,
                     UserName: result.UserName,
+                    For_Display: 'Your Hamper Order Accepted'
                 });
                 UserNotification.save(function (err) {
                     if (err) {
@@ -478,6 +480,7 @@ const CancelHamperOrder = (req, res) => {
                         UserID: result.UserID,
                         User_ID: result.User_ID,
                         UserName: result.UserName,
+                        For_Display: 'Your Hamper Order Cancelled'
                     });
                     UserNotification.save(function (err) {
                         if (err) {
@@ -533,6 +536,7 @@ const UpdateHamperOrderStatus = async (req, res) => {
                                 UserID: result.UserID,
                                 User_ID: result.User_ID,
                                 UserName: result.UserName,
+                                For_Display: `Your order status changed into ${Status}`
                             });
                             Notification.save(function (err) {
                                 if (err) {
@@ -571,6 +575,7 @@ const UpdateHamperOrderStatus = async (req, res) => {
                             UserID: result.UserID,
                             User_ID: result.User_ID,
                             UserName: result.UserName,
+                            For_Display: `Your order status changed into ${Status}`
                         });
                         Notification.save(function (err) {
                             if (err) {

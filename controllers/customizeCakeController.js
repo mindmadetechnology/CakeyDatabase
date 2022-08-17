@@ -260,7 +260,8 @@ const AddNewCustomizeCake = async (req, res) => {
                         UserID: result.UserID,
                         User_ID: result.User_ID,
                         UserName: result.UserName,
-                        CustomizedCake: 'y'
+                        CustomizedCake: 'y',
+                        For_Display: 'New Customized Cake Order Placed'
                     });
                     Notification.save(function (err) {
                         if (err) {
@@ -467,7 +468,8 @@ const CustomizeCakePriceInvoice = (req, res) => {
                     UserID: result.UserID,
                     User_ID: result.User_ID,
                     UserName: result.UserName,
-                    CustomizedCake: 'y'
+                    CustomizedCake: 'y',
+                    For_Display: "You received your Customized Cake order's Price Invoice"
                 });
                 Notification.save(function (err) {
                     if (err) {
@@ -572,6 +574,7 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                                     User_ID: result.User_ID,
                                     UserName: result.UserName,
                                     CustomizedCake: 'y',
+                                    For_Display: 'New Customized Cake Order Placed'
                                 });
                                 Notification.save(function (err) {
                                     if (err) {
@@ -684,7 +687,8 @@ const CancelCustomizedCakeOrder = (req, res) => {
                         UserID: result.UserID,
                         User_ID: result.User_ID,
                         UserName: result.UserName,
-                        CustomizedCake: 'y'
+                        CustomizedCake: 'y',
+                        For_Display: 'Your Customized Cake Order Cancelled'
                     });
                     UserNotification.save(function (err) {
                         if (err) {
