@@ -33,6 +33,7 @@ const CreateHampers = async (req, res) => {
             const Image = await cloudinary.uploader.upload(req.file.path);
             const FinalLocation = JSON.parse(GoogleLocation);
             const FinalProduct_Contains = JSON.parse(Product_Contains);
+            const FinalOccasion = JSON.parse(Occasion);
 
             const NewHampers = HampersModel({
                 VendorID: VendorID,
@@ -44,7 +45,7 @@ const CreateHampers = async (req, res) => {
                 GoogleLocation: FinalLocation,
                 HampersName: HampersName,
                 Title: Title,
-                Occasion: Occasion,
+                Occasion: FinalOccasion,
                 Weight: Weight,
                 StartDate: StartDate,
                 EndDate: EndDate,
@@ -112,6 +113,7 @@ const UpdateHampers = async (req, res) => {
         }
         const FinalLocation = JSON.parse(GoogleLocation);
         const FinalProduct_Contains = JSON.parse(Product_Contains);
+        const FinalOccasion = JSON.parse(Occasion);
 
         HampersModel.findOneAndUpdate({ _id: Id }, {
             $set: {
@@ -124,7 +126,7 @@ const UpdateHampers = async (req, res) => {
                 GoogleLocation: FinalLocation,
                 HampersName: HampersName,
                 Title: Title,
-                Occasion: Occasion,
+                Occasion: FinalOccasion,
                 Weight: Weight,
                 StartDate: StartDate,
                 EndDate: EndDate,

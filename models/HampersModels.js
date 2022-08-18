@@ -35,9 +35,9 @@ const HampersSchema = new mongoose.Schema({
     Title: {
         type: String,
     },
-    Occasion: {
+    Occasion: [{
         type: String,
-    },
+    }],
     Product_Contains: [{
         type: String,
     }],
