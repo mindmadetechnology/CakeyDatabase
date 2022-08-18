@@ -32,13 +32,31 @@ const HampersSchema = new mongoose.Schema({
     HampersName: {
         type: String,
     },
+    Title: {
+        type: String,
+    },
+    Occasion: {
+        type: String,
+    },
     Product_Contains: [{
         type: String,
     }],
     HamperImage: {
         type: String,
     },
+    Weight: {
+        type: String,
+    },
+    StartDate: {
+        type: String,
+    },
+    EndDate: {
+        type: String,
+    },
     Price: {
+        type: String,
+    },
+    ApproveImage: {
         type: String,
     },
     Description: {

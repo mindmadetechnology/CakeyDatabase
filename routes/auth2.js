@@ -43,7 +43,7 @@ router.get('/hamper/approvedlist',Authorization, GetApprovedHampersList);
 
 router.get('/hamper/details/:id', GetHamperDetailsById);
 
-router.put('/hamper/approve/:id', ApproveHampers);
+router.put('/hamper/approve/:id', upload.single('file'), ApproveHampers);
 
 router.delete('/hamper/delete/:id', RemoveHampers);
 

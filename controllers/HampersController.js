@@ -16,6 +16,11 @@ const CreateHampers = async (req, res) => {
     const VendorAddress = req.body.VendorAddress;
     const GoogleLocation = req.body.GoogleLocation;
     const HampersName = req.body.HampersName;
+    const Title = req.body.Title;
+    const Occasion = req.body.Occasion;
+    const Weight = req.body.Weight;
+    const StartDate = req.body.StartDate;
+    const EndDate = req.body.EndDate;
     const Price = req.body.Price;
     const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
@@ -24,7 +29,7 @@ const CreateHampers = async (req, res) => {
 
     try {
         if (VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation || HampersName
-            || Price || req.file !== undefined || Description) {
+            || Price || req.file !== undefined || Description || Title || Occasion || Weight || StartDate || EndDate) {
             const Image = await cloudinary.uploader.upload(req.file.path);
             const FinalLocation = JSON.parse(GoogleLocation);
             const FinalProduct_Contains = JSON.parse(Product_Contains);
@@ -38,6 +43,11 @@ const CreateHampers = async (req, res) => {
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
                 HampersName: HampersName,
+                Title: Title,
+                Occasion: Occasion,
+                Weight: Weight,
+                StartDate: StartDate,
+                EndDate: EndDate,
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image.url,
@@ -84,16 +94,17 @@ const UpdateHampers = async (req, res) => {
     const VendorAddress = req.body.VendorAddress;
     const GoogleLocation = req.body.GoogleLocation;
     const HampersName = req.body.HampersName;
+    const Title = req.body.Title;
+    const Occasion = req.body.Occasion;
+    const Weight = req.body.Weight;
+    const StartDate = req.body.StartDate;
+    const EndDate = req.body.EndDate;
     const Price = req.body.Price;
     const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //file - HamperImage
     try {
-        // HampersModel.findOne({_id:Id}, async function(err, result){
-        //     if(err){
-        //         res.send({ statusCode: 400, message: 'Failed' });
-        //     }else{
         var Image;
         if (req.file) {
             var ImageURL = await cloudinary.uploader.upload(req.file.path);
@@ -112,11 +123,17 @@ const UpdateHampers = async (req, res) => {
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
                 HampersName: HampersName,
+                Title: Title,
+                Occasion: Occasion,
+                Weight: Weight,
+                StartDate: StartDate,
+                EndDate: EndDate,
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image,
                 Description: Description,
                 Modified_On: Modified_On,
+                Status: 'Updated'
             }
         }, function (err) {
             if (err) {
@@ -125,8 +142,6 @@ const UpdateHampers = async (req, res) => {
                 res.send({ statusCode: 200, message: 'Updated Successfully' });
             }
         });
-        // }
-        // });
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     }
@@ -178,7 +193,29 @@ const GetApprovedHampersList = (req, res) => {
                 if (result.length === 0) {
                     res.send({ message: 'No Records Found' });
                 } else {
-                    res.send(result.reverse());
+                    let StartArray = [], EndArray = [], FinalArray = [];
+                    result.filter(val => {
+                        let StartDateDiff = moment(val.StartDate, 'DD-MM-YYYY').diff(moment(new Date(), 'DD-MM-YYYY'));
+                        let EndDateDiff = moment(val.EndDate, 'DD-MM-YYYY').diff(moment(new Date(), 'DD-MM-YYYY'));
+                        if (StartDateDiff <= 0) {
+                            StartArray.push(val)
+                        };
+                        if(EndDateDiff >= 0){
+                            EndArray.push(val);
+                        };
+                    });
+                    StartArray.filter(val1 => {
+                        EndArray.filter(val2 => {
+                            if(val1._id.toString() === val2._id.toString()){
+                                FinalArray.push(val2)
+                            }
+                        });
+                    });
+                    if(FinalArray.length === 0){
+                        res.send({ message: 'No Records Found' });
+                    }else{
+                        res.send(FinalArray);
+                    }
                 }
             }
         });
@@ -202,42 +239,81 @@ const GetHamperDetailsById = (req, res) => {
     }
 };
 
-const ApproveHampers = (req, res) => {
+const ApproveHampers = async (req, res) => {
     const Id = req.params.id;
     const Status = req.body.Status;
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    //file - ApproveImage
     try {
-        HampersModel.findOneAndUpdate({ _id: Id }, {
-            $set: {
-                Status: Status,
-                Status_Updated_By: Status_Updated_By,
-                Status_Updated_On: Status_Updated_On,
-            }
-        }, function (err, result) {
-            if (err) {
-                res.send({ statusCode: 400, message: 'Failed' });
-            } else {
-                const Notification = VendorNotificationModel({
-                    HamperID: result._id,
-                    Hamper_ID: result.Id,
-                    Image: result.HamperImage,
-                    CakeName: result.HampersName,
+        if (req.file) {
+            var Image;
+            var ImageURL = await cloudinary.uploader.upload(req.file.path);
+            Image = ImageURL.url;
+
+            HampersModel.findOneAndUpdate({ _id: Id }, {
+                $set: {
                     Status: Status,
+                    ApproveImage: Image,
+                    Status_Updated_By: Status_Updated_By,
                     Status_Updated_On: Status_Updated_On,
-                    VendorID: result.VendorID,
-                    Vendor_ID: result.Vendor_ID,
-                    For_Display: 'Your Hamper is Approved'
-                });
-                Notification.save(function (err) {
-                    if (err) {
-                        res.send({ statusCode: 400, message: "Failed" });
-                    } else {
-                        res.send({ statusCode: 200, message: 'Approved Successfully' });
-                    }
-                });
-            }
-        });
+                }
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: 'Failed' });
+                } else {
+                    const Notification = VendorNotificationModel({
+                        HamperID: result._id,
+                        Hamper_ID: result.Id,
+                        Image: result.ApproveImage,
+                        CakeName: result.HampersName,
+                        Status: Status,
+                        Status_Updated_On: Status_Updated_On,
+                        VendorID: result.VendorID,
+                        Vendor_ID: result.Vendor_ID,
+                        For_Display: 'Your Hamper Image is Changed and Approved'
+                    });
+                    Notification.save(function (err) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            res.send({ statusCode: 200, message: 'Approved Successfully' });
+                        }
+                    });
+                }
+            });
+        } else {
+            HampersModel.findOneAndUpdate({ _id: Id }, {
+                $set: {
+                    Status: Status,
+                    Status_Updated_By: Status_Updated_By,
+                    Status_Updated_On: Status_Updated_On,
+                }
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: 'Failed' });
+                } else {
+                    const Notification = VendorNotificationModel({
+                        HamperID: result._id,
+                        Hamper_ID: result.Id,
+                        Image: result.HamperImage,
+                        CakeName: result.HampersName,
+                        Status: Status,
+                        Status_Updated_On: Status_Updated_On,
+                        VendorID: result.VendorID,
+                        Vendor_ID: result.Vendor_ID,
+                        For_Display: 'Your Hamper is Approved'
+                    });
+                    Notification.save(function (err) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            res.send({ statusCode: 200, message: 'Approved Successfully' });
+                        }
+                    });
+                }
+            });
+        }
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     }
@@ -692,9 +768,9 @@ const GetUserOrderAndHamperOrder = (req, res) => {
                             const NewList = Array2.sort((a, b) => { return a.date - b.date });
                             NewList.filter(val => { FinalList.push(val._doc) });
                         }
-                        if(FinalList.length === 0){
-                            res.send({ message: "No Records Found"})
-                        }else{
+                        if (FinalList.length === 0) {
+                            res.send({ message: "No Records Found" })
+                        } else {
                             res.send(FinalList.reverse());
                         }
                     }
