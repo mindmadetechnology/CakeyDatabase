@@ -357,6 +357,8 @@ const OrderHampers = (req, res) => {
     const HampersName = req.body.HampersName;
     const Product_Contains = req.body.Product_Contains;
     const HamperImage = req.body.HamperImage;
+    const Title = req.body.Title;
+    const Weight = req.body.Weight;
     const Price = req.body.Price;
     const Description = req.body.Description;
     const VendorID = req.body.VendorID;
@@ -392,6 +394,8 @@ const OrderHampers = (req, res) => {
                 HampersName: HampersName,
                 Product_Contains: Product_Contains,
                 HamperImage: HamperImage,
+                Title: Title,
+                Weight: Weight,
                 Price: Price,
                 Description: Description,
                 VendorID: VendorID,

@@ -12,6 +12,9 @@ const HamperOrderSchema = new mongoose.Schema({
     HampersName: {
         type: String,
     },
+    Title: {
+        type: String,
+    },
     Product_Contains: [{
         type: String,
     }],
@@ -19,6 +22,9 @@ const HamperOrderSchema = new mongoose.Schema({
         type: String,
     },
     FinalHamperImage: {
+        type: String,
+    },
+    Weight: {
         type: String,
     },
     Price: {
