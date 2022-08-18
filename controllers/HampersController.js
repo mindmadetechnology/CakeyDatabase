@@ -291,7 +291,7 @@ const OrderHampers = (req, res) => {
     try {
         if (HamperID || Hamper_ID || HampersName || Product_Contains || HamperImage || Price || Description ||
             VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation ||
-            UserID || User_ID || UserName || UserPhoneNumber || DeliveryAddress || DeliveryDate || DeliverySession ||
+            UserID || User_ID || UserName || UserPhoneNumber || DeliveryDate || DeliverySession ||
             DeliveryInformation || ItemCount || DeliveryCharge || Total || PaymentType || PaymentStatus) {
             const NewHamperOrder = HamperOrderModel({
                 HamperID: HamperID,
