@@ -141,7 +141,22 @@ const UpdateHampers = async (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Updated Successfully' });
+                const AddNotification = AdminNotificationModel({
+                    NotificationType: 'Hamper Updated',
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                    VendorName: result.VendorName,
+                    Id: result._id,
+                    Image: result.HamperImage,
+                    Created_On: result.Created_On
+                });
+                AddNotification.save(function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: 'Updated Successfully' });
+                    }
+                });
             }
         });
     } catch (err) {
@@ -202,20 +217,20 @@ const GetApprovedHampersList = (req, res) => {
                         if (StartDateDiff <= 0) {
                             StartArray.push(val)
                         };
-                        if(EndDateDiff >= 0){
+                        if (EndDateDiff >= 0) {
                             EndArray.push(val);
                         };
                     });
                     StartArray.filter(val1 => {
                         EndArray.filter(val2 => {
-                            if(val1._id.toString() === val2._id.toString()){
+                            if (val1._id.toString() === val2._id.toString()) {
                                 FinalArray.push(val2)
                             }
                         });
                     });
-                    if(FinalArray.length === 0){
+                    if (FinalArray.length === 0) {
                         res.send({ message: 'No Records Found' });
-                    }else{
+                    } else {
                         res.send(FinalArray);
                     }
                 }
