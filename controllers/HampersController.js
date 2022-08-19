@@ -137,7 +137,7 @@ const UpdateHampers = async (req, res) => {
                 Modified_On: Modified_On,
                 Status: 'Updated'
             }
-        }, function (err) {
+        }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
