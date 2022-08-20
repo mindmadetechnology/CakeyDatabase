@@ -21,6 +21,10 @@ const {
     GetUserOrderAndHamperOrder
 } = require('../controllers/HampersController');
 
+const {
+    CreateOtherProduct,
+} = require('../controllers/OtherProductsController');
+
 router.post('/caketype/new', AddNewCakeType);
 
 router.get('/caketype/list',Authorization, GetCakeTypeList);
@@ -64,5 +68,8 @@ router.get('/hamperorder/listbyuser/:id',Authorization, GetUserHamperOrdersList)
 router.get('/hamperorder/details/:id', GetHamperOrderDetailsById);
 
 router.get('/ordersandhamperorders/listbyuser/:id', GetUserOrderAndHamperOrder);
+
+
+router.post('/otherproduct/new',upload.fields([{name: 'ProductImage', maxCount: 5}]), CreateOtherProduct);
 
 module.exports = router;
