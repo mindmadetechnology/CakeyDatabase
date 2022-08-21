@@ -148,7 +148,7 @@ const ApproveOtherProduct = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                        res.send({ statusCode: 200, message: "Approved Successfully" });
                     }
                 });
             }
@@ -408,7 +408,7 @@ const ApproveUpdatedOtherProduct = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                        res.send({ statusCode: 200, message: "Approved Successfully" });
                     }
                 });
             }
