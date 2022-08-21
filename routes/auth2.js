@@ -27,7 +27,7 @@ const {
     GetApprovedOtherProductsList, OtherProductSendInformation,
     UpdateOtherProduct, DeleteOtherProduct, 
     GetOtherProductListByStatus, GetNewAndUpdatedOtherProductsList,
-    GetOtherProductDetails
+    GetOtherProductDetails, ApproveUpdatedOtherProduct
 } = require('../controllers/OtherProductsController');
 
 router.post('/caketype/new', AddNewCakeType);
@@ -78,6 +78,8 @@ router.get('/ordersandhamperorders/listbyuser/:id', GetUserOrderAndHamperOrder);
 router.post('/otherproduct/new',upload.fields([{name: 'ProductImage', maxCount: 5}]), CreateOtherProduct);
 
 router.put('/otherproduct/approve/:id', ApproveOtherProduct);
+
+router.put('/otherproduct/approveupdated/:id', ApproveUpdatedOtherProduct);
 
 router.get('/otherproduct/alllist', GetAllOtherProductsList);
 

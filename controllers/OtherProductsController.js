@@ -118,6 +118,7 @@ const ApproveOtherProduct = (req, res) => {
     const Status = req.body.Status;
     const RatingsForVendor = req.body.RatingsForVendor;
     const CakeCategory = req.body.CakeCategory;
+    const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         OtherProductModel.findOneAndUpdate({ _id: Id }, {
@@ -125,6 +126,7 @@ const ApproveOtherProduct = (req, res) => {
                 Status: Status,
                 RatingsForVendor: RatingsForVendor,
                 CakeCategory: CakeCategory,
+                Status_Updated_By: Status_Updated_By,
                 Status_Updated_On: Status_Updated_On
             }
         }, function (err, result) {
@@ -376,6 +378,46 @@ const GetOtherProductDetails = (req, res) => {
     };
 };
 
+const ApproveUpdatedOtherProduct = (req, res) => {
+    const Id = req.params.id;
+    const Status_Updated_By = req.body.Status_Updated_By;
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    try {
+        OtherProductModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                Status: 'Approved',
+                Status_Updated_By: Status_Updated_By,
+                Status_Updated_On: Status_Updated_On
+            }
+        }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                const Notification = VendorNotificationModel({
+                    Other_ProductID: result._id,
+                    Other_Product_ID: result.Id,
+                    Image: result.ProductImage[0],
+                    CakeName: result.ProductName,
+                    Status: result.Status,
+                    Status_Updated_On: result.Status_Updated_On,
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                    For_Display: 'Your Updated Product is Approved'
+                });
+                Notification.save(function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                    }
+                });
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    }
+};
+
 module.exports = {
     CreateOtherProduct,
     ApproveOtherProduct,
@@ -387,6 +429,7 @@ module.exports = {
     DeleteOtherProduct,
     GetOtherProductListByStatus,
     GetNewAndUpdatedOtherProductsList,
-    GetOtherProductDetails
+    GetOtherProductDetails,
+    ApproveUpdatedOtherProduct
 };
 

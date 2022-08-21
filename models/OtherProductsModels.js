@@ -134,6 +134,9 @@ const OtherProductsSchema = new mongoose.Schema({
     Status_Updated_On: {
         type: String,
     },
+    Status_Updated_By: {
+        type: String,
+    },
     IsDeleted: {
         type: String,
         default: 'n'
