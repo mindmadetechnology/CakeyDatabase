@@ -25,7 +25,8 @@ const {
     CreateOtherProduct, ApproveOtherProduct,
     GetAllOtherProductsList, GetVendorsOtherProductsList,
     GetApprovedOtherProductsList, OtherProductSendInformation,
-    UpdateOtherProduct, DeleteOtherProduct
+    UpdateOtherProduct, DeleteOtherProduct, 
+    GetOtherProductListByStatus
 } = require('../controllers/OtherProductsController');
 
 router.post('/caketype/new', AddNewCakeType);
@@ -83,9 +84,13 @@ router.get('/otherproduct/listbyvendor/:id', GetVendorsOtherProductsList);
 
 router.get('/otherproduct/list', GetApprovedOtherProductsList);
 
+router.get('/otherproduct/listbystatus/:status', GetOtherProductListByStatus);
+
 router.put('/otherproduct/information/:id', OtherProductSendInformation);
 
 router.put('/otherproduct/update/:id', UpdateOtherProduct);
 
 router.delete('/otherproduct/delete/:id', DeleteOtherProduct);
+
+
 module.exports = router;
