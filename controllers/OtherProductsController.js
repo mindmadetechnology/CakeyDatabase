@@ -162,6 +162,7 @@ const UpdateOtherProduct = (req, res) => {
     const MinWeightPerKg = req.body.MinWeightPerKg;
     const MinWeightPerBox = req.body.MinWeightPerBox;
     const MinWeightPerUnit = req.body.MinWeightPerUnit;
+    const Stock = req.body.Stock;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         OtherProductModel.findOneAndUpdate({ _id: Id }, {
@@ -170,6 +171,7 @@ const UpdateOtherProduct = (req, res) => {
                 MinWeightPerKg: MinWeightPerKg,
                 MinWeightPerBox: MinWeightPerBox,
                 MinWeightPerUnit: MinWeightPerUnit,
+                Stock: Stock,
                 Status: 'Updated',
                 Modified_On: Modified_On
             }
