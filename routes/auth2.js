@@ -22,7 +22,10 @@ const {
 } = require('../controllers/HampersController');
 
 const {
-    CreateOtherProduct,
+    CreateOtherProduct, ApproveOtherProduct,
+    GetAllOtherProductsList, GetVendorsOtherProductsList,
+    GetApprovedOtherProductsList, OtherProductSendInformation,
+    UpdateOtherProduct, DeleteOtherProduct
 } = require('../controllers/OtherProductsController');
 
 router.post('/caketype/new', AddNewCakeType);
@@ -72,4 +75,17 @@ router.get('/ordersandhamperorders/listbyuser/:id', GetUserOrderAndHamperOrder);
 
 router.post('/otherproduct/new',upload.fields([{name: 'ProductImage', maxCount: 5}]), CreateOtherProduct);
 
+router.put('/otherproduct/approve/:id', ApproveOtherProduct);
+
+router.get('/otherproduct/alllist', GetAllOtherProductsList);
+
+router.get('/otherproduct/listbyvendor/:id', GetVendorsOtherProductsList);
+
+router.get('/otherproduct/list', GetApprovedOtherProductsList);
+
+router.put('/otherproduct/information/:id', OtherProductSendInformation);
+
+router.put('/otherproduct/update/:id', UpdateOtherProduct);
+
+router.delete('/otherproduct/delete/:id', DeleteOtherProduct);
 module.exports = router;

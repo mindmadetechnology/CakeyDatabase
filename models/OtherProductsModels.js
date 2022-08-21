@@ -141,6 +141,9 @@ const OtherProductsSchema = new mongoose.Schema({
     RatingsForVendor: {
         type: String,
     },
+    CakeCategory: {
+        type: String,
+    },
     Ratings: {
         type: Number,
         default: 0
