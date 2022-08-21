@@ -163,9 +163,9 @@ const UpdateOtherProduct = (req, res) => {
     const MinWeightPerBox = req.body.MinWeightPerBox;
     const MinWeightPerUnit = req.body.MinWeightPerUnit;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    try{
-        OtherProductModel.findOneAndUpdate({ _id: Id}, {
-            $set:{
+    try {
+        OtherProductModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
                 Flavour: Flavour,
                 MinWeightPerKg: MinWeightPerKg,
                 MinWeightPerBox: MinWeightPerBox,
@@ -173,10 +173,10 @@ const UpdateOtherProduct = (req, res) => {
                 Status: 'Updated',
                 Modified_On: Modified_On
             }
-        }, function(err, result){
-            if(err){
+        }, function (err, result) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
+            } else {
                 const AddNotification = AdminNotificationModel({
                     NotificationType: 'Other Product Updated',
                     Image: result.ProductImage[0],
@@ -195,22 +195,22 @@ const UpdateOtherProduct = (req, res) => {
                 });
             }
         })
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 };
 
 const DeleteOtherProduct = (req, res) => {
     const Id = req.params.id;
-    try{
-        OtherProductModel.findOneAndDelete({_id:Id}, function(err){
-            if(err){
+    try {
+        OtherProductModel.findOneAndDelete({ _id: Id }, function (err) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
+            } else {
                 res.send({ statusCode: 200, message: "Deleted Successfully" });
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 };
@@ -359,6 +359,21 @@ const GetNewAndUpdatedOtherProductsList = (req, res) => {
     };
 };
 
+const GetOtherProductDetails = (req, res) => {
+    const Id = req.params.id;
+    try {
+        OtherProductModel.findOne({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                res.send(result);
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 module.exports = {
     CreateOtherProduct,
     ApproveOtherProduct,
@@ -369,6 +384,7 @@ module.exports = {
     UpdateOtherProduct,
     DeleteOtherProduct,
     GetOtherProductListByStatus,
-    GetNewAndUpdatedOtherProductsList
+    GetNewAndUpdatedOtherProductsList,
+    GetOtherProductDetails
 };
 
