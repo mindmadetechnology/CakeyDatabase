@@ -343,6 +343,22 @@ const GetOtherProductListByStatus = (req, res) => {
     };
 };
 
+const GetNewAndUpdatedOtherProductsList = (req, res) => {
+    try {
+        OtherProductModel.find({ $or: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else if (result.length === 0) {
+                res.send({ message: "No Redords Found" });
+            } else {
+                res.send(result.reverse());
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
+};
+
 module.exports = {
     CreateOtherProduct,
     ApproveOtherProduct,
@@ -352,6 +368,7 @@ module.exports = {
     OtherProductSendInformation,
     UpdateOtherProduct,
     DeleteOtherProduct,
-    GetOtherProductListByStatus
+    GetOtherProductListByStatus,
+    GetNewAndUpdatedOtherProductsList
 };
 
