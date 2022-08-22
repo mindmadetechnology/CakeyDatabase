@@ -342,8 +342,8 @@ const updateOrderStatus = async (req, res) => {
             PaymentStatus = 'Paid'
         } else {
             PaymentStatus = 'Cash on delivery'
-        };
-        if (Status === 'Preparing' || Status === 'Out For Delivery' || Status === 'Delivered') {
+        };                                          
+        if ((Status.toLowerCase()).replace(/ /g, '') === 'preparing' || (Status.toLowerCase()).replace(/ /g, '') === 'outfordelivery' || (Status.toLowerCase()).replace(/ /g, '') === 'delivered') {
             OrdersListModel.findById({ _id: Id }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
