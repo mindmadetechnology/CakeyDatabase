@@ -30,6 +30,10 @@ const {
     GetOtherProductDetails, ApproveUpdatedOtherProduct
 } = require('../controllers/OtherProductsController');
 
+const  {
+    NewOtherProductOrder,
+} = require('../controllers/OtherProductOrdersController');
+
 router.post('/caketype/new', AddNewCakeType);
 
 router.get('/caketype/list',Authorization, GetCakeTypeList);
@@ -98,6 +102,9 @@ router.put('/otherproduct/information/:id', OtherProductSendInformation);
 router.put('/otherproduct/update/:id', UpdateOtherProduct);
 
 router.delete('/otherproduct/delete/:id', DeleteOtherProduct);
+
+
+router.post('/otherproduct/order/new', NewOtherProductOrder);
 
 
 module.exports = router;

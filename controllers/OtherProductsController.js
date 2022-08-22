@@ -79,6 +79,7 @@ const CreateOtherProduct = async (req, res) => {
                 VendorPhoneNumber1: VendorPhoneNumber1,
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 GoogleLocation: FinalGoogleLocation,
+                VendorAddress: VendorAddress,
                 Discount: Discount,
                 ProductImage: FinalProductImage,
                 Created_On: Created_On,

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { increment } = require('../config/db');
 
-const OrderSchema = new mongoose.Schema({
+const OtherProductOrdersSchema = new mongoose.Schema({
 
     Other_ProductID: {
         type: String
@@ -36,8 +36,35 @@ const OrderSchema = new mongoose.Schema({
     Shape: {
         type: String
     },
-    Weight: {
-        type: String,
+    ProductMinWeightPerKg: {
+        Weight:{
+            type: String,
+        },
+        PricePerKg: {
+            type: String
+        }
+    },
+    ProductMinWeightPerUnit: {
+        Weight:{
+            type: String,
+        },
+        ProductCount: {
+            type: String,
+        },
+        PricePerUnit: {
+            type: String,
+        },
+    },
+    ProductMinWeightPerBox: {
+        Piece:{
+            type: String,
+        },
+        ProductCount: {
+            type: String,
+        },
+        PricePerBox: {
+            type: String,
+        },
     },
     Toppers: {
         TopperId: {
@@ -106,12 +133,6 @@ const OrderSchema = new mongoose.Schema({
     DeliveryInformation: {
         type: String
     },
-    Price: {
-        type: String,
-    },
-    ItemCount: {
-        type: Number,
-    },
     Discount: {
         type: Number,
         default: 0,
@@ -150,13 +171,13 @@ const OrderSchema = new mongoose.Schema({
 
 });
 
-OrderSchema.plugin(increment, {
+OtherProductOrdersSchema.plugin(increment, {
     type: String,
-    modelName: 'OrdersList',
+    modelName: 'OtherProductOrders',
     fieldName: 'Id',
-    prefix: 'CKYORD-',
+    prefix: 'CKYOPORD-',
 });
 
-const collectionName = 'OrdersList';
+const collectionName = 'OtherProductOrders';
 
-module.exports = mongoose.model('OrdersList', OrderSchema, collectionName);
+module.exports = mongoose.model('OtherProductOrders', OtherProductOrdersSchema, collectionName);
