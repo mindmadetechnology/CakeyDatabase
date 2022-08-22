@@ -3,6 +3,7 @@ const UserNotificationModel = require("../models/UserNotification");
 const VendorNotificationModel = require("../models/VendorNotification");
 const AdminNotificationModel = require("../models/AdminNotificationModels");
 const moment = require('moment-timezone');
+const cloudinary = require("../middleware/cloudnary");
 
 const NewOtherProductOrder = (req, res) => {
     const Other_ProductID = req.body.Other_ProductID;
@@ -162,23 +163,251 @@ const NewOtherProductOrder = (req, res) => {
 };
 
 const GetAllOtherProductList = (req, res) => {
-
+    try {
+        OtherProductOrdersModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else if (result.length === 0) {
+                res.send({ message: 'No Records Found' });
+            } else {
+                res.send(result.reverse());
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 const GetVendorOtherProductOrderList = (req, res) => {
-
+    const Id = req.params.id;
+    try {
+        OtherProductOrdersModel.find({ VendorID: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else if (result.length === 0) {
+                res.send({ message: 'No Records Found' });
+            } else {
+                res.send(result.reverse());
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
 const GetOtherProductOrderDetails = (req, res) => {
-
+    const Id = req.params.id;
+    try {
+        OtherProductOrdersModel.findOne({ _id: Id }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send(result);
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
 };
 
-const UpdateOtherProductOrderStatus = (req, res) => {
+const UpdateOtherProductOrderStatus = async (req, res) => {
+    const Id = req.params.id;
+    const Status = req.body.Status;
+    const Status_Updated_By = req.body.Status_Updated_By;
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    //file
+    try {
+        var PaymentStatus;
+        if (Status === 'Delivered') {
+            PaymentStatus = 'Paid'
+        } else {
+            PaymentStatus = 'Cash on delivery'
+        };
+        if (Status === 'Preparing' || Status === 'Out For Delivery' || Status === 'Delivered') {
+            OtherProductOrdersModel.findById({ _id: Id }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else if (result === null) {
+                    res.send({ statusCode: 400, message: "Failed" });
+                } else {
+                    OtherProductOrdersModel.findOneAndUpdate({ _id: Id }, {
+                        $set: {
+                            Status: Status,
+                            PaymentStatus: PaymentStatus,
+                            Status_Updated_On: Status_Updated_On,
+                            Status_Updated_By: Status_Updated_By
+                        }
+                    }, function (err) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            const Notification = new UserNotificationModel({
+                                Other_ProductID: result._id,
+                                Other_Product_ID: result.Id,
+                                Image: result.Image,
+                                CakeName: result.ProductName,
+                                Status: Status,
+                                Status_Updated_On: Status_Updated_On,
+                                UserID: result.UserID,
+                                User_ID: result.User_ID,
+                                UserName: result.UserName,
+                                For_Display: `Your prduct order status changed into ${Status}`
+                            });
+                            Notification.save(function (err) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    res.send({ statusCode: 200, message: "Updated Successfully" });
+                                }
+                            })
 
+                        }
+                    });
+                }
+            });
+        } else {
+            if (req.file) {
+                var result = await cloudinary.uploader.upload(req.file.path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                var FinalCakeImage = result.url;
+                OtherProductOrdersModel.findOneAndUpdate({ _id: Id }, {
+                    $set: {
+                        Status: Status,
+                        PaymentStatus: PaymentStatus,
+                        FinalProductImage: FinalCakeImage,
+                        Status_Updated_On: Status_Updated_On,
+                        Status_Updated_By: Status_Updated_By
+                    }
+                }, function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        const Notification = new UserNotificationModel({
+                            Other_ProductID: result._id,
+                            Other_Product_ID: result.Id,
+                            Image: result.Image,
+                            CakeName: result.ProductName,
+                            Status: Status,
+                            Status_Updated_On: Status_Updated_On,
+                            UserID: result.UserID,
+                            User_ID: result.User_ID,
+                            UserName: result.UserName,
+                            For_Display: `Your order status changed into ${Status}`
+                        });
+                        Notification.save(function (err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
+                    }
+                });
+            } else {
+                res.send({ statusCode: 400, message: 'Cake Image is Mandatory' })
+            }
+        };
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
 };
 
 const AcceptOrCancelOrder = (req, res) => {
-
+    const id = req.params.id;
+    const Status = req.body.Status;
+    const Cancelled_By = req.body.Cancelled_By;
+    const Status_Updated_By = req.body.Status_Updated_By;
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    try {
+        if (Status === 'Accepted') {
+            OtherProductOrdersModel.findOneAndUpdate({ _id: id }, {
+                $set: {
+                    Status: Status,
+                    Status_Updated_On: Status_Updated_On
+                }
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: 'Failed' });
+                } else {
+                    const UserNotification = new UserNotificationModel({
+                        Other_ProductID: result._id,
+                        Other_Product_ID: result.Id,
+                        Image: result.Image,
+                        CakeName: result.ProductName,
+                        Status: result.Status,
+                        Status_Updated_On: Status_Updated_On,
+                        UserID: result.UserID,
+                        User_ID: result.User_ID,
+                        UserName: result.UserName,
+                        For_Display: 'Your Product Order is Accepted'
+                    });
+                    UserNotification.save(function (err) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            res.send({ statusCode: 200, message: 'Order Accepted' });
+                        }
+                    });
+                }
+            });
+        } else {
+            OtherProductOrdersModel.findOneAndUpdate({ _id: id }, {
+                $set: {
+                    Status: Status,
+                    Cancelled_By: Cancelled_By,
+                    Status_Updated_By: Status_Updated_By,
+                    Status_Updated_On: Status_Updated_On
+                }
+            }, function (err, result) {
+                if (err) {
+                    res.send({ statusCode: 400, message: 'Failed' });
+                } else {
+                    if (Cancelled_By === 'User') {
+                        const Notification = VendorNotificationModel({
+                            Other_ProductID: result._id,
+                            Other_Product_ID: result.Id,
+                            Image: result.Image,
+                            CakeName: result.ProductName,
+                            Status: result.Status,
+                            Status_Updated_On: Status_Updated_On,
+                            VendorID: result.VendorID,
+                            Vendor_ID: result.Vendor_ID,
+                            UserName: result.UserName,
+                            For_Display: "Yuor Product Order is Cancelled"
+                        });
+                        Notification.save(function (err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: 'Order Cancelled' });
+                            }
+                        });
+                    } else {
+                        const UserNotification = new UserNotificationModel({
+                            Other_ProductID: result._id,
+                            Other_Product_ID: result.Id,
+                            Image: result.Image,
+                            CakeName: result.ProductName,
+                            Status: result.Status,
+                            Status_Updated_On: Status_Updated_On,
+                            UserID: result.UserID,
+                            User_ID: result.User_ID,
+                            UserName: result.UserName,
+                            For_Display: 'Your Product Order is Cancelled'
+                        });
+                        UserNotification.save(function (err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: 'Order Cancelled' });
+                            }
+                        });
+                    }
+                }
+            })
+        }
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed" });
+    };
 };
 
 module.exports = {

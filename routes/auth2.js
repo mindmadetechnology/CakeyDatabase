@@ -31,7 +31,9 @@ const {
 } = require('../controllers/OtherProductsController');
 
 const  {
-    NewOtherProductOrder,
+    NewOtherProductOrder, GetAllOtherProductList,
+    GetVendorOtherProductOrderList, GetOtherProductOrderDetails,
+    UpdateOtherProductOrderStatus, AcceptOrCancelOrder,
 } = require('../controllers/OtherProductOrdersController');
 
 router.post('/caketype/new', AddNewCakeType);
@@ -106,5 +108,14 @@ router.delete('/otherproduct/delete/:id', DeleteOtherProduct);
 
 router.post('/otherproduct/order/new', NewOtherProductOrder);
 
+router.get('/otherproduct/order/alllist', GetAllOtherProductList);
+
+router.get('/otherproduct/order/listbyvendor/:id', GetVendorOtherProductOrderList);
+
+router.get('/otherproduct/order/details/:id', GetOtherProductOrderDetails);
+
+router.put('/otherproduct/order/updatestatus/:id', upload.single('file'), UpdateOtherProductOrderStatus);
+
+router.put('/otherproduct/order/acceptorcancel/:id', AcceptOrCancelOrder);
 
 module.exports = router;
