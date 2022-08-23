@@ -383,6 +383,7 @@ const OrderHampers = (req, res) => {
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
         if (HamperID || Hamper_ID || HampersName || Product_Contains || HamperImage || Price || Description ||
@@ -420,6 +421,7 @@ const OrderHampers = (req, res) => {
                 PaymentType: PaymentType,
                 PaymentStatus: PaymentStatus,
                 Created_On: Created_On,
+                Status_Updated_On: Status_Updated_On,
             });
             NewHamperOrder.save(function (err, result) {
                 if (err) {
