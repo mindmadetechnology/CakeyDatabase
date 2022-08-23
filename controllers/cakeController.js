@@ -552,7 +552,22 @@ const updateCake = async (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                        const AddNotification = AdminNotificationModel({
+                            NotificationType: 'Cake Updated',
+                            Image: result.MainCakeImage,
+                            VendorID: result.VendorID,
+                            Vendor_ID: result.Vendor_ID,
+                            VendorName: result.VendorName,
+                            Id: result._id,
+                            Created_On: result.Modified_On
+                        });
+                        AddNotification.save(function (err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
                     }
                 });
             }
