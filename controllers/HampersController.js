@@ -558,7 +558,7 @@ const CancelHamperOrder = (req, res) => {
                         VendorID: result.VendorID,
                         Vendor_ID: result.Vendor_ID,
                         UserName: result.UserName,
-                        For_Display: "Yuor Customized Cake Order is Cancelled"
+                        For_Display: "Your Hamper Order is Cancelled"
                     });
                     Notification.save(function (err) {
                         if (err) {
