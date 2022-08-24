@@ -41,6 +41,7 @@ const NewOtherProductOrder = (req, res) => {
     const DeliveryInformation = req.body.DeliveryInformation;
     const Discount = req.body.Discount;
     const DeliveryCharge = req.body.DeliveryCharge;
+    const ItemCount = req.body.ItemCount;
     const Total = req.body.Total;
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
@@ -90,6 +91,7 @@ const NewOtherProductOrder = (req, res) => {
                 DeliveryInformation: DeliveryInformation,
                 Discount: Discount,
                 DeliveryCharge: DeliveryCharge,
+                ItemCount: ItemCount,
                 Total: Total,
                 PaymentType: PaymentType,
                 PaymentStatus: PaymentStatus,

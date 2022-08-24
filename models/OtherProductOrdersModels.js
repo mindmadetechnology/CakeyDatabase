@@ -133,6 +133,9 @@ const OtherProductOrdersSchema = new mongoose.Schema({
     DeliveryInformation: {
         type: String
     },
+    ItemCount: {
+        type: String,
+    },
     Discount: {
         type: Number,
         default: 0,
