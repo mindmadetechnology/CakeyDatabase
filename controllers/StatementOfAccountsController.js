@@ -346,7 +346,7 @@ const GetVendorStatementOfAccountsDetails = (req, res) => {
                                                 res.send({
                                                     OpeningBalance: OpeningBalance,
                                                     ClosingBalance: ClosingBalance,
-                                                    FinalSortedList: VendorStatement
+                                                    result: VendorStatement
                                                 });
                                             } else {
                                                 FinalSortedList.filter(val => {
