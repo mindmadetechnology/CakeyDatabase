@@ -20,7 +20,6 @@ const getcakelist = (req, res) => {
                         var NewResult = [];
                         result1.filter(val1 => {
                             result2.filter(val2 => {
-                                console.log(val1.VendorID === val2._id.toString())
                                 if(val1.VendorID === val2._id.toString()){
                                     NewResult.push(val1);
                                 }
@@ -281,12 +280,12 @@ const addCake = async (req, res) => {
                 FinalAdditionalCakeImages = [];
             };
             const vendorValidate = new cakeModel({
-                CakeName: CakeName,
+                CakeName: CakeName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 CakeType: FinalCakeType,
                 CakeSubType: FinalCakeSubType,
-                CakeCommonName: CakeCommonName,
-                BasicFlavour: BasicFlavour,
-                BasicShape: BasicShape,
+                CakeCommonName: CakeCommonName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                BasicFlavour: BasicFlavour.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                BasicShape: BasicShape.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 MinWeight: MinWeight,
                 BasicCakePrice: BasicCakePrice,
                 DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
@@ -309,13 +308,13 @@ const addCake = async (req, res) => {
                 BasicCustomisationPossible: BasicCustomisationPossible,
                 FullCustomisationPossible: FullCustomisationPossible,
                 CakeBase: CakeBase,
-                CakeCream: CakeCream,
-                ButterCreamType: ButterCreamType,
+                CakeCream: CakeCream.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                ButterCreamType: ButterCreamType.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
                 KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
-                OtherInstructions: OtherInstructions, //optional
-                Description: Description,
+                OtherInstructions: OtherInstructions.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()), //optional
+                Description: Description.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
                 HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
                 VendorID: VendorID,
@@ -375,10 +374,10 @@ const ApproveCake = (req, res) => {
             $set: {
                 Status: Status,
                 // ToppersPossible: ToppersPossible,
-                RatingsForVendor: RatingsForVendor,
+                RatingsForVendor: RatingsForVendor.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 // CakeType: CakeType,
                 // CakeSubType: CakeSubType,
-                CakeCategory: CakeCategory,
+                CakeCategory: CakeCategory.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Status_Updated_On: Status_Updated_On
             }
         }, function (err, result) {
@@ -483,7 +482,6 @@ const updateCake = async (req, res) => {
 
     try {
         var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
-        console.log(CustomShapeList)
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
@@ -594,7 +592,7 @@ const SendInformationToVendor = (req, res) => {
             } else {
                 var InformationArray = [];
                 var data = {
-                    Information: Information,
+                    Information: Information.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     Created_On: Created_On,
                     Created_By: Created_By
                 }

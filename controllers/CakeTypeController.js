@@ -12,7 +12,7 @@ const AddNewCakeType = (req, res) => {
             }else if(result1.length === 0){
                 FinalSubType = [];
                 const NewCakeType = CakeTypeModel({
-                    Type: Type,
+                    Type: Type.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     SubType: FinalSubType
                 });
                 NewCakeType.save(function (err) {
@@ -29,9 +29,9 @@ const AddNewCakeType = (req, res) => {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else if (result2 === null) {
-                                FinalSubType = [SubType];
+                                FinalSubType = [SubType.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())];
                                 const NewCakeType = CakeTypeModel({
-                                    Type: Type,
+                                    Type: Type.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                     SubType: FinalSubType
                                 });
                                 NewCakeType.save(function (err) {
@@ -43,10 +43,10 @@ const AddNewCakeType = (req, res) => {
                                 });
                             } else {
                                 if(result2.SubType.length === 0){
-                                    FinalSubType = [SubType];  
+                                    FinalSubType = [SubType.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())];  
                                 }else{
                                     var Result2 = result2.SubType;
-                                    FinalSubType = Result2.concat(SubType);
+                                    FinalSubType = Result2.concat(SubType.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()));
                                 }
                                 CakeTypeModel.findOneAndUpdate({ Type: Type }, {
                                     $set: {
@@ -64,7 +64,7 @@ const AddNewCakeType = (req, res) => {
                     } else {
                         FinalSubType = [];
                         const NewCakeType = CakeTypeModel({
-                            Type: Type,
+                            Type: Type.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                             SubType: FinalSubType
                         });
                         NewCakeType.save(function (err) {

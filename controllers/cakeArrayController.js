@@ -20,7 +20,7 @@ const AddNewFlavours = (req, res) => {
                 });
                 if (NewFlavour.length === 0) {
                     const Flavour_List = new CakeFlavoursModel({
-                        Name: Flavour,
+                        Name: Flavour.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                         Created_On: Created_On
                     });
                     Flavour_List.save(function (err, result) {
@@ -75,7 +75,7 @@ const AddNewShapes = (req, res) => {
                 });
                 if (NewShape.length === 0) {
                     const Shape_List = new CakeShapesModel({
-                        Name: Shape,
+                        Name: Shape.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                         Created_On: Created_On
                     });
                     Shape_List.save(function (err, result) {
@@ -188,7 +188,7 @@ const AddNewArticle = (req, res) => {
                 if (NewArticle.length === 0) {
 
                     const Article_List = new CakeArticlesModel({
-                        Name: Article,
+                        Name: Article.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                         Created_On: Created_On
                     });
                     Article_List.save(function (err, result) {
@@ -246,7 +246,7 @@ const AddNewCakeToppings = (req, res) => {
                 if (NewCakeToppings.length === 0) {
 
                     const CakeToppings_List = new CakeToppingsModel({
-                        Name: CakeToppings,
+                        Name: CakeToppings.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                         Created_On: Created_On
                     });
                     CakeToppings_List.save(function (err, result) {

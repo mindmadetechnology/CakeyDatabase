@@ -68,7 +68,7 @@ const putAdmin = async (req, res) => {
                         {
                             $set: {
                                 Email: Email,
-                                AdminName: AdminName,
+                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 Password: Password,
                                 Modified_On: Modified_On
                             }
@@ -88,7 +88,7 @@ const putAdmin = async (req, res) => {
                                         {
                                             $set: {
                                                 Email: Email,
-                                                AdminName: AdminName,
+                                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                                 Password: Password,
                                                 Modified_On: Modified_On
                                             }
@@ -120,7 +120,7 @@ const putAdmin = async (req, res) => {
                             $set: {
                                 Email: Email,
                                 ProfileImage: imagesUrl.secure_url,
-                                AdminName: AdminName,
+                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 Password: Password,
                                 Modified_On: Modified_On
                             }
@@ -140,7 +140,7 @@ const putAdmin = async (req, res) => {
                                         {
                                             $set: {
                                                 Email: Email,
-                                                AdminName: AdminName,
+                                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                                 Password: Password,
                                                 ProfileImage: imagesUrl.secure_url,
                                                 Modified_On: Modified_On
