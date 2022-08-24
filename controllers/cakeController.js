@@ -332,7 +332,7 @@ const addCake = async (req, res) => {
             });
             vendorValidate.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed", error: err });
+                    res.send({ statusCode: 400, message: "Failed" });
                 } else {
                     const AddNotification = AdminNotificationModel({
                         NotificationType: 'New Cake',
@@ -345,7 +345,7 @@ const addCake = async (req, res) => {
                     });
                     AddNotification.save(function (err) {
                         if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
+                            res.send({ statusCode: 400, message: "Failed", err:err });
                         } else {
                             res.send({ statusCode: 200, message: "Added Successfully" });
                         }
