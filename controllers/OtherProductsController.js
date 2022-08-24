@@ -55,10 +55,10 @@ const CreateOtherProduct = async (req, res) => {
             };
             const NewOtherProduct = OtherProductModel({
                 CakeSubType: CakeSubType,
-                ProductName: ProductName,
-                ProductCommonName: ProductCommonName,
+                ProductName: ProductName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                ProductCommonName: ProductCommonName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Flavour: FinalFlavour,
-                Shape: Shape,
+                Shape: Shape?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Type: Type,
                 MinWeightPerKg: FinalMinWeightPerKg,
                 MinWeightPerUnit: FinalMinWeightPerUnit,
@@ -70,7 +70,7 @@ const CreateOtherProduct = async (req, res) => {
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
                 KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
-                Description: Description,
+                Description: Description?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
                 HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
                 VendorID: VendorID,
@@ -125,8 +125,8 @@ const ApproveOtherProduct = (req, res) => {
         OtherProductModel.findOneAndUpdate({ _id: Id }, {
             $set: {
                 Status: Status,
-                RatingsForVendor: RatingsForVendor,
-                CakeCategory: CakeCategory,
+                RatingsForVendor: RatingsForVendor?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                CakeCategory: CakeCategory?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Status_Updated_By: Status_Updated_By,
                 Status_Updated_On: Status_Updated_On
             }
@@ -249,7 +249,7 @@ const OtherProductSendInformation = (req, res) => {
             } else {
                 var InformationArray = [];
                 var data = {
-                    Information: Information,
+                    Information: Information?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     Created_On: Created_On,
                     Created_By: Created_By
                 }

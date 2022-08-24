@@ -42,7 +42,7 @@ const HelpDeskNew = (req, res) => {
                         const HelpDesk = new helpDeskModel({
                             Email: Email,
                             Password: Password,
-                            Name: Name,
+                            Name: Name?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                             Created_On: Created_On
                         });
                         HelpDesk.save(function (err, result) {

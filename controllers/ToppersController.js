@@ -150,7 +150,7 @@ const UpdateTopper = async (req, res) => {
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
-                TopperName: TopperName,
+                TopperName: TopperName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 TopperImage: TopperImage,
                 AvailableCount:AvailableCount,
                 Price: Price,

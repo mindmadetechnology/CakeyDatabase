@@ -44,8 +44,8 @@ const CreateHampers = async (req, res) => {
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
-                HampersName: HampersName,
-                Title: Title,
+                HampersName: HampersName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                Title: Title?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Occasion: FinalOccasion,
                 Weight: Weight,
                 StartDate: StartDate,
@@ -53,7 +53,7 @@ const CreateHampers = async (req, res) => {
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image.url,
-                Description: Description,
+                Description: Description?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Created_On: Created_On,
             });
             NewHampers.save(function (err, result) {
@@ -125,8 +125,8 @@ const UpdateHampers = async (req, res) => {
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
-                HampersName: HampersName,
-                Title: Title,
+                HampersName: HampersName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                Title: Title?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Occasion: FinalOccasion,
                 Weight: Weight,
                 StartDate: StartDate,
@@ -134,7 +134,7 @@ const UpdateHampers = async (req, res) => {
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image,
-                Description: Description,
+                Description: Description?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Modified_On: Modified_On,
                 Status: 'Updated'
             }
@@ -411,7 +411,7 @@ const OrderHampers = (req, res) => {
                 User_ID: User_ID,
                 UserName: UserName,
                 UserPhoneNumber: UserPhoneNumber,
-                DeliveryAddress: DeliveryAddress,
+                DeliveryAddress: DeliveryAddress?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 DeliveryDate: DeliveryDate,
                 DeliverySession: DeliverySession,
                 DeliveryInformation: DeliveryInformation,
