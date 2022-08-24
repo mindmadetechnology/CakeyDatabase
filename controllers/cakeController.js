@@ -280,12 +280,12 @@ const addCake = async (req, res) => {
                 FinalAdditionalCakeImages = [];
             };
             const vendorValidate = new cakeModel({
-                CakeName: CakeName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                CakeName: CakeName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 CakeType: FinalCakeType,
                 CakeSubType: FinalCakeSubType,
-                CakeCommonName: CakeCommonName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                BasicFlavour: BasicFlavour.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                BasicShape: BasicShape.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                CakeCommonName: CakeCommonName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                BasicFlavour: BasicFlavour?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                BasicShape: BasicShape?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 MinWeight: MinWeight,
                 BasicCakePrice: BasicCakePrice,
                 DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
@@ -308,13 +308,13 @@ const addCake = async (req, res) => {
                 BasicCustomisationPossible: BasicCustomisationPossible,
                 FullCustomisationPossible: FullCustomisationPossible,
                 CakeBase: CakeBase,
-                CakeCream: CakeCream.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                ButterCreamType: ButterCreamType.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                CakeCream: CakeCream?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                ButterCreamType: ButterCreamType?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
                 KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
-                OtherInstructions: OtherInstructions.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()), //optional
-                Description: Description.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                OtherInstructions: OtherInstructions?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()), //optional
+                Description: Description?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
                 HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
                 VendorID: VendorID,
