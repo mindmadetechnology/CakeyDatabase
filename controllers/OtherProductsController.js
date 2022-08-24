@@ -302,7 +302,7 @@ const GetAllOtherProductsList = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }
@@ -335,7 +335,7 @@ const GetApprovedOtherProductsList = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }
@@ -368,7 +368,7 @@ const GetNewAndUpdatedOtherProductsList = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }
