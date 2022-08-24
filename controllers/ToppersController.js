@@ -91,21 +91,20 @@ const AddNewTopper = (req, res) => {
                             VendorID: VendorID,
                             Vendor_ID: Vendor_ID,
                             VendorName: VendorName,
-                            TopperName: TopperName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                            TopperName: TopperName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                             TopperImage: TopperImage,
                             Price: Price,
                             Stock: Stock,
                             AvailableCount:AvailableCount,
                             Created_On: Created_On,
                         });
-                        console.log(Topper);
-                        // Topper.save(function (err, result) {
-                        //     if (err) {
-                        //         res.send({ statusCode: 400, message: 'Failed' });
-                        //     } else {
-                        //         res.send({ statusCode: 200, message: 'Added Successfully' });
-                        //     }
-                        // });
+                        Topper.save(function (err, result) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: 'Failed' });
+                            } else {
+                                res.send({ statusCode: 200, message: 'Added Successfully' });
+                            }
+                        });
                     }
                 }
             });
