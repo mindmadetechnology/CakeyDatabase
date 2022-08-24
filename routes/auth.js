@@ -334,7 +334,7 @@ router.get('/order/countbyvendorid/:id', Authorization, getVendorOrdersStatusCou
 router.get('/order/listbyAbove5KG/:above', Authorization, GetAbove5kgOrdersList);
 
 //get not respond orders for display in helpdesk and admin dashboard
-router.get('/order/listbyresponse',GetNotRespondOrders);
+router.get('/order/listbyresponse', Authorization, GetNotRespondOrders);
 
 //Above 5k orders assign to vendors
 router.put('/order/assign/:id', Above5KGOrderAssign);
@@ -530,10 +530,10 @@ router.get('/admin/statementofaccounts/:Month/:Year', Authorization, GetAdminSta
 router.post('/statementofaccounts/new', CreateStatementOfAccountsByVendorID);
 
 //get vendor statement of accounts
-router.get('/vendor/statementofaccountslist', GetVendorStatementOfAccountsList);
+router.get('/vendor/statementofaccountslist', Authorization, GetVendorStatementOfAccountsList);
 
 //get vendor statement of accounts details
-router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', GetVendorStatementOfAccountsDetails);
+router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', Authorization, GetVendorStatementOfAccountsDetails);
 
 router.get('/vendor/loginsession/:id/:date', Authorization, GetLoginTimeWithDateRange);
 
