@@ -36,6 +36,10 @@ const  {
     UpdateOtherProductOrderStatus, AcceptOrCancelOrder,
 } = require('../controllers/OtherProductOrdersController');
 
+const {
+    CreateBankName
+} = require("../controllers/BankNameControllers");
+
 router.post('/caketype/new', AddNewCakeType);
 
 router.get('/caketype/list',Authorization, GetCakeTypeList);

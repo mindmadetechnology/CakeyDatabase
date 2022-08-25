@@ -60,6 +60,24 @@ const GetFlavoursList = (req, res) => {
     };
 };
 
+const GetNotReversedFlavoursList = (req, res) => {
+    try {
+        CakeFlavoursModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: 'No Records Found' });
+                } else {
+                    res.send(result);
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+}
+
 //add new shapes
 const AddNewShapes = (req, res) => {
 
@@ -107,6 +125,25 @@ const GetShapesList = (req, res) => {
                     res.send({ message: 'No Records Found' });
                 } else {
                     res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+const GetNotReversedShapesList = (req, res) => {
+
+    try {
+        CakeShapesModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: 'No Records Found' });
+                } else {
+                    res.send(result);
                 }
             }
         });
@@ -367,6 +404,8 @@ module.exports = {
     DeleteFlavour,
     DeleteShape,
     DeleteWeight,
-    DeleteArticle
+    DeleteArticle,
+    GetNotReversedFlavoursList,
+    GetNotReversedShapesList
 
 };
