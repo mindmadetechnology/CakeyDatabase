@@ -17,9 +17,9 @@ app.use('/api', authRoute);
 app.use('/api', authRoute2);
 
 
-app.listen(3001, () => {
+var server = app.listen(3001, () => {
   console.log("Server is running at port 3001");
 });
 
-app.timeout = 60 * 1000;
+server.timeout = 120000;
 
