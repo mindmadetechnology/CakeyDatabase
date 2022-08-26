@@ -1,6 +1,6 @@
 const router = require('./auth');
 
-const upload=require("../middleware/multer");
+const upload = require("../middleware/multer");
 
 const Authorization = require('../middleware/autherization');
 
@@ -25,24 +25,25 @@ const {
     CreateOtherProduct, ApproveOtherProduct,
     GetAllOtherProductsList, GetVendorsOtherProductsList,
     GetApprovedOtherProductsList, OtherProductSendInformation,
-    UpdateOtherProduct, DeleteOtherProduct, 
+    UpdateOtherProduct, DeleteOtherProduct,
     GetOtherProductListByStatus, GetNewAndUpdatedOtherProductsList,
     GetOtherProductDetails, ApproveUpdatedOtherProduct
 } = require('../controllers/OtherProductsController');
 
-const  {
+const {
     NewOtherProductOrder, GetAllOtherProductList,
     GetVendorOtherProductOrderList, GetOtherProductOrderDetails,
     UpdateOtherProductOrderStatus, AcceptOrCancelOrder,
 } = require('../controllers/OtherProductOrdersController');
 
 const {
-    CreateBankName
+    CreateBankName, DeleteBankName,
+    GetBankNameList
 } = require("../controllers/BankNameControllers");
 
 router.post('/caketype/new', AddNewCakeType);
 
-router.get('/caketype/list',Authorization, GetCakeTypeList);
+router.get('/caketype/list', Authorization, GetCakeTypeList);
 
 router.put('/caketype/delete', DeleteCakeTypeOrCakeSubType);
 
@@ -54,11 +55,11 @@ router.post('/hamper/new', upload.single('file'), CreateHampers);
 
 router.put('/hamper/update/:id', upload.single('file'), UpdateHampers);
 
-router.get('/hamper/list',Authorization, GetHampersList);
+router.get('/hamper/list', Authorization, GetHampersList);
 
-router.get('/hamper/listbyvendor/:id',Authorization, GetVendorsHampersList);
+router.get('/hamper/listbyvendor/:id', Authorization, GetVendorsHampersList);
 
-router.get('/hamper/approvedlist',Authorization, GetApprovedHampersList);
+router.get('/hamper/approvedlist', Authorization, GetApprovedHampersList);
 
 router.get('/hamper/details/:id', Authorization, GetHamperDetailsById);
 
@@ -85,7 +86,7 @@ router.get('/hamperorder/details/:id', Authorization, GetHamperOrderDetailsById)
 router.get('/ordersandhamperorders/listbyuser/:id', Authorization, GetUserOrderAndHamperOrder);
 
 
-router.post('/otherproduct/new',upload.fields([{name: 'ProductImage', maxCount: 5}]), CreateOtherProduct);
+router.post('/otherproduct/new', upload.fields([{ name: 'ProductImage', maxCount: 5 }]), CreateOtherProduct);
 
 router.put('/otherproduct/approve/:id', ApproveOtherProduct);
 
@@ -121,5 +122,11 @@ router.get('/otherproduct/order/details/:id', Authorization, GetOtherProductOrde
 router.put('/otherproduct/order/updatestatus/:id', upload.single('file'), UpdateOtherProductOrderStatus);
 
 router.put('/otherproduct/order/acceptorcancel/:id', AcceptOrCancelOrder);
+
+router.post('/bankname/new',CreateBankName);
+
+router.delete('/bankname/delete/:bankname',DeleteBankName);
+
+router.get('/bankname/list', Authorization,GetBankNameList);
 
 module.exports = router;

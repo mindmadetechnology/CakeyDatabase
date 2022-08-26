@@ -44,11 +44,35 @@ const CreateBankName = (req, res) => {
 };
 
 const DeleteBankName = (req, res) => {
+    const BankName = req.params.bankname;
 
+    try{
+        BankNameModel.findOneAndDelete({BankName: BankName}, function(err){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else{
+                res.send({ statusCode: 200, message: "Deleted Successfully" })
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 const GetBankNameList = (req, res) => {
-
+    try{
+        BankNameModel.find({}, function(err, result){
+            if(err){
+                res.send({ statusCode: 400, message: "Failed" });
+            }else if(result.length === 0){
+                res.send({message: 'No Records Found'});
+            }else{
+                res.send(result);
+            }
+        })
+    }catch(err){
+        res.send({ statusCode: 400, message: "Failed" });
+    }
 };
 
 module.exports = {
