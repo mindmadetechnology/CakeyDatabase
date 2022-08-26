@@ -49,6 +49,9 @@ const CakeSchema = new mongoose.Schema({
             Name: {
                 type: String
             },
+            MinWeight:{
+                type: String
+            },
             Price: {
                 type: String
             },

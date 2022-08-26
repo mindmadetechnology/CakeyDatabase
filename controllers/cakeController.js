@@ -181,8 +181,8 @@ const addCake = async (req, res) => {
     const IsEgglessOptionAvailable = req.body.IsEgglessOptionAvailable;
     const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
     const CustomFlavourList = req.body.CustomFlavourList;
-    const CustomShapeList = req.body.CustomShapeList;
-    const MinWeightList = req.body.MinWeightList;
+    const CustomShapeList = req.body.CustomShapeList; //Name,MinWeight,Price
+    // const MinWeightList = req.body.MinWeightList;
     const IsTierCakePossible = req.body.IsTierCakePossible;
     const TierCakeMinWeightAndPrice = req.body.TierCakeMinWeightAndPrice; //optional
     const ThemeCakePossible = req.body.ThemeCakePossible;
@@ -230,7 +230,7 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var SampleShapeImages = [], FinalAdditionalCakeImages = [];
-            var FinalCustomFlavourList, FinalMinWeightList, FinalCustomShapeList, FinalCakeSubType;
+            var FinalCustomFlavourList, FinalCustomShapeList, FinalCakeSubType;
             var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake, MainCakeImage;
             // const FinalBasicFlavour = JSON.parse(BasicFlavour);
             // const FinalBasicShape = JSON.parse(BasicShape);
@@ -242,9 +242,6 @@ const addCake = async (req, res) => {
             };
             if (CustomFlavourList) {
                 FinalCustomFlavourList = JSON.parse(CustomFlavourList);
-            };
-            if (MinWeightList) {
-                FinalMinWeightList = JSON.parse(MinWeightList);
             };
             if (CustomShapeList) {
                 FinalCustomShapeList = JSON.parse(CustomShapeList);
@@ -296,7 +293,6 @@ const addCake = async (req, res) => {
                     Info: FinalCustomShapeList,
                     SampleImages: SampleShapeImages
                 },
-                MinWeightList: FinalMinWeightList,
                 IsTierCakePossible: IsTierCakePossible,
                 TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
                 ThemeCakePossible: ThemeCakePossible,
