@@ -188,6 +188,8 @@ const addCake = async (req, res) => {
     const ThemeCakePossible = req.body.ThemeCakePossible;
     const ToppersPossible = req.body.ToppersPossible;
     const MinTimeForDeliveryOfDefaultCake = req.body.MinTimeForDeliveryOfDefaultCake;
+    const MinTimeForDeliveryOfA1KgCake = req.body.MinTimeForDeliveryOfA1KgCake;
+    const MinTimeForDeliveryOfA2KgCake = req.body.MinTimeForDeliveryOfA2KgCake;
     const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
     const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
     const MinTimeForDeliveryFortierCake = req.body.MinTimeForDeliveryFortierCake; //optional
@@ -298,6 +300,8 @@ const addCake = async (req, res) => {
                 ThemeCakePossible: ThemeCakePossible,
                 ToppersPossible: ToppersPossible,
                 MinTimeForDeliveryOfDefaultCake: MinTimeForDeliveryOfDefaultCake,
+                MinTimeForDeliveryOfA1KgCake: MinTimeForDeliveryOfA1KgCake,
+                MinTimeForDeliveryOfA2KgCake: MinTimeForDeliveryOfA2KgCake,
                 MinTimeForDeliveryOfA3KgCake: MinTimeForDeliveryOfA3KgCake, //optional
                 MinTimeForDeliveryOfA5KgCake: MinTimeForDeliveryOfA5KgCake, //optional
                 MinTimeForDeliveryFortierCake: FinalMinTimeForDeliveryFortierCake, //optional

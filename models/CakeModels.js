@@ -89,6 +89,12 @@ const CakeSchema = new mongoose.Schema({
     MinTimeForDeliveryOfDefaultCake: {
         type: String,
     },
+    MinTimeForDeliveryOfA1KgCake: {
+        type: String,
+    },
+    MinTimeForDeliveryOfA2KgCake: {
+        type: String,
+    },
     MinTimeForDeliveryOfA3KgCake: {
         type: String,
     },
