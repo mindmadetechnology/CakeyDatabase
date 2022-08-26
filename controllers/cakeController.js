@@ -459,11 +459,11 @@ const updateCake = async (req, res) => {
     // const MinWeight = req.body.MinWeight;
     const CustomFlavourList = req.body.CustomFlavourList;
     const CustomShapeList = req.body.CustomShapeList;
-    const MinWeightList = req.body.MinWeightList;
+    // const MinWeightList = req.body.MinWeightList;
     const BasicCakePrice = req.body.BasicCakePrice;
-    const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
-    const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
-    const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
+    // const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
+    // const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
+    // const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
@@ -481,16 +481,13 @@ const updateCake = async (req, res) => {
     //SampleImages
 
     try {
-        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
+        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalCustomShapeList = [];
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
         const FinalLocation = JSON.parse(GoogleLocation);
         if (CustomFlavourList !== undefined) {
             FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
-        };
-        if (MinWeightList !== undefined) {
-            FinalMinWeightList = JSON.parse(MinWeightList);
         };
         if (CustomShapeList !== undefined) {
             FinalCustomShapeList = (JSON.parse(CustomShapeList));
@@ -530,11 +527,7 @@ const updateCake = async (req, res) => {
                             Info: FinalCustomShapeList,
                             SampleImages: FinalSampleImages
                         },
-                        MinWeightList: FinalMinWeightList,
                         BasicCakePrice: BasicCakePrice,
-                        BasicCustomisationPossible: BasicCustomisationPossible,
-                        MinTimeForDeliveryOfA3KgCake: MinTimeForDeliveryOfA3KgCake, //optional
-                        MinTimeForDeliveryOfA5KgCake: MinTimeForDeliveryOfA5KgCake, //optional
                         VendorID: VendorID,
                         Vendor_ID: Vendor_ID,
                         VendorName: VendorName,
