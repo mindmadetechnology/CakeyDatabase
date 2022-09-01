@@ -488,19 +488,26 @@ const forgotPassword = (req, res) => {
 //get all vendors and users
 const getAllUsersCount = (req, res) => {
     try {
-        userModel.count({}, function (err, count1) {
+        // userModel.countDocuments({}, function(err,count1){
+        //     if(err){
+        //         res.send({ statusCode: 400, message: "Failed" });
+        //     }else{
+        //         res.send({ Users: count1.toString() });
+        //     }
+        // })
+        userModel.countDocuments({}, function (err, count1) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                vendorModel.count({ Status: 'Approved' }, function (err, count2) {
+                vendorModel.countDocuments({ Status: 'Approved' }, function (err, count2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        CustomizeCakeModel.count({ Status: 'New' }, function (err, count3) {
+                        CustomizeCakeModel.countDocuments({ Status: 'New' }, function (err, count3) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
-                                CustomizeCakeModel.count({}, function (err, count4) {
+                                CustomizeCakeModel.countDocuments({}, function (err, count4) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
@@ -526,15 +533,15 @@ const getAllUsersCount = (req, res) => {
 //get notification count
 const GetNotificationCount = (req, res) => {
     try {
-        OrdersListModel.count({ Status: 'New' }, function (err, count1) {
+        OrdersListModel.countDocuments({ Status: 'New' }, function (err, count1) {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                CustomizeCakeModel.count({ Status: 'New' }, function (err, count2) {
+                CustomizeCakeModel.countDocuments({ Status: 'New' }, function (err, count2) {
                     if (err) {
                         res.send({ statusCode: 400, message: 'Failed' });
                     } else {
-                        vendorModel.count({ Status: 'New' }, function (err, count3) {
+                        vendorModel.countDocuments({ Status: 'New' }, function (err, count3) {
                             if (err) {
                                 res.send({ statusCode: 400, message: 'Failed' });
                             } else {

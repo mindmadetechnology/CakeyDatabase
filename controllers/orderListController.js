@@ -516,19 +516,19 @@ const getVendorOrdersListByStatus = (req, res) => {
 const getOrdersStatusCount = (req, res) => {
 
     try {
-        OrdersListModel.count({}, function (err, count1) {
+        OrdersListModel.countDocuments({}, function (err, count1) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                OrdersListModel.count({ Status: 'New' }, function (err, count2) {
+                OrdersListModel.countDocuments({ Status: 'New' }, function (err, count2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        OrdersListModel.count({ Status: 'Preparing' }, function (err, count3) {
+                        OrdersListModel.countDocuments({ Status: 'Preparing' }, function (err, count3) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
-                                OrdersListModel.count({ Status: 'Delivered' }, function (err, count4) {
+                                OrdersListModel.countDocuments({ Status: 'Delivered' }, function (err, count4) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
@@ -556,32 +556,31 @@ const getVendorOrdersStatusCount = (req, res) => {
 
     const id = req.params.id;
     try {
-        OrdersListModel.count({ VendorID: id }, function (err, count1) {
+        OrdersListModel.countDocuments({ VendorID: id }, function (err, count1) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                OrdersListModel.count({ Status: 'New', VendorID: id }, function (err, count2) {
+                OrdersListModel.countDocuments({ Status: 'New', VendorID: id }, function (err, count2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        OrdersListModel.count({ Status: 'Preparing', VendorID: id }, function (err, count3) {
+                        OrdersListModel.countDocuments({ Status: 'Preparing', VendorID: id }, function (err, count3) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
-                                OrdersListModel.count({ Status: 'Delivered', VendorID: id }, function (err, count4) {
+                                OrdersListModel.countDocuments({ Status: 'Delivered', VendorID: id }, function (err, count4) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
-                                        OrdersListModel.count({ Status: 'Cancelled', VendorID: id }, function (err, count5) {
+                                        OrdersListModel.countDocuments({ Status: 'Cancelled', VendorID: id }, function (err, count5) {
                                             if (err) {
                                                 res.send({ statusCode: 400, message: "Failed" });
                                             } else {
-
-                                                CustomizeCakeModel.count({ Status: 'New', VendorID: id }, function (err, count6) {
+                                                CustomizeCakeModel.countDocuments({ Status: 'New', VendorID: id }, function (err, count6) {
                                                     if (err) {
                                                         res.send({ statusCode: 400, message: "Failed" });
                                                     } else {
-                                                        CustomizeCakeModel.count({ VendorID: id }, function (err, count7) {
+                                                        CustomizeCakeModel.countDocuments({ VendorID: id }, function (err, count7) {
                                                             if (err) {
                                                                 res.send({ statusCode: 400, message: "Failed" });
                                                             } else {
