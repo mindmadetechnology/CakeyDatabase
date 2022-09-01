@@ -252,7 +252,7 @@ const loginValidate = (req, res) => {
                     } else {
                         LastLoginSessionModel.findOne({ Id: result._id.toString() }, function (err, result2) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed2", error:err });
+                                res.send({ statusCode: 400, message: "Failed2", error: err });
                             } else if (result2 === null) {
                                 const LastLogin = new LastLoginSessionModel({
                                     Id: result._id,
@@ -489,13 +489,21 @@ const forgotPassword = (req, res) => {
 const getAllUsersCount = (req, res) => {
     try {
         userModel.count({}, function (err, count1) {
-            if (!err) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
                 vendorModel.count({ Status: 'Approved' }, function (err, count2) {
-                    if (!err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
                         CustomizeCakeModel.count({ Status: 'New' }, function (err, count3) {
-                            if (!err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
                                 CustomizeCakeModel.count({}, function (err, count4) {
-                                    if (!err) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
                                         res.send({
                                             Users: count1.toString(),
                                             Vendors: count2.toString(),
@@ -519,11 +527,17 @@ const getAllUsersCount = (req, res) => {
 const GetNotificationCount = (req, res) => {
     try {
         OrdersListModel.count({ Status: 'New' }, function (err, count1) {
-            if (!err) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
                 CustomizeCakeModel.count({ Status: 'New' }, function (err, count2) {
-                    if (!err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    } else {
                         vendorModel.count({ Status: 'New' }, function (err, count3) {
-                            if (!err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: 'Failed' });
+                            } else {
                                 res.send({ Orders: count1.toString(), CustomizeCakes: count2.toString(), Newvendors: count3.toString() });
                             }
                         });
@@ -540,19 +554,19 @@ const UpdateVendorNotificationId = (req, res) => {
     const Email = req.params.email;
     const Notification_Id = req.body.Notification_Id;
 
-    try{
-        vendorModel.findOneAndUpdate({ Email: Email },{
+    try {
+        vendorModel.findOneAndUpdate({ Email: Email }, {
             $set: {
                 Notification_Id: Notification_Id
             }
-        }, function(err){
-            if(err){
+        }, function (err) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
+            } else {
                 res.send({ statusCode: 200, message: "Updated Successfully" });
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 };
