@@ -60,9 +60,9 @@ const CakeSchema = new mongoose.Schema({
             type: String,
         }],
     },
-    // MinWeightList: [{
-    //         type: String
-    // }],
+    MinWeightList: [{
+            type: String
+    }],
     IsTierCakePossible: {
         type: String,
         default:'n',

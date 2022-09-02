@@ -182,7 +182,7 @@ const addCake = async (req, res) => {
     const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
     const CustomFlavourList = req.body.CustomFlavourList;
     const CustomShapeList = req.body.CustomShapeList; //Name,MinWeight,Price
-    // const MinWeightList = req.body.MinWeightList;
+    const MinWeightList = req.body.MinWeightList;
     const IsTierCakePossible = req.body.IsTierCakePossible;
     const TierCakeMinWeightAndPrice = req.body.TierCakeMinWeightAndPrice; //optional
     const ThemeCakePossible = req.body.ThemeCakePossible;
@@ -232,7 +232,7 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var SampleShapeImages = [], FinalAdditionalCakeImages = [];
-            var FinalCustomFlavourList, FinalCustomShapeList, FinalCakeSubType;
+            var FinalCustomFlavourList, FinalCustomShapeList, FinalCakeSubType, FinalMinWeightList;
             var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake, MainCakeImage;
             // const FinalBasicFlavour = JSON.parse(BasicFlavour);
             // const FinalBasicShape = JSON.parse(BasicShape);
@@ -247,6 +247,9 @@ const addCake = async (req, res) => {
             };
             if (CustomShapeList) {
                 FinalCustomShapeList = JSON.parse(CustomShapeList);
+            }
+            if(MinWeightList){
+                FinalMinWeightList = JSON.parse(MinWeightList);
             }
             if (req.files['SampleImages'] !== undefined) {
                 for (let i = 0; i < req.files['SampleImages'].length; i++) {
@@ -295,6 +298,7 @@ const addCake = async (req, res) => {
                     Info: FinalCustomShapeList,
                     SampleImages: SampleShapeImages
                 },
+                MinWeightList: FinalMinWeightList,
                 IsTierCakePossible: IsTierCakePossible,
                 TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
                 ThemeCakePossible: ThemeCakePossible,
