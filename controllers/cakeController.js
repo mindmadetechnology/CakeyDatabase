@@ -463,7 +463,7 @@ const updateCake = async (req, res) => {
     // const MinWeight = req.body.MinWeight;
     const CustomFlavourList = req.body.CustomFlavourList;
     const CustomShapeList = req.body.CustomShapeList;
-    // const MinWeightList = req.body.MinWeightList;
+    const MinWeightList = req.body.MinWeightList;
     const BasicCakePrice = req.body.BasicCakePrice;
     // const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
     // const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
@@ -485,7 +485,7 @@ const updateCake = async (req, res) => {
     //SampleImages
 
     try {
-        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalCustomShapeList = [];
+        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [] ;
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
@@ -495,6 +495,9 @@ const updateCake = async (req, res) => {
         };
         if (CustomShapeList !== undefined) {
             FinalCustomShapeList = (JSON.parse(CustomShapeList));
+        };
+        if (MinWeightList !== undefined) {
+            FinalMinWeightList = (JSON.parse(MinWeightList));
         };
 
         //for sample shape images
@@ -531,6 +534,7 @@ const updateCake = async (req, res) => {
                             Info: FinalCustomShapeList,
                             SampleImages: FinalSampleImages
                         },
+                        MinWeightList: FinalMinWeightList,
                         BasicCakePrice: BasicCakePrice,
                         VendorID: VendorID,
                         Vendor_ID: Vendor_ID,
