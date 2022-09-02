@@ -15,6 +15,7 @@ const RegisterVendors = (req, res) => {
     const Password = req.body.Password;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2; //optional
+    const DoorNo = req.body.DoorNo;
     const Address = req.body.Address;
     const GoogleLocation = req.body.GoogleLocation;
     // const Street = req.body.Street;
@@ -70,7 +71,7 @@ const RegisterVendors = (req, res) => {
       <h5>MindMade Team</h5>
     `
     try {
-        if (!VendorName || !PreferredNameOnTheApp || !Email || !Password || !PhoneNumber1
+        if (!VendorName || !PreferredNameOnTheApp || !Email || !Password || !PhoneNumber1 || !DoorNo 
             || !Address|| !GoogleLocation || !Description || !EggOrEggless || !DateOfBirth ||
             !Gender || !YearsOfExperienceAsBaker || !AadhaarNumber || !PANNumber || 
             !FSSAINumber || !FSSAIExpiryDate || !JobType || !BankName || !Branch ||
@@ -104,6 +105,7 @@ const RegisterVendors = (req, res) => {
                                 PreferredNameOnTheApp: PreferredNameOnTheApp?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 PhoneNumber1: PhoneNumber1,
                                 PhoneNumber2: PhoneNumber2,
+                                DoorNo: DoorNo?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 Address: Address?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 GoogleLocation: FinalLocation,
                                 Description: Description?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
@@ -179,6 +181,7 @@ const putVendors = async (req, res) => {
     const Email = req.body.Email;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2;
+    const DoorNo = req.body.DoorNo;
     const Address = req.body.Address;
     const GoogleLocation = req.body.GoogleLocation;
     const Description = req.body.Description;
@@ -264,6 +267,7 @@ const putVendors = async (req, res) => {
                     PreferredNameOnTheApp: PreferredNameOnTheApp?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     PhoneNumber1: PhoneNumber1,
                     PhoneNumber2: PhoneNumber2,
+                    DoorNo: DoorNo?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     Address: Address?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     GoogleLocation: GoogleLocation,
                     Description: Description?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),

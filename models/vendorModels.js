@@ -15,6 +15,9 @@ const VendorSchema = new mongoose.Schema({
     PreferredNameOnTheApp: {
         type: String
     },
+    DoorNo: {
+        type: String,
+    },
     Address: {
         type: String
         // FullAddress: {
