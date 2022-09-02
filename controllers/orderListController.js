@@ -100,7 +100,7 @@ const newOrder = (req, res) => {
     const Shape = req.body.Shape; //Array
     const Weight = req.body.Weight;
     // const Theme = req.body.Theme; //Optional  
-    // const Tier = req.body.Tier; //Optional  
+    const Tier = req.body.Tier; //Optional  
     // const Article = req.body.Article; //Optional
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
@@ -182,7 +182,7 @@ const newOrder = (req, res) => {
                 Shape: Shape,
                 Weight: Weight,
                 // Theme: Theme,
-                // Tier: Tier,
+                Tier: Tier,
                 Toppers: {
                     TopperId: TopperId,
                     TopperName: TopperName,
