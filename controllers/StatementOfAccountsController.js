@@ -225,7 +225,11 @@ const GetVendorStatementOfAccountsList = (req, res) => {
                                                         }
                                                     });
                                                 });
-                                                res.send(VendorStatement)
+                                                if(VendorStatement.length === 0){
+                                                    res.send({ message: "No Records Found" });
+                                                }else{
+                                                    res.send(VendorStatement)
+                                                }
                                             }
                                         }
                                     });
