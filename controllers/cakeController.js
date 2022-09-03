@@ -314,7 +314,7 @@ const addCake = async (req, res) => {
                 BasicCustomisationPossible: BasicCustomisationPossible,
                 FullCustomisationPossible: FullCustomisationPossible,
                 CakeBase: CakeBase,
-                CakeCream: CakeCream?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                CakeCream: CakeCream?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 ButterCreamType: ButterCreamType?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
