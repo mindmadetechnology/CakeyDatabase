@@ -74,9 +74,12 @@ const CakeSchema = new mongoose.Schema({
         Weight: {
             type: String
         },
-        Price: {
+        EggPrice: {
             type: String
-        }
+        },
+        EgglessPrice: {
+            type: String,
+        },
     }],
     ThemeCakePossible: {
         type: String,
@@ -89,16 +92,16 @@ const CakeSchema = new mongoose.Schema({
     MinTimeForDeliveryOfDefaultCake: {
         type: String,
     },
-    MinTimeForDeliveryOfA1KgCake: {
+    MinTimeForDeliveryOfABelow2KgCake: {
         type: String,
     },
-    MinTimeForDeliveryOfA2KgCake: {
+    MinTimeForDeliveryOfA2to4KgCake: {
         type: String,
     },
-    MinTimeForDeliveryOfA3KgCake: {
+    MinTimeForDeliveryOfA4to5KgCake: {
         type: String,
     },
-    MinTimeForDeliveryOfA5KgCake: {
+    MinTimeForDeliveryOfAAbove5KgCake: {
         type: String,
     },
     MinTimeForDeliveryFortierCake: [{
