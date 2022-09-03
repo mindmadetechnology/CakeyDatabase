@@ -82,8 +82,8 @@ const putUsers = async (req, res) => {
                             if (UserName !== "" && Address !== "") {
                                 userModel.findOneAndUpdate({ _id: userId }, {
                                     $set: {
-                                        UserName: UserName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                                        Address: Address?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                        UserName: UserName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                        Address: Address?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                         Notification: Notification,
                                         Notification_Id: Notification_Id,
                                         Modified_On: Modified_On
@@ -103,8 +103,8 @@ const putUsers = async (req, res) => {
                         if (UserName !== "" && Address !== "") {
                             userModel.findOneAndUpdate({ _id: userId }, {
                                 $set: {
-                                    UserName: UserName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                                    Address: Address?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                    UserName: UserName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                    Address: Address?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                     Notification: Notification,
                                     Notification_Id: Notification_Id,
                                     Modified_On: Modified_On
@@ -136,8 +136,8 @@ const putUsers = async (req, res) => {
                                 userModel.findOneAndUpdate({ _id: userId }, {
                                     $set: {
                                         ProfileImage: imagesUrl.secure_url,
-                                        UserName: UserName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                                        Address: Address?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                        UserName: UserName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                        Address: Address?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                         Notification: Notification,
                                         Notification_Id: Notification_Id,
                                         Modified_On: Modified_On
@@ -158,8 +158,8 @@ const putUsers = async (req, res) => {
                             userModel.findOneAndUpdate({ _id: userId }, {
                                 $set: {
                                     ProfileImage: imagesUrl.secure_url,
-                                    UserName: UserName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                                    Address: Address?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                    UserName: UserName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                    Address: Address?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                     Notification: Notification,
                                     Notification_Id: Notification_Id,
                                     Modified_On: Modified_On

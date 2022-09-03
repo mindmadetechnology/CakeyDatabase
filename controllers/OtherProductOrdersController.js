@@ -85,7 +85,7 @@ const NewOtherProductOrder = (req, res) => {
                 User_ID: User_ID,
                 UserName: UserName,
                 UserPhoneNumber: UserPhoneNumber,
-                DeliveryAddress: DeliveryAddress?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                DeliveryAddress: DeliveryAddress?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 DeliveryDate: DeliveryDate,
                 DeliverySession: DeliverySession,
                 DeliveryInformation: DeliveryInformation,
