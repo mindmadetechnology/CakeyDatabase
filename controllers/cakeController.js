@@ -467,6 +467,7 @@ const updateCake = async (req, res) => {
     const CustomShapeList = req.body.CustomShapeList;
     const MinWeightList = req.body.MinWeightList;
     const BasicCakePrice = req.body.BasicCakePrice;
+    const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
     // const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
     // const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
     // const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
@@ -487,7 +488,7 @@ const updateCake = async (req, res) => {
     //SampleImages
 
     try {
-        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [] ;
+        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList=[] ;
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
@@ -538,6 +539,7 @@ const updateCake = async (req, res) => {
                         },
                         MinWeightList: FinalMinWeightList,
                         BasicCakePrice: BasicCakePrice,
+                        BasicEgglessCostPerKg: BasicEgglessCostPerKg,
                         VendorID: VendorID,
                         Vendor_ID: Vendor_ID,
                         VendorName: VendorName,
