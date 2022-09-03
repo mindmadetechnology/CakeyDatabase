@@ -184,7 +184,7 @@ const addCake = async (req, res) => {
     const CustomShapeList = req.body.CustomShapeList; //Name,MinWeight,Price
     const MinWeightList = req.body.MinWeightList;
     const IsTierCakePossible = req.body.IsTierCakePossible;
-    const TierCakeMinWeightAndPrice = req.body.TierCakeMinWeightAndPrice; //optional
+    // const TierCakeMinWeightAndPrice = req.body.TierCakeMinWeightAndPrice; //optional
     const ThemeCakePossible = req.body.ThemeCakePossible;
     const ToppersPossible = req.body.ToppersPossible;
     const MinTimeForDeliveryOfDefaultCake = req.body.MinTimeForDeliveryOfDefaultCake;
@@ -192,7 +192,7 @@ const addCake = async (req, res) => {
     const MinTimeForDeliveryOfA2to4KgCake = req.body.MinTimeForDeliveryOfA2to4KgCake;
     const MinTimeForDeliveryOfA4to5KgCake = req.body.MinTimeForDeliveryOfA4to5KgCake; //optional
     const MinTimeForDeliveryOfAAbove5KgCake = req.body.MinTimeForDeliveryOfAAbove5KgCake; //optional
-    const MinTimeForDeliveryFortierCake = req.body.MinTimeForDeliveryFortierCake; //optional
+    // const MinTimeForDeliveryFortierCake = req.body.MinTimeForDeliveryFortierCake; //optional
     const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
     const FullCustomisationPossible = req.body.FullCustomisationPossible;
     const CakeBase = req.body.CakeBase;
@@ -225,6 +225,8 @@ const addCake = async (req, res) => {
     try {
         if (!CakeType || !CakeName || !CakeCommonName || !BasicFlavour || !BasicShape || !MinWeight || !DefaultCakeEggOrEggless ||
             !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake ||
+            !MinTimeForDeliveryOfABelow2KgCake || !MinTimeForDeliveryOfA2to4KgCake || !MinTimeForDeliveryOfA4to5KgCake ||
+            !MinTimeForDeliveryOfAAbove5KgCake || 
             !BasicCustomisationPossible || !FullCustomisationPossible || !CakeBase || !CakeCream || !BestUsedBefore || !ToBeStoredIn ||
             !KeepTheCakeInRoomTemperature || !Description || !HowGoodAreYouWithTheCake || !Tax || !Discount ||
             !HowManyTimesHaveYouBakedThisParticularCake || !VendorID || !Vendor_ID || !VendorName || !BasicCakePrice ||
@@ -232,8 +234,8 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var SampleShapeImages = [], FinalAdditionalCakeImages = [];
-            var FinalCustomFlavourList, FinalCustomShapeList, FinalCakeSubType, FinalMinWeightList;
-            var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake, MainCakeImage;
+            var FinalCustomFlavourList, FinalCustomShapeList, FinalCakeSubType, FinalMinWeightList, MainCakeImage;
+            // var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake ;
             // const FinalBasicFlavour = JSON.parse(BasicFlavour);
             // const FinalBasicShape = JSON.parse(BasicShape);
             // const FinalMinWeight = JSON.parse(MinWeight);
@@ -259,16 +261,16 @@ const addCake = async (req, res) => {
             } else {
                 SampleShapeImages = [];
             }
-            if (TierCakeMinWeightAndPrice) {
-                FinalTierCakeMinWeightAndPrice = JSON.parse(TierCakeMinWeightAndPrice);
-            } else {
-                FinalTierCakeMinWeightAndPrice = [];
-            };
-            if (MinTimeForDeliveryFortierCake) {
-                FinalMinTimeForDeliveryFortierCake = JSON.parse(MinTimeForDeliveryFortierCake);
-            } else {
-                FinalMinTimeForDeliveryFortierCake = [];
-            };
+            // if (TierCakeMinWeightAndPrice) {
+            //     FinalTierCakeMinWeightAndPrice = JSON.parse(TierCakeMinWeightAndPrice);
+            // } else {
+            //     FinalTierCakeMinWeightAndPrice = [];
+            // };
+            // if (MinTimeForDeliveryFortierCake) {
+            //     FinalMinTimeForDeliveryFortierCake = JSON.parse(MinTimeForDeliveryFortierCake);
+            // } else {
+            //     FinalMinTimeForDeliveryFortierCake = [];
+            // };
             if (req.files['MainCakeImage'] !== undefined) {
                 var result = await cloudinary.uploader.upload(req.files['MainCakeImage'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 MainCakeImage = result.url;
@@ -300,7 +302,7 @@ const addCake = async (req, res) => {
                 },
                 MinWeightList: FinalMinWeightList,
                 IsTierCakePossible: IsTierCakePossible,
-                TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
+                // TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
                 ThemeCakePossible: ThemeCakePossible,
                 ToppersPossible: ToppersPossible,
                 MinTimeForDeliveryOfDefaultCake: MinTimeForDeliveryOfDefaultCake,
@@ -308,7 +310,7 @@ const addCake = async (req, res) => {
                 MinTimeForDeliveryOfA2to4KgCake: MinTimeForDeliveryOfA2to4KgCake,
                 MinTimeForDeliveryOfA4to5KgCake: MinTimeForDeliveryOfA4to5KgCake, //optional
                 MinTimeForDeliveryOfAAbove5KgCake: MinTimeForDeliveryOfAAbove5KgCake, //optional
-                MinTimeForDeliveryFortierCake: FinalMinTimeForDeliveryFortierCake, //optional
+                // MinTimeForDeliveryFortierCake: FinalMinTimeForDeliveryFortierCake, //optional
                 BasicCustomisationPossible: BasicCustomisationPossible,
                 FullCustomisationPossible: FullCustomisationPossible,
                 CakeBase: CakeBase,
