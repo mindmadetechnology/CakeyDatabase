@@ -20,21 +20,31 @@ const CreateHampers = async (req, res) => {
     const Title = req.body.Title;
     const Occasion = req.body.Occasion;
     const Weight = req.body.Weight;
+    const EggOrEggless = req.body.EggOrEggless;
     const StartDate = req.body.StartDate;
     const EndDate = req.body.EndDate;
     const Price = req.body.Price;
     const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    //file - HamperImage
+    //file - HamperImage,AdditionalHamperImage
 
     try {
         if (VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation || HampersName
-            || Price || req.file !== undefined || Description || Title || Occasion || Weight || StartDate || EndDate) {
+            || Price || req.file !== undefined || Description || Title || Occasion || Weight || StartDate || EndDate || EggOrEggless) {
             const Image = await cloudinary.uploader.upload(req.file.path);
+            let FinalAdditionalHamperImages=[];
+            if (req.files['AdditionalHamperImage'] !== undefined) {
+                for (let i = 0; i < req.files['AdditionalHamperImage'].length; i++) {
+                    var result = await cloudinary.uploader.upload(req.files['AdditionalHamperImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                    FinalAdditionalHamperImages.push(result.url);
+                }
+            } else {
+                FinalAdditionalHamperImages = [];
+            };
             const FinalLocation = JSON.parse(GoogleLocation);
             const FinalProduct_Contains = JSON.parse(Product_Contains);
-            const FinalOccasion = JSON.parse(Occasion);
+            const FinalOccasion = Occasion;
 
             const NewHampers = HampersModel({
                 VendorID: VendorID,
@@ -44,15 +54,17 @@ const CreateHampers = async (req, res) => {
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
+                EggOrEggless:EggOrEggless,
                 HampersName: HampersName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Title: Title?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
-                Occasion: FinalOccasion,
+                Occasion: FinalOccasion?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Weight: Weight,
                 StartDate: StartDate,
                 EndDate: EndDate,
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image.url,
+                AdditionalHamperImage:FinalAdditionalHamperImages,
                 Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Created_On: Created_On,
             });
