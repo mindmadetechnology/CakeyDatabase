@@ -53,7 +53,7 @@ router.delete('/admin/removenotification/:id', RemoveAdminNotification);
 
 router.post('/hamper/new', upload.fields([{name: 'HamperImage', maxCount: 1},{name:'AdditionalHamperImage', maxCount: 5}]), CreateHampers);
 
-router.put('/hamper/update/:id', upload.single('file'), UpdateHampers);
+router.put('/hamper/update/:id', upload.fields([{name: 'HamperImage', maxCount: 1},{name:'AdditionalHamperImage', maxCount: 5}]), UpdateHampers);
 
 router.get('/hamper/list', Authorization, GetHampersList);
 
