@@ -33,6 +33,9 @@ const HamperOrderSchema = new mongoose.Schema({
     Description: {
         type: String,
     },
+    EggOrEggless: {
+        type: String,
+    },
     VendorID: {
         type: String,
     },

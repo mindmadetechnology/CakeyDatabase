@@ -390,6 +390,7 @@ const OrderHampers = (req, res) => {
     const Weight = req.body.Weight;
     const Price = req.body.Price;
     const Description = req.body.Description;
+    const EggOrEggless = req.body.EggOrEggless;
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
@@ -414,7 +415,7 @@ const OrderHampers = (req, res) => {
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        if (HamperID || Hamper_ID || HampersName || Product_Contains || HamperImage || Price || Description ||
+        if (HamperID || Hamper_ID || HampersName || Product_Contains || EggOrEggless || HamperImage || Price || Description ||
             VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation ||
             UserID || User_ID || UserName || UserPhoneNumber || DeliveryDate || DeliverySession ||
             DeliveryInformation || ItemCount || DeliveryCharge || Total || PaymentType || PaymentStatus) {
@@ -428,6 +429,7 @@ const OrderHampers = (req, res) => {
                 Weight: Weight,
                 Price: Price,
                 Description: Description,
+                EggOrEggless: EggOrEggless,
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
