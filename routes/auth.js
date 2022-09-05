@@ -91,7 +91,7 @@ const {
     AddNewCakeToppings, GetCakeToppingsList,
     DeleteFlavour, DeleteShape, 
     DeleteWeight, DeleteArticle,
-    GetNotReversedFlavoursList, GetNotReversedShapesList
+    GetNotReversedFlavoursList, GetNotReversedShapesList,GetOrderedWeightList
 } = require('../controllers/cakeArrayController');
 
 const {
@@ -387,6 +387,7 @@ router.get('/flavour/list', Authorization, GetFlavoursList);
 router.get('/flavour/alllist', Authorization, GetNotReversedFlavoursList);
 
 router.get('/shape/alllist', Authorization, GetNotReversedShapesList);
+router.get('/weight/alllist', Authorization, GetOrderedWeightList);
 
 //delete Flavour
 router.delete('/flavour/delete/:id', DeleteFlavour);

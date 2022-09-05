@@ -152,6 +152,27 @@ const GetNotReversedShapesList = (req, res) => {
     };
 };
 
+const GetOrderedWeightList=(req,res)=>{
+    try {
+        CakeWeightModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: 'No Records Found' });
+                } else {
+                    
+                    res.send(result.sort((a,b)=>{
+                        return parseFloat(a.Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0])-parseFloat(b.Weight.match(/([0-9.]+)(?![0-9.])|([a-z]+)(?![a-z])/gi)[0]);
+                    }));
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+}
+
 //add new weight
 const AddNewWeight = (req, res) => {
 
@@ -406,6 +427,7 @@ module.exports = {
     DeleteWeight,
     DeleteArticle,
     GetNotReversedFlavoursList,
-    GetNotReversedShapesList
+    GetNotReversedShapesList,
+    GetOrderedWeightList
 
 };
