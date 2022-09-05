@@ -123,7 +123,7 @@ const UpdateHampers = async (req, res) => {
     try {
         var Image, OldAdditionalImages = [];
         if (req.files['HamperImage'] !== undefined) {
-            var ImageURL = await cloudinary.uploader.upload(req.req.files['HamperImage'][0].path);
+            var ImageURL = await cloudinary.uploader.upload(req.files['HamperImage'][0].path);
             Image = ImageURL.url
         }
 
