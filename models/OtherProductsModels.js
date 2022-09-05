@@ -81,6 +81,9 @@ const OtherProductsSchema = new mongoose.Schema({
     ProductImage: [{
         type: String
     }],
+    AdditionalProductImages: [{
+        type: String,
+    }],
     HowGoodAreYouWithTheCake: {
         type: String
     },
