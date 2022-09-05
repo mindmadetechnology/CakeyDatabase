@@ -110,23 +110,37 @@ const UpdateHampers = async (req, res) => {
     const HampersName = req.body.HampersName;
     const Title = req.body.Title;
     const Occasion = req.body.Occasion;
+    const EggOrEggless = req.body.EggOrEggless;
     const Weight = req.body.Weight;
     const StartDate = req.body.StartDate;
     const EndDate = req.body.EndDate;
     const Price = req.body.Price;
     const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
+    const OldAdditionalHamperImage = req.body.OldAdditionalHamperImage;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    //file - HamperImage
+    //file - HamperImage, AdditionalHamperImage
     try {
-        var Image;
-        if (req.file) {
-            var ImageURL = await cloudinary.uploader.upload(req.file.path);
+        var Image, OldAdditionalImages = [];
+        if (req.files['HamperImage'] !== undefined) {
+            var ImageURL = await cloudinary.uploader.upload(req.req.files['HamperImage'][0].path);
             Image = ImageURL.url
         }
+
+        if(OldAdditionalHamperImage){
+            OldAdditionalImages = JSON.parse(OldAdditionalHamperImage);
+        }else{
+            OldAdditionalImages = [];  
+        };
+        if(req.files['AdditionalHamperImage'] !== undefined){
+            for (let i = 0; i < req.files['AdditionalHamperImage'].length; i++) {
+                var result = await cloudinary.uploader.upload(req.files['AdditionalHamperImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                OldAdditionalImages.push(result.url);
+            }
+        };
         const FinalLocation = JSON.parse(GoogleLocation);
         const FinalProduct_Contains = JSON.parse(Product_Contains);
-        const FinalOccasion = JSON.parse(Occasion);
+        const FinalOccasion = Occasion;
 
         HampersModel.findOneAndUpdate({ _id: Id }, {
             $set: {
@@ -140,12 +154,14 @@ const UpdateHampers = async (req, res) => {
                 HampersName: HampersName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Title: Title?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Occasion: FinalOccasion,
+                EggOrEggless: EggOrEggless,
                 Weight: Weight,
                 StartDate: StartDate,
                 EndDate: EndDate,
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image,
+                AdditionalHamperImage: OldAdditionalImages,
                 Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Modified_On: Modified_On,
                 Status: 'Updated'
