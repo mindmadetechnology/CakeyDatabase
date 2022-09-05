@@ -31,8 +31,8 @@ const CreateHampers = async (req, res) => {
 
     try {
         if (VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation || HampersName
-            || Price || req.file !== undefined || Description || Title || Occasion || Weight || StartDate || EndDate || EggOrEggless) {
-            const Image = await cloudinary.uploader.upload(req.file.path);
+            || Price || Description || Title || Occasion || Weight || StartDate || EndDate || EggOrEggless) {
+                const Image = await cloudinary.uploader.upload(req.files['HamperImage'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
             let FinalAdditionalHamperImages=[];
             if (req.files['AdditionalHamperImage'] !== undefined) {
                 for (let i = 0; i < req.files['AdditionalHamperImage'].length; i++) {
