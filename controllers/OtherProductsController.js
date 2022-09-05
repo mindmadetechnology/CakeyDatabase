@@ -34,12 +34,14 @@ const CreateOtherProduct = async (req, res) => {
     const Discount = req.body.Discount;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //ProductImage - array
+    //AdditionalProductImages - Array
 
     try {
         if (CakeSubType || ProductName || ProductCommonName || Flavour || Type || MinTimeForDelivery || Description ||
             HowGoodAreYouWithTheCake || HowManyTimesHaveYouBakedThisParticularCake || VendorID || Vendor_ID || VendorName ||
             VendorPhoneNumber1 || VendorAddress || GoogleLocation || Discount || req.files['ProductImage'] !== undefined) {
-            let FinalMinWeightPerKg, FinalMinWeightPerUnit = [], FinalMinWeightPerBox = [], FinalProductImage = [];
+            let FinalMinWeightPerKg, FinalMinWeightPerUnit = [], FinalMinWeightPerBox = [], FinalProductImage = [],
+            FinalAdditionalProductImages = [];
             const FinalFlavour = JSON.parse(Flavour);
             const FinalGoogleLocation = JSON.parse(GoogleLocation);
             if (Type === 'Kg') {
@@ -52,6 +54,14 @@ const CreateOtherProduct = async (req, res) => {
             for (let i = 0; i < req.files['ProductImage'].length; i++) {
                 var result = await cloudinary.uploader.upload(req.files['ProductImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 FinalProductImage.push(result.url);
+            };
+            if (req.files['AdditionalProductImages'] !== undefined) {
+                for (let i = 0; i < req.files['AdditionalProductImages'].length; i++) {
+                    var result = await cloudinary.uploader.upload(req.files['AdditionalProductImages'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                    FinalAdditionalProductImages.push(result.url);
+                }
+            } else {
+                FinalAdditionalProductImages = [];
             };
             const NewOtherProduct = OtherProductModel({
                 CakeSubType: CakeSubType,
@@ -82,6 +92,7 @@ const CreateOtherProduct = async (req, res) => {
                 VendorAddress: VendorAddress,
                 Discount: Discount,
                 ProductImage: FinalProductImage,
+                AdditionalProductImages: FinalAdditionalProductImages,
                 Created_On: Created_On,
             });
             NewOtherProduct.save(function (err, result) {
