@@ -86,7 +86,7 @@ router.get('/hamperorder/details/:id', Authorization, GetHamperOrderDetailsById)
 router.get('/ordersandhamperorders/listbyuser/:id', Authorization, GetUserOrderAndHamperOrder);
 
 
-router.post('/otherproduct/new', upload.fields([{ name: 'ProductImage', maxCount: 5 }]), CreateOtherProduct);
+router.post('/otherproduct/new', upload.fields([{ name: 'ProductImage', maxCount: 1 },{name: 'AdditionalProductImages', maxCount:5}]), CreateOtherProduct);
 
 router.put('/otherproduct/approve/:id', ApproveOtherProduct);
 
