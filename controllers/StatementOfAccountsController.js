@@ -164,6 +164,7 @@ const GetVendorStatementOfAccountsList = (req, res) => {
                                     const NewList = Array2.sort((a, b) => { return a.date - b.date });
                                     NewList.filter(val => { FinalSortedList.push(val._doc) });
                                 }
+
                                 if (FinalSortedList.length === 0) {
                                     res.send({ message: "No Records Found" });
                                 } else {
@@ -172,27 +173,36 @@ const GetVendorStatementOfAccountsList = (req, res) => {
                                             res.send({ statusCode: 400, message: 'Failed' });
                                         } else {
                                             var VendorList = [], totals = [], VendorStatement = [], VendorListFromSOA = [], payments = [];
-                                            if (FinalSortedList.length === 0) {
-                                                res.send({ message: "No Records Found" });
-                                            } else {
-                                                FinalSortedList.filter(val => {
-                                                    if (val.VendorID) {
-                                                        const NewVendor = {
-                                                            Id: val.VendorID, Vendor_ID: val.Vendor_ID,
-                                                            VendorName: val.VendorName, TotalAmount: val.Total
-                                                        };
-                                                        VendorList.push(NewVendor);
-                                                    }
-                                                });
-                                                VendorList.forEach(x => {
-                                                    const obj = totals.find(o => o.Id === x.Id);
-                                                    (obj) ? obj.TotalAmount = JSON.parse(obj.TotalAmount) + JSON.parse(x.TotalAmount)
-                                                        : totals.push({
-                                                            Id: x.Id, Vendor_ID: x.Vendor_ID,
-                                                            VendorName: x.VendorName, TotalAmount: x.TotalAmount
-                                                        });
-                                                });
+                                            FinalSortedList.filter(val => {
+                                                if (val.VendorID) {
+                                                    const NewVendor = {
+                                                        Id: val.VendorID, Vendor_ID: val.Vendor_ID,
+                                                        VendorName: val.VendorName, TotalAmount: val.Total
+                                                    };
+                                                    VendorList.push(NewVendor);
+                                                }
+                                            });
+                                            VendorList.forEach(x => {
+                                                const obj = totals.find(o => o.Id === x.Id);
+                                                (obj) ? obj.TotalAmount = JSON.parse(obj.TotalAmount) + JSON.parse(x.TotalAmount)
+                                                    : totals.push({
+                                                        Id: x.Id, Vendor_ID: x.Vendor_ID,
+                                                        VendorName: x.VendorName, TotalAmount: x.TotalAmount
+                                                    });
+                                            });
+                                            console.log(result4)
+                                            if (result4.length === 0) {
+                                                totals.forEach(a => {
+                                                    const Final = {
+                                                        Id: a.Id, Vendor_ID: a.Vendor_ID,
+                                                        VendorName: a.VendorName, TotalAmount: Math.round(a.TotalAmount),
+                                                        TotalPayment: 0,
+                                                        AmountDue: Math.abs(Math.round(a.TotalAmount))
+                                                    };
+                                                    VendorStatement.push(Final);
 
+                                                });
+                                            } else {
                                                 result4.filter(val => {
                                                     const NewVendor = {
                                                         Id: val.VendorID, Payment: val.Payment
@@ -225,12 +235,14 @@ const GetVendorStatementOfAccountsList = (req, res) => {
                                                         }
                                                     });
                                                 });
-                                                if(VendorStatement.length === 0){
-                                                    res.send({ message: "No Records Found" });
-                                                }else{
-                                                    res.send(VendorStatement)
-                                                }
                                             }
+
+                                            if (VendorStatement.length === 0) {
+                                                res.send({ message: "No Records Found" });
+                                            } else {
+                                                res.send(VendorStatement)
+                                            }
+
                                         }
                                     });
                                 }
