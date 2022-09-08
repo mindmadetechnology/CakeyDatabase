@@ -5,6 +5,7 @@ const VendorNotificationModel = require("../models/VendorNotification");
 const AdminNotificationModel = require("../models/AdminNotificationModels");
 const SessionOrdersModel = require("../models/SessionOrdersModels");
 const moment = require('moment-timezone');
+const moments = require('moment');
 const JWT = require('jsonwebtoken');
 const cloudinary = require("../middleware/cloudnary");
 
@@ -394,7 +395,8 @@ const RemoveVendorNotificationById = (req, res) => {
 
 const GetLoginTimeWithDateRange = (req, res) => {
     const Id = req.params.id;
-    const date = req.params.date;
+    const StartDate = req.body.StartDate;
+    const EndDate = req.body.EndDate;
     try{
         SessionOrdersModel.find({Vendor_ID: Id}, function(err, result){
             if(err){
@@ -404,7 +406,17 @@ const GetLoginTimeWithDateRange = (req, res) => {
             }else{
                 var List = [];
                 result.filter(val => {
-                    if(val.Login_At.slice(0,10) === date){
+                    if(val.Login_At.slice(0,10) === StartDate){
+                        List.push(val);
+                    }
+                });
+                result.filter(val => {
+                    if(moments(new Date(val.Login_At.slice(0,10))).isBetween(new Date(StartDate), new Date(EndDate))){
+                        List.push(val);
+                    }
+                });
+                result.filter(val => {
+                    if(val.Login_At.slice(0,10) === EndDate){
                         List.push(val);
                     }
                 });
