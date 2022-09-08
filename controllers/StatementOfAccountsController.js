@@ -383,7 +383,7 @@ const GetVendorStatementOfAccountsDetails = (req, res) => {
                                                 statement.filter(val => {
                                                     if (moment('01' + '-' + val.Payment_Date.slice(3, 10), 'DD-MM-YYYY').diff(moment('01' + '-' + Month + '-' + Year, 'DD-MM-YYYY')) === 0) {
                                                         const NewData = {
-                                                            VendorID: val.VendorID, Type: 'Payment',
+                                                            VendorID: val.VendorID, Type: 'Payment', PaymentType: val.PaymentType,
                                                             Total: val.Payment, Date: val.Payment_Date
                                                         };
                                                         OrderList.push(NewData);
