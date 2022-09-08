@@ -541,7 +541,7 @@ router.get('/vendor/statementofaccountslist', Authorization, GetVendorStatementO
 //get vendor statement of accounts details
 router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', Authorization, GetVendorStatementOfAccountsDetails);
 
-router.get('/vendor/loginsession/:id', Authorization, GetLoginTimeWithDateRange);
+router.get('/vendor/loginsession/:id/:StartDate/:EndDate', Authorization, GetLoginTimeWithDateRange);
 
 router.get('/vendor/activelist', Authorization, GetActiveVendors);
 

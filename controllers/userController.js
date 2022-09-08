@@ -395,8 +395,8 @@ const RemoveVendorNotificationById = (req, res) => {
 
 const GetLoginTimeWithDateRange = (req, res) => {
     const Id = req.params.id;
-    const StartDate = req.body.StartDate;
-    const EndDate = req.body.EndDate;
+    const StartDate = req.params.StartDate;
+    const EndDate = req.params.EndDate;
     try{
         SessionOrdersModel.find({Vendor_ID: Id}, function(err, result){
             if(err){
