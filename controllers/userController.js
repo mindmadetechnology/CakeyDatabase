@@ -282,15 +282,15 @@ const AdminNotificationOrderList = (req, res) => {
 
 const RemoveAdminNotificationById = (req, res) => {
     const Id = req.params.id;
-    try{
-        AdminNotificationModel.findOneAndDelete({_id: Id}, function(err){
-            if(err){
+    try {
+        AdminNotificationModel.findOneAndDelete({ _id: Id }, function (err) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
+            } else {
                 res.send({ statusCode: 200, message: "Removed Successfully" });
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 };
@@ -336,7 +336,7 @@ const RemoveUserNotification = (req, res) => {
                 result.filter(val => {
                     Ids.push(val._id);
                 });
-                UserNotificationModel.deleteMany({  _id: { $in: Ids } }, function (err) {
+                UserNotificationModel.deleteMany({ _id: { $in: Ids } }, function (err) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
@@ -380,15 +380,15 @@ const RemoveVendorNotification = (req, res) => {
 
 const RemoveVendorNotificationById = (req, res) => {
     const Id = req.params.id;
-    try{
-        VendorNotificationModel.findOneAndDelete({_id: Id}, function(err){
-            if(err){
+    try {
+        VendorNotificationModel.findOneAndDelete({ _id: Id }, function (err) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
+            } else {
                 res.send({ statusCode: 200, message: "Removed Successfully" });
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 };
@@ -397,37 +397,37 @@ const GetLoginTimeWithDateRange = (req, res) => {
     const Id = req.params.id;
     const StartDate = req.params.StartDate;
     const EndDate = req.params.EndDate;
-    try{
-        SessionOrdersModel.find({Vendor_ID: Id}, function(err, result){
-            if(err){
+    try {
+        SessionOrdersModel.find({ Vendor_ID: Id }, function (err, result) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else if(result.length === 0){
+            } else if (result.length === 0) {
                 res.send({ message: "No Records Found" });
-            }else{
+            } else {
                 var List = [];
+                var SD = moments(StartDate, 'DD-MM-YYYY');
+                var ED = moments(EndDate, 'DD-MM-YYYY');
+                var Differ = ED.diff(SD, 'days');
+                var RangeDate = [];
+                for (let i = 0; i <= Differ; i++) {
+                    RangeDate.push(moments(StartDate, 'DD-MM-YYYY').add(i, 'days').format('DD-MM-YYYY'))
+                }
+
                 result.filter(val => {
-                    if(val.Login_At.slice(0,10) === StartDate){
-                        List.push(val);
+                    for (let j = 0; j < RangeDate.length; j++) {
+                        if (val.Login_At.slice(0, 10) === RangeDate[j]) {
+                            List.push(val);
+                        }
                     }
                 });
-                result.filter(val => {
-                    if(moments(new Date(val.Login_At.slice(0,10))).isBetween(new Date(StartDate), new Date(EndDate))){
-                        List.push(val);
-                    }
-                });
-                result.filter(val => {
-                    if(val.Login_At.slice(0,10) === EndDate){
-                        List.push(val);
-                    }
-                });
-                if(List.length === 0){
+                if (List.length === 0) {
                     res.send({ message: "No Records Found" });
-                }else{
+                } else {
                     res.send(List);
                 }
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     };
 };
