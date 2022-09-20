@@ -20,7 +20,6 @@ const getcakelist = (req, res) => {
                         var NewResult = [];
                         result1.filter(val1 => {
                             result2.filter(val2 => {
-                                console.log(val1.VendorID === val2._id.toString())
                                 if(val1.VendorID === val2._id.toString()){
                                     NewResult.push(val1);
                                 }
@@ -182,16 +181,18 @@ const addCake = async (req, res) => {
     const IsEgglessOptionAvailable = req.body.IsEgglessOptionAvailable;
     const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
     const CustomFlavourList = req.body.CustomFlavourList;
-    const CustomShapeList = req.body.CustomShapeList;
+    const CustomShapeList = req.body.CustomShapeList; //Name,MinWeight,Price
     const MinWeightList = req.body.MinWeightList;
     const IsTierCakePossible = req.body.IsTierCakePossible;
-    const TierCakeMinWeightAndPrice = req.body.TierCakeMinWeightAndPrice; //optional
+    // const TierCakeMinWeightAndPrice = req.body.TierCakeMinWeightAndPrice; //optional
     const ThemeCakePossible = req.body.ThemeCakePossible;
     const ToppersPossible = req.body.ToppersPossible;
     const MinTimeForDeliveryOfDefaultCake = req.body.MinTimeForDeliveryOfDefaultCake;
-    const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
-    const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
-    const MinTimeForDeliveryFortierCake = req.body.MinTimeForDeliveryFortierCake; //optional
+    const MinTimeForDeliveryOfABelow2KgCake = req.body.MinTimeForDeliveryOfABelow2KgCake;
+    const MinTimeForDeliveryOfA2to4KgCake = req.body.MinTimeForDeliveryOfA2to4KgCake;
+    const MinTimeForDeliveryOfA4to5KgCake = req.body.MinTimeForDeliveryOfA4to5KgCake; //optional
+    const MinTimeForDeliveryOfAAbove5KgCake = req.body.MinTimeForDeliveryOfAAbove5KgCake; //optional
+    // const MinTimeForDeliveryFortierCake = req.body.MinTimeForDeliveryFortierCake; //optional
     const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
     const FullCustomisationPossible = req.body.FullCustomisationPossible;
     const CakeBase = req.body.CakeBase;
@@ -224,6 +225,8 @@ const addCake = async (req, res) => {
     try {
         if (!CakeType || !CakeName || !CakeCommonName || !BasicFlavour || !BasicShape || !MinWeight || !DefaultCakeEggOrEggless ||
             !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake ||
+            !MinTimeForDeliveryOfABelow2KgCake || !MinTimeForDeliveryOfA2to4KgCake || !MinTimeForDeliveryOfA4to5KgCake ||
+            !MinTimeForDeliveryOfAAbove5KgCake || 
             !BasicCustomisationPossible || !FullCustomisationPossible || !CakeBase || !CakeCream || !BestUsedBefore || !ToBeStoredIn ||
             !KeepTheCakeInRoomTemperature || !Description || !HowGoodAreYouWithTheCake || !Tax || !Discount ||
             !HowManyTimesHaveYouBakedThisParticularCake || !VendorID || !Vendor_ID || !VendorName || !BasicCakePrice ||
@@ -231,8 +234,8 @@ const addCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             var SampleShapeImages = [], FinalAdditionalCakeImages = [];
-            var FinalCustomFlavourList, FinalMinWeightList, FinalCustomShapeList, FinalCakeSubType;
-            var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake, MainCakeImage;
+            var FinalCustomFlavourList, FinalCustomShapeList, FinalCakeSubType, FinalMinWeightList, MainCakeImage;
+            // var FinalTierCakeMinWeightAndPrice, FinalMinTimeForDeliveryFortierCake ;
             // const FinalBasicFlavour = JSON.parse(BasicFlavour);
             // const FinalBasicShape = JSON.parse(BasicShape);
             // const FinalMinWeight = JSON.parse(MinWeight);
@@ -244,11 +247,11 @@ const addCake = async (req, res) => {
             if (CustomFlavourList) {
                 FinalCustomFlavourList = JSON.parse(CustomFlavourList);
             };
-            if (MinWeightList) {
-                FinalMinWeightList = JSON.parse(MinWeightList);
-            };
             if (CustomShapeList) {
                 FinalCustomShapeList = JSON.parse(CustomShapeList);
+            }
+            if(MinWeightList){
+                FinalMinWeightList = JSON.parse(MinWeightList);
             }
             if (req.files['SampleImages'] !== undefined) {
                 for (let i = 0; i < req.files['SampleImages'].length; i++) {
@@ -258,16 +261,16 @@ const addCake = async (req, res) => {
             } else {
                 SampleShapeImages = [];
             }
-            if (TierCakeMinWeightAndPrice) {
-                FinalTierCakeMinWeightAndPrice = JSON.parse(TierCakeMinWeightAndPrice);
-            } else {
-                FinalTierCakeMinWeightAndPrice = [];
-            };
-            if (MinTimeForDeliveryFortierCake) {
-                FinalMinTimeForDeliveryFortierCake = JSON.parse(MinTimeForDeliveryFortierCake);
-            } else {
-                FinalMinTimeForDeliveryFortierCake = [];
-            };
+            // if (TierCakeMinWeightAndPrice) {
+            //     FinalTierCakeMinWeightAndPrice = JSON.parse(TierCakeMinWeightAndPrice);
+            // } else {
+            //     FinalTierCakeMinWeightAndPrice = [];
+            // };
+            // if (MinTimeForDeliveryFortierCake) {
+            //     FinalMinTimeForDeliveryFortierCake = JSON.parse(MinTimeForDeliveryFortierCake);
+            // } else {
+            //     FinalMinTimeForDeliveryFortierCake = [];
+            // };
             if (req.files['MainCakeImage'] !== undefined) {
                 var result = await cloudinary.uploader.upload(req.files['MainCakeImage'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 MainCakeImage = result.url;
@@ -281,12 +284,12 @@ const addCake = async (req, res) => {
                 FinalAdditionalCakeImages = [];
             };
             const vendorValidate = new cakeModel({
-                CakeName: CakeName,
+                CakeName: CakeName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 CakeType: FinalCakeType,
                 CakeSubType: FinalCakeSubType,
-                CakeCommonName: CakeCommonName,
-                BasicFlavour: BasicFlavour,
-                BasicShape: BasicShape,
+                CakeCommonName: CakeCommonName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                BasicFlavour: BasicFlavour?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                BasicShape: BasicShape?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 MinWeight: MinWeight,
                 BasicCakePrice: BasicCakePrice,
                 DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
@@ -299,23 +302,25 @@ const addCake = async (req, res) => {
                 },
                 MinWeightList: FinalMinWeightList,
                 IsTierCakePossible: IsTierCakePossible,
-                TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
+                // TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
                 ThemeCakePossible: ThemeCakePossible,
                 ToppersPossible: ToppersPossible,
                 MinTimeForDeliveryOfDefaultCake: MinTimeForDeliveryOfDefaultCake,
-                MinTimeForDeliveryOfA3KgCake: MinTimeForDeliveryOfA3KgCake, //optional
-                MinTimeForDeliveryOfA5KgCake: MinTimeForDeliveryOfA5KgCake, //optional
-                MinTimeForDeliveryFortierCake: FinalMinTimeForDeliveryFortierCake, //optional
+                MinTimeForDeliveryOfABelow2KgCake: MinTimeForDeliveryOfABelow2KgCake,
+                MinTimeForDeliveryOfA2to4KgCake: MinTimeForDeliveryOfA2to4KgCake,
+                MinTimeForDeliveryOfA4to5KgCake: MinTimeForDeliveryOfA4to5KgCake, //optional
+                MinTimeForDeliveryOfAAbove5KgCake: MinTimeForDeliveryOfAAbove5KgCake, //optional
+                // MinTimeForDeliveryFortierCake: FinalMinTimeForDeliveryFortierCake, //optional
                 BasicCustomisationPossible: BasicCustomisationPossible,
                 FullCustomisationPossible: FullCustomisationPossible,
                 CakeBase: CakeBase,
-                CakeCream: CakeCream,
-                ButterCreamType: ButterCreamType,
+                CakeCream: CakeCream?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                ButterCreamType: ButterCreamType?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
                 KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
-                OtherInstructions: OtherInstructions, //optional
-                Description: Description,
+                OtherInstructions: OtherInstructions?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()), //optional
+                Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
                 HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
                 VendorID: VendorID,
@@ -333,7 +338,7 @@ const addCake = async (req, res) => {
             });
             vendorValidate.save(function (err, result) {
                 if (err) {
-                    res.send({ statusCode: 400, message: "Failed", error: err });
+                    res.send({ statusCode: 400, message: "Failed" });
                 } else {
                     const AddNotification = AdminNotificationModel({
                         NotificationType: 'New Cake',
@@ -346,7 +351,7 @@ const addCake = async (req, res) => {
                     });
                     AddNotification.save(function (err) {
                         if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
+                            res.send({ statusCode: 400, message: "Failed", err:err });
                         } else {
                             res.send({ statusCode: 200, message: "Added Successfully" });
                         }
@@ -375,10 +380,10 @@ const ApproveCake = (req, res) => {
             $set: {
                 Status: Status,
                 // ToppersPossible: ToppersPossible,
-                RatingsForVendor: RatingsForVendor,
+                RatingsForVendor: RatingsForVendor?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 // CakeType: CakeType,
                 // CakeSubType: CakeSubType,
-                CakeCategory: CakeCategory,
+                CakeCategory: CakeCategory?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Status_Updated_On: Status_Updated_On
             }
         }, function (err, result) {
@@ -462,9 +467,10 @@ const updateCake = async (req, res) => {
     const CustomShapeList = req.body.CustomShapeList;
     const MinWeightList = req.body.MinWeightList;
     const BasicCakePrice = req.body.BasicCakePrice;
-    const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
-    const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
-    const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
+    const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
+    // const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
+    // const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
+    // const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
@@ -482,8 +488,7 @@ const updateCake = async (req, res) => {
     //SampleImages
 
     try {
-        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
-        console.log(CustomShapeList)
+        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList=[] ;
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
@@ -491,11 +496,11 @@ const updateCake = async (req, res) => {
         if (CustomFlavourList !== undefined) {
             FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
         };
-        if (MinWeightList !== undefined) {
-            FinalMinWeightList = JSON.parse(MinWeightList);
-        };
         if (CustomShapeList !== undefined) {
             FinalCustomShapeList = (JSON.parse(CustomShapeList));
+        };
+        if (MinWeightList !== undefined) {
+            FinalMinWeightList = (JSON.parse(MinWeightList));
         };
 
         //for sample shape images
@@ -534,9 +539,7 @@ const updateCake = async (req, res) => {
                         },
                         MinWeightList: FinalMinWeightList,
                         BasicCakePrice: BasicCakePrice,
-                        BasicCustomisationPossible: BasicCustomisationPossible,
-                        MinTimeForDeliveryOfA3KgCake: MinTimeForDeliveryOfA3KgCake, //optional
-                        MinTimeForDeliveryOfA5KgCake: MinTimeForDeliveryOfA5KgCake, //optional
+                        BasicEgglessCostPerKg: BasicEgglessCostPerKg,
                         VendorID: VendorID,
                         Vendor_ID: Vendor_ID,
                         VendorName: VendorName,
@@ -552,7 +555,22 @@ const updateCake = async (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                        const AddNotification = AdminNotificationModel({
+                            NotificationType: 'Cake Updated',
+                            Image: result.MainCakeImage,
+                            VendorID: result.VendorID,
+                            Vendor_ID: result.Vendor_ID,
+                            VendorName: result.VendorName,
+                            Id: result._id,
+                            Created_On: result.Modified_On
+                        });
+                        AddNotification.save(function (err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                            }
+                        });
                     }
                 });
             }
@@ -579,7 +597,7 @@ const SendInformationToVendor = (req, res) => {
             } else {
                 var InformationArray = [];
                 var data = {
-                    Information: Information,
+                    Information: Information?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     Created_On: Created_On,
                     Created_By: Created_By
                 }

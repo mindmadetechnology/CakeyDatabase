@@ -34,12 +34,14 @@ const CreateOtherProduct = async (req, res) => {
     const Discount = req.body.Discount;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     //ProductImage - array
+    //AdditionalProductImages - Array
 
     try {
         if (CakeSubType || ProductName || ProductCommonName || Flavour || Type || MinTimeForDelivery || Description ||
             HowGoodAreYouWithTheCake || HowManyTimesHaveYouBakedThisParticularCake || VendorID || Vendor_ID || VendorName ||
             VendorPhoneNumber1 || VendorAddress || GoogleLocation || Discount || req.files['ProductImage'] !== undefined) {
-            let FinalMinWeightPerKg, FinalMinWeightPerUnit = [], FinalMinWeightPerBox = [], FinalProductImage = [];
+            let FinalMinWeightPerKg, FinalMinWeightPerUnit = [], FinalMinWeightPerBox = [], FinalProductImage = [],
+            FinalAdditionalProductImages = [];
             const FinalFlavour = JSON.parse(Flavour);
             const FinalGoogleLocation = JSON.parse(GoogleLocation);
             if (Type === 'Kg') {
@@ -53,12 +55,20 @@ const CreateOtherProduct = async (req, res) => {
                 var result = await cloudinary.uploader.upload(req.files['ProductImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 FinalProductImage.push(result.url);
             };
+            if (req.files['AdditionalProductImages'] !== undefined) {
+                for (let i = 0; i < req.files['AdditionalProductImages'].length; i++) {
+                    var result = await cloudinary.uploader.upload(req.files['AdditionalProductImages'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                    FinalAdditionalProductImages.push(result.url);
+                }
+            } else {
+                FinalAdditionalProductImages = [];
+            };
             const NewOtherProduct = OtherProductModel({
                 CakeSubType: CakeSubType,
-                ProductName: ProductName,
-                ProductCommonName: ProductCommonName,
+                ProductName: ProductName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                ProductCommonName: ProductCommonName?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Flavour: FinalFlavour,
-                Shape: Shape,
+                Shape: Shape?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Type: Type,
                 MinWeightPerKg: FinalMinWeightPerKg,
                 MinWeightPerUnit: FinalMinWeightPerUnit,
@@ -70,7 +80,7 @@ const CreateOtherProduct = async (req, res) => {
                 BestUsedBefore: BestUsedBefore,
                 ToBeStoredIn: ToBeStoredIn,
                 KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
-                Description: Description,
+                Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
                 HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
                 VendorID: VendorID,
@@ -79,8 +89,10 @@ const CreateOtherProduct = async (req, res) => {
                 VendorPhoneNumber1: VendorPhoneNumber1,
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 GoogleLocation: FinalGoogleLocation,
+                VendorAddress: VendorAddress,
                 Discount: Discount,
                 ProductImage: FinalProductImage,
+                AdditionalProductImages: FinalAdditionalProductImages,
                 Created_On: Created_On,
             });
             NewOtherProduct.save(function (err, result) {
@@ -124,8 +136,8 @@ const ApproveOtherProduct = (req, res) => {
         OtherProductModel.findOneAndUpdate({ _id: Id }, {
             $set: {
                 Status: Status,
-                RatingsForVendor: RatingsForVendor,
-                CakeCategory: CakeCategory,
+                RatingsForVendor: RatingsForVendor?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                CakeCategory: CakeCategory?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Status_Updated_By: Status_Updated_By,
                 Status_Updated_On: Status_Updated_On
             }
@@ -165,6 +177,13 @@ const UpdateOtherProduct = (req, res) => {
     const MinWeightPerBox = req.body.MinWeightPerBox;
     const MinWeightPerUnit = req.body.MinWeightPerUnit;
     const Stock = req.body.Stock;
+    const VendorID = req.body.VendorID;
+    const Vendor_ID = req.body.Vendor_ID;
+    const VendorName = req.body.VendorName;
+    const VendorPhoneNumber1 = req.body.VendorPhoneNumber1;
+    const VendorPhoneNumber2 = req.body.VendorPhoneNumber2;
+    const VendorAddress = req.body.VendorAddress;
+    const GoogleLocation = req.body.GoogleLocation; //object
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         OtherProductModel.findOneAndUpdate({ _id: Id }, {
@@ -174,6 +193,13 @@ const UpdateOtherProduct = (req, res) => {
                 MinWeightPerBox: MinWeightPerBox,
                 MinWeightPerUnit: MinWeightPerUnit,
                 Stock: Stock,
+                VendorID: VendorID,
+                Vendor_ID: Vendor_ID,
+                VendorName: VendorName,
+                VendorPhoneNumber1: VendorPhoneNumber1,
+                VendorPhoneNumber2: VendorPhoneNumber2,
+                VendorAddress: VendorAddress,
+                GoogleLocation: GoogleLocation,
                 Status: 'Updated',
                 Modified_On: Modified_On
             }
@@ -234,7 +260,7 @@ const OtherProductSendInformation = (req, res) => {
             } else {
                 var InformationArray = [];
                 var data = {
-                    Information: Information,
+                    Information: Information?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     Created_On: Created_On,
                     Created_By: Created_By
                 }
@@ -287,7 +313,7 @@ const GetAllOtherProductsList = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }
@@ -304,7 +330,7 @@ const GetVendorsOtherProductsList = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }
@@ -320,7 +346,7 @@ const GetApprovedOtherProductsList = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }
@@ -337,7 +363,7 @@ const GetOtherProductListByStatus = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }
@@ -353,7 +379,7 @@ const GetNewAndUpdatedOtherProductsList = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {
-                res.send({ message: "No Redords Found" });
+                res.send({ message: "No Records Found" });
             } else {
                 res.send(result.reverse());
             }

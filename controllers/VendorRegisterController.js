@@ -15,6 +15,7 @@ const RegisterVendors = (req, res) => {
     const Password = req.body.Password;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2; //optional
+    const DoorNo = req.body.DoorNo;
     const Address = req.body.Address;
     const GoogleLocation = req.body.GoogleLocation;
     // const Street = req.body.Street;
@@ -70,7 +71,7 @@ const RegisterVendors = (req, res) => {
       <h5>MindMade Team</h5>
     `
     try {
-        if (!VendorName || !PreferredNameOnTheApp || !Email || !Password || !PhoneNumber1
+        if (!VendorName || !PreferredNameOnTheApp || !Email || !Password || !PhoneNumber1 || !DoorNo 
             || !Address|| !GoogleLocation || !Description || !EggOrEggless || !DateOfBirth ||
             !Gender || !YearsOfExperienceAsBaker || !AadhaarNumber || !PANNumber || 
             !FSSAINumber || !FSSAIExpiryDate || !JobType || !BankName || !Branch ||
@@ -100,27 +101,28 @@ const RegisterVendors = (req, res) => {
                                 ProfileImage: imagesUrl.url,
                                 Email: Email,
                                 Password: Password,
-                                VendorName: VendorName,
-                                PreferredNameOnTheApp: PreferredNameOnTheApp,
+                                VendorName: VendorName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                PreferredNameOnTheApp: PreferredNameOnTheApp?.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 PhoneNumber1: PhoneNumber1,
                                 PhoneNumber2: PhoneNumber2,
-                                Address: Address,
+                                DoorNo: DoorNo?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                Address: Address?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 GoogleLocation: FinalLocation,
-                                Description: Description,
+                                Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 EggOrEggless: EggOrEggless,
                                 DateOfBirth: DateOfBirth,
                                 Gender: Gender,
                                 YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
                                 AadhaarNumber: AadhaarNumber,
-                                PANNumber: PANNumber,
-                                GSTNumber: GSTNumber,
-                                FSSAINumber: FSSAINumber,
+                                PANNumber: PANNumber?.toUpperCase(),
+                                GSTNumber: GSTNumber?.toUpperCase(),
+                                FSSAINumber: FSSAINumber?.toUpperCase(),
                                 FSSAIExpiryDate: FSSAIExpiryDate,
                                 JobType: JobType,
-                                BankName: BankName,
-                                Branch: Branch,
+                                BankName: BankName?.toUpperCase(),
+                                Branch: Branch?.toUpperCase(),
                                 AccountNumber: AccountNumber,
-                                IFSCCode: IFSCCode,
+                                IFSCCode: IFSCCode?.toUpperCase(),
                                 UPIId: UPIId,
                                 Ratings: Ratings,
                                 AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,
@@ -179,6 +181,7 @@ const putVendors = async (req, res) => {
     const Email = req.body.Email;
     const PhoneNumber1 = req.body.PhoneNumber1;
     const PhoneNumber2 = req.body.PhoneNumber2;
+    const DoorNo = req.body.DoorNo;
     const Address = req.body.Address;
     const GoogleLocation = req.body.GoogleLocation;
     const Description = req.body.Description;
@@ -260,27 +263,28 @@ const putVendors = async (req, res) => {
             vendorModel.findOneAndUpdate({ _id: id }, {
                 $set: {
                     Email: FinalEmail,
-                    VendorName: VendorName,
-                    PreferredNameOnTheApp: PreferredNameOnTheApp,
+                    VendorName: VendorName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                    PreferredNameOnTheApp: PreferredNameOnTheApp?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     PhoneNumber1: PhoneNumber1,
                     PhoneNumber2: PhoneNumber2,
-                    Address: Address,
+                    DoorNo: DoorNo?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                    Address: Address?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     GoogleLocation: GoogleLocation,
-                    Description: Description,
+                    Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     EggOrEggless: EggOrEggless,
                     DateOfBirth: DateOfBirth,
                     Gender: Gender,
                     YearsOfExperienceAsBaker: YearsOfExperienceAsBaker,
                     AadhaarNumber: AadhaarNumber,
-                    PANNumber: PANNumber,
-                    GSTNumber: GSTNumber,
-                    FSSAINumber: FSSAINumber,
+                    PANNumber: PANNumber?.toUpperCase(),
+                    GSTNumber: GSTNumber?.toUpperCase(),
+                    FSSAINumber: FSSAINumber?.toUpperCase(),
                     FSSAIExpiryDate: FSSAIExpiryDate,
                     JobType: JobType,
-                    BankName: BankName,
-                    Branch: Branch,
+                    BankName: BankName?.toUpperCase(),
+                    Branch: Branch?.toUpperCase(),
                     AccountNumber: AccountNumber,
-                    IFSCCode: IFSCCode,
+                    IFSCCode: IFSCCode?.toUpperCase(),
                     UPIId: UPIId,
                     Ratings: Ratings,
                     AreYouFamiliarOnWorkingWithApps: AreYouFamiliarOnWorkingWithApps,

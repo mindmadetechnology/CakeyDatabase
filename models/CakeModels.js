@@ -49,6 +49,9 @@ const CakeSchema = new mongoose.Schema({
             Name: {
                 type: String
             },
+            MinWeight:{
+                type: String
+            },
             Price: {
                 type: String
             },
@@ -64,17 +67,20 @@ const CakeSchema = new mongoose.Schema({
         type: String,
         default:'n',
     },
-    TierCakeMinWeightAndPrice: [{
-        Tier: {
-            type: String
-        },
-        Weight: {
-            type: String
-        },
-        Price: {
-            type: String
-        }
-    }],
+    // TierCakeMinWeightAndPrice: [{
+    //     Tier: {
+    //         type: String
+    //     },
+    //     Weight: {
+    //         type: String
+    //     },
+    //     EggPrice: {
+    //         type: String
+    //     },
+    //     EgglessPrice: {
+    //         type: String,
+    //     },
+    // }],
     ThemeCakePossible: {
         type: String,
         default:'n',
@@ -86,20 +92,26 @@ const CakeSchema = new mongoose.Schema({
     MinTimeForDeliveryOfDefaultCake: {
         type: String,
     },
-    MinTimeForDeliveryOfA3KgCake: {
+    MinTimeForDeliveryOfABelow2KgCake: {
         type: String,
     },
-    MinTimeForDeliveryOfA5KgCake: {
+    MinTimeForDeliveryOfA2to4KgCake: {
         type: String,
     },
-    MinTimeForDeliveryFortierCake: [{
-        Tier: {
-            type: String,
-        },
-        MinTime: {
-            type: String,
-        },
-    }],
+    MinTimeForDeliveryOfA4to5KgCake: {
+        type: String,
+    },
+    MinTimeForDeliveryOfAAbove5KgCake: {
+        type: String,
+    },
+    // MinTimeForDeliveryFortierCake: [{
+    //     Tier: {
+    //         type: String,
+    //     },
+    //     MinTime: {
+    //         type: String,
+    //     },
+    // }],
     BasicCustomisationPossible: {
         type: String,
     },

@@ -42,7 +42,7 @@ const HelpDeskNew = (req, res) => {
                         const HelpDesk = new helpDeskModel({
                             Email: Email,
                             Password: Password,
-                            Name: Name,
+                            Name: Name?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                             Created_On: Created_On
                         });
                         HelpDesk.save(function (err, result) {
@@ -69,19 +69,19 @@ const HelpDeskNew = (req, res) => {
 const Above5kgCount = (req, res) => {
 
     try {
-        OrdersListModel.count({ Above5KG: 'y', Status: 'New' }, function (err, count1) {
+        OrdersListModel.countDocuments({ Above5KG: 'y', Status: 'New' }, function (err, count1) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" })
             } else {
-                OrdersListModel.count({ Above5KG: 'y', Status: 'Assigned' }, function (err, count2) {
+                OrdersListModel.countDocuments({ Above5KG: 'y', Status: 'Assigned' }, function (err, count2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" })
                     } else {
-                        CustomizeCakeModel.count({ Above5KG: 'y', Status: 'New' }, function (err, count3) {
+                        CustomizeCakeModel.countDocuments({ Above5KG: 'y', Status: 'New' }, function (err, count3) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" })
                             } else {
-                                CustomizeCakeModel.count({ Above5KG: 'y', Status: 'Assigned' }, function (err, count4) {
+                                CustomizeCakeModel.countDocuments({ Above5KG: 'y', Status: 'Assigned' }, function (err, count4) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" })
                                     } else {

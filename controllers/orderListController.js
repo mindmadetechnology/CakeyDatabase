@@ -100,7 +100,7 @@ const newOrder = (req, res) => {
     const Shape = req.body.Shape; //Array
     const Weight = req.body.Weight;
     // const Theme = req.body.Theme; //Optional  
-    // const Tier = req.body.Tier; //Optional  
+    const Tier = req.body.Tier; //Optional  
     // const Article = req.body.Article; //Optional
     const MessageOnTheCake = req.body.MessageOnTheCake; //Optional
     const SpecialRequest = req.body.SpecialRequest; //Optional
@@ -182,7 +182,7 @@ const newOrder = (req, res) => {
                 Shape: Shape,
                 Weight: Weight,
                 // Theme: Theme,
-                // Tier: Tier,
+                Tier: Tier,
                 Toppers: {
                     TopperId: TopperId,
                     TopperName: TopperName,
@@ -190,8 +190,8 @@ const newOrder = (req, res) => {
                     TopperPrice: TopperPrice,
                 },
                 // ThemeSampleImage: ThemeSampleImage,
-                MessageOnTheCake: MessageOnTheCake,
-                SpecialRequest: SpecialRequest,
+                MessageOnTheCake: MessageOnTheCake?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                SpecialRequest: SpecialRequest?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Description: Description,
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
@@ -204,7 +204,7 @@ const newOrder = (req, res) => {
                 User_ID: User_ID,
                 UserName: UserName,
                 UserPhoneNumber: UserPhoneNumber,
-                DeliveryAddress: DeliveryAddress,
+                DeliveryAddress: DeliveryAddress?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 DeliveryDate: DeliveryDate,
                 DeliverySession: DeliverySession,
                 DeliveryInformation: DeliveryInformation,
@@ -342,8 +342,8 @@ const updateOrderStatus = async (req, res) => {
             PaymentStatus = 'Paid'
         } else {
             PaymentStatus = 'Cash on delivery'
-        };
-        if (Status === 'Preparing' || Status === 'Out For Delivery' || Status === 'Delivered') {
+        };                                          
+        if ((Status.toLowerCase()).replace(/ /g, '') === 'preparing' || (Status.toLowerCase()).replace(/ /g, '') === 'outfordelivery' || (Status.toLowerCase()).replace(/ /g, '') === 'delivered') {
             OrdersListModel.findById({ _id: Id }, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
@@ -516,19 +516,19 @@ const getVendorOrdersListByStatus = (req, res) => {
 const getOrdersStatusCount = (req, res) => {
 
     try {
-        OrdersListModel.count({}, function (err, count1) {
+        OrdersListModel.countDocuments({}, function (err, count1) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                OrdersListModel.count({ Status: 'New' }, function (err, count2) {
+                OrdersListModel.countDocuments({ Status: 'New' }, function (err, count2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        OrdersListModel.count({ Status: 'Preparing' }, function (err, count3) {
+                        OrdersListModel.countDocuments({ Status: 'Preparing' }, function (err, count3) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
-                                OrdersListModel.count({ Status: 'Delivered' }, function (err, count4) {
+                                OrdersListModel.countDocuments({ Status: 'Delivered' }, function (err, count4) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
@@ -556,32 +556,31 @@ const getVendorOrdersStatusCount = (req, res) => {
 
     const id = req.params.id;
     try {
-        OrdersListModel.count({ VendorID: id }, function (err, count1) {
+        OrdersListModel.countDocuments({ VendorID: id }, function (err, count1) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                OrdersListModel.count({ Status: 'New', VendorID: id }, function (err, count2) {
+                OrdersListModel.countDocuments({ Status: 'New', VendorID: id }, function (err, count2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        OrdersListModel.count({ Status: 'Preparing', VendorID: id }, function (err, count3) {
+                        OrdersListModel.countDocuments({ Status: 'Preparing', VendorID: id }, function (err, count3) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
-                                OrdersListModel.count({ Status: 'Delivered', VendorID: id }, function (err, count4) {
+                                OrdersListModel.countDocuments({ Status: 'Delivered', VendorID: id }, function (err, count4) {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
-                                        OrdersListModel.count({ Status: 'Cancelled', VendorID: id }, function (err, count5) {
+                                        OrdersListModel.countDocuments({ Status: 'Cancelled', VendorID: id }, function (err, count5) {
                                             if (err) {
                                                 res.send({ statusCode: 400, message: "Failed" });
                                             } else {
-
-                                                CustomizeCakeModel.count({ Status: 'New', VendorID: id }, function (err, count6) {
+                                                CustomizeCakeModel.countDocuments({ Status: 'New', VendorID: id }, function (err, count6) {
                                                     if (err) {
                                                         res.send({ statusCode: 400, message: "Failed" });
                                                     } else {
-                                                        CustomizeCakeModel.count({ VendorID: id }, function (err, count7) {
+                                                        CustomizeCakeModel.countDocuments({ VendorID: id }, function (err, count7) {
                                                             if (err) {
                                                                 res.send({ statusCode: 400, message: "Failed" });
                                                             } else {

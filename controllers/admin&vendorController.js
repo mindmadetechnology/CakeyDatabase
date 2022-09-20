@@ -68,7 +68,7 @@ const putAdmin = async (req, res) => {
                         {
                             $set: {
                                 Email: Email,
-                                AdminName: AdminName,
+                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 Password: Password,
                                 Modified_On: Modified_On
                             }
@@ -88,7 +88,7 @@ const putAdmin = async (req, res) => {
                                         {
                                             $set: {
                                                 Email: Email,
-                                                AdminName: AdminName,
+                                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                                 Password: Password,
                                                 Modified_On: Modified_On
                                             }
@@ -120,7 +120,7 @@ const putAdmin = async (req, res) => {
                             $set: {
                                 Email: Email,
                                 ProfileImage: imagesUrl.secure_url,
-                                AdminName: AdminName,
+                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                 Password: Password,
                                 Modified_On: Modified_On
                             }
@@ -140,7 +140,7 @@ const putAdmin = async (req, res) => {
                                         {
                                             $set: {
                                                 Email: Email,
-                                                AdminName: AdminName,
+                                                AdminName: AdminName.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                                 Password: Password,
                                                 ProfileImage: imagesUrl.secure_url,
                                                 Modified_On: Modified_On
@@ -252,7 +252,7 @@ const loginValidate = (req, res) => {
                     } else {
                         LastLoginSessionModel.findOne({ Id: result._id.toString() }, function (err, result2) {
                             if (err) {
-                                res.send({ statusCode: 400, message: "Failed2", error:err });
+                                res.send({ statusCode: 400, message: "Failed2", error: err });
                             } else if (result2 === null) {
                                 const LastLogin = new LastLoginSessionModel({
                                     Id: result._id,
@@ -488,14 +488,29 @@ const forgotPassword = (req, res) => {
 //get all vendors and users
 const getAllUsersCount = (req, res) => {
     try {
-        userModel.count({}, function (err, count1) {
-            if (!err) {
-                vendorModel.count({ Status: 'Approved' }, function (err, count2) {
-                    if (!err) {
-                        CustomizeCakeModel.count({ Status: 'New' }, function (err, count3) {
-                            if (!err) {
-                                CustomizeCakeModel.count({}, function (err, count4) {
-                                    if (!err) {
+        // userModel.countDocuments({}, function(err,count1){
+        //     if(err){
+        //         res.send({ statusCode: 400, message: "Failed" });
+        //     }else{
+        //         res.send({ Users: count1.toString() });
+        //     }
+        // })
+        userModel.countDocuments({}, function (err, count1) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                vendorModel.countDocuments({ Status: 'Approved' }, function (err, count2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        CustomizeCakeModel.countDocuments({ Status: 'New' }, function (err, count3) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                CustomizeCakeModel.countDocuments({}, function (err, count4) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
                                         res.send({
                                             Users: count1.toString(),
                                             Vendors: count2.toString(),
@@ -518,12 +533,18 @@ const getAllUsersCount = (req, res) => {
 //get notification count
 const GetNotificationCount = (req, res) => {
     try {
-        OrdersListModel.count({ Status: 'New' }, function (err, count1) {
-            if (!err) {
-                CustomizeCakeModel.count({ Status: 'New' }, function (err, count2) {
-                    if (!err) {
-                        vendorModel.count({ Status: 'New' }, function (err, count3) {
-                            if (!err) {
+        OrdersListModel.countDocuments({ Status: 'New' }, function (err, count1) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                CustomizeCakeModel.countDocuments({ Status: 'New' }, function (err, count2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    } else {
+                        vendorModel.countDocuments({ Status: 'New' }, function (err, count3) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: 'Failed' });
+                            } else {
                                 res.send({ Orders: count1.toString(), CustomizeCakes: count2.toString(), Newvendors: count3.toString() });
                             }
                         });
@@ -540,19 +561,19 @@ const UpdateVendorNotificationId = (req, res) => {
     const Email = req.params.email;
     const Notification_Id = req.body.Notification_Id;
 
-    try{
-        vendorModel.findOneAndUpdate({ Email: Email },{
+    try {
+        vendorModel.findOneAndUpdate({ Email: Email }, {
             $set: {
                 Notification_Id: Notification_Id
             }
-        }, function(err){
-            if(err){
+        }, function (err) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else{
+            } else {
                 res.send({ statusCode: 200, message: "Updated Successfully" });
             }
         });
-    }catch(err){
+    } catch (err) {
         res.send({ statusCode: 400, message: "Failed" });
     }
 };

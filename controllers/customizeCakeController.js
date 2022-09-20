@@ -217,17 +217,17 @@ const AddNewCustomizeCake = async (req, res) => {
             res.send({ statusCode: 400, message: "*required" });
         } else {
             const CustomizeCake = new CustomizeCakeModel({
-                CakeName: CakeName,
+                CakeName: CakeName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 EggOrEggless: EggOrEggless,
                 Flavour: NewFlavour,
                 Shape: Shape,
                 Weight: NewWeight,
-                Theme: Theme,
+                Theme: Theme?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Tier: Tier,
                 Images: imageUrlList,
-                MessageOnTheCake: MessageOnTheCake,
-                SpecialRequest: SpecialRequest,
-                DeliveryAddress: DeliveryAddress,
+                MessageOnTheCake: MessageOnTheCake?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                SpecialRequest: SpecialRequest?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                DeliveryAddress: DeliveryAddress?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 DeliveryDate: DeliveryDate,
                 DeliverySession: DeliverySession,
                 DeliveryInformation: DeliveryInformation,
@@ -383,7 +383,6 @@ const AssignCustomizecake = (req, res) => {
 const CustomizeCakePriceInvoice = (req, res) => {
 
     const Id = req.params.id;
-    const CakeType = req.body.CakeType;
     const EggOrEggless = req.body.EggOrEggless;
     const Flavour = req.body.Flavour; //multiple //array of object
     const Shape = req.body.Shape;
@@ -420,12 +419,11 @@ const CustomizeCakePriceInvoice = (req, res) => {
     try {
         CustomizeCakeModel.findOneAndUpdate({ _id: Id }, {
             $set: {
-                CakeType: CakeType,
                 EggOrEggless: EggOrEggless,
                 Flavour: Flavour,
                 Shape: Shape,
                 Weight: Weight,
-                MessageOnTheCake: MessageOnTheCake,
+                MessageOnTheCake: MessageOnTheCake?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 SpecialRequest: SpecialRequest,
                 DeliveryAddress: DeliveryAddress,
                 DeliveryDate: DeliveryDate,

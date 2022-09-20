@@ -10,7 +10,7 @@ const AddNewBanner = async (req, res) => {
         const Image = await cloudinary.uploader.upload(req.file.path);
         const NewBanner = BannerModel({
             Image: Image.url,
-            Slogan: Slogan,
+            Slogan: Slogan.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
             Created_On: Created_On
         });
         NewBanner.save(function (err, result) {
@@ -57,7 +57,7 @@ const UpdateBanner = async (req, res) => {
         BannerModel.findOneAndUpdate({ _id: id }, {
             $set: {
                 Image: FinalImage,
-                Slogan: Slogan,
+                Slogan: Slogan.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Modified_On: Modified_On
             }
         }, function (err, result) {

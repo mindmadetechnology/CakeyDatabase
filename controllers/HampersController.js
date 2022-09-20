@@ -1,4 +1,5 @@
 const HampersModel = require("../models/HampersModels");
+const OtherProductOrdersModel = require("../models/OtherProductOrdersModels");
 const AdminNotificationModel = require('../models/AdminNotificationModels');
 const VendorNotificationModel = require("../models/VendorNotification");
 const UserNotificationModel = require("../models/UserNotification");
@@ -19,21 +20,31 @@ const CreateHampers = async (req, res) => {
     const Title = req.body.Title;
     const Occasion = req.body.Occasion;
     const Weight = req.body.Weight;
+    const EggOrEggless = req.body.EggOrEggless;
     const StartDate = req.body.StartDate;
     const EndDate = req.body.EndDate;
     const Price = req.body.Price;
     const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    //file - HamperImage
+    //file - HamperImage,AdditionalHamperImage
 
     try {
         if (VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation || HampersName
-            || Price || req.file !== undefined || Description || Title || Occasion || Weight || StartDate || EndDate) {
-            const Image = await cloudinary.uploader.upload(req.file.path);
+            || Price || Description || Title || Occasion || Weight || StartDate || EndDate || EggOrEggless) {
+                const Image = await cloudinary.uploader.upload(req.files['HamperImage'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+            let FinalAdditionalHamperImages=[];
+            if (req.files['AdditionalHamperImage'] !== undefined) {
+                for (let i = 0; i < req.files['AdditionalHamperImage'].length; i++) {
+                    var result = await cloudinary.uploader.upload(req.files['AdditionalHamperImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                    FinalAdditionalHamperImages.push(result.url);
+                }
+            } else {
+                FinalAdditionalHamperImages = [];
+            };
             const FinalLocation = JSON.parse(GoogleLocation);
             const FinalProduct_Contains = JSON.parse(Product_Contains);
-            const FinalOccasion = JSON.parse(Occasion);
+            const FinalOccasion = Occasion;
 
             const NewHampers = HampersModel({
                 VendorID: VendorID,
@@ -43,16 +54,18 @@ const CreateHampers = async (req, res) => {
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
-                HampersName: HampersName,
-                Title: Title,
-                Occasion: FinalOccasion,
+                EggOrEggless:EggOrEggless,
+                HampersName: HampersName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                Title: Title?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                Occasion: FinalOccasion?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Weight: Weight,
                 StartDate: StartDate,
                 EndDate: EndDate,
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image.url,
-                Description: Description,
+                AdditionalHamperImage:FinalAdditionalHamperImages,
+                Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Created_On: Created_On,
             });
             NewHampers.save(function (err, result) {
@@ -97,23 +110,37 @@ const UpdateHampers = async (req, res) => {
     const HampersName = req.body.HampersName;
     const Title = req.body.Title;
     const Occasion = req.body.Occasion;
+    const EggOrEggless = req.body.EggOrEggless;
     const Weight = req.body.Weight;
     const StartDate = req.body.StartDate;
     const EndDate = req.body.EndDate;
     const Price = req.body.Price;
     const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
+    const OldAdditionalHamperImage = req.body.OldAdditionalHamperImage;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
-    //file - HamperImage
+    //file - HamperImage, AdditionalHamperImage
     try {
-        var Image;
-        if (req.file) {
-            var ImageURL = await cloudinary.uploader.upload(req.file.path);
+        var Image, OldAdditionalImages = [];
+        if (req.files['HamperImage'] !== undefined) {
+            var ImageURL = await cloudinary.uploader.upload(req.files['HamperImage'][0].path);
             Image = ImageURL.url
         }
+
+        if(OldAdditionalHamperImage){
+            OldAdditionalImages = JSON.parse(OldAdditionalHamperImage);
+        }else{
+            OldAdditionalImages = [];  
+        };
+        if(req.files['AdditionalHamperImage'] !== undefined){
+            for (let i = 0; i < req.files['AdditionalHamperImage'].length; i++) {
+                var result = await cloudinary.uploader.upload(req.files['AdditionalHamperImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
+                OldAdditionalImages.push(result.url);
+            }
+        };
         const FinalLocation = JSON.parse(GoogleLocation);
         const FinalProduct_Contains = JSON.parse(Product_Contains);
-        const FinalOccasion = JSON.parse(Occasion);
+        const FinalOccasion = Occasion;
 
         HampersModel.findOneAndUpdate({ _id: Id }, {
             $set: {
@@ -124,16 +151,18 @@ const UpdateHampers = async (req, res) => {
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
-                HampersName: HampersName,
-                Title: Title,
+                HampersName: HampersName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                Title: Title?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Occasion: FinalOccasion,
+                EggOrEggless: EggOrEggless,
                 Weight: Weight,
                 StartDate: StartDate,
                 EndDate: EndDate,
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image,
-                Description: Description,
+                AdditionalHamperImage: OldAdditionalImages,
+                Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Modified_On: Modified_On,
                 Status: 'Updated'
             }
@@ -361,6 +390,7 @@ const OrderHampers = (req, res) => {
     const Weight = req.body.Weight;
     const Price = req.body.Price;
     const Description = req.body.Description;
+    const EggOrEggless = req.body.EggOrEggless;
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
@@ -382,9 +412,10 @@ const OrderHampers = (req, res) => {
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
     const Created_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
-        if (HamperID || Hamper_ID || HampersName || Product_Contains || HamperImage || Price || Description ||
+        if (HamperID || Hamper_ID || HampersName || Product_Contains || EggOrEggless || HamperImage || Price || Description ||
             VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation ||
             UserID || User_ID || UserName || UserPhoneNumber || DeliveryDate || DeliverySession ||
             DeliveryInformation || ItemCount || DeliveryCharge || Total || PaymentType || PaymentStatus) {
@@ -398,6 +429,7 @@ const OrderHampers = (req, res) => {
                 Weight: Weight,
                 Price: Price,
                 Description: Description,
+                EggOrEggless: EggOrEggless,
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
@@ -409,7 +441,7 @@ const OrderHampers = (req, res) => {
                 User_ID: User_ID,
                 UserName: UserName,
                 UserPhoneNumber: UserPhoneNumber,
-                DeliveryAddress: DeliveryAddress,
+                DeliveryAddress: DeliveryAddress?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 DeliveryDate: DeliveryDate,
                 DeliverySession: DeliverySession,
                 DeliveryInformation: DeliveryInformation,
@@ -419,6 +451,7 @@ const OrderHampers = (req, res) => {
                 PaymentType: PaymentType,
                 PaymentStatus: PaymentStatus,
                 Created_On: Created_On,
+                Status_Updated_On: Status_Updated_On,
             });
             NewHamperOrder.save(function (err, result) {
                 if (err) {
@@ -557,7 +590,7 @@ const CancelHamperOrder = (req, res) => {
                         VendorID: result.VendorID,
                         Vendor_ID: result.Vendor_ID,
                         UserName: result.UserName,
-                        For_Display: "Yuor Customized Cake Order is Cancelled"
+                        For_Display: "Your Hamper Order is Cancelled"
                     });
                     Notification.save(function (err) {
                         if (err) {
@@ -775,25 +808,32 @@ const GetUserOrderAndHamperOrder = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        const Result1 = result1;
-                        var FinalList = [];
-                        const ConcatResult = Result1.concat(result2);
-                        if (ConcatResult.length === 0) {
-                            FinalList = [];
-                        } else if (ConcatResult.length === 1) {
-                            FinalList = ConcatResult;
-                        } else {
-                            const Array2 = ConcatResult.map(val => {
-                                return { ...val, date: moment(val.Created_On, 'DD-MM-YYYY hh:mm A').diff(moment(new Date(), 'DD-MM-YYYY hh:mm A')) };
-                            });
-                            const NewList = Array2.sort((a, b) => { return a.date - b.date });
-                            NewList.filter(val => { FinalList.push(val._doc) });
-                        }
-                        if (FinalList.length === 0) {
-                            res.send({ message: "No Records Found" })
-                        } else {
-                            res.send(FinalList.reverse());
-                        }
+                        OtherProductOrdersModel.find({ UserID: Id }, function (err, result3) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                const Result1 = result1;
+                                var FinalList = [];
+                                const ConcatResult = Result1.concat(result2);
+                                const FinalResult = ConcatResult.concat(result3); 
+                                if (FinalResult.length === 0) {
+                                    FinalList = [];
+                                } else if (FinalResult.length === 1) {
+                                    FinalList = FinalResult;
+                                } else {
+                                    const Array2 = FinalResult.map(val => {
+                                        return { ...val, date: moment(val.Created_On, 'DD-MM-YYYY hh:mm A').diff(moment(new Date(), 'DD-MM-YYYY hh:mm A')) };
+                                    });
+                                    const NewList = Array2.sort((a, b) => { return a.date - b.date });
+                                    NewList.filter(val => { FinalList.push(val._doc) });
+                                }
+                                if (FinalList.length === 0) {
+                                    res.send({ message: "No Records Found" })
+                                } else {
+                                    res.send(FinalList.reverse());
+                                }
+                            }
+                        })
                     }
                 });
             }

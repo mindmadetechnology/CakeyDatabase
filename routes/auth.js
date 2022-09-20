@@ -90,7 +90,8 @@ const {
     AddNewArticle, GetArticleList,
     AddNewCakeToppings, GetCakeToppingsList,
     DeleteFlavour, DeleteShape, 
-    DeleteWeight, DeleteArticle
+    DeleteWeight, DeleteArticle,
+    GetNotReversedFlavoursList, GetNotReversedShapesList,GetOrderedWeightList
 } = require('../controllers/cakeArrayController');
 
 const {
@@ -334,7 +335,7 @@ router.get('/order/countbyvendorid/:id', Authorization, getVendorOrdersStatusCou
 router.get('/order/listbyAbove5KG/:above', Authorization, GetAbove5kgOrdersList);
 
 //get not respond orders for display in helpdesk and admin dashboard
-router.get('/order/listbyresponse',GetNotRespondOrders);
+router.get('/order/listbyresponse', Authorization, GetNotRespondOrders);
 
 //Above 5k orders assign to vendors
 router.put('/order/assign/:id', Above5KGOrderAssign);
@@ -382,6 +383,11 @@ router.post('/flavour/new',AddNewFlavours);
 
 //Get Flavours List
 router.get('/flavour/list', Authorization, GetFlavoursList);
+
+router.get('/flavour/alllist', Authorization, GetNotReversedFlavoursList);
+
+router.get('/shape/alllist', Authorization, GetNotReversedShapesList);
+router.get('/weight/alllist', Authorization, GetOrderedWeightList);
 
 //delete Flavour
 router.delete('/flavour/delete/:id', DeleteFlavour);
@@ -530,12 +536,12 @@ router.get('/admin/statementofaccounts/:Month/:Year', Authorization, GetAdminSta
 router.post('/statementofaccounts/new', CreateStatementOfAccountsByVendorID);
 
 //get vendor statement of accounts
-router.get('/vendor/statementofaccountslist', GetVendorStatementOfAccountsList);
+router.get('/vendor/statementofaccountslist', Authorization, GetVendorStatementOfAccountsList);
 
 //get vendor statement of accounts details
-router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', GetVendorStatementOfAccountsDetails);
+router.get('/vendor/statementofaccountsdetails/:VendorID/:Month/:Year', Authorization, GetVendorStatementOfAccountsDetails);
 
-router.get('/vendor/loginsession/:id/:date', Authorization, GetLoginTimeWithDateRange);
+router.get('/vendor/loginsession/:id/:StartDate/:EndDate', Authorization, GetLoginTimeWithDateRange);
 
 router.get('/vendor/activelist', Authorization, GetActiveVendors);
 

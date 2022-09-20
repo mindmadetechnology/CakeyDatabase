@@ -91,14 +91,13 @@ const AddNewTopper = (req, res) => {
                             VendorID: VendorID,
                             Vendor_ID: Vendor_ID,
                             VendorName: VendorName,
-                            TopperName: TopperName,
+                            TopperName: TopperName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                             TopperImage: TopperImage,
                             Price: Price,
                             Stock: Stock,
                             AvailableCount:AvailableCount,
                             Created_On: Created_On,
                         });
-
                         Topper.save(function (err, result) {
                             if (err) {
                                 res.send({ statusCode: 400, message: 'Failed' });
@@ -150,7 +149,7 @@ const UpdateTopper = async (req, res) => {
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
-                TopperName: TopperName,
+                TopperName: TopperName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 TopperImage: TopperImage,
                 AvailableCount:AvailableCount,
                 Price: Price,
