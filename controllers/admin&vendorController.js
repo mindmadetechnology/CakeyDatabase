@@ -393,11 +393,11 @@ const forgotPassword = (req, res) => {
     <p>
       We have received a request to reset the password for your account.<br />
 
-      Your System generated Password:${Password} <br />
+      Your System generated Password:${Password} <br/>
 
       You can change your password once you logged in.
       </p>
-      <br />
+      <br/>
       <h4>Best wishes,</h4>
       <h5>MindMade Team</h5>
     `
