@@ -174,7 +174,8 @@ const GetActiveVendors = (req, res) => {
                                             vendor_ID: val.Array.Vendor_ID,
                                             Login_At: val.Array.LastLogin_At,
                                             VendorName: v.VendorName,
-                                            VendorEmail: v.Email
+                                            VendorEmail: v.Email,
+                                            VendorAddress: v.Address
                                         }
                                         FinalArray.push(data);
                                     }

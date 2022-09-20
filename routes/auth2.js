@@ -31,6 +31,11 @@ const {
 } = require('../controllers/OtherProductsController');
 
 const {
+    GetActiveVendorsCakesList, GetActiveVendorsOtherProductList,
+    GetActiveVendorsList
+} = require('../controllers/GetProductListController');
+
+const {
     NewOtherProductOrder, GetAllOtherProductList,
     GetVendorOtherProductOrderList, GetOtherProductOrderDetails,
     UpdateOtherProductOrderStatus, AcceptOrCancelOrder,
@@ -128,5 +133,12 @@ router.post('/bankname/new',CreateBankName);
 router.delete('/bankname/delete/:bankname',DeleteBankName);
 
 router.get('/bankname/list', Authorization,GetBankNameList);
+
+router.get('/cakes/activevendors/list', Authorization, GetActiveVendorsCakesList);
+
+router.get('/otherproduct/activevendors/list', Authorization, GetActiveVendorsOtherProductList);
+
+router.get('/activevendors/list', Authorization, GetActiveVendorsList);
+
 
 module.exports = router;
