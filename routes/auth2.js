@@ -30,6 +30,10 @@ const {
     GetOtherProductDetails, ApproveUpdatedOtherProduct
 } = require('../controllers/OtherProductsController');
 
+const {
+    GetActiveVendorsCakesList, GetActiveVendorsOtherProductList
+} = require('../controllers/GetProductListController');
+
 router.post('/caketype/new', AddNewCakeType);
 
 router.get('/caketype/list',Authorization, GetCakeTypeList);
@@ -98,6 +102,11 @@ router.put('/otherproduct/information/:id', OtherProductSendInformation);
 router.put('/otherproduct/update/:id', UpdateOtherProduct);
 
 router.delete('/otherproduct/delete/:id', DeleteOtherProduct);
+
+
+router.get('/cakes/activevendors/list', GetActiveVendorsCakesList);
+
+router.get('/otherproduct/activevendors/list', GetActiveVendorsOtherProductList);
 
 
 module.exports = router;
