@@ -657,6 +657,7 @@ const deleteCake = (req, res) => {
         cakeModel.findOneAndUpdate({ _id: id }, {
             $set: {
                 IsDeleted: IsDeleted,
+                Status:'Suspended',
                 ReasonForSuspend:ReasonForSuspend,
                 Modified_On: Modified_On
             }
