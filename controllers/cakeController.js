@@ -650,19 +650,22 @@ const SendInformationToVendor = (req, res) => {
 const deleteCake = (req, res) => {
 
     const id = req.params.id;
+    const ReasonForSuspend=req.body.ReasonForSuspend;
     const IsDeleted = 'y';
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         cakeModel.findOneAndUpdate({ _id: id }, {
             $set: {
                 IsDeleted: IsDeleted,
+                Status:'Suspended',
+                ReasonForSuspend:ReasonForSuspend,
                 Modified_On: Modified_On
             }
         }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Deleted Successfully" });
+                res.send({ statusCode: 200, message: "Cake Suspended Successfully" });
             }
         });
     } catch (err) {

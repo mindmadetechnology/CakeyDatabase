@@ -59,6 +59,12 @@ const HampersSchema = new mongoose.Schema({
     EndDate: {
         type: String,
     },
+    DeliveryStartDate: {
+        type: String,
+    },
+    DeliveryEndDate: {
+        type: String,
+    },
     Price: {
         type: String,
     },
