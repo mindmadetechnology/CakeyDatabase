@@ -38,7 +38,7 @@ const GetActiveVendorsCakesList = (req, res) => {
                         if (FinalArray.length === 0) {
                             res.send({ message: "No Records Found" });
                         } else {
-                            cakeModel.find({ VendorID: { $in: FinalArray } }, function (err, CakesList) {
+                            cakeModel.find({ $and: [{ VendorID: { $in: FinalArray } }, { IsDeleted: 'n' }] }, function (err, CakesList) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
                                 } else {
@@ -93,7 +93,7 @@ const GetActiveVendorsOtherProductList = (req, res) => {
                         if (FinalArray.length === 0) {
                             res.send({ message: "No Records Found" });
                         } else {
-                            OtherProductModel.find({ VendorID: { $in: FinalArray } }, function (err, ProductList) {
+                            OtherProductModel.find({ $and: [{ VendorID: { $in: FinalArray } }, { IsDeleted: 'n' }] }, function (err, ProductList) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
                                 } else {
@@ -137,10 +137,12 @@ const GetActiveVendorsList = (req, res) => {
                             NewArray.push({ seconds: seconds, Array: val });
                         });
                         NewArray.filter(val => {
-                            result2.filter(v=> {
+                            result2.filter(v => {
                                 if (val.seconds <= 120) {
-                                    if(val.Array.Vendor_ID === v.Id){
-                                        FinalArray.push(v);
+                                    if (val.Array.Vendor_ID === v.Id) {
+                                        if(v.Status === 'Approved'){
+                                            FinalArray.push(v);
+                                        }
                                     }
                                 }
                             });
