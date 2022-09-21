@@ -30,7 +30,9 @@ const GetActiveVendorsCakesList = (req, res) => {
                             result2.filter(v => {
                                 if (val.seconds <= 120) {
                                     if (val.Array.Vendor_ID === v.Id) {
-                                        FinalArray.push(JSON.parse(JSON.stringify(v._id)));
+                                        if (v.Status === 'Approved') {
+                                            FinalArray.push(JSON.parse(JSON.stringify(v._id)));
+                                        }
                                     }
                                 }
                             });
@@ -85,7 +87,9 @@ const GetActiveVendorsOtherProductList = (req, res) => {
                             result2.filter(v => {
                                 if (val.seconds <= 120) {
                                     if (val.Array.Vendor_ID === v.Id) {
-                                        FinalArray.push(JSON.parse(JSON.stringify(v._id)));
+                                        if (v.Status === 'Approved') {
+                                            FinalArray.push(JSON.parse(JSON.stringify(v._id)));
+                                        }
                                     }
                                 }
                             });
@@ -140,7 +144,7 @@ const GetActiveVendorsList = (req, res) => {
                             result2.filter(v => {
                                 if (val.seconds <= 120) {
                                     if (val.Array.Vendor_ID === v.Id) {
-                                        if(v.Status === 'Approved'){
+                                        if (v.Status === 'Approved') {
                                             FinalArray.push(v);
                                         }
                                     }
