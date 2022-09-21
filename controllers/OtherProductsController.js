@@ -232,12 +232,22 @@ const UpdateOtherProduct = (req, res) => {
 
 const DeleteOtherProduct = (req, res) => {
     const Id = req.params.id;
+    const ReasonForSuspend=req.body.ReasonForSuspend;
+    const IsDeleted = 'y';
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        OtherProductModel.findOneAndDelete({ _id: Id }, function (err) {
+        OtherProductModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                IsDeleted: IsDeleted,
+                Status:'Suspended',
+                ReasonForSuspend:ReasonForSuspend,
+                Modified_On: Modified_On
+            }
+        }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Deleted Successfully" });
+                res.send({ statusCode: 200, message: "Product Suspended Successfully" });
             }
         });
     } catch (err) {

@@ -113,7 +113,7 @@ router.put('/otherproduct/information/:id', OtherProductSendInformation);
 
 router.put('/otherproduct/update/:id', UpdateOtherProduct);
 
-router.delete('/otherproduct/delete/:id', DeleteOtherProduct);
+router.put('/otherproduct/delete/:id', DeleteOtherProduct);
 
 
 router.post('/otherproduct/order/new', NewOtherProductOrder);
