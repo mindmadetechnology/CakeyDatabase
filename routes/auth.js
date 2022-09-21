@@ -49,7 +49,9 @@ const {
     getCakeDetails, getcakelistByVendorName,
     getcakelistByVendorId, getCakeListByStatus,
     ApproveCake, getcakelistByVendorIdAndStatus,
-    GetCakeListOfNewAndUpdated, ApproveUpdatedCake, SendInformationToVendor
+    GetCakeListOfNewAndUpdated, ApproveUpdatedCake, 
+    SendInformationToVendor, getCakeListforAdmin,
+    getcakelistByVendorIdforVendors
 } = require('../controllers/cakeController');
 
 const { 
@@ -266,6 +268,8 @@ router.get("/cake/listbyName/:VendorName", Authorization, getcakelistByVendorNam
 //get cake details based on vendorId
 router.get("/cake/listbyId/:VendorId", Authorization, getcakelistByVendorId);
 
+router.get("/cake/listbyVendorId/:VendorId", Authorization, getcakelistByVendorIdforVendors);
+
 //get cake details based on vendorId and status
 router.get("/cake/listbyIdandstatus/:VendorId", Authorization, getcakelistByVendorIdAndStatus);
 
@@ -287,6 +291,8 @@ router.put('/cake/approveupdatedcake/:id', ApproveUpdatedCake);
 
 //admin send Information to vendor
 router.put('/cake/sendInformation/:CakeId',SendInformationToVendor);
+
+router.get('/cake/listforAdmin', Authorization,getCakeListforAdmin);
 
 
 
