@@ -342,7 +342,7 @@ const GetVendorsOtherProductsList = (req, res) => {
 
 const GetApprovedOtherProductsList = (req, res) => {
     try {
-        OtherProductModel.find({ Status: 'Approved' }, function (err, result) {
+        OtherProductModel.find({ $nor: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {

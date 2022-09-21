@@ -60,6 +60,25 @@ const getCakeListByStatus = (req, res) => {
     };
 };
 
+const getCakeListforAdmin = (req, res) => {
+
+    try {
+        cakeModel.find({ $nor: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
 const GetCakeListOfNewAndUpdated = (req, res) => {
     try {
         cakeModel.find({ $or: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
@@ -105,6 +124,26 @@ const getcakelistByVendorId = (req, res) => {
     const VendorId = req.params.VendorId;
     try {
         cakeModel.find({ VendorID: VendorId, IsDeleted: 'n' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+const getcakelistByVendorIdforVendors = (req, res) => {
+
+    const VendorId = req.params.VendorId;
+    try {
+        cakeModel.find({ VendorID: VendorId }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -682,11 +721,13 @@ module.exports = {
     getCakeDetails,
     getcakelistByVendorName,
     getcakelistByVendorId,
+    getcakelistByVendorIdforVendors,
     getCakeListByStatus,
     ApproveCake,
     getcakelistByVendorIdAndStatus,
     GetCakeListOfNewAndUpdated,
     ApproveUpdatedCake,
-    SendInformationToVendor
+    SendInformationToVendor,
+    getCakeListforAdmin
 
 };
