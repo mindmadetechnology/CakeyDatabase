@@ -171,6 +171,9 @@ const OtherProductOrdersSchema = new mongoose.Schema({
     Cancelled_By: {
         type: String,
     },
+    ReasonForCancel: {
+        type: String,
+    },
 
 });
 

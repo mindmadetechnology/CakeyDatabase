@@ -177,6 +177,7 @@ const UpdateOtherProduct = (req, res) => {
     const MinWeightPerBox = req.body.MinWeightPerBox;
     const MinWeightPerUnit = req.body.MinWeightPerUnit;
     const Stock = req.body.Stock;
+    const Discount = req.body.Discount;
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
@@ -193,6 +194,7 @@ const UpdateOtherProduct = (req, res) => {
                 MinWeightPerBox: MinWeightPerBox,
                 MinWeightPerUnit: MinWeightPerUnit,
                 Stock: Stock,
+                Discount: Discount,
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
