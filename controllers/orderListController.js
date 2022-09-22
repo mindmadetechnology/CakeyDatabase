@@ -804,14 +804,22 @@ const AcceptOrder = (req, res) => {
 const CancelOrder = (req, res) => {
     const id = req.params.id;
     const Cancelled_By = req.body.Cancelled_By;
+    const ReasonForCancel = req.body.ReasonForCancel;
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
+        let Status;
+        if(Cancelled_By === 'User'){
+            Status = 'Cancelled';
+        }else{
+            Status = 'Rejected';
+        };
         OrdersListModel.findOneAndUpdate({ _id: id }, {
             $set: {
-                Status: 'Cancelled',
+                Status: Status,
                 Cancelled_By: Cancelled_By,
+                ReasonForCancel: ReasonForCancel,
                 Status_Updated_By: Status_Updated_By,
                 Status_Updated_On: Status_Updated_On
             }
@@ -830,7 +838,7 @@ const CancelOrder = (req, res) => {
                         VendorID: result.VendorID,
                         Vendor_ID: result.Vendor_ID,
                         UserName: result.UserName,
-                        For_Display: "Yuor Customized Cake Order is Cancelled"
+                        For_Display: "Your Order is Cancelled"
                     });
                     Notification.save(function (err) {
                         if (err) {
