@@ -316,6 +316,7 @@ const UpdateOtherProductOrderStatus = async (req, res) => {
 const AcceptOrCancelOrder = (req, res) => {
     const id = req.params.id;
     const Status = req.body.Status;
+    const ReasonForCancel = req.body.ReasonForCancel;
     const Cancelled_By = req.body.Cancelled_By;
     const Status_Updated_By = req.body.Status_Updated_By;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
@@ -355,6 +356,7 @@ const AcceptOrCancelOrder = (req, res) => {
             OtherProductOrdersModel.findOneAndUpdate({ _id: id }, {
                 $set: {
                     Status: Status,
+                    ReasonForCancel: ReasonForCancel,
                     Cancelled_By: Cancelled_By,
                     Status_Updated_By: Status_Updated_By,
                     Status_Updated_On: Status_Updated_On
