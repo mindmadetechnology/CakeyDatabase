@@ -668,7 +668,7 @@ const CancelCustomizedCakeOrder = (req, res) => {
                     VendorName: result.VendorName,
                     Id: result._id,
                     Image: result.Images[0],
-                    Created_On: result.Created_On
+                    Created_On: result.Status_Updated_On
                 });
                 AddNotification.save(function (err) {
                     if (err) {
