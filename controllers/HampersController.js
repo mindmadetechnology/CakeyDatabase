@@ -118,6 +118,8 @@ const UpdateHampers = async (req, res) => {
     const Weight = req.body.Weight;
     const StartDate = req.body.StartDate;
     const EndDate = req.body.EndDate;
+    const DeliveryStartDate = req.body.DeliveryStartDate;
+    const DeliveryEndDate = req.body.DeliveryEndDate;
     const Price = req.body.Price;
     const Product_Contains = req.body.Product_Contains;
     const Description = req.body.Description;
@@ -162,6 +164,8 @@ const UpdateHampers = async (req, res) => {
                 Weight: Weight,
                 StartDate: StartDate,
                 EndDate: EndDate,
+                DeliveryStartDate: DeliveryStartDate,
+                DeliveryEndDate: DeliveryEndDate,
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image,
