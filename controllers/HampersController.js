@@ -570,6 +570,7 @@ const AcceptHamperOrder = (req, res) => {
 const CancelHamperOrder = (req, res) => {
     const id = req.params.id;
     const Cancelled_By = req.body.Cancelled_By;
+    const ReasonForCancel = req.body.ReasonForCancel;
     const Status_Updated_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
 
     try {
@@ -577,53 +578,69 @@ const CancelHamperOrder = (req, res) => {
             $set: {
                 Status: 'Cancelled',
                 Cancelled_By: Cancelled_By,
+                ReasonForCancel: ReasonForCancel,
                 Status_Updated_On: Status_Updated_On
             }
         }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                if (Cancelled_By === 'User') {
-                    const Notification = VendorNotificationModel({
-                        HamperID: result._id,
-                        Hamper_ID: result.Id,
-                        Image: result.HamperImage,
-                        CakeName: result.HampersName,
-                        Status: 'Cancelled',
-                        Status_Updated_On: Status_Updated_On,
-                        VendorID: result.VendorID,
-                        Vendor_ID: result.Vendor_ID,
-                        UserName: result.UserName,
-                        For_Display: "Your Hamper Order is Cancelled"
-                    });
-                    Notification.save(function (err) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
+                const AddNotification = AdminNotificationModel({
+                    NotificationType: 'Hamper Order Cancelled',
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                    VendorName: result.VendorName,
+                    Id: result._id,
+                    Image: result.HamperImage,
+                    Created_On: result.Created_On
+                });
+                AddNotification.save(function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        if (Cancelled_By === 'User') {
+                            const Notification = VendorNotificationModel({
+                                HamperID: result._id,
+                                Hamper_ID: result.Id,
+                                Image: result.HamperImage,
+                                CakeName: result.HampersName,
+                                Status: 'Cancelled',
+                                Status_Updated_On: Status_Updated_On,
+                                VendorID: result.VendorID,
+                                Vendor_ID: result.Vendor_ID,
+                                UserName: result.UserName,
+                                For_Display: "Your Hamper Order is Cancelled"
+                            });
+                            Notification.save(function (err) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    res.send({ statusCode: 200, message: 'Order Cancelled' });
+                                }
+                            });
                         } else {
-                            res.send({ statusCode: 200, message: 'Order Cancelled' });
+                            const UserNotification = new UserNotificationModel({
+                                HamperID: result._id,
+                                Hamper_ID: result.Id,
+                                Image: result.HamperImage,
+                                CakeName: result.HampersName,
+                                Status: 'Cancelled',
+                                Status_Updated_On: Status_Updated_On,
+                                UserID: result.UserID,
+                                User_ID: result.User_ID,
+                                UserName: result.UserName,
+                                For_Display: 'Your Hamper Order Cancelled'
+                            });
+                            UserNotification.save(function (err) {
+                                if (err) {
+                                    res.send({ statusCode: 400, message: "Failed" });
+                                } else {
+                                    res.send({ statusCode: 200, message: 'Order Cancelled' });
+                                }
+                            });
                         }
-                    });
-                } else {
-                    const UserNotification = new UserNotificationModel({
-                        HamperID: result._id,
-                        Hamper_ID: result.Id,
-                        Image: result.HamperImage,
-                        CakeName: result.HampersName,
-                        Status: 'Cancelled',
-                        Status_Updated_On: Status_Updated_On,
-                        UserID: result.UserID,
-                        User_ID: result.User_ID,
-                        UserName: result.UserName,
-                        For_Display: 'Your Hamper Order Cancelled'
-                    });
-                    UserNotification.save(function (err) {
-                        if (err) {
-                            res.send({ statusCode: 400, message: "Failed" });
-                        } else {
-                            res.send({ statusCode: 200, message: 'Order Cancelled' });
-                        }
-                    });
-                }
+                    }
+                });
             }
         })
     } catch (err) {

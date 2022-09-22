@@ -365,47 +365,63 @@ const AcceptOrCancelOrder = (req, res) => {
                 if (err) {
                     res.send({ statusCode: 400, message: 'Failed' });
                 } else {
-                    if (Cancelled_By === 'User') {
-                        const Notification = VendorNotificationModel({
-                            Other_ProductID: result._id,
-                            Other_Product_ID: result.Id,
-                            Image: result.Image,
-                            CakeName: result.ProductName,
-                            Status: result.Status,
-                            Status_Updated_On: Status_Updated_On,
-                            VendorID: result.VendorID,
-                            Vendor_ID: result.Vendor_ID,
-                            UserName: result.UserName,
-                            For_Display: "Your Product Order is Cancelled"
-                        });
-                        Notification.save(function (err) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
+                    const AddNotification = AdminNotificationModel({
+                        NotificationType: 'Other Product Order Rejected',
+                        VendorID: result.VendorID,
+                        Vendor_ID: result.Vendor_ID,
+                        VendorName: result.VendorName,
+                        Id: result._id,
+                        Image: result.Image,
+                        Created_On: result.Created_On
+                    });
+                    AddNotification.save(function (err) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            if (Cancelled_By === 'User') {
+                                const Notification = VendorNotificationModel({
+                                    Other_ProductID: result._id,
+                                    Other_Product_ID: result.Id,
+                                    Image: result.Image,
+                                    CakeName: result.ProductName,
+                                    Status: result.Status,
+                                    Status_Updated_On: Status_Updated_On,
+                                    VendorID: result.VendorID,
+                                    Vendor_ID: result.Vendor_ID,
+                                    UserName: result.UserName,
+                                    For_Display: "Your Product Order is Cancelled"
+                                });
+                                Notification.save(function (err) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        res.send({ statusCode: 200, message: 'Order Cancelled' });
+                                    }
+                                });
                             } else {
-                                res.send({ statusCode: 200, message: 'Order Cancelled' });
+                                const UserNotification = new UserNotificationModel({
+                                    Other_ProductID: result._id,
+                                    Other_Product_ID: result.Id,
+                                    Image: result.Image,
+                                    CakeName: result.ProductName,
+                                    Status: result.Status,
+                                    Status_Updated_On: Status_Updated_On,
+                                    UserID: result.UserID,
+                                    User_ID: result.User_ID,
+                                    UserName: result.UserName,
+                                    For_Display: 'Your Product Order is Cancelled'
+                                });
+                                UserNotification.save(function (err) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        res.send({ statusCode: 200, message: 'Order Cancelled' });
+                                    }
+                                });
                             }
-                        });
-                    } else {
-                        const UserNotification = new UserNotificationModel({
-                            Other_ProductID: result._id,
-                            Other_Product_ID: result.Id,
-                            Image: result.Image,
-                            CakeName: result.ProductName,
-                            Status: result.Status,
-                            Status_Updated_On: Status_Updated_On,
-                            UserID: result.UserID,
-                            User_ID: result.User_ID,
-                            UserName: result.UserName,
-                            For_Display: 'Your Product Order is Cancelled'
-                        });
-                        UserNotification.save(function (err) {
-                            if (err) {
-                                res.send({ statusCode: 400, message: "Failed" });
-                            } else {
-                                res.send({ statusCode: 200, message: 'Order Cancelled' });
-                            }
-                        });
-                    }
+                        }
+                    });
+
                 }
             })
         }
