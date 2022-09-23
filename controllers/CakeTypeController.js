@@ -1,18 +1,23 @@
 const CakeTypeModel = require('../models/CakeTypeModels');
 const AdminNotificationModel = require("../models/AdminNotificationModels");
+const cloudinary = require("../middleware/cloudnary");
 
 const AddNewCakeType = (req, res) => {
     const Type = req.body.Type;
     const SubType = req.body.SubType;
+    //Type_Image - for Type
+    //SubType_Image - for Subtype
     try {
         var FinalSubType = [];
-        CakeTypeModel.find({}, function(err, result1){
+        CakeTypeModel.find({}, async function(err, result1){
             if(err){
                 res.send({ statusCode: 400, message: "Failed" }); 
             }else if(result1.length === 0){
                 FinalSubType = [];
+                var Image = await cloudinary.uploader.upload(req.files['Type_Image'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 const NewCakeType = CakeTypeModel({
                     Type: Type?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                    Type_Image: Image.url,
                     SubType: FinalSubType
                 });
                 NewCakeType.save(function (err) {
@@ -25,11 +30,15 @@ const AddNewCakeType = (req, res) => {
             }else{
                 if (Type !== result1.Type) {
                     if (SubType) {
+                        var Image = await cloudinary.uploader.upload(req.files['SubType_Image'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                         CakeTypeModel.findOne({ Type: Type }, function (err, result2) {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else if (result2 === null) {
-                                FinalSubType = [SubType?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())];
+                                FinalSubType = [{
+                                        Name: SubType?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                        SubType_Image: Image.url
+                                    }];
                                 const NewCakeType = CakeTypeModel({
                                     Type: Type?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                                     SubType: FinalSubType
@@ -43,10 +52,17 @@ const AddNewCakeType = (req, res) => {
                                 });
                             } else {
                                 if(result2.SubType.length === 0){
-                                    FinalSubType = [SubType?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())];  
+                                    FinalSubType = [{
+                                        Name : SubType?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                        SubType_Image: Image.url 
+                                    }];  
                                 }else{
                                     var Result2 = result2.SubType;
-                                    FinalSubType = Result2.concat(SubType?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()));
+                                    var newSubType = [{
+                                        Name : SubType?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                                        SubType_Image: Image.url 
+                                    }]; 
+                                    FinalSubType = Result2.concat(newSubType);
                                 }
                                 CakeTypeModel.findOneAndUpdate({ Type: Type }, {
                                     $set: {
@@ -63,8 +79,10 @@ const AddNewCakeType = (req, res) => {
                         });
                     } else {
                         FinalSubType = [];
+                        var Image = await cloudinary.uploader.upload(req.files['Type_Image'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                         const NewCakeType = CakeTypeModel({
                             Type: Type?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                            Type_Image: Image.url,
                             SubType: FinalSubType
                         });
                         NewCakeType.save(function (err) {
