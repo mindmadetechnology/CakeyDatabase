@@ -257,6 +257,7 @@ const loginValidate = (req, res) => {
                                 const LastLogin = new LastLoginSessionModel({
                                     Id: result._id,
                                     Vendor_ID: result.Id,
+                                    VendorName: result.VendorName,
                                     LastLogin_At: LastLogin_At
                                 });
                                 LastLogin.save(function (err, result3) {
