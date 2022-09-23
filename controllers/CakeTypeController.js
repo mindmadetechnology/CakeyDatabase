@@ -111,7 +111,7 @@ const UpdateCakeTypeAndSubtypeImages = async (req, res) => {
     //Type_Image - for Type
     //SubType_Image - for Subtype
     try {
-        if (TypeStatus === 'Type') {
+        if (TypeStatus === 'CakeType') {
             var Image = await cloudinary.uploader.upload(req.files['Type_Image'][0].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
             CakeTypeModel.findOneAndUpdate({ Type: Type }, {
                 $set: {
