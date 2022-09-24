@@ -163,7 +163,7 @@ router.delete('/admin/removeallnotification', RemoveAdminNotification);
 //Users API
 
 //Get all users
-router.get("/users/list", Authorization, getUsers);
+router.get("/users/list", getUsers);
 
 //Get user's details by phone number
 router.get("/users/list/:pn", Authorization, getUsersbyPhoneNumber);
