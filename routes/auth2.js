@@ -6,7 +6,8 @@ const Authorization = require('../middleware/autherization');
 
 const {
     AddNewCakeType, GetCakeTypeList,
-    DeleteCakeTypeOrCakeSubType, RemoveAdminNotification
+    DeleteCakeTypeOrCakeSubType, RemoveAdminNotification,
+    UpdateCakeTypeAndSubtypeImages
 } = require('../controllers/CakeTypeController');
 
 const {
@@ -46,7 +47,9 @@ const {
     GetBankNameList
 } = require("../controllers/BankNameControllers");
 
-router.post('/caketype/new', AddNewCakeType);
+router.post('/caketype/new', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), AddNewCakeType);
+
+router.put('/caketype/update', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), UpdateCakeTypeAndSubtypeImages);
 
 router.get('/caketype/list', Authorization, GetCakeTypeList);
 

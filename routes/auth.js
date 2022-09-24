@@ -128,7 +128,8 @@ const {
 } = require('../controllers/BannerController');
 
 const {
-    ChangeDeliveryCharge, GetDeliveryCharge
+    ChangeDeliveryCharge, GetDeliveryCharge,
+    ChangeTax, GetTax
 } = require('../controllers/DeliveryChargeController');
 
 const {
@@ -533,6 +534,10 @@ router.post('/deliverycharge', ChangeDeliveryCharge);
 
 //get delivery charge
 router.get('/deliverycharge/list', Authorization, GetDeliveryCharge);
+
+router.post('/tax', ChangeTax);
+
+router.get('/tax/list', Authorization, GetTax);
 
 
 //statement of accounts
