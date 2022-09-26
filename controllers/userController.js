@@ -261,22 +261,31 @@ const VendorNotificationOrderList = (req, res) => {
     }
 };
 
-const AdminNotificationOrderList = (req, res) => {
+const AdminNotificationOrderList = async (req, res) => {
 
     try {
-        AdminNotificationModel.find({}, function (err, result) {
-            if (err) {
-                res.send({ statusCode: 400, message: "Failed" });
-            } else {
-                if (result.length === 0) {
-                    res.send({ message: "No Records Found" });
-                } else {
-                    res.send(result.reverse());
-                }
-            }
-        });
+        let FullList = [];
+        for await (const doc of AdminNotificationModel.find()) {
+            FullList.push(doc);
+        };
+        if (FullList.length === 0) {
+            res.send({ message: "No Records Found" });
+        } else {
+            res.send(FullList.reverse());
+        };
+        // AdminNotificationModel.find({}, function (err, result) {
+        // if (err) {
+        //     res.send({ statusCode: 400, message: "Failed" });
+        // } else {
+        //     if (result.length === 0) {
+        //         res.send({ message: "No Records Found" });
+        //     } else {
+        //         res.send(result.reverse());
+        //     }
+        // }
+        // });
     } catch (err) {
-        res.send({ statusCode: 400, message: "Failed" });
+        res.send({ statusCode: 400, message: "Failed", error: err });
     }
 };
 
