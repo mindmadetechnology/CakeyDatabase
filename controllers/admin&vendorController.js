@@ -257,7 +257,9 @@ const loginValidate = (req, res) => {
                                 const LastLogin = new LastLoginSessionModel({
                                     Id: result._id,
                                     Vendor_ID: result.Id,
-                                    LastLogin_At: LastLogin_At
+                                    VendorName: result.VendorName,
+                                    LastLogin_At: LastLogin_At,
+                                    LastLogout_At: LastLogin_At
                                 });
                                 LastLogin.save(function (err, result3) {
                                     if (err) {
@@ -393,11 +395,11 @@ const forgotPassword = (req, res) => {
     <p>
       We have received a request to reset the password for your account.<br />
 
-      Your System generated Password:${Password} <br />
+      Your System generated Password:${Password} <br/>
 
       You can change your password once you logged in.
       </p>
-      <br />
+      <br/>
       <h4>Best wishes,</h4>
       <h5>MindMade Team</h5>
     `

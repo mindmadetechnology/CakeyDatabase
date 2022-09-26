@@ -165,6 +165,9 @@ const OtherProductsSchema = new mongoose.Schema({
             type: String
         }
     }],
+    ReasonForSuspend:{
+        type:String
+    }
 
 });
 

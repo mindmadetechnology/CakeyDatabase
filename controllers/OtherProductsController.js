@@ -177,6 +177,7 @@ const UpdateOtherProduct = (req, res) => {
     const MinWeightPerBox = req.body.MinWeightPerBox;
     const MinWeightPerUnit = req.body.MinWeightPerUnit;
     const Stock = req.body.Stock;
+    const Discount = req.body.Discount;
     const VendorID = req.body.VendorID;
     const Vendor_ID = req.body.Vendor_ID;
     const VendorName = req.body.VendorName;
@@ -193,6 +194,7 @@ const UpdateOtherProduct = (req, res) => {
                 MinWeightPerBox: MinWeightPerBox,
                 MinWeightPerUnit: MinWeightPerUnit,
                 Stock: Stock,
+                Discount: Discount,
                 VendorID: VendorID,
                 Vendor_ID: Vendor_ID,
                 VendorName: VendorName,
@@ -232,12 +234,22 @@ const UpdateOtherProduct = (req, res) => {
 
 const DeleteOtherProduct = (req, res) => {
     const Id = req.params.id;
+    const ReasonForSuspend=req.body.ReasonForSuspend;
+    const IsDeleted = 'y';
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
-        OtherProductModel.findOneAndDelete({ _id: Id }, function (err) {
+        OtherProductModel.findOneAndUpdate({ _id: Id }, {
+            $set: {
+                IsDeleted: IsDeleted,
+                Status:'Suspended',
+                ReasonForSuspend:ReasonForSuspend,
+                Modified_On: Modified_On
+            }
+        }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Deleted Successfully" });
+                res.send({ statusCode: 200, message: "Product Suspended Successfully" });
             }
         });
     } catch (err) {
@@ -342,7 +354,7 @@ const GetVendorsOtherProductsList = (req, res) => {
 
 const GetApprovedOtherProductsList = (req, res) => {
     try {
-        OtherProductModel.find({ Status: 'Approved' }, function (err, result) {
+        OtherProductModel.find({ $nor: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else if (result.length === 0) {

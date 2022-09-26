@@ -6,7 +6,8 @@ const Authorization = require('../middleware/autherization');
 
 const {
     AddNewCakeType, GetCakeTypeList,
-    DeleteCakeTypeOrCakeSubType, RemoveAdminNotification
+    DeleteCakeTypeOrCakeSubType, RemoveAdminNotification,
+    UpdateCakeTypeAndSubtypeImages
 } = require('../controllers/CakeTypeController');
 
 const {
@@ -31,6 +32,11 @@ const {
 } = require('../controllers/OtherProductsController');
 
 const {
+    GetActiveVendorsCakesList, GetActiveVendorsOtherProductList,
+    GetActiveVendorsList
+} = require('../controllers/GetProductListController');
+
+const {
     NewOtherProductOrder, GetAllOtherProductList,
     GetVendorOtherProductOrderList, GetOtherProductOrderDetails,
     UpdateOtherProductOrderStatus, AcceptOrCancelOrder,
@@ -41,7 +47,9 @@ const {
     GetBankNameList
 } = require("../controllers/BankNameControllers");
 
-router.post('/caketype/new', AddNewCakeType);
+router.post('/caketype/new', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), AddNewCakeType);
+
+router.put('/caketype/update', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), UpdateCakeTypeAndSubtypeImages);
 
 router.get('/caketype/list', Authorization, GetCakeTypeList);
 
@@ -108,7 +116,7 @@ router.put('/otherproduct/information/:id', OtherProductSendInformation);
 
 router.put('/otherproduct/update/:id', UpdateOtherProduct);
 
-router.delete('/otherproduct/delete/:id', DeleteOtherProduct);
+router.put('/otherproduct/delete/:id', DeleteOtherProduct);
 
 
 router.post('/otherproduct/order/new', NewOtherProductOrder);
@@ -128,5 +136,12 @@ router.post('/bankname/new',CreateBankName);
 router.delete('/bankname/delete/:bankname',DeleteBankName);
 
 router.get('/bankname/list', Authorization,GetBankNameList);
+
+router.get('/cakes/activevendors/list', Authorization, GetActiveVendorsCakesList);
+
+router.get('/otherproduct/activevendors/list', Authorization, GetActiveVendorsOtherProductList);
+
+router.get('/activevendors/list', Authorization, GetActiveVendorsList);
+
 
 module.exports = router;

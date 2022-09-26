@@ -256,6 +256,9 @@ const CakeSchema = new mongoose.Schema({
     //         type: String
     //     }
     // }],
+    ReasonForSuspend:{
+        type:String
+    }
 
 });
 

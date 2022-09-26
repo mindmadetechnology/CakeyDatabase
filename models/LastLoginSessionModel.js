@@ -7,6 +7,9 @@ const LastLoginSessionSchema = new mongoose.Schema({
     Vendor_ID: {
         type: String,
     },
+    VendorName: {
+        type: String,
+    },
     LastLogin_At: {
         type: String,
     },

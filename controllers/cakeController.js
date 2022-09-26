@@ -60,6 +60,25 @@ const getCakeListByStatus = (req, res) => {
     };
 };
 
+const getCakeListforAdmin = (req, res) => {
+
+    try {
+        cakeModel.find({ $nor: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
 const GetCakeListOfNewAndUpdated = (req, res) => {
     try {
         cakeModel.find({ $or: [{ Status: 'New' }, { Status: 'Updated' }] }, function (err, result) {
@@ -105,6 +124,26 @@ const getcakelistByVendorId = (req, res) => {
     const VendorId = req.params.VendorId;
     try {
         cakeModel.find({ VendorID: VendorId, IsDeleted: 'n' }, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+                if (result.length === 0) {
+                    res.send({ message: "No Records Found" });
+                } else {
+                    res.send(result.reverse());
+                }
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    };
+};
+
+const getcakelistByVendorIdforVendors = (req, res) => {
+
+    const VendorId = req.params.VendorId;
+    try {
+        cakeModel.find({ VendorID: VendorId }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
@@ -468,6 +507,7 @@ const updateCake = async (req, res) => {
     const MinWeightList = req.body.MinWeightList;
     const BasicCakePrice = req.body.BasicCakePrice;
     const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
+    const Discount = req.body.Discount;
     // const BasicCustomisationPossible = req.body.BasicCustomisationPossible;
     // const MinTimeForDeliveryOfA3KgCake = req.body.MinTimeForDeliveryOfA3KgCake; //optional
     // const MinTimeForDeliveryOfA5KgCake = req.body.MinTimeForDeliveryOfA5KgCake; //optional
@@ -540,6 +580,7 @@ const updateCake = async (req, res) => {
                         MinWeightList: FinalMinWeightList,
                         BasicCakePrice: BasicCakePrice,
                         BasicEgglessCostPerKg: BasicEgglessCostPerKg,
+                        Discount: Discount,
                         VendorID: VendorID,
                         Vendor_ID: Vendor_ID,
                         VendorName: VendorName,
@@ -650,19 +691,22 @@ const SendInformationToVendor = (req, res) => {
 const deleteCake = (req, res) => {
 
     const id = req.params.id;
+    const ReasonForSuspend=req.body.ReasonForSuspend;
     const IsDeleted = 'y';
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         cakeModel.findOneAndUpdate({ _id: id }, {
             $set: {
                 IsDeleted: IsDeleted,
+                Status:'Suspended',
+                ReasonForSuspend:ReasonForSuspend,
                 Modified_On: Modified_On
             }
         }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Deleted Successfully" });
+                res.send({ statusCode: 200, message: "Cake Suspended Successfully" });
             }
         });
     } catch (err) {
@@ -679,11 +723,13 @@ module.exports = {
     getCakeDetails,
     getcakelistByVendorName,
     getcakelistByVendorId,
+    getcakelistByVendorIdforVendors,
     getCakeListByStatus,
     ApproveCake,
     getcakelistByVendorIdAndStatus,
     GetCakeListOfNewAndUpdated,
     ApproveUpdatedCake,
-    SendInformationToVendor
+    SendInformationToVendor,
+    getCakeListforAdmin
 
 };

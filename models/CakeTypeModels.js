@@ -1,12 +1,20 @@
 const mongoose = require("mongoose");
 
-const CakeTyeSchema = new mongoose.Schema({
+const CakeTypeSchema = new mongoose.Schema({
 
     Type: {
         type: String
     },
-    SubType: [{
+    Type_Image: {
         type: String,
+    },
+    SubType: [{
+        Name: {
+            type: String,
+        },
+        SubType_Image: {
+            type: String,
+        },
     }],
     IsDeleted: {
         type: String,
@@ -14,6 +22,6 @@ const CakeTyeSchema = new mongoose.Schema({
     },
 });
 
-const collectionName = 'CakeTye';
+const collectionName = 'CakeType';
 
-module.exports = mongoose.model('CakeTye', CakeTyeSchema, collectionName);
+module.exports = mongoose.model('CakeType', CakeTypeSchema, collectionName);
