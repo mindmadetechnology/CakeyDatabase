@@ -512,8 +512,9 @@ const CustomizeCakeConfirmOrder = (req, res) => {
                 const OrderList = new OrdersListModel({
                     CakeID: result._id.toString(),
                     Cake_ID: result.Id,
-                    TypeOfCake: result.TypeOfCake,
-                    Images: CakeImage,
+                    CakeName: result.CakeName,
+                    // TypeOfCake: result.TypeOfCake,
+                    Image: CakeImage,
                     EggOrEggless: result.EggOrEggless,
                     Price: result.Price,
                     Flavour: result.Flavour, //array

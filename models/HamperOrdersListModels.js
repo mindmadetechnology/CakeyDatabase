@@ -92,6 +92,15 @@ const HamperOrderSchema = new mongoose.Schema({
     DeliveryCharge: {
         type: String,
     },
+    Gst: {
+        type: String,
+    },
+    Sgst: {
+        type: String,
+    },
+    Tax: {
+        type: String, 
+    },
     Total: {
         type: String,
     },
