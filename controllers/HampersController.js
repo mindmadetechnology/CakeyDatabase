@@ -416,6 +416,7 @@ const OrderHampers = (req, res) => {
     const DeliveryInformation = req.body.DeliveryInformation;
     const ItemCount = req.body.ItemCount;
     const DeliveryCharge = req.body.DeliveryCharge;
+    const Discount = req.body.Discount;
     const Gst = req.body.Gst;
     const Sgst = req.body.Sgst;
     const Tax = req.body.Tax;
@@ -430,7 +431,7 @@ const OrderHampers = (req, res) => {
             VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation ||
             UserID || User_ID || UserName || UserPhoneNumber || DeliveryDate || DeliverySession ||
             DeliveryInformation || ItemCount || DeliveryCharge || Total || PaymentType || PaymentStatus ||
-            Gst || Sgst || Tax) {
+            Gst || Sgst || Tax || Discount) {
             const NewHamperOrder = HamperOrderModel({
                 HamperID: HamperID,
                 Hamper_ID: Hamper_ID,
@@ -459,6 +460,7 @@ const OrderHampers = (req, res) => {
                 DeliveryInformation: DeliveryInformation,
                 ItemCount: ItemCount,
                 DeliveryCharge: DeliveryCharge,
+                Discount: Discount,
                 Gst: Gst,
                 Sgst: Sgst,
                 Tax: Tax,

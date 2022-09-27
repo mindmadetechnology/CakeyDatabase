@@ -92,6 +92,10 @@ const HamperOrderSchema = new mongoose.Schema({
     DeliveryCharge: {
         type: String,
     },
+    Discount: {
+        type: Number,
+        default: 0,
+    },
     Gst: {
         type: String,
     },
