@@ -191,7 +191,7 @@ const AddNewCustomizeCake = async (req, res) => {
         if (Weight === '0.5kg') {
             Above5KG = 'n';
             NewWeight = Weight;
-        } else if (JSON.parse(parseInt(weight[0])) >= 5) {
+        } else if (JSON.parse(parseInt(weight[0])) > 5) {
             Above5KG = 'y';
         } else {
             Above5KG = 'n';

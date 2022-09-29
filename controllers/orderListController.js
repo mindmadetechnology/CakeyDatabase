@@ -156,7 +156,7 @@ const newOrder = (req, res) => {
             if (Weight === '0.5kg') {
                 Above5KG = 'n'
                 // FinalLocation = JSON.parse(GoogleLocation);
-            } else if (JSON.parse(parseInt(weight[0])) >= 5) {
+            } else if (JSON.parse(parseInt(weight[0])) > 5) {
                 Above5KG = 'y'
             } else {
                 Above5KG = 'n'
