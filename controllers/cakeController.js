@@ -713,7 +713,7 @@ const deleteCake = (req, res) => {
                     Vendor_ID: result.Vendor_ID,
                     VendorName: result.VendorName,
                     Id: result._id,
-                    Created_On: result.Modified_On
+                    Created_On: Modified_On
                 });
                 AddNotification.save(function (err) {
                     if (err) {
