@@ -41,7 +41,7 @@ const CreateOtherProduct = async (req, res) => {
             HowGoodAreYouWithTheCake || HowManyTimesHaveYouBakedThisParticularCake || VendorID || Vendor_ID || VendorName ||
             VendorPhoneNumber1 || VendorAddress || GoogleLocation || Discount || req.files['ProductImage'] !== undefined) {
             let FinalMinWeightPerKg, FinalMinWeightPerUnit = [], FinalMinWeightPerBox = [], FinalProductImage = [],
-            FinalAdditionalProductImages = [];
+                FinalAdditionalProductImages = [];
             const FinalFlavour = JSON.parse(Flavour);
             const FinalGoogleLocation = JSON.parse(GoogleLocation);
             if (Type === 'Kg') {
@@ -234,22 +234,37 @@ const UpdateOtherProduct = (req, res) => {
 
 const DeleteOtherProduct = (req, res) => {
     const Id = req.params.id;
-    const ReasonForSuspend=req.body.ReasonForSuspend;
+    const ReasonForSuspend = req.body.ReasonForSuspend;
     const IsDeleted = 'y';
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         OtherProductModel.findOneAndUpdate({ _id: Id }, {
             $set: {
                 IsDeleted: IsDeleted,
-                Status:'Suspended',
-                ReasonForSuspend:ReasonForSuspend,
+                Status: 'Suspended',
+                ReasonForSuspend: ReasonForSuspend,
                 Modified_On: Modified_On
             }
         }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Product Suspended Successfully" });
+                const AddNotification = AdminNotificationModel({
+                    NotificationType: 'Product Suspended',
+                    Image: result.ProductImage[0],
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                    VendorName: result.VendorName,
+                    Id: result._id,
+                    Created_On: Modified_On
+                });
+                AddNotification.save(function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: "Product Suspended Successfully" });
+                    }
+                });
             }
         });
     } catch (err) {

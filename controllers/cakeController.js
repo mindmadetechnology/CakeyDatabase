@@ -20,7 +20,7 @@ const getcakelist = (req, res) => {
                         var NewResult = [];
                         result1.filter(val1 => {
                             result2.filter(val2 => {
-                                if(val1.VendorID === val2._id.toString()){
+                                if (val1.VendorID === val2._id.toString()) {
                                     NewResult.push(val1);
                                 }
                             });
@@ -164,10 +164,10 @@ const getcakelistByVendorIdAndStatus = (req, res) => {
 
     const VendorId = req.params.VendorId;
     try {
-        vendorModel.findOne({_id: VendorId}, function(err, result2){
-            if(err){
+        vendorModel.findOne({ _id: VendorId }, function (err, result2) {
+            if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
-            }else if(result2.Status === 'Approved'){
+            } else if (result2.Status === 'Approved') {
                 cakeModel.find({ VendorID: VendorId, IsDeleted: 'n', Status: 'Approved' }, function (err, result) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
@@ -179,8 +179,8 @@ const getcakelistByVendorIdAndStatus = (req, res) => {
                         }
                     }
                 });
-            }else{
-                res.send({ message: 'No Records Found'});
+            } else {
+                res.send({ message: 'No Records Found' });
             }
         });
     } catch (err) {
@@ -265,7 +265,7 @@ const addCake = async (req, res) => {
         if (!CakeType || !CakeName || !CakeCommonName || !BasicFlavour || !BasicShape || !MinWeight || !DefaultCakeEggOrEggless ||
             !IsTierCakePossible || !ThemeCakePossible || !ToppersPossible || !MinTimeForDeliveryOfDefaultCake ||
             !MinTimeForDeliveryOfABelow2KgCake || !MinTimeForDeliveryOfA2to4KgCake || !MinTimeForDeliveryOfA4to5KgCake ||
-            !MinTimeForDeliveryOfAAbove5KgCake || 
+            !MinTimeForDeliveryOfAAbove5KgCake ||
             !BasicCustomisationPossible || !FullCustomisationPossible || !CakeBase || !CakeCream || !BestUsedBefore || !ToBeStoredIn ||
             !KeepTheCakeInRoomTemperature || !Description || !HowGoodAreYouWithTheCake || !Tax || !Discount ||
             !HowManyTimesHaveYouBakedThisParticularCake || !VendorID || !Vendor_ID || !VendorName || !BasicCakePrice ||
@@ -289,7 +289,7 @@ const addCake = async (req, res) => {
             if (CustomShapeList) {
                 FinalCustomShapeList = JSON.parse(CustomShapeList);
             }
-            if(MinWeightList){
+            if (MinWeightList) {
                 FinalMinWeightList = JSON.parse(MinWeightList);
             }
             if (req.files['SampleImages'] !== undefined) {
@@ -390,7 +390,7 @@ const addCake = async (req, res) => {
                     });
                     AddNotification.save(function (err) {
                         if (err) {
-                            res.send({ statusCode: 400, message: "Failed", err:err });
+                            res.send({ statusCode: 400, message: "Failed", err: err });
                         } else {
                             res.send({ statusCode: 200, message: "Added Successfully" });
                         }
@@ -528,7 +528,7 @@ const updateCake = async (req, res) => {
     //SampleImages
 
     try {
-        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList=[] ;
+        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
         // const FinalMinWeight = JSON.parse(MinWeight);
@@ -691,22 +691,37 @@ const SendInformationToVendor = (req, res) => {
 const deleteCake = (req, res) => {
 
     const id = req.params.id;
-    const ReasonForSuspend=req.body.ReasonForSuspend;
+    const ReasonForSuspend = req.body.ReasonForSuspend;
     const IsDeleted = 'y';
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     try {
         cakeModel.findOneAndUpdate({ _id: id }, {
             $set: {
                 IsDeleted: IsDeleted,
-                Status:'Suspended',
-                ReasonForSuspend:ReasonForSuspend,
+                Status: 'Suspended',
+                ReasonForSuspend: ReasonForSuspend,
                 Modified_On: Modified_On
             }
         }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: "Cake Suspended Successfully" });
+                const AddNotification = AdminNotificationModel({
+                    NotificationType: 'Cake Suspended',
+                    Image: result.MainCakeImage,
+                    VendorID: result.VendorID,
+                    Vendor_ID: result.Vendor_ID,
+                    VendorName: result.VendorName,
+                    Id: result._id,
+                    Created_On: Modified_On
+                });
+                AddNotification.save(function (err) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        res.send({ statusCode: 200, message: "Cake Suspended Successfully" });
+                    }
+                });
             }
         });
     } catch (err) {

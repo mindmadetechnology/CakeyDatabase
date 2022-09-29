@@ -42,6 +42,9 @@ const NewOtherProductOrder = (req, res) => {
     const Discount = req.body.Discount;
     const DeliveryCharge = req.body.DeliveryCharge;
     const ItemCount = req.body.ItemCount;
+    const Gst = req.body.Gst;
+    const Sgst = req.body.Sgst;
+    const Tax = req.body.Tax;
     const Total = req.body.Total;
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
@@ -52,7 +55,8 @@ const NewOtherProductOrder = (req, res) => {
         if (Other_ProductID || Other_Product_ID || ProductName || ProductCommonName || CakeType || CakeSubType ||
             Image || Flavour.length > 0 || Description || VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 ||
             VendorAddress || GoogleLocation || UserID || User_ID || UserName || UserPhoneNumber || DeliveryDate ||
-            DeliverySession || DeliveryInformation || JSON.stringify(Discount) || Total || PaymentType || PaymentStatus) {
+            DeliverySession || DeliveryInformation || JSON.stringify(Discount) || Total || PaymentType || PaymentStatus ||
+            Gst || Sgst || Tax) {
             const NewOtherProductOrder = OtherProductOrdersModel({
                 Other_ProductID: Other_ProductID,
                 Other_Product_ID: Other_Product_ID,
@@ -92,6 +96,9 @@ const NewOtherProductOrder = (req, res) => {
                 Discount: Discount,
                 DeliveryCharge: DeliveryCharge,
                 ItemCount: ItemCount,
+                Gst: Gst,
+                Sgst: Sgst,
+                Tax: Tax,
                 Total: Total,
                 PaymentType: PaymentType,
                 PaymentStatus: PaymentStatus,

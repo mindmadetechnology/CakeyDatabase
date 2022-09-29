@@ -56,7 +56,7 @@ const CreateHampers = async (req, res) => {
                 VendorPhoneNumber2: VendorPhoneNumber2,
                 VendorAddress: VendorAddress,
                 GoogleLocation: FinalLocation,
-                EggOrEggless:EggOrEggless,
+                EggOrEggless: EggOrEggless,
                 HampersName: HampersName?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Title: Title?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Occasion: FinalOccasion?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
@@ -68,7 +68,7 @@ const CreateHampers = async (req, res) => {
                 Price: Price,
                 Product_Contains: FinalProduct_Contains,
                 HamperImage: Image.url,
-                AdditionalHamperImage:FinalAdditionalHamperImages,
+                AdditionalHamperImage: FinalAdditionalHamperImages,
                 Description: Description?.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 Created_On: Created_On,
             });
@@ -133,12 +133,12 @@ const UpdateHampers = async (req, res) => {
             Image = ImageURL.url
         }
 
-        if(OldAdditionalHamperImage){
+        if (OldAdditionalHamperImage) {
             OldAdditionalImages = JSON.parse(OldAdditionalHamperImage);
-        }else{
-            OldAdditionalImages = [];  
+        } else {
+            OldAdditionalImages = [];
         };
-        if(req.files['AdditionalHamperImage'] !== undefined){
+        if (req.files['AdditionalHamperImage'] !== undefined) {
             for (let i = 0; i < req.files['AdditionalHamperImage'].length; i++) {
                 var result = await cloudinary.uploader.upload(req.files['AdditionalHamperImage'][i].path, { width: 640, height: 426, crop: "scale", format: 'webp' });
                 OldAdditionalImages.push(result.url);
@@ -416,6 +416,10 @@ const OrderHampers = (req, res) => {
     const DeliveryInformation = req.body.DeliveryInformation;
     const ItemCount = req.body.ItemCount;
     const DeliveryCharge = req.body.DeliveryCharge;
+    const Discount = req.body.Discount;
+    const Gst = req.body.Gst;
+    const Sgst = req.body.Sgst;
+    const Tax = req.body.Tax;
     const Total = req.body.Total;
     const PaymentType = req.body.PaymentType;
     const PaymentStatus = req.body.PaymentStatus;
@@ -426,7 +430,8 @@ const OrderHampers = (req, res) => {
         if (HamperID || Hamper_ID || HampersName || Product_Contains || EggOrEggless || HamperImage || Price || Description ||
             VendorID || Vendor_ID || VendorName || VendorPhoneNumber1 || VendorAddress || GoogleLocation ||
             UserID || User_ID || UserName || UserPhoneNumber || DeliveryDate || DeliverySession ||
-            DeliveryInformation || ItemCount || DeliveryCharge || Total || PaymentType || PaymentStatus) {
+            DeliveryInformation || ItemCount || DeliveryCharge || Total || PaymentType || PaymentStatus ||
+            Gst || Sgst || Tax || Discount) {
             const NewHamperOrder = HamperOrderModel({
                 HamperID: HamperID,
                 Hamper_ID: Hamper_ID,
@@ -455,6 +460,10 @@ const OrderHampers = (req, res) => {
                 DeliveryInformation: DeliveryInformation,
                 ItemCount: ItemCount,
                 DeliveryCharge: DeliveryCharge,
+                Discount: Discount,
+                Gst: Gst,
+                Sgst: Sgst,
+                Tax: Tax,
                 Total: Total,
                 PaymentType: PaymentType,
                 PaymentStatus: PaymentStatus,
@@ -840,7 +849,7 @@ const GetUserOrderAndHamperOrder = (req, res) => {
                                 const Result1 = result1;
                                 var FinalList = [];
                                 const ConcatResult = Result1.concat(result2);
-                                const FinalResult = ConcatResult.concat(result3); 
+                                const FinalResult = ConcatResult.concat(result3);
                                 if (FinalResult.length === 0) {
                                     FinalList = [];
                                 } else if (FinalResult.length === 1) {
