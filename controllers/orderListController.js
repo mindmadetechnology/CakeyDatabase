@@ -399,20 +399,20 @@ const updateOrderStatus = async (req, res) => {
                         Status_Updated_On: Status_Updated_On,
                         Status_Updated_By: Status_Updated_By
                     }
-                }, function (err) {
+                }, function (err, result2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
                         const Notification = new UserNotificationModel({
-                            OrderID: result._id,
-                            Order_ID: result.Id,
-                            Image: result.Image,
-                            CakeName: result.CakeName,
+                            OrderID: result2._id,
+                            Order_ID: result2.Id,
+                            Image: result2.Image,
+                            CakeName: result2.CakeName,
                             Status: Status,
                             Status_Updated_On: Status_Updated_On,
-                            UserID: result.UserID,
-                            User_ID: result.User_ID,
-                            UserName: result.UserName,
+                            UserID: result2.UserID,
+                            User_ID: result2.User_ID,
+                            UserName: result2.UserName,
                             For_Display: `Your order status changed into ${Status}`
                         });
                         Notification.save(function (err) {
