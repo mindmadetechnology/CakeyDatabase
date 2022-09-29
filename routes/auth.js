@@ -16,7 +16,8 @@ const upload=require("../middleware/multer");
 const Authorization = require('../middleware/autherization');
 
 const corsOptions ={
-    origin:'http://localhost:3000', 
+    origin:'http://localhost:3000',
+    // origin:'http://103.204.131.38:88', 
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 };
