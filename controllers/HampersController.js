@@ -725,20 +725,20 @@ const UpdateHamperOrderStatus = async (req, res) => {
                         FinalHamperImage: FinalCakeImage,
                         Status_Updated_On: Status_Updated_On
                     }
-                }, function (err) {
+                }, function (err, result2) {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
                         const Notification = new UserNotificationModel({
-                            HamperID: result._id,
-                            Hamper_ID: result.Id,
-                            Image: result.HamperImage,
-                            CakeName: result.HampersName,
+                            HamperID: result2._id,
+                            Hamper_ID: result2.Id,
+                            Image: result2.HamperImage,
+                            CakeName: result2.HampersName,
                             Status: Status,
                             Status_Updated_On: Status_Updated_On,
-                            UserID: result.UserID,
-                            User_ID: result.User_ID,
-                            UserName: result.UserName,
+                            UserID: result2.UserID,
+                            User_ID: result2.User_ID,
+                            UserName: result2.UserName,
                             For_Display: `Your order status changed into ${Status}`
                         });
                         Notification.save(function (err) {
