@@ -21,20 +21,21 @@ const CreateBankName = (req, res) => {
                     });
                 }
                 if (ValidateBankName.includes('y')) {
-                    res.send({ statusCode: 400, message: 'required' });
+                    res.send({ statusCode: 400, message: 'Bank Name already Exist' });
                 } else {
                     FinalBankName = BankName.toUpperCase();
+                    const NewBankName = BankNameModel({
+                        BankName: FinalBankName
+                    });
+                    NewBankName.save(function (err) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: "Failed" });
+                        } else {
+                            res.send({ statusCode: 200, message: "Bank Name Created Successfully" });
+                        }
+                    })
                 }
-                const NewBankName = BankNameModel({
-                    BankName: FinalBankName
-                });
-                NewBankName.save(function (err) {
-                    if (err) {
-                        res.send({ statusCode: 400, message: "Failed" });
-                    } else {
-                        res.send({ statusCode: 200, message: "Created Successfully" });
-                    }
-                })
+                
 
             }
         });

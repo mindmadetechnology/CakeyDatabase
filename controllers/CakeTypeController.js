@@ -24,7 +24,7 @@ const AddNewCakeType = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Created Successfully" });
+                        res.send({ statusCode: 200, message: "Cake Type Created Successfully" });
                     }
                 });
             } else {
@@ -47,7 +47,7 @@ const AddNewCakeType = (req, res) => {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
-                                        res.send({ statusCode: 200, message: "Created Successfully" });
+                                        res.send({ statusCode: 200, message: "Cake SubType Created Successfully" });
                                     }
                                 });
                             } else {
@@ -72,7 +72,7 @@ const AddNewCakeType = (req, res) => {
                                     if (err) {
                                         res.send({ statusCode: 400, message: "Failed" });
                                     } else {
-                                        res.send({ statusCode: 200, message: "Created Successfully" });
+                                        res.send({ statusCode: 200, message: "Cake SubType Created Successfully" });
                                     }
                                 });
                             }
@@ -89,7 +89,7 @@ const AddNewCakeType = (req, res) => {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
-                                res.send({ statusCode: 200, message: "Created Successfully" });
+                                res.send({ statusCode: 200, message: "Cake Type Created Successfully" });
                             }
                         });
                     }

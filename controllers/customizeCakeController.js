@@ -696,28 +696,29 @@ const CancelCustomizedCakeOrder = (req, res) => {
                                     res.send({ statusCode: 200, message: 'Order Cancelled' });
                                 }
                             });
-                        } else {
-                            const UserNotification = new UserNotificationModel({
-                                CustomizedCakeID: result._id,
-                                CustomizedCake_ID: result.Id,
-                                Image: result.Images[0],
-                                CakeName: result.CakeName,
-                                Status: 'Cancelled',
-                                Status_Updated_On: Status_Updated_On,
-                                UserID: result.UserID,
-                                User_ID: result.User_ID,
-                                UserName: result.UserName,
-                                CustomizedCake: 'y',
-                                For_Display: 'Your Customized Cake Order Cancelled'
-                            });
-                            UserNotification.save(function (err) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else {
-                                    res.send({ statusCode: 200, message: 'Order Cancelled' });
-                                }
-                            });
-                        }
+                        } 
+                        // else {
+                        //     const UserNotification = new UserNotificationModel({
+                        //         CustomizedCakeID: result._id,
+                        //         CustomizedCake_ID: result.Id,
+                        //         Image: result.Images[0],
+                        //         CakeName: result.CakeName,
+                        //         Status: 'Cancelled',
+                        //         Status_Updated_On: Status_Updated_On,
+                        //         UserID: result.UserID,
+                        //         User_ID: result.User_ID,
+                        //         UserName: result.UserName,
+                        //         CustomizedCake: 'y',
+                        //         For_Display: 'Your Customized Cake Order Cancelled'
+                        //     });
+                        //     UserNotification.save(function (err) {
+                        //         if (err) {
+                        //             res.send({ statusCode: 400, message: "Failed" });
+                        //         } else {
+                        //             res.send({ statusCode: 200, message: 'Order Cancelled' });
+                        //         }
+                        //     });
+                        // }
                     }
                 });
             }

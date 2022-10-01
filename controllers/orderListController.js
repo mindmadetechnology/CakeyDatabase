@@ -860,27 +860,28 @@ const CancelOrder = (req, res) => {
                                     res.send({ statusCode: 200, message: 'Order Cancelled' });
                                 }
                             });
-                        } else {
-                            const UserNotification = new UserNotificationModel({
-                                OrderID: result._id,
-                                Order_ID: result.Id,
-                                Image: result.Image,
-                                CakeName: result.CakeName,
-                                Status: 'Cancelled',
-                                Status_Updated_On: Status_Updated_On,
-                                UserID: result.UserID,
-                                User_ID: result.User_ID,
-                                UserName: result.UserName,
-                                For_Display: 'Your Order is Cancelled'
-                            });
-                            UserNotification.save(function (err) {
-                                if (err) {
-                                    res.send({ statusCode: 400, message: "Failed" });
-                                } else {
-                                    res.send({ statusCode: 200, message: 'Order Cancelled' });
-                                }
-                            });
-                        }
+                        } 
+                        // else {
+                        //     const UserNotification = new UserNotificationModel({
+                        //         OrderID: result._id,
+                        //         Order_ID: result.Id,
+                        //         Image: result.Image,
+                        //         CakeName: result.CakeName,
+                        //         Status: 'Cancelled',
+                        //         Status_Updated_On: Status_Updated_On,
+                        //         UserID: result.UserID,
+                        //         User_ID: result.User_ID,
+                        //         UserName: result.UserName,
+                        //         For_Display: 'Your Order is Cancelled'
+                        //     });
+                        //     UserNotification.save(function (err) {
+                        //         if (err) {
+                        //             res.send({ statusCode: 400, message: "Failed" });
+                        //         } else {
+                        //             res.send({ statusCode: 200, message: 'Order Cancelled' });
+                        //         }
+                        //     });
+                        // }
                     }
                 });
             }
