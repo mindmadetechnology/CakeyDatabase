@@ -89,7 +89,7 @@ const CreateHampers = async (req, res) => {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
-                            res.send({ statusCode: 200, message: "Added Successfully" });
+                            res.send({ statusCode: 200, message: "Hamper Added Successfully" });
                         }
                     });
                 }
@@ -191,7 +191,7 @@ const UpdateHampers = async (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: 'Updated Successfully' });
+                        res.send({ statusCode: 200, message: 'Hamper Updated Successfully' });
                     }
                 });
             }
@@ -331,7 +331,7 @@ const ApproveHampers = async (req, res) => {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
-                            res.send({ statusCode: 200, message: 'Approved Successfully' });
+                            res.send({ statusCode: 200, message: 'Hamper Approved Successfully' });
                         }
                     });
                 }
@@ -362,7 +362,7 @@ const ApproveHampers = async (req, res) => {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed" });
                         } else {
-                            res.send({ statusCode: 200, message: 'Approved Successfully' });
+                            res.send({ statusCode: 200, message: 'Hamper Approved Successfully' });
                         }
                     });
                 }
@@ -380,7 +380,7 @@ const RemoveHampers = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Deleted Successfully' });
+                res.send({ statusCode: 200, message: 'Hamper Deleted Successfully' });
             }
         });
     } catch (err) {
@@ -829,6 +829,9 @@ const GetUserHamperOrdersList = (req, res) => {
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     }
+
+
+    
 };
 
 const GetUserOrderAndHamperOrder = (req, res) => {

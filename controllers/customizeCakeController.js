@@ -298,13 +298,13 @@ const AddNewCustomizeCake = async (req, res) => {
                                             if (err) {
                                                 res.send({ statusCode: 400, message: "Failed" });
                                             } else {
-                                                res.send({ statusCode: 200, message: "Added Successfully" });
+                                                res.send({ statusCode: 200, message: "Ordered Successfully" });
                                             }
                                         });
                                     }
                                 });
                             } else {
-                                res.send({ statusCode: 200, message: "Added Successfully" });
+                                res.send({ statusCode: 200, message: "Ordered Successfully" });
                             }
                         }
                     });

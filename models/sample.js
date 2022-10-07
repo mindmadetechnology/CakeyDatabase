@@ -1,22 +1,26 @@
 const mongoose = require("mongoose");
-const { increment } = require('../config/db');
+// const { increment } = require('../config/db');
 
 const SampleSchema = new mongoose.Schema({
-    Name: {
-        type: String,
-    },
-    Password: {
-        type: String,
-    },
+    // Name: {
+    //     type: String,
+    // },
+    // Password: {
+    //     type: String,
+    // },
+    Image:{
+        type:Object,
+        data:Buffer
+    }
 
 });
 
-SampleSchema.plugin(increment, {
-    type: String,
-    modelName: 'sample',
-    fieldName: 'Id',
-    prefix: 'CKY',
-});
+// SampleSchema.plugin(increment, {
+//     type: String,
+//     modelName: 'sample',
+//     fieldName: 'Id',
+//     prefix: 'CKY',
+// });
 
 const collectionName = 'sample';
 

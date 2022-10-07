@@ -392,7 +392,7 @@ const addCake = async (req, res) => {
                         if (err) {
                             res.send({ statusCode: 400, message: "Failed", err: err });
                         } else {
-                            res.send({ statusCode: 200, message: "Added Successfully" });
+                            res.send({ statusCode: 200, message: "Cake Added Successfully" });
                         }
                     });
                 }
@@ -445,7 +445,7 @@ const ApproveCake = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                        res.send({ statusCode: 200, message: "Cake Approved Successfully" });
                     }
                 });
             }
@@ -485,7 +485,7 @@ const ApproveUpdatedCake = (req, res) => {
                     if (err) {
                         res.send({ statusCode: 400, message: "Failed" });
                     } else {
-                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                        res.send({ statusCode: 200, message: "Cake Approved Successfully" });
                     }
                 });
             }
@@ -609,7 +609,7 @@ const updateCake = async (req, res) => {
                             if (err) {
                                 res.send({ statusCode: 400, message: "Failed" });
                             } else {
-                                res.send({ statusCode: 200, message: "Updated Successfully" });
+                                res.send({ statusCode: 200, message: "Cake Updated Successfully" });
                             }
                         });
                     }
@@ -629,7 +629,6 @@ const SendInformationToVendor = (req, res) => {
     const Created_By = req.body.Created_By;
 
     try {
-
         cakeModel.findOne({ _id: CakeId }, function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" })

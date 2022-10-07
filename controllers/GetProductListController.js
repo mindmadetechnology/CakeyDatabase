@@ -40,7 +40,7 @@ const GetActiveVendorsCakesList = (req, res) => {
                         if (FinalArray.length === 0) {
                             res.send({ message: "No Records Found" });
                         } else {
-                            cakeModel.find({ $and: [{ VendorID: { $in: FinalArray } }, { IsDeleted: 'n' },{Status: 'Approved'}] }, function (err, CakesList) {
+                            cakeModel.find({ $and: [{ VendorID: { $in: FinalArray } }, { IsDeleted: 'n' },{Status: 'Approved'},{Stock:'InStock'}] }, function (err, CakesList) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
                                 } else {
@@ -97,7 +97,7 @@ const GetActiveVendorsOtherProductList = (req, res) => {
                         if (FinalArray.length === 0) {
                             res.send({ message: "No Records Found" });
                         } else {
-                            OtherProductModel.find({ $and: [{ VendorID: { $in: FinalArray } }, { IsDeleted: 'n' },{Status: 'Approved'}] }, function (err, ProductList) {
+                            OtherProductModel.find({ $and: [{ VendorID: { $in: FinalArray } }, { IsDeleted: 'n' },{Status: 'Approved'},{Stock:'InStock'}] }, function (err, ProductList) {
                                 if (err) {
                                     res.send({ statusCode: 400, message: "Failed" });
                                 } else {

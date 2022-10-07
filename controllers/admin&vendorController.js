@@ -441,7 +441,7 @@ const forgotPassword = (req, res) => {
                                                 return info;
                                             }
                                         });
-                                        res.send({ statusCode: 200, message: "Updated Successfully" });
+                                        res.send({ statusCode: 200, message: "Password Updated Successfully" });
                                     }
                                 });
                             }

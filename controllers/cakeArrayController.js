@@ -429,5 +429,4 @@ module.exports = {
     GetNotReversedFlavoursList,
     GetNotReversedShapesList,
     GetOrderedWeightList
-
 };

@@ -47,6 +47,9 @@ const {
     GetBankNameList
 } = require("../controllers/BankNameControllers");
 
+const{uploadImage}=require("../controllers/SampleController")
+router.post('/image/upload',upload.single("file"),uploadImage)
+
 router.post('/caketype/new', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), AddNewCakeType);
 
 router.put('/caketype/update', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), UpdateCakeTypeAndSubtypeImages);

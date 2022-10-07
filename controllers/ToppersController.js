@@ -102,7 +102,7 @@ const AddNewTopper = (req, res) => {
                             if (err) {
                                 res.send({ statusCode: 400, message: 'Failed' });
                             } else {
-                                res.send({ statusCode: 200, message: 'Added Successfully' });
+                                res.send({ statusCode: 200, message: 'Topper Added Successfully' });
                             }
                         });
                     }
@@ -160,7 +160,7 @@ const UpdateTopper = async (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Updated Successfully' });
+                res.send({ statusCode: 200, message: 'Topper Updated Successfully' });
             }
         });
     } catch (err) {

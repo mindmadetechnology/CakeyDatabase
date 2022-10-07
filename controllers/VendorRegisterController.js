@@ -361,7 +361,7 @@ const UploadProfileImage = async (req, res) => {
                 if(err){
                     res.send({ statusCode: 400, message: "Failed" });
                 }else{
-                    res.send({ statusCode: 200, message: "Updated Successfully" });
+                    res.send({ statusCode: 200, message: "Profile Image Updated Successfully" });
                 }
             });
         }

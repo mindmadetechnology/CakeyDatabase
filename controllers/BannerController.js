@@ -17,7 +17,7 @@ const AddNewBanner = async (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Added Successfully' });
+                res.send({ statusCode: 200, message: 'Banner Added Successfully' });
             }
         })
     } catch (err) {
@@ -64,7 +64,7 @@ const UpdateBanner = async (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Updated Successfully' });
+                res.send({ statusCode: 200, message: 'Banner Updated Successfully' });
             }
         })
     } catch (err) {
@@ -81,7 +81,7 @@ const DeleteBanner = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send({ statusCode: 200, message: 'Deleted Successfully' });
+                res.send({ statusCode: 200, message: 'Banner Deleted Successfully' });
             }
         })
     } catch (err) {
