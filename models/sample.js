@@ -1,26 +1,16 @@
 const mongoose = require("mongoose");
-// const { increment } = require('../config/db');
 
 const SampleSchema = new mongoose.Schema({
-    // Name: {
-    //     type: String,
-    // },
-    // Password: {
-    //     type: String,
-    // },
-    Image:{
-        type:Object,
-        data:Buffer
+    VendorName: {
+        type: String,
+    },
+    PinCode: {
+        type: String,
+    },
+    Date: {
+        type: String,
     }
-
 });
-
-// SampleSchema.plugin(increment, {
-//     type: String,
-//     modelName: 'sample',
-//     fieldName: 'Id',
-//     prefix: 'CKY',
-// });
 
 const collectionName = 'sample';
 

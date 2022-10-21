@@ -47,12 +47,25 @@ const {
     GetBankNameList
 } = require("../controllers/BankNameControllers");
 
-const{uploadImage}=require("../controllers/SampleController")
-router.post('/image/upload',upload.single("file"),uploadImage)
+const { 
+    CreateSampleOrders, 
+    CreateSampleVendors, 
+    GetPinCodeList , GetSalesCountByPincode
+} = require("../controllers/SampleController")
 
-router.post('/caketype/new', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), AddNewCakeType);
+// router.post('/image/upload',upload.single("file"),uploadImage)
 
-router.put('/caketype/update', upload.fields([{name: 'Type_Image', maxCount: 1},{name:'SubType_Image', maxCount: 1}]), UpdateCakeTypeAndSubtypeImages);
+router.post('/order', CreateSampleOrders);
+
+router.post('/vendor', CreateSampleVendors);
+
+router.get('/pincode', GetPinCodeList);
+
+router.get('/sales/:StartDate/:EndDate/:Type', GetSalesCountByPincode);
+
+router.post('/caketype/new', upload.fields([{ name: 'Type_Image', maxCount: 1 }, { name: 'SubType_Image', maxCount: 1 }]), AddNewCakeType);
+
+router.put('/caketype/update', upload.fields([{ name: 'Type_Image', maxCount: 1 }, { name: 'SubType_Image', maxCount: 1 }]), UpdateCakeTypeAndSubtypeImages);
 
 router.get('/caketype/list', Authorization, GetCakeTypeList);
 
@@ -62,9 +75,9 @@ router.delete('/admin/removenotification/:id', RemoveAdminNotification);
 
 
 
-router.post('/hamper/new', upload.fields([{name: 'HamperImage', maxCount: 1},{name:'AdditionalHamperImage', maxCount: 5}]), CreateHampers);
+router.post('/hamper/new', upload.fields([{ name: 'HamperImage', maxCount: 1 }, { name: 'AdditionalHamperImage', maxCount: 5 }]), CreateHampers);
 
-router.put('/hamper/update/:id', upload.fields([{name: 'HamperImage', maxCount: 1},{name:'AdditionalHamperImage', maxCount: 5}]), UpdateHampers);
+router.put('/hamper/update/:id', upload.fields([{ name: 'HamperImage', maxCount: 1 }, { name: 'AdditionalHamperImage', maxCount: 5 }]), UpdateHampers);
 
 router.get('/hamper/list', Authorization, GetHampersList);
 
@@ -97,7 +110,7 @@ router.get('/hamperorder/details/:id', Authorization, GetHamperOrderDetailsById)
 router.get('/ordersandhamperorders/listbyuser/:id', Authorization, GetUserOrderAndHamperOrder);
 
 
-router.post('/otherproduct/new', upload.fields([{ name: 'ProductImage', maxCount: 1 },{name: 'AdditionalProductImages', maxCount:5}]), CreateOtherProduct);
+router.post('/otherproduct/new', upload.fields([{ name: 'ProductImage', maxCount: 1 }, { name: 'AdditionalProductImages', maxCount: 5 }]), CreateOtherProduct);
 
 router.put('/otherproduct/approve/:id', ApproveOtherProduct);
 
@@ -134,11 +147,11 @@ router.put('/otherproduct/order/updatestatus/:id', upload.single('file'), Update
 
 router.put('/otherproduct/order/acceptorcancel/:id', AcceptOrCancelOrder);
 
-router.post('/bankname/new',CreateBankName);
+router.post('/bankname/new', CreateBankName);
 
-router.delete('/bankname/delete/:bankname',DeleteBankName);
+router.delete('/bankname/delete/:bankname', DeleteBankName);
 
-router.get('/bankname/list', Authorization,GetBankNameList);
+router.get('/bankname/list', Authorization, GetBankNameList);
 
 router.get('/cakes/activevendors/list', Authorization, GetActiveVendorsCakesList);
 
