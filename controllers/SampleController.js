@@ -81,7 +81,7 @@ const GetSalesCountByPincode = (req, res) => {
     const Type = req.params.Type; //single, double
 
     try {
-        if(Type === 'single'){
+        if (Type === 'single') {
             SampleVendorModel.find({}, function (err, result) {
                 if (err) {
                     res.send({ statusCode: 400, message: "Failed" });
@@ -102,20 +102,24 @@ const GetSalesCountByPincode = (req, res) => {
                             const FinalPincodeList = PinCodeList.sort((a, b) => Number(a) - Number(b));
 
                             result2.filter(val => {
-                                if(moment(val.Date, 'DD-MM-YYYY hh:mm A').format('MM-YYYY') === moment(StartDate, 'MM-YYYY').format('MM-YYYY')){
-                                    DateFilteredData.push(val); 
+                                if (moment(val.Date, 'DD-MM-YYYY hh:mm A').format('MM-YYYY') === moment(StartDate, 'MM-YYYY').format('MM-YYYY')) {
+                                    DateFilteredData.push(val);
                                 }
                             });
-                            let NewArray = new Array(FinalPincodeList.length).fill(0);
-                            let AAAA = [];
-                            DateFilteredData.filter(val => {
-                               let Index = FinalPincodeList.indexOf(val.PinCode);
-                               let ArrayValues = [...NewArray];
-                               ArrayValues[Index] = ArrayValues[Index]+1;
-                               NewArray = ArrayValues;
-                               AAAA.push(val.PinCode);
-                            });
-                            res.send(NewArray);
+                            if (DateFilteredData.length === 0) {
+                                res.send({ statusCode: 400, message: "No Records Found" });
+                            } else {
+                                let NewArray = new Array(FinalPincodeList.length).fill(0);
+                                let AAAA = [];
+                                DateFilteredData.filter(val => {
+                                    let Index = FinalPincodeList.indexOf(val.PinCode);
+                                    let ArrayValues = [...NewArray];
+                                    ArrayValues[Index] = ArrayValues[Index] + 1;
+                                    NewArray = ArrayValues;
+                                    AAAA.push(val.PinCode);
+                                });
+                                res.send({label: moment(StartDate, 'MM-YYYY').format('MMMM'), data: NewArray});
+                            }
                         }
                     });
                 }
