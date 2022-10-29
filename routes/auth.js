@@ -12,20 +12,20 @@ app.use(router);
 router.use(express.json());
 app.use(cors());
 
-const upload=require("../middleware/multer");
+const upload = require("../middleware/multer");
 
 const Authorization = require('../middleware/autherization');
 
-const corsOptions ={
-    origin:'http://localhost:3000',
+const corsOptions = {
+    origin: 'http://localhost:3000',
     // origin:'http://103.204.131.38:88', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 app.options('*', cors());
 
-const { 
+const {
     getUsers, putUsers,
     validateUsers, getUsersbyPhoneNumber,
     GetUsersbyId, UserNotificationOrderList,
@@ -35,29 +35,30 @@ const {
     RemoveAdminNotificationById, RemoveAdminNotification
 } = require('../controllers/userController');
 
-const { 
+const {
     getAdminbyEmail, putAdmin,
-    loginValidate, forgotPassword, 
-    getVendors, getVendorsbyEmail, 
+    loginValidate, forgotPassword,
+    getVendors, getVendorsbyEmail,
     deleteVendors, verifyToken,
     getAllUsersCount, NewAdmin,
     GetNotificationCount, UpdateVendorNotificationId,
     GetAllVendorsList
 } = require('../controllers/admin&vendorController');
 
-const { 
+const {
     addCake, updateCake,
     deleteCake, getcakelist,
     getCakeDetails, getcakelistByVendorName,
     getcakelistByVendorId, getCakeListByStatus,
     ApproveCake, getcakelistByVendorIdAndStatus,
-    GetCakeListOfNewAndUpdated, ApproveUpdatedCake, 
+    GetCakeListOfNewAndUpdated, ApproveUpdatedCake,
     SendInformationToVendor, getCakeListforAdmin,
-    getcakelistByVendorIdforVendors
+    getcakelistByVendorIdforVendors,
+    AdminupdateCake
 } = require('../controllers/cakeController');
 
-const { 
-    getOrdersList, newOrder, 
+const {
+    getOrdersList, newOrder,
     updateOrder, updateOrderStatus,
     getOrdersListById, getOrdersListByUserID,
     getOrdersListByVendorId, getOrdersListByStatusAndAbove5Kg,
@@ -69,7 +70,7 @@ const {
     CancelOrder, AcceptOrder
 } = require('../controllers/orderListController');
 
-const { 
+const {
     AddCategory, AddNewSubCategory,
     GetAllCategory, DeleteCategory,
     DeleteSubCategory, UpdateCategory
@@ -93,15 +94,15 @@ const {
     AddNewWeight, GetWeightList,
     AddNewArticle, GetArticleList,
     AddNewCakeToppings, GetCakeToppingsList,
-    DeleteFlavour, DeleteShape, 
+    DeleteFlavour, DeleteShape,
     DeleteWeight, DeleteArticle,
-    GetNotReversedFlavoursList, GetNotReversedShapesList,GetOrderedWeightList
+    GetNotReversedFlavoursList, GetNotReversedShapesList, GetOrderedWeightList
 } = require('../controllers/cakeArrayController');
 
 const {
     AddNewCustomizeCake, GetCustomizeCakeList,
     NewCustomizedCakeList,
-    GetAbove5kgCustomizeCakeList, GetCustomizeCakeListByVendorId, 
+    GetAbove5kgCustomizeCakeList, GetCustomizeCakeListByVendorId,
     GetCustomizeCakeListByUserId, GetNewCustomizeCakeListByVendorId,
     AssignCustomizecake, CustomizeCakePriceInvoice,
     CustomizeCakeConfirmOrder, ChangeNotificationStatus,
@@ -117,7 +118,7 @@ const {
     GetAllToppers, GetToppersByVendorID,
     GetToppersByVendorIDandStock,
     removeToppers
-} = require ('../controllers/ToppersController');
+} = require('../controllers/ToppersController');
 
 const {
     // SessionOrders,
@@ -148,7 +149,7 @@ router.post('/admin/new', NewAdmin);
 router.get("/admin/list/:email", Authorization, getAdminbyEmail);
 
 //Update admin's details
-router.put("/admin/update/:id",upload.single("file"), putAdmin);
+router.put("/admin/update/:id", upload.single("file"), putAdmin);
 
 //users count 
 router.get('/admin/userscount', Authorization, getAllUsersCount);
@@ -161,6 +162,8 @@ router.get('/admin/notificationlist', Authorization, AdminNotificationOrderList)
 router.delete('/admin/removenotificationbyid/:id', RemoveAdminNotificationById);
 
 router.delete('/admin/removeallnotification', RemoveAdminNotification);
+
+router.put("/admin/cake/update/:id", upload.single("file"), AdminupdateCake);
 
 
 //Users API
@@ -175,7 +178,7 @@ router.get("/users/list/:pn", Authorization, getUsersbyPhoneNumber);
 router.get("/users/listbyid/:id", Authorization, GetUsersbyId);
 
 //Update user's details
-router.put("/users/update/:userId",upload.single("file"),putUsers);
+router.put("/users/update/:userId", upload.single("file"), putUsers);
 
 //Validate the user -> If phonenumber is exists login else register
 router.post("/userslogin/validate", validateUsers);
@@ -197,7 +200,7 @@ router.get("/verifytoken/:token", Authorization, verifyToken);
 router.put("/forgotpassword/:email", forgotPassword);
 
 //Change Password
-router.put('/password/change/:id',ChangePassword);
+router.put('/password/change/:id', ChangePassword);
 
 
 //Vendors API
@@ -215,13 +218,13 @@ router.get("/vendors/listbyemail/:email", Authorization, getVendorsbyEmail);
 
 //Register vendor
 // router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 1},{name:'CanYouMakeARegularCakeWithFondantAsToppersImage', maxCount: 3}]), RegisterVendors);
-router.post("/vendors/register",upload.fields([{name: 'ProfileImage', maxCount: 1}]), RegisterVendors);
+router.post("/vendors/register", upload.fields([{ name: 'ProfileImage', maxCount: 1 }]), RegisterVendors);
 
 //Create new vendor
 // router.put("/vendors/new/:id", addVendors);
 
 //upload profile image
-router.put("/vendors/profileimage/upload/:id", upload.fields([{name: 'ProfileImage', maxCount: 1}]), UploadProfileImage);
+router.put("/vendors/profileimage/upload/:id", upload.fields([{ name: 'ProfileImage', maxCount: 1 }]), UploadProfileImage);
 
 router.put("/vendors/block/:id", BlockVendor);
 
@@ -233,7 +236,7 @@ router.put("/vendors/delete/:id", deleteVendors);
 
 router.get("/vendors/notification/:id", Authorization, VendorNotificationOrderList);
 
-router.put("/vendors/updatenotificationid/:email",UpdateVendorNotificationId);
+router.put("/vendors/updatenotificationid/:email", UpdateVendorNotificationId);
 
 router.delete("/vendors/deletenotification/:id", RemoveVendorNotification);
 
@@ -245,7 +248,7 @@ router.delete("/vendors/deletenotificationbyId/:id", RemoveVendorNotificationByI
 router.get('/helpdesk/list', Authorization, GetHelpdeskMembers);
 
 //Create New Help desk member
-router.post('/helpdesk/new',HelpDeskNew);
+router.post('/helpdesk/new', HelpDeskNew);
 
 //get above 5kg orders and customize cake orders count
 router.get('/helpdesk/orders/count', Authorization, Above5kgCount);
@@ -277,13 +280,13 @@ router.get("/cake/listbyVendorId/:VendorId", Authorization, getcakelistByVendorI
 router.get("/cake/listbyIdandstatus/:VendorId", Authorization, getcakelistByVendorIdAndStatus);
 
 //Create new vendor
-router.post("/cake/new",upload.fields([{name: 'MainCakeImage', maxCount: 1},{name:'AdditionalCakeImages', maxCount: 5},{name:'SampleImages', maxCount: 10}]), addCake);
+router.post("/cake/new", upload.fields([{ name: 'MainCakeImage', maxCount: 1 }, { name: 'AdditionalCakeImages', maxCount: 5 }, { name: 'SampleImages', maxCount: 10 }]), addCake);
 
 //cake approval
 router.put('/cake/approve/:id', ApproveCake);
 
 //Update vendor's details
-router.put("/cake/update/:id",upload.fields([{name:'SampleImages', maxCount: 10}]), updateCake);
+router.put("/cake/update/:id", upload.fields([{ name: 'SampleImages', maxCount: 10 }]), updateCake);
 
 //Delete vendor
 router.put("/cake/delete/:id", deleteCake);
@@ -293,9 +296,9 @@ router.get('/cake/newandupdatedcake', Authorization, GetCakeListOfNewAndUpdated)
 router.put('/cake/approveupdatedcake/:id', ApproveUpdatedCake);
 
 //admin send Information to vendor
-router.put('/cake/sendInformation/:CakeId',SendInformationToVendor);
+router.put('/cake/sendInformation/:CakeId', SendInformationToVendor);
 
-router.get('/cake/listforAdmin', Authorization,getCakeListforAdmin);
+router.get('/cake/listforAdmin', Authorization, getCakeListforAdmin);
 
 
 
@@ -308,16 +311,16 @@ router.get('/order/list', Authorization, getOrdersList);
 router.get('/order/list/:id', Authorization, getOrdersListById);
 
 //get order list based on userId
-router.get('/order/listbyuserid/:userid', Authorization, getOrdersListByUserID); 
+router.get('/order/listbyuserid/:userid', Authorization, getOrdersListByUserID);
 
 //get order list based on vendorId
-router.get('/order/listbyvendorid/:vendorid', Authorization, getOrdersListByVendorId); 
+router.get('/order/listbyvendorid/:vendorid', Authorization, getOrdersListByVendorId);
 
 //Add new order
 router.post('/order/new', newOrder);
 
 //update order details
-router.put('/order/update/:id',updateOrder);
+router.put('/order/update/:id', updateOrder);
 
 //send above 5kg orders price invoice 
 router.put('/order/price/:id', Above5KGOrderPriceInvoice); //not used
@@ -370,25 +373,25 @@ router.put('/order/accept/:id', AcceptOrder);
 router.get('/category/list', Authorization, GetAllCategory);
 
 //Add new Category
-router.post('/category/new',AddCategory);
+router.post('/category/new', AddCategory);
 
 //Add new SubCategory
-router.put('/subcategory/new',AddNewSubCategory);
+router.put('/subcategory/new', AddNewSubCategory);
 
 //Delete category
-router.delete('/category/delete/:id',DeleteCategory);
+router.delete('/category/delete/:id', DeleteCategory);
 
 //Delete subcategory
-router.put('/subcategory/delete/:id',DeleteSubCategory);
+router.put('/subcategory/delete/:id', DeleteSubCategory);
 
 //Update Category
-router.put('/category/update/:id',UpdateCategory);
+router.put('/category/update/:id', UpdateCategory);
 
 
 //Cake Array List API
 
 //Add new Flavours
-router.post('/flavour/new',AddNewFlavours);
+router.post('/flavour/new', AddNewFlavours);
 
 //Get Flavours List
 router.get('/flavour/list', Authorization, GetFlavoursList);
@@ -402,7 +405,7 @@ router.get('/weight/alllist', Authorization, GetOrderedWeightList);
 router.delete('/flavour/delete/:id', DeleteFlavour);
 
 //Add new Shape
-router.post('/shape/new',AddNewShapes);
+router.post('/shape/new', AddNewShapes);
 
 //Get Shapes List
 router.get('/shape/list', Authorization, GetShapesList);
@@ -420,7 +423,7 @@ router.get('/weight/list', Authorization, GetWeightList);
 router.delete('/weight/delete/:id', DeleteWeight);
 
 //Add new Articles
-router.post('/article/new',AddNewArticle);
+router.post('/article/new', AddNewArticle);
 
 //Get Articles List
 router.get('/article/list', Authorization, GetArticleList);
@@ -438,7 +441,7 @@ router.get('/toppings/list', Authorization, GetCakeToppingsList);
 //Customize Cake API
 
 //Add new customize cake
-router.post('/customize/cake/new',upload.array("files"), AddNewCustomizeCake);
+router.post('/customize/cake/new', upload.array("files"), AddNewCustomizeCake);
 
 //Assign customize cake to vendors
 router.put('/customize/cake/assign/:id', AssignCustomizecake);
@@ -500,7 +503,7 @@ router.post('/toppers/new', upload.single('file'), AddNewTopper);
 router.put('/toppers/update/:id', upload.single('file'), UpdateTopper);
 
 //Remove Topper
-router.delete('/toppers/delete/:id',removeToppers);
+router.delete('/toppers/delete/:id', removeToppers);
 
 
 

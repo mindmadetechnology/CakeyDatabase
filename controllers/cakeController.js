@@ -334,12 +334,12 @@ const addCake = async (req, res) => {
                 DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
                 IsEgglessOptionAvailable: IsEgglessOptionAvailable,
                 BasicEgglessCostPerKg: BasicEgglessCostPerKg,
-                CustomFlavourList: FinalCustomFlavourList,
+                CustomFlavourList: FinalCustomFlavourList, // list //
                 CustomShapeList: {
                     Info: FinalCustomShapeList,
                     SampleImages: SampleShapeImages
                 },
-                MinWeightList: FinalMinWeightList,
+                MinWeightList: FinalMinWeightList, // list //
                 IsTierCakePossible: IsTierCakePossible,
                 // TierCakeMinWeightAndPrice: FinalTierCakeMinWeightAndPrice, //optional
                 ThemeCakePossible: ThemeCakePossible,
@@ -525,9 +525,13 @@ const updateCake = async (req, res) => {
     const Stock = req.body.Stock;
     const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
     const OldSampleImages = req.body.OldSampleImages;
+    const OldMainImages = req.body.OldMainImages;
+    const OldCakeAdditionalImages = req.body.OldCakeAdditionalImages;
     //SampleImages
 
     try {
+        var FinalmainImage = ""
+        var FinalCakeAdditionalImage = []
         var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
         // const FinalBasicFlavour = JSON.parse(BasicFlavour);
         // const FinalBasicShape = JSON.parse(BasicShape);
@@ -542,6 +546,26 @@ const updateCake = async (req, res) => {
         if (MinWeightList !== undefined) {
             FinalMinWeightList = (JSON.parse(MinWeightList));
         };
+
+        //Main Image Change condition
+        if (OldMainImages) {
+            FinalmainImage = OldMainImages
+        } else {
+            var NewMainImages = await cloudinary.uploader.upload(req.files['newMainImage'][i].path);
+            FinalmainImage = NewMainImages.url
+        }
+        // Cake Additional Images Change condition
+        if (OldCakeAdditionalImages && OldCakeAdditionalImages.length !== 0) {
+            OldCakeAdditionalImages.forEach(val =>
+                FinalCakeAdditionalImage.push(val)
+            )
+        }
+        if (req.files['NewCakeAdditionalImages'] && req.files['NewCakeAdditionalImages'].length !== 0) {
+            for (let i = 0; i < req.files['NewCakeAdditionalImages'].length; i++) {
+                var tempimage = await cloudinary.uploader.upload(req.files['NewCakeAdditionalImages'][i].path);
+                FinalCakeAdditionalImage.push(tempimage.url);
+            }
+        }
 
         //for sample shape images
         if (OldSampleImages === undefined || OldSampleImages === [] || OldSampleImages === null) {
@@ -577,7 +601,7 @@ const updateCake = async (req, res) => {
                             Info: FinalCustomShapeList,
                             SampleImages: FinalSampleImages
                         },
-                        MinWeightList: FinalMinWeightList,
+                        MinWeightList: FinalMinWeightList, // List //
                         BasicCakePrice: BasicCakePrice,
                         BasicEgglessCostPerKg: BasicEgglessCostPerKg,
                         Discount: Discount,
@@ -591,6 +615,8 @@ const updateCake = async (req, res) => {
                         Stock: Stock,
                         Status: 'Updated',
                         Modified_On: Modified_On,
+                        MainCakeImage: FinalmainImage,
+                        AdditionalCakeImages: FinalCakeAdditionalImage,
                     }
                 }, function (err, result) {
                     if (err) {
@@ -620,6 +646,192 @@ const updateCake = async (req, res) => {
         res.send({ statusCode: 400, message: "Failed5" });
     };
 };
+
+
+// Admin Update cake's details
+const AdminupdateCake = async (req, res) => {
+
+    const id = req.params.id;
+
+    const CakeName = req.body.CakeName
+    const CakeCommonName = req.body.CakeCommonName
+    const CakeType = req.body.CakeType
+    const DefaultCakeEggOrEggless = req.body.DefaultCakeEggOrEggless
+    const IsEgglessOptionAvailable = req.body.IsEgglessOptionAvailable
+    const BasicFlavour = req.body.BasicFlavour
+    const BasicShape = req.body.BasicShape
+    const MinWeight = req.body.MinWeight
+    const MinTimeForDeliveryOfDefaultCake = req.body.MinTimeForDeliveryOfDefaultCake
+    const MinTimeForDeliveryOfABelow2KgCake = req.body.MinTimeForDeliveryOfABelow2KgCake
+    const MinTimeForDeliveryOfA2to4KgCake = req.body.MinTimeForDeliveryOfA2to4KgCake
+    const MinTimeForDeliveryOfA4to5KgCake = req.body.MinTimeForDeliveryOfA4to5KgCake
+    const MinTimeForDeliveryOfAAbove5KgCake = req.body.MinTimeForDeliveryOfAAbove5KgCake
+    const CakeBase = req.body.CakeBase
+    const CakeCream = req.body.CakeCream
+    const BestUsedBefore = req.body.BestUsedBefore
+    const ToBeStoredIn = req.body.ToBeStoredIn
+    const KeepTheCakeInRoomTemperature = req.body.KeepTheCakeInRoomTemperature
+    const ThemeCakePossible = req.body.ThemeCakePossible
+    const ToppersPossible = req.body.ToppersPossible
+    const BasicCustomisationPossible = req.body.BasicCustomisationPossible
+    const FullCustomisationPossible = req.body.FullCustomisationPossible
+    const HowGoodAreYouWithTheCake = req.body.HowGoodAreYouWithTheCake
+    const HowManyTimesHaveYouBakedThisParticularCake = req.body.HowManyTimesHaveYouBakedThisParticularCake
+    const IsTierCakePossible = req.body.IsTierCakePossible
+    const OtherInstructions = req.body.OtherInstructions
+    const Description = req.body.Description
+    const CustomFlavourList = req.body.CustomFlavourList;   
+    const CustomShapeList = req.body.CustomShapeList;
+    const MinWeightList = req.body.MinWeightList;  
+    const BasicCakePrice = req.body.BasicCakePrice;
+    const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
+    const Stock = req.body.Stock;
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+    const OldSampleImages = req.body.OldSampleImages; // list //
+    const OldMainImages = req.body.OldMainImages;
+    const OldCakeAdditionalImages = req.body.OldCakeAdditionalImages; // list //
+    //SampleImages
+
+    try {
+        var FinalmainImage = ""
+        var FinalCakeAdditionalImage = []
+        var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
+        // const FinalBasicFlavour = JSON.parse(BasicFlavour);
+        // const FinalBasicShape = JSON.parse(BasicShape);
+        // const FinalMinWeight = JSON.parse(MinWeight);
+
+        if (CustomFlavourList !== undefined) {
+            FinalCustomFlavourList = (JSON.parse(CustomFlavourList));
+        };
+        if (CustomShapeList !== undefined) {
+            FinalCustomShapeList = (JSON.parse(CustomShapeList));
+        };
+        if (MinWeightList !== undefined) {
+            FinalMinWeightList = (JSON.parse(MinWeightList));
+        };
+
+        //Main Image Change condition
+        if (OldMainImages) {
+            FinalmainImage = OldMainImages
+        } else {
+            var NewMainImages = await cloudinary.uploader.upload(req.files['newMainImage'][i].path);
+            FinalmainImage = NewMainImages.url
+        }
+        // Cake Additional Images Change condition
+        if (OldCakeAdditionalImages && OldCakeAdditionalImages.length !== 0) {
+            OldCakeAdditionalImages.forEach(val =>
+                FinalCakeAdditionalImage.push(val)
+            )
+        }
+        if (req.files['NewCakeAdditionalImages'] && req.files['NewCakeAdditionalImages'].length !== 0) {
+            for (let i = 0; i < req.files['NewCakeAdditionalImages'].length; i++) {
+                var tempimage = await cloudinary.uploader.upload(req.files['NewCakeAdditionalImages'][i].path);
+                FinalCakeAdditionalImage.push(tempimage.url);
+            }
+        }
+        //for sample shape images
+        if (OldSampleImages === undefined || OldSampleImages === [] || OldSampleImages === null) {
+            FinalSampleImages = [];
+        } else {
+            FinalSampleImages = OldSampleImages;
+        }
+        if (req.files['SampleImages'] !== undefined) {
+            if (Array.isArray(OldSampleImages) === false && OldSampleImages !== undefined) {
+                var FinalSampleImages = [OldSampleImages]
+            } else if (Array.isArray(OldSampleImages) === false && OldSampleImages === undefined) {
+                var FinalSampleImages = [];
+            };
+            for (let i = 0; i < req.files['SampleImages'].length; i++) {
+                var NewImages = await cloudinary.uploader.upload(req.files['SampleImages'][i].path);
+                FinalSampleImages.push(NewImages.url);
+            }
+        };
+
+        cakeModel.findById({ _id: id }, async function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else if (result === null) {
+                res.send({ statusCode: 400, message: "Failed" });
+            } else {
+
+                let tempdata = {
+                    CakeName: CakeName,
+                    CakeCommonName: CakeCommonName,
+                    CakeType: CakeType,
+                    DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
+                    IsEgglessOptionAvailable: IsEgglessOptionAvailable, //"Y/N"//
+                    BasicEgglessCostPerKg: BasicEgglessCostPerKg,
+                    Discount: Discount,
+                    Tax: Tax,
+                    Status: Status,
+                    Stock: Stock,
+                    BasicFlavour: BasicFlavour,
+                    BasicShape: BasicShape,
+                    MinWeight: MinWeight,
+                    MinTimeForDeliveryOfDefaultCake: MinTimeForDeliveryOfDefaultCake,
+                    MinTimeForDeliveryOfABelow2KgCake: MinTimeForDeliveryOfABelow2KgCake,
+                    MinTimeForDeliveryOfA2to4KgCake: MinTimeForDeliveryOfA2to4KgCake,
+                    MinTimeForDeliveryOfA4to5KgCake: MinTimeForDeliveryOfA4to5KgCake,
+                    MinTimeForDeliveryOfAAbove5KgCake: MinTimeForDeliveryOfAAbove5KgCake,
+                    CakeBase: CakeBase,
+                    CakeCream: CakeCream,
+                    BestUsedBefore: BestUsedBefore,
+                    ToBeStoredIn: ToBeStoredIn,
+                    KeepTheCakeInRoomTemperature: KeepTheCakeInRoomTemperature,
+                    ThemeCakePossible: ThemeCakePossible,
+                    ToppersPossible: ToppersPossible,
+                    BasicCustomisationPossible: BasicCustomisationPossible,
+                    FullCustomisationPossible: FullCustomisationPossible,
+                    HowGoodAreYouWithTheCake: HowGoodAreYouWithTheCake,
+                    HowManyTimesHaveYouBakedThisParticularCake: HowManyTimesHaveYouBakedThisParticularCake,
+                    IsTierCakePossible: IsTierCakePossible,
+                    OtherInstructions: OtherInstructions,
+                    Description: Description,
+                    BasicCakePrice: BasicCakePrice,
+                    CustomFlavourList: FinalCustomFlavourList,  // List//
+                    CustomShapeList: {
+                        Info: FinalCustomShapeList, // List//
+                        SampleImages: FinalSampleImages // List//
+                    },
+                    MinWeightList: FinalMinWeightList, // List//
+                    MainCakeImage: FinalmainImage,
+                    AdditionalCakeImages: FinalCakeAdditionalImage, // List//
+                    Modified_On: Modified_On,
+
+                }
+
+
+                cakeModel.findOneAndUpdate({ _id: id }, {
+                    $set: tempdata
+                }, function (err, result) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: "Failed" });
+                    } else {
+                        const AddNotification = AdminNotificationModel({
+                            NotificationType: 'Cake Updated',
+                            Image: result.MainCakeImage,
+                            VendorID: result.VendorID,
+                            Vendor_ID: result.Vendor_ID,
+                            VendorName: result.VendorName,
+                            Id: result._id,
+                            Created_On: result.Modified_On
+                        });
+                        AddNotification.save(function (err) {
+                            if (err) {
+                                res.send({ statusCode: 400, message: "Failed" });
+                            } else {
+                                res.send({ statusCode: 200, message: "Cake Updated Successfully" });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: "Failed5" });
+    };
+};
+
 
 //Admin send Information to Vendor
 const SendInformationToVendor = (req, res) => {
@@ -729,7 +941,7 @@ const deleteCake = (req, res) => {
 };
 
 module.exports = {
-
+    AdminupdateCake,
     addCake,
     updateCake,
     deleteCake,
