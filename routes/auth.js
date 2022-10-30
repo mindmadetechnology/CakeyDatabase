@@ -163,7 +163,7 @@ router.delete('/admin/removenotificationbyid/:id', RemoveAdminNotificationById);
 
 router.delete('/admin/removeallnotification', RemoveAdminNotification);
 
-router.put("/admin/cake/update/:id", upload.fields([{ name: 'MainCakeImage', maxCount: 1 }, { name: 'AdditionalCakeImages', maxCount: 5 }, { name: 'SampleImages', maxCount: 10 }]), AdminupdateCake);
+router.put("/admin/cake/update/:id", upload.fields([{ name: 'newMainImage', maxCount: 1 }, { name: 'NewCakeAdditionalImages', maxCount: 5 }, { name: 'SampleImages', maxCount: 10 }]), AdminupdateCake);
 
 
 //Users API
