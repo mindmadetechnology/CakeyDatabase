@@ -656,6 +656,7 @@ const AdminupdateCake = async (req, res) => {
     const CakeName = req.body.CakeName
     const CakeCommonName = req.body.CakeCommonName
     const CakeType = req.body.CakeType
+    const CakeSubType = req.body.CakeSubType;
     const DefaultCakeEggOrEggless = req.body.DefaultCakeEggOrEggless
     const IsEgglessOptionAvailable = req.body.IsEgglessOptionAvailable
     const BasicFlavour = req.body.BasicFlavour
@@ -680,9 +681,9 @@ const AdminupdateCake = async (req, res) => {
     const IsTierCakePossible = req.body.IsTierCakePossible
     const OtherInstructions = req.body.OtherInstructions
     const Description = req.body.Description
-    const CustomFlavourList = req.body.CustomFlavourList;   
+    const CustomFlavourList = req.body.CustomFlavourList;
     const CustomShapeList = req.body.CustomShapeList;
-    const MinWeightList = req.body.MinWeightList;  
+    const MinWeightList = req.body.MinWeightList;
     const BasicCakePrice = req.body.BasicCakePrice;
     const BasicEgglessCostPerKg = req.body.BasicEgglessCostPerKg; //optional
     const Stock = req.body.Stock;
@@ -758,6 +759,7 @@ const AdminupdateCake = async (req, res) => {
                     CakeName: CakeName,
                     CakeCommonName: CakeCommonName,
                     CakeType: CakeType,
+                    CakeSubType: JSON.parse(CakeSubType),
                     DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
                     IsEgglessOptionAvailable: IsEgglessOptionAvailable, //"Y/N"//
                     BasicEgglessCostPerKg: BasicEgglessCostPerKg,
