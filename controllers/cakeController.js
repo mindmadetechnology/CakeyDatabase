@@ -686,6 +686,9 @@ const AdminupdateCake = async (req, res) => {
     const OldMainImages = req.body.OldMainImages;
     const OldCakeAdditionalImages = req.body.OldCakeAdditionalImages; // list //
     //SampleImages
+
+
+
     try {
 
         var FinalmainImage = ""
@@ -738,7 +741,7 @@ const AdminupdateCake = async (req, res) => {
             CakeName: CakeName,
             CakeCommonName: CakeCommonName,
             CakeType: JSON.parse(CakeType),
-            CakeSubType: JSON.parse(CakeSubType),
+            CakeSubType: CakeSubType ? JSON.parse(CakeSubType) : [],
             DefaultCakeEggOrEggless: DefaultCakeEggOrEggless,
             IsEgglessOptionAvailable: IsEgglessOptionAvailable, //"Y/N"//
             BasicEgglessCostPerKg: BasicEgglessCostPerKg,
@@ -780,7 +783,6 @@ const AdminupdateCake = async (req, res) => {
             Modified_On: Modified_On,
 
         }
-
 
         cakeModel.findById({ _id: id }, async function (err, result) {
             if (err) {
