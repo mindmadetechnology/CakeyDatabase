@@ -527,9 +527,10 @@ const updateCake = async (req, res) => {
     const OldSampleImages = req.body.OldSampleImages;
     const OldMainImages = req.body.OldMainImages;
     const OldCakeAdditionalImages = req.body.OldCakeAdditionalImages;
-    //SampleImages
 
     try {
+
+        //SampleImages
         var FinalmainImage = ""
         var FinalCakeAdditionalImage = []
         var FinalSampleImages = [], FinalCustomFlavourList = [], FinalMinWeightList = [], FinalCustomShapeList = [];
@@ -547,11 +548,10 @@ const updateCake = async (req, res) => {
             FinalMinWeightList = (JSON.parse(MinWeightList));
         };
 
-        //Main Image Change condition
         if (OldMainImages) {
             FinalmainImage = OldMainImages
         } else {
-            var NewMainImages = await cloudinary.uploader.upload(req.files['newMainImage'][i].path);
+            var NewMainImages = await cloudinary.uploader.upload(req.files['NewMainCakeImage'][0].path);
             FinalmainImage = NewMainImages.url
         }
         // Cake Additional Images Change condition
@@ -564,25 +564,18 @@ const updateCake = async (req, res) => {
                 FinalCakeAdditionalImage.push(tempimage.url);
             }
         }
-
         //for sample shape images
-        if (OldSampleImages === undefined || OldSampleImages === [] || OldSampleImages === null) {
-            FinalSampleImages = [];
-        } else {
-            FinalSampleImages = OldSampleImages;
+        if (OldSampleImages) {
+
+            FinalSampleImages = JSON.parse(OldSampleImages);
         }
         if (req.files['SampleImages'] !== undefined) {
-            if (Array.isArray(OldSampleImages) === false && OldSampleImages !== undefined) {
-                var FinalSampleImages = [OldSampleImages]
-            } else if (Array.isArray(OldSampleImages) === false && OldSampleImages === undefined) {
-                var FinalSampleImages = [];
-            };
+
             for (let i = 0; i < req.files['SampleImages'].length; i++) {
                 var NewImages = await cloudinary.uploader.upload(req.files['SampleImages'][i].path);
                 FinalSampleImages.push(NewImages.url);
             }
         };
-
         cakeModel.findById({ _id: id }, async function (err, result) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
@@ -614,7 +607,7 @@ const updateCake = async (req, res) => {
                         Status: 'Updated',
                         Modified_On: Modified_On,
                         MainCakeImage: FinalmainImage,
-                        AdditionalCakeImages: FinalCakeAdditionalImage,
+                        AdditionalCakeImages: FinalCakeAdditionalImage, // List//
                     }
                 }, function (err, result) {
                     if (err) {

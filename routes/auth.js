@@ -286,7 +286,7 @@ router.post("/cake/new", upload.fields([{ name: 'MainCakeImage', maxCount: 1 }, 
 router.put('/cake/approve/:id', ApproveCake);
 
 //Update vendor's details
-router.put("/cake/update/:id", upload.fields([{ name: 'SampleImages', maxCount: 10 }]), updateCake);
+router.put("/cake/update/:id", upload.fields([{ name: 'NewMainCakeImage', maxCount: 1 }, { name: 'NewCakeAdditionalImages', maxCount: 5 }, { name: 'SampleImages', maxCount: 10 }]), updateCake);
 
 //Delete vendor
 router.put("/cake/delete/:id", deleteCake);
