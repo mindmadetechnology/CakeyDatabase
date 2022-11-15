@@ -550,7 +550,6 @@ router.post('/ProductSharePercentage', ChangeProductSharePercentage);
 
 router.get('/ProductSharePercentage/list', Authorization, GetProductSharePercentage);
 
-GetProductSharePercentage,
 
 
 
