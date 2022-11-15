@@ -75,8 +75,7 @@ const ChangeProductSharePercentage = (req, res) => {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else if (result.length === 0) {
                 const NewProductSharePercentage = new ProductSharePercentageModel({
-                    Km: Km,
-                    Amount: Amount,
+                    Percentage: Percentage,
                     Modified_On: Modified_On
                 });
                 NewProductSharePercentage.save(function (err, result2) {
@@ -90,7 +89,6 @@ const ChangeProductSharePercentage = (req, res) => {
                 // console.log(result[0]._id);
                 ProductSharePercentageModel.findByIdAndUpdate({ _id: result[0]._id }, {
                     $set: {
-
                         Percentage: Percentage,
                         Modified_On: Modified_On
                     }
