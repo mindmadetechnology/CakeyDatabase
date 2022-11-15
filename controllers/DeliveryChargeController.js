@@ -53,7 +53,11 @@ const GetDeliveryCharge = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                res.send(result)
+                if (result.length === 0) {
+                    res.send({ message: 'No Records Found' });
+                } else {
+                    res.send(result);
+                }
             }
         });
     } catch (err) {
@@ -110,11 +114,7 @@ const GetProductSharePercentage = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: 'Failed' });
             } else {
-                if (result.length === 0) {
-                    res.send({ message: 'No Records Found' });
-                } else {
-                    res.send(result);
-                }
+                res.send(result);
             }
         });
     } catch (err) {
