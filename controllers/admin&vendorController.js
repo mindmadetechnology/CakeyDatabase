@@ -69,7 +69,7 @@ const AdminRegisterUsers = (req, res) => {
         });
         data.save(function (err, result) {
             if (err) {
-                res.send({ statusCode: 400, message: 'Failed' });
+                res.send({ statusCode: 400, message: err});
             } else {
                 res.send({ statusCode: 200, message: 'Success' });
             }

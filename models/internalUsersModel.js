@@ -8,10 +8,10 @@ const UserSchema = new mongoose.Schema({
         contentType: String
     },
     Name: {
-        type: Number,
+        type: String,
     },
     Mobilenumber: {
-        type: String,
+        type: Number,
     },
     Password: {
         type: String
