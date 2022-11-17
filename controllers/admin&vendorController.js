@@ -63,32 +63,51 @@ const AdminRegisterUsers = (req, res) => {
 
     try {
 
-        internalUsersModel.find({ Email: Email }, function (err, result) {
+        vendorModel.find({ Email: Email }, function (err, result3) {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                if (result && result.length !== 0) {
+                if (result3 && result3.length !== 0) {
                     res.send({ statusCode: 400, message: 'Email Address Already Exist' });
                 } else {
-                    const data = internalUsersModel({
-                        Name: Name,
-                        Mobilenumber: Mobilenumber,
-                        Email: Email,
-                        Password: Password,
-                        TypeOfUser: TypeOfUser,
-                        Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A"),
-                    });
-                    data.save(function (err, result) {
+                    adminModel.find({ Email: Email }, function (err, result1) {
                         if (err) {
-                            res.send({ statusCode: 400, message: 'Failed', error: err });
+                            res.send({ statusCode: 400, message: "Failed" });
                         } else {
-                            res.send({ statusCode: 200, message: 'Success' });
+                            if (result1 && result1.length !== 0) {
+                                res.send({ statusCode: 400, message: 'Email Address Already Exist' });
+                            } else {
+                                internalUsersModel.find({ Email: Email }, function (err, result) {
+                                    if (err) {
+                                        res.send({ statusCode: 400, message: "Failed" });
+                                    } else {
+                                        if (result && result.length !== 0) {
+                                            res.send({ statusCode: 400, message: 'Email Address Already Exist' });
+                                        } else {
+                                            const data = internalUsersModel({
+                                                Name: Name,
+                                                Mobilenumber: Mobilenumber,
+                                                Email: Email,
+                                                Password: Password,
+                                                TypeOfUser: TypeOfUser,
+                                                Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A"),
+                                            });
+                                            data.save(function (err, result) {
+                                                if (err) {
+                                                    res.send({ statusCode: 400, message: 'Failed', error: err });
+                                                } else {
+                                                    res.send({ statusCode: 200, message: 'Success' });
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
                         }
                     });
                 }
             }
-        });
-
+        })
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     };
