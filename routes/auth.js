@@ -42,7 +42,8 @@ const {
     deleteVendors, verifyToken,
     getAllUsersCount, NewAdmin,
     GetNotificationCount, UpdateVendorNotificationId,
-    GetAllVendorsList
+    GetAllVendorsList,
+    AdminRegisterUsers
 } = require('../controllers/admin&vendorController');
 
 const {
@@ -132,7 +133,9 @@ const {
 
 const {
     ChangeDeliveryCharge, GetDeliveryCharge,
-    ChangeTax, GetTax
+    ChangeTax, GetTax,
+    GetProductSharePercentage,
+    ChangeProductSharePercentage
 } = require('../controllers/DeliveryChargeController');
 
 const {
@@ -164,6 +167,8 @@ router.delete('/admin/removenotificationbyid/:id', RemoveAdminNotificationById);
 router.delete('/admin/removeallnotification', RemoveAdminNotification);
 
 router.put("/admin/cake/update/:id", upload.fields([{ name: 'NewMainCakeImage', maxCount: 1 }, { name: 'NewCakeAdditionalImages', maxCount: 5 }, { name: 'SampleImages', maxCount: 10 }]), AdminupdateCake);
+
+router.post('/admin/internalUsers/register', AdminRegisterUsers);
 
 
 //Users API
@@ -543,6 +548,12 @@ router.get('/deliverycharge/list', Authorization, GetDeliveryCharge);
 router.post('/tax', ChangeTax);
 
 router.get('/tax/list', Authorization, GetTax);
+
+router.post('/ProductSharePercentage', ChangeProductSharePercentage);
+
+router.get('/ProductSharePercentage/list', Authorization, GetProductSharePercentage);
+
+
 
 
 //statement of accounts

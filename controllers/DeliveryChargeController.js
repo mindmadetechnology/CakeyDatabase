@@ -1,5 +1,6 @@
 const DeliveryChargeModel = require('../models/DeliveryChargeModels');
 const TaxModel = require('../models/TaxModel');
+const ProductSharePercentageModel = require('../models/ProductSharePercentageModel');
 const moment = require('moment-timezone');
 
 const ChangeDeliveryCharge = (req, res) => {
@@ -63,6 +64,62 @@ const GetDeliveryCharge = (req, res) => {
         res.send({ statusCode: 400, message: 'Failed' });
     }
 };
+
+const ChangeProductSharePercentage = (req, res) => {
+    const Percentage = req.body.Percentage;
+    const Modified_On = moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A");
+
+    try {
+        ProductSharePercentageModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else if (result.length === 0) {
+                const NewProductSharePercentage = new ProductSharePercentageModel({
+                    Percentage: Percentage,
+                    Modified_On: Modified_On
+                });
+                NewProductSharePercentage.save(function (err, result2) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    } else {
+                        res.send({ statusCode: 200, message: 'Product Share Percentage Added Successfully' });
+                    }
+                });
+            } else {
+                // console.log(result[0]._id);
+                ProductSharePercentageModel.findByIdAndUpdate({ _id: result[0]._id }, {
+                    $set: {
+                        Percentage: Percentage,
+                        Modified_On: Modified_On
+                    }
+                }, function (err, result3) {
+                    if (err) {
+                        res.send({ statusCode: 400, message: 'Failed' });
+                    } else {
+                        res.send({ statusCode: 200, message: 'Product Share Percentage Updated Successfully' });
+                    }
+                })
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
+const GetProductSharePercentage = (req, res) => {
+    try {
+        ProductSharePercentageModel.find({}, function (err, result) {
+            if (err) {
+                res.send({ statusCode: 400, message: 'Failed' });
+            } else {
+                res.send(result);
+            }
+        });
+    } catch (err) {
+        res.send({ statusCode: 400, message: 'Failed' });
+    }
+};
+
 
 const ChangeTax = (req, res) => {
     const CGST = req.body.CGST;
@@ -132,5 +189,7 @@ module.exports = {
     ChangeDeliveryCharge,
     GetDeliveryCharge,
     ChangeTax,
-    GetTax
+    GetTax,
+    GetProductSharePercentage,
+    ChangeProductSharePercentage
 };
