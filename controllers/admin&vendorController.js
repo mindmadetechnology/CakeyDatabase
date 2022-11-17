@@ -58,25 +58,37 @@ const AdminRegisterUsers = (req, res) => {
     const Name = req.body.Name;
     const Mobilenumber = req.body.Mobilenumber;
     const TypeOfUser = req.body.TypeOfUser;
-    const Password = Math.random().toString(36).slice(-12)
+    const Password = Array(10).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map(function (x) { return x[Math.floor(Math.random() * x.length)] }).join('');
     const Email = req.body.Email;
 
     try {
-        const data = internalUsersModel({
-            Name: Name,
-            Mobilenumber: Mobilenumber,
-            Email: Email,
-            Password: Password,
-            TypeOfUser: TypeOfUser,
-            Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A"),
-        });
-        data.save(function (err, result) {
+
+        internalUsersModel.find({ Email: Email }, function (err, result) {
             if (err) {
-                res.send({ statusCode: 400, message: 'Failed', error: err });
+                res.send({ statusCode: 400, message: "Failed" });
             } else {
-                res.send({ statusCode: 200, message: 'Success' });
+                if (result) {
+                    res.send({ statusCode: 400, message: 'Email Address Already Exist' });
+                } else {
+                    const data = internalUsersModel({
+                        Name: Name,
+                        Mobilenumber: Mobilenumber,
+                        Email: Email,
+                        Password: Password,
+                        TypeOfUser: TypeOfUser,
+                        Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A"),
+                    });
+                    data.save(function (err, result) {
+                        if (err) {
+                            res.send({ statusCode: 400, message: 'Failed', error: err });
+                        } else {
+                            res.send({ statusCode: 200, message: 'Success' });
+                        }
+                    });
+                }
             }
         });
+
     } catch (err) {
         res.send({ statusCode: 400, message: 'Failed' });
     };
