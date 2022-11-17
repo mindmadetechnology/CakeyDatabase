@@ -67,7 +67,7 @@ const AdminRegisterUsers = (req, res) => {
             if (err) {
                 res.send({ statusCode: 400, message: "Failed" });
             } else {
-                if (result) {
+                if (result && result.length !== 0) {
                     res.send({ statusCode: 400, message: 'Email Address Already Exist' });
                 } else {
                     const data = internalUsersModel({
