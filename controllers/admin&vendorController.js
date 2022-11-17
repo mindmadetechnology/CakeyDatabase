@@ -59,10 +59,13 @@ const AdminRegisterUsers = (req, res) => {
     const Mobilenumber = req.body.Mobilenumber;
     const TypeOfUser = req.body.TypeOfUser;
     const Password = Math.random().toString(36).slice(-12)
+    const Email = req.body.Email;
+
     try {
         const data = internalUsersModel({
             Name: Name,
             Mobilenumber: Mobilenumber,
+            Email: Email,
             Password: Password,
             TypeOfUser: TypeOfUser,
             Created_On: moment().tz('Asia/Kolkata').format("DD-MM-YYYY hh:mm A"),

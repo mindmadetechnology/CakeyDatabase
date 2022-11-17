@@ -13,6 +13,9 @@ const UserSchema = new mongoose.Schema({
     Mobilenumber: {
         type: Number,
     },
+    Email: {
+        type: Number,
+    },
     Password: {
         type: String
     },
@@ -25,7 +28,7 @@ const UserSchema = new mongoose.Schema({
     Modified_On: {
         type: String,
     },
-  
+
 
 });
 
