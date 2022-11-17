@@ -9,13 +9,15 @@ const {
 } = require("../controllers/TicketController");
 
 const {
-    GetOrdersListForHelpdesk
+    GetDeliveryOrdersListForHelpdesk, GetCurrentOrdersListForHelpdesk
 } = require("../controllers/GetOrdersListController");
 
 router.post('/tickets/new', AddTickets);
 
 router.put('/tickets/update/intimation/:Id', IntimationUpdate);
 
-router.get('/helpdesk/deliveryOrders/list/:StartDate/:EndDate', GetOrdersListForHelpdesk);
+router.get('/helpdesk/deliveryOrders/list/:StartDate/:EndDate', GetDeliveryOrdersListForHelpdesk);
+
+router.get('/helpdesk/currentOrders/list/:StartDate/:EndDate', GetCurrentOrdersListForHelpdesk);
 
 module.exports = router;
